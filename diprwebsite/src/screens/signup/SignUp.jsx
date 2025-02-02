@@ -76,7 +76,7 @@ const Signup = () => {
             value={formData.firstName}
             onChange={handleChange}
           />
-          {errors.firstName && <p style={{ color: "red", fontSize: "0.9rem" }}>{errors.firstName}</p>}
+          {errors.firstName && <p>{errors.firstName}</p>}
 
           <label>Last name</label>
           <Input
@@ -86,7 +86,7 @@ const Signup = () => {
             value={formData.lastName}
             onChange={handleChange}
           />
-          {errors.lastName && <p style={{ color: "red", fontSize: "0.9rem" }}>{errors.lastName}</p>}
+          {errors.lastName && <p>{errors.lastName}</p>}
 
           <label>Email</label>
           <Input
@@ -96,7 +96,7 @@ const Signup = () => {
             value={formData.email}
             onChange={handleChange}
           />
-          {errors.email && <p style={{ color: "red", fontSize: "0.9rem" }}>{errors.email}</p>}
+          {errors.email && <p>{errors.email}</p>}
 
           <label>City</label>
           <Input
@@ -106,7 +106,7 @@ const Signup = () => {
             value={formData.city}
             onChange={handleChange}
           />
-          {errors.city && <p style={{ color: "red", fontSize: "0.9rem" }}>{errors.city}</p>}
+          {errors.city && <p>{errors.city}</p>}
 
           <Button disabled={!isFormValid()}>Sign Up</Button>
 

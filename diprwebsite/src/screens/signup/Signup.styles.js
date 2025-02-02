@@ -30,6 +30,7 @@ export const RightSection = styled.div`
   justify-content: center;
   text-align: center;
   max-width: 100%;
+  padding: ${theme.spacing(5)};
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
@@ -50,13 +51,22 @@ export const SignupBox = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     background: ${theme.colors.background};
-    padding: ${theme.spacing(2)};
+    padding: ${theme.spacing(1)};
+    
     max-width: 100%;
-    margin-right: 0;
+    margin-right: 1.5rem;
 
     h2 {
       font-size: 1.8rem;
+
     }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      h2 {
+        font-size: 1.8rem;
+        bottom: ${theme.spacing(2)};
+      }
+      }
 
     h5 {
       font-size: 0.9rem;
@@ -111,14 +121,14 @@ export const SignupBox = styled.div`
 
 export const Input = styled.input`
   width: 100%;
-  padding: ${theme.spacing(1.2)};
+  padding: ${theme.spacing(1.5)};
   font-size: 1rem;
   border: none;
   border-bottom: 2px solid ${theme.colors.primary};
   outline: none;
   background: transparent;
   color: ${theme.colors.text};
-  margin-bottom: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(1)};
 
   &::placeholder {
     color: ${theme.colors.textgray};
@@ -126,6 +136,11 @@ export const Input = styled.input`
 
   &:disabled {
     color: ${theme.colors.textgray};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-bottom: ${theme.spacing(2)};
+    
   }
 `;
 
@@ -138,7 +153,7 @@ export const Button = styled.button`
   border-radius: ${theme.spacing(1)};
   font-size: 1rem;
   cursor: pointer;
-  margin-top: ${theme.spacing(2)};
+  margin-top: ${theme.spacing(12)};
   transition: background 0.3s ease;
 
   &:hover {
