@@ -15,19 +15,47 @@ const Signup = () => {
     firstName: "",
     lastName: "",
     email: "",
+    city: "Bangalore",
+  });
+
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
     city: "",
   });
 
-  const [error, setError] = useState("");
+  const validateField = (name, value) => {
+    let errorMsg = "";
+
+    if (value.trim() === "") {
+      errorMsg = `${name} is required.`;
+    } else if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        errorMsg = "Enter a valid email address.";
+      }
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMsg }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    if (name === "email") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      setError(emailRegex.test(value) ? "" : "Enter a valid email address.");
-    }
+    validateField(name, value);
+  };
+
+  const isFormValid = () => {
+    return (
+      formData.firstName.trim() &&
+      formData.lastName.trim() &&
+      formData.email.trim() &&
+      !errors.firstName &&
+      !errors.lastName &&
+      !errors.email
+    );
   };
 
   return (
@@ -48,6 +76,7 @@ const Signup = () => {
             value={formData.firstName}
             onChange={handleChange}
           />
+          {errors.firstName && <p style={{ color: "red", fontSize: "0.9rem" }}>{errors.firstName}</p>}
 
           <label>Last name</label>
           <Input
@@ -57,6 +86,7 @@ const Signup = () => {
             value={formData.lastName}
             onChange={handleChange}
           />
+          {errors.lastName && <p style={{ color: "red", fontSize: "0.9rem" }}>{errors.lastName}</p>}
 
           <label>Email</label>
           <Input
@@ -66,14 +96,19 @@ const Signup = () => {
             value={formData.email}
             onChange={handleChange}
           />
-          {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
+          {errors.email && <p style={{ color: "red", fontSize: "0.9rem" }}>{errors.email}</p>}
 
           <label>City</label>
-          <Input type="text" name="city" value="Bangalore" disabled />
+          <Input
+            type="text"
+            name="city"
+            placeholder="Enter your city"
+            value={formData.city}
+            onChange={handleChange}
+          />
+          {errors.city && <p style={{ color: "red", fontSize: "0.9rem" }}>{errors.city}</p>}
 
-          <Button disabled={!formData.firstName || !formData.lastName || !formData.email || error}>
-            Sign Up
-          </Button>
+          <Button disabled={!isFormValid()}>Sign Up</Button>
 
           <p>
             Do you have an account? <LinkText>Login now</LinkText>
