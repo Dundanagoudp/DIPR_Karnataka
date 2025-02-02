@@ -20,7 +20,8 @@ export const OtpContainer = styled.div`
 
 export const OtpHeader = styled.h3`
   font-family: ${theme.fonts.heading};
-  font-size: 2rem;
+  font-size: 1.8rem;
+  font-weight: semibold;
   color: ${theme.colors.text};
   text-align: center;
   margin-bottom: ${theme.spacing(2)};
@@ -129,26 +130,22 @@ export const OtpInputs = styled.div`
   width: 100%;
   gap: ${theme.spacing(1)};
 
-  
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing(1)};
   }
 `;
 
 export const OtpInput = styled.input`
-  width: 40px;
-  height: 40px;
+  width: 10%;
+  height: 5vh;
   text-align: center;
   font-size: 1.2rem;
-    background: transparent;
+  background: transparent;
   border: none;
-  spacing: ${theme.spacing(2)};
- border-bottom: 1px solid ${theme.colors.margin};
+  border-bottom: 1px solid ${theme.colors.margin};
   flex: 1;
   font-size: 1rem;
   outline: none !important;
-  
 
   &::placeholder {
     color: ${theme.colors.textgray};
@@ -159,8 +156,8 @@ export const OtpInput = styled.input`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 35px;
-    height: 35px;
+    width: 8%;
+    height: 4vh;
     font-size: 1rem;
   }
 `;

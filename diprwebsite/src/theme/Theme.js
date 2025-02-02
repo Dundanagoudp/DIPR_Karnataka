@@ -18,6 +18,8 @@ const theme = {
         margin:"#C5CEDA"
         
       },
+
+      
       fonts: {
         body: "'poppins', sans-serif",
         heading: "'Montserrat', sans-serif",
