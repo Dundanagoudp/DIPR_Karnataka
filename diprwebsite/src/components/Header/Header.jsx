@@ -1,7 +1,16 @@
 import React from 'react';
-import { HeaderContainer, LogoSection, Logo, TitleSection, Title, Subtitle, CMSection, CMImage } from '../Header/Header.styles';
-import logo from "../../assets/logo.png"; 
-import cm from "../../assets/cm.png";
+import {
+  HeaderContainer,
+  LogoSection,
+  Logo,
+  TitleSection,
+  Title,
+  Subtitle,
+  CMSection,
+  CMImage,
+} from './Header.styles';
+import logo from '../../assets/logo.png';
+import cm from '../../assets/cm.png';
 
 const Header = () => {
   return (
