@@ -12,6 +12,10 @@ export const LoginContainer = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(2)};
   }
+
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+    padding: ${theme.spacing(4)};
+  }
 `;
 
 export const RightSection = styled.div`
@@ -25,9 +29,10 @@ export const RightSection = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
   }
-    @media (max-width: ${theme.breakpoints.tablet}) {
-      max-width: 100%;
-    }
+
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+    max-width: 70%;
+  }
 `;
 
 export const LoginBox = styled.div`
@@ -46,11 +51,24 @@ export const LoginBox = styled.div`
 
     h2 {
       font-size: 1.8rem;
-
     }
-      h5 {
-        font-size: 0.9rem;
-      }
+
+    h5 {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+    max-width: 70%;
+    padding: ${theme.spacing(6)};
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    h5 {
+      font-size: 1rem;
+    }
   }
 
   h2 {
@@ -205,7 +223,7 @@ export const SocialButtons = styled.div`
     border-radius: ${theme.spacing(1)};
     font-size: 1rem;
     cursor: pointer;
-  margin-bottom: ${theme.spacing(3)};
+    margin-bottom: ${theme.spacing(2)};
 
     img {
       margin-right: ${theme.spacing(0.5)};

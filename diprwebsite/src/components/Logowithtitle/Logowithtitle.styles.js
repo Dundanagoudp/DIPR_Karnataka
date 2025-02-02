@@ -8,9 +8,8 @@ export const LeftSection = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin-right: ${theme.spacing(5)};
   padding: ${theme.spacing(8)};
-  // margin-right: ${theme.spacing(20)};
-
 
   h2 {
     font-family: ${theme.fonts.heading};
@@ -27,14 +26,25 @@ export const LeftSection = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-  display: none;
+    display: none;
   }
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
-  display: none;
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: ${theme.breakpoints.desktop}) {
+    padding: ${theme.spacing(6)};
+    text-align: center;
+    h2 {
+      font-size: 1.75rem;
+    }
+    p {
+      font-size: 1.1rem;
+    }
   }
 `;
 
 export const Logo = styled.img`
   max-width: 180px;
+
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: ${theme.breakpoints.desktop}) {
+    max-width: 200px;
+  }
 `;
