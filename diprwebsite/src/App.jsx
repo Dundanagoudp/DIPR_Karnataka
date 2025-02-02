@@ -6,6 +6,7 @@ import theme from "./theme/Theme";
 import Login from "./screens/Login/Login";
 import Otp from "./screens/otp/Otp";
 import Signup from "./screens/SignUp/SignUp";
+import Applayout from "./Applayout/Applayout";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <Routes>
+          <Route path="/" element={<Applayout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/signup" element={<Signup />} />

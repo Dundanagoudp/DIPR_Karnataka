@@ -10,7 +10,7 @@ const Applayout = () => {
     <div>
       <Header  />  
         <Outlet />  
-      <Footer />
+      {/* <Footer /> */}
       </div>
   );
 };
