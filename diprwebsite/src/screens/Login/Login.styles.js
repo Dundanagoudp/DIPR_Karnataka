@@ -205,6 +205,7 @@ export const SocialButtons = styled.div`
     border-radius: ${theme.spacing(1)};
     font-size: 1rem;
     cursor: pointer;
+  margin-bottom: ${theme.spacing(3)};
 
     img {
       margin-right: ${theme.spacing(0.5)};
