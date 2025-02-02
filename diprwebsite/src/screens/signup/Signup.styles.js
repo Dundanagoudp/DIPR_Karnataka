@@ -1,20 +1,25 @@
 import styled from "styled-components";
 import theme from "../../theme/Theme";
 
-export const LoginContainer = styled.div`
+export const SignupContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   width: 100%;
   background: ${theme.colors.background};
+`;
 
+export const LeftSection = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: ${theme.spacing(5)};
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(2)};
-  }
-
-  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
-    padding: ${theme.spacing(4)};
+    display: none;
   }
 `;
 
@@ -34,8 +39,7 @@ export const RightSection = styled.div`
     max-width: 100%;
   }
 `;
-
-export const LoginBox = styled.div`
+export const SignupBox = styled.div`
   background: ${theme.colors.light};
   padding: ${theme.spacing(8)};
   border-radius: ${theme.spacing(1.5)};
@@ -105,46 +109,24 @@ export const LoginBox = styled.div`
   }
 `;
 
-export const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  border-bottom: 2px solid ${theme.colors.button};
-  width: 100%;
-  background: ${theme.colors.light};
-  padding: ${theme.spacing(1)} 0;
-  margin-bottom: ${theme.spacing(2)};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    background: ${theme.colors.background};
-  }
-`;
-
-export const CountryCode = styled.span`
-  font-size: 1rem;
-  font-weight: bold;
-  color: ${theme.colors.text};
-  margin-right: ${theme.spacing(0.5)};
-`;
-
 export const Input = styled.input`
-  flex: 1;
+  width: 100%;
+  padding: ${theme.spacing(1.2)};
   font-size: 1rem;
-  color: ${theme.colors.text};
   border: none;
+  border-bottom: 2px solid ${theme.colors.primary};
   outline: none;
   background: transparent;
+  color: ${theme.colors.text};
+  margin-bottom: ${theme.spacing(2)};
 
   &::placeholder {
     color: ${theme.colors.textgray};
   }
-`;
 
-export const ErrorText = styled.p`
-  color: ${theme.colors.error};
-  font-size: 0.9rem;
-  text-align: left;
-  margin-top: -${theme.spacing(1.25)};
-  margin-bottom: ${theme.spacing(2)};
+  &:disabled {
+    color: ${theme.colors.textgray};
+  }
 `;
 
 export const Button = styled.button`
@@ -157,6 +139,7 @@ export const Button = styled.button`
   font-size: 1rem;
   cursor: pointer;
   margin-top: ${theme.spacing(2)};
+  transition: background 0.3s ease;
 
   &:hover {
     background: ${theme.colors.secondary};
@@ -167,69 +150,6 @@ export const Button = styled.button`
     cursor: not-allowed;
   }
 `;
-
-export const GuestButton = styled(Button)`
-  background: ${theme.colors.background};
-  color: ${theme.colors.text};
-  border: 1px solid ${theme.colors.textgray};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: ${theme.spacing(1)};
-  margin-top: ${theme.spacing(1)};
-
-  &:hover {
-    background: ${theme.colors.backgray};
-  }
-`;
-
-export const Divider = styled.div`
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: ${theme.colors.textgray};
-  font-size: 1rem;
-  margin: ${theme.spacing(3)} 0;
-
-  &::before,
-  &::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: ${theme.colors.textgray};
-    margin: 0 ${theme.spacing(1)};
-  }
-`;
-
-
-export const SocialButtons = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: ${theme.spacing(2)};
-
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: ${theme.spacing(1.5)};
-    width: 100%;
-    border: 1px solid ${theme.colors.textgray};
-    background: ${theme.colors.backgray};
-    border-radius: ${theme.spacing(1)};
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-
-    img {
-      margin-right: ${theme.spacing(1)};
-    }
-
-    &:hover {
-      background: ${theme.colors.lightgreen};
-    }
-  }
-`;
-
 
 export const LinkText = styled.span`
   color: ${theme.colors.primary};
