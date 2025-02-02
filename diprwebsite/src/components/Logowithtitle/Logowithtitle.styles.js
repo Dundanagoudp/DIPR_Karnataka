@@ -8,7 +8,7 @@ export const LeftSection = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-right: ${theme.spacing(5)};
+  margin-right: ${theme.spacing(15)};
   padding: ${theme.spacing(8)};
 
   h2 {
@@ -30,7 +30,7 @@ export const LeftSection = styled.div`
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: ${theme.breakpoints.desktop}) {
-    padding: ${theme.spacing(6)};
+    padding: ${theme.spacing(2)};
     text-align: center;
     h2 {
       font-size: 1.75rem;

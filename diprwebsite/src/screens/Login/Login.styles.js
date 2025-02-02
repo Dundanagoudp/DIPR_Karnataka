@@ -24,14 +24,16 @@ export const RightSection = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  max-width: 50%;
+  max-width: 100%;
+  
+
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
-    max-width: 70%;
+    max-width: 100%;
   }
 `;
 
@@ -42,6 +44,7 @@ export const LoginBox = styled.div`
   text-align: center;
   max-width: 50%;
   width: 100%;
+  margin-right: ${theme.spacing(25)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     background: ${theme.colors.background};
@@ -59,8 +62,9 @@ export const LoginBox = styled.div`
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
-    max-width: 70%;
-    padding: ${theme.spacing(6)};
+    max-width: 100%;
+    padding: ${theme.spacing(3)};
+    margin-right: 0;
 
     h2 {
       font-size: 2rem;
