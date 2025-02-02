@@ -15,6 +15,7 @@ const theme = {
         lightgreen: "#ebfced",
         backgray:"#e0e0e0",
         button:"#1E88E5",
+        margin:"#C5CEDA"
         
       },
       fonts: {

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "../../theme/Theme";
 
-export const LoginContainer = styled.div`
+export const OtpContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,6 +18,21 @@ export const LoginContainer = styled.div`
   }
 `;
 
+export const OtpHeader = styled.h3`
+  font-family: ${theme.fonts.heading};
+  font-size: 2rem;
+  color: ${theme.colors.text};
+  text-align: center;
+  margin-bottom: ${theme.spacing(2)};
+`;
+
+export const OtpSubheader = styled.h5`
+  font-family: ${theme.fonts.body};
+  font-size: 1rem;
+  color: ${theme.colors.textgray};
+  margin-bottom: ${theme.spacing(2)};
+`;
+
 export const RightSection = styled.div`
   flex: 1;
   display: flex;
@@ -25,7 +40,7 @@ export const RightSection = styled.div`
   justify-content: center;
   text-align: center;
   max-width: 100%;
-  
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
   }
@@ -35,7 +50,7 @@ export const RightSection = styled.div`
   }
 `;
 
-export const LoginBox = styled.div`
+export const OtpBox = styled.div`
   background: ${theme.colors.light};
   padding: ${theme.spacing(8)};
   border-radius: ${theme.spacing(1.5)};
@@ -105,49 +120,52 @@ export const LoginBox = styled.div`
   }
 `;
 
-export const InputWrapper = styled.div`
+export const OtpInputs = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: ${theme.spacing(2)};
   display: flex;
   align-items: center;
-  border-bottom: 2px solid ${theme.colors.button};
   width: 100%;
-  background: ${theme.colors.light};
-  padding: ${theme.spacing(1)} 0;
-  margin-bottom: ${theme.spacing(2)};
+  gap: ${theme.spacing(1)};
+
+  
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    background: ${theme.colors.background};
+    gap: ${theme.spacing(1)};
   }
 `;
 
-export const CountryCode = styled.span`
-  font-size: 1rem;
-  font-weight: bold;
-  color: ${theme.colors.text};
-  margin-right: ${theme.spacing(0.5)};
-`;
-
-export const Input = styled.input`
+export const OtpInput = styled.input`
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 1.2rem;
+    background: transparent;
+  border: none;
+  spacing: ${theme.spacing(2)};
+ border-bottom: 1px solid ${theme.colors.margin};
   flex: 1;
   font-size: 1rem;
-  color: ${theme.colors.text};
-  border: none;
-  outline: none;
-  background: transparent;
+  outline: none !important;
+  
 
   &::placeholder {
     color: ${theme.colors.textgray};
   }
+
+  &:focus {
+    border-color: ${theme.colors.primary};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
 `;
 
-export const ErrorText = styled.p`
-  color: ${theme.colors.error};
-  font-size: 0.9rem;
-  text-align: left;
-  margin-top: -${theme.spacing(1.25)};
-  margin-bottom: ${theme.spacing(2)};
-`;
-
-export const Button = styled.button`
+export const OtpButton = styled.button`
   width: 100%;
   padding: ${theme.spacing(1.5)};
   background: ${theme.colors.primary};
@@ -166,83 +184,30 @@ export const Button = styled.button`
     background: ${theme.colors.textgray};
     cursor: not-allowed;
   }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.9rem;
+    padding: ${theme.spacing(1)};
+  }
 `;
 
-export const GuestButton = styled(Button)`
-  background: ${theme.colors.background};
-  color: ${theme.colors.text};
-  border: 1px solid ${theme.colors.textgray};
+export const ErrorText = styled.p`
+  color: ${theme.colors.error};
+  font-size: 0.9rem;
+  text-align: left;
+  margin-top: -${theme.spacing(1.25)};
+  margin-bottom: ${theme.spacing(2)};
+`;
+
+export const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: ${theme.spacing(1)};
-  margin-top: ${theme.spacing(1)};
-
-  &:hover {
-    background: ${theme.colors.backgray};
-  }
+  margin-bottom: ${theme.spacing(2)};
 `;
 
-export const Divider = styled.p`
-  margin: ${theme.spacing(3)} 0;
-  font-size: 1rem;
+export const CheckboxLabel = styled.label`
+  font-family: ${theme.fonts.body};
   color: ${theme.colors.textgray};
-  text-align: center;
-  position: relative;
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 40%;
-    height: 1px;
-    background: ${theme.colors.textgray};
-  }
-
-  &::before {
-    left: 0;
-  }
-
-  &::after {
-    right: 0;
-  }
-`;
-
-export const SocialButtons = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: ${theme.spacing(1)};
-
-  button {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: ${theme.spacing(1)};
-    border: 1px solid ${theme.colors.textgray};
-    background: ${theme.colors.backgray};
-    border-radius: ${theme.spacing(1)};
-    font-size: 1rem;
-    cursor: pointer;
-    margin-bottom: ${theme.spacing(2)};
-
-    img {
-      margin-right: ${theme.spacing(0.5)};
-    }
-
-    &:hover {
-      background: ${theme.colors.lightgreen};
-    }
-  }
-`;
-
-export const LinkText = styled.span`
-  color: ${theme.colors.primary};
-  cursor: pointer;
-  font-weight: bold;
-
-  &:hover {
-    text-decoration: underline;
-  }
+  font-size: 0.9rem;
+  margin-left: ${theme.spacing(1)};
 `;

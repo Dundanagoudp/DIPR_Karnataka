@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./theme/GlobalStyle";
 import theme from "./theme/Theme";
 import Login from "./screens/Login/Login";
+import Otp from "./screens/otp/Otp";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/otp" element={<Otp />} />
         </Routes>
       </Router>
     </ThemeProvider>
