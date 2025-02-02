@@ -199,12 +199,13 @@ export const ErrorText = styled.p`
 export const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(1)};
 `;
 
 export const CheckboxLabel = styled.label`
   font-family: ${theme.fonts.body};
   color: ${theme.colors.textgray};
   font-size: 0.9rem;
+  cursor: pointer;
   margin-left: ${theme.spacing(1)};
 `;
