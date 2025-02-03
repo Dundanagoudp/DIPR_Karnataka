@@ -65,8 +65,6 @@ export const LoginBox = styled.div`
      
   }
 
-
-
   @media (min-width: ${theme.breakpoints.mobile}) and (max-width: ${theme.breakpoints.tablet}) {
     max-width: 70%;
     padding: ${theme.spacing(5)};

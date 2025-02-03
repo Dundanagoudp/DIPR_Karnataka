@@ -13,7 +13,7 @@ const Applayout = () => {
       <Header  /> 
       <NavBar/> 
       <CategoryTab/>
-      {/* <Home/> */}
+      <Home/>
       <Outlet />  
       {/* <Footer /> */}
       </div>

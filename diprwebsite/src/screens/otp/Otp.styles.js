@@ -14,7 +14,8 @@ export const OtpContainer = styled.div`
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
-    padding: ${theme.spacing(4)};
+    // padding: ${theme.spacing(4)};
+    margin-right: 0;
   }
 `;
 
@@ -28,6 +29,7 @@ export const OtpHeader = styled.h3`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 2rem;
+    font-weight: bold;
     margin-bottom: ${theme.spacing(1.5)};
     padding: ${theme.spacing(2)};
   }
@@ -45,6 +47,10 @@ export const OtpSubheader = styled.h5`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 0.9rem;
+
+    p{
+      font-size: 0.9rem;
+    }
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
@@ -54,7 +60,7 @@ export const OtpSubheader = styled.h5`
 
 export const RightSection = styled.div`
   flex: 1;
-  display: flex;
+
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -66,6 +72,7 @@ export const RightSection = styled.div`
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
     max-width: 100%;
+    padding: ${theme.spacing(8)};
   }
 `;
 
@@ -78,11 +85,13 @@ export const OtpBox = styled.div`
   width: 100%;
   margin-right: ${theme.spacing(25)};
 
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     background: ${theme.colors.background};
     padding: ${theme.spacing(2)};
     max-width: 100%;
     margin-right: 0;
+
 
     h2 {
       font-size: 1.8rem;
@@ -91,6 +100,7 @@ export const OtpBox = styled.div`
     h5 {
       font-size: 0.9rem;
     }
+     
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
@@ -119,6 +129,10 @@ export const OtpBox = styled.div`
     color: ${theme.colors.text};
     font-family: ${theme.fonts.body};
     margin-bottom: ${theme.spacing(2)};
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      font-size: 1.2rem;
+    }
   }
 
   h5 {
