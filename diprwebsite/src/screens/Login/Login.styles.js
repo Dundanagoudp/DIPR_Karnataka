@@ -13,7 +13,7 @@ export const LoginContainer = styled.div`
     padding: ${theme.spacing(2)};
   }
 
-  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+  @media (min-width: ${theme.breakpoints.mobile}) and (max-width: ${theme.breakpoints.tablet}) {
     padding: ${theme.spacing(4)};
   }
 `;
@@ -25,15 +25,19 @@ export const RightSection = styled.div`
   justify-content: center;
   text-align: center;
   max-width: 100%;
-  
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
   }
 
-  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
-    max-width: 100%;
-  }
+ @media (min-width: ${theme.breakpoints.mobile}) {
+ max-width: 100%;
+ }
+ @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+  max-width: 100%;
+ }
 `;
+
 export const LoginBox = styled.div`
   background: ${theme.colors.light};
   padding: ${theme.spacing(8)};
@@ -41,37 +45,56 @@ export const LoginBox = styled.div`
   text-align: center;
   max-width: 50%;
   width: 100%;
-  margin-right: ${theme.spacing(25)};
+  margin-right: ${theme.spacing(20)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     background: ${theme.colors.background};
-    padding: ${theme.spacing(2)};
+    padding: ${theme.spacing(4)};
     max-width: 100%;
     margin-right: 0;
-
-    h2 {
-      font-size: 1.9rem;
-    }
-
-    h5 {
-      font-size: 0.9rem;
-      padding-bottom: ${theme.spacing(5)};
-    }
-  }
-
-  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
-    max-width: 100%;
-    padding: ${theme.spacing(3)};
-    margin-right: 0;
+    
 
     h2 {
       font-size: 2rem;
     }
 
     h5 {
+      font-size: 0.9rem;
+      padding-bottom: ${theme.spacing(4)};
+    }
+     
+  }
+
+
+
+  @media (min-width: ${theme.breakpoints.mobile}) and (max-width: ${theme.breakpoints.tablet}) {
+    max-width: 70%;
+    padding: ${theme.spacing(5)};
+    margin-right: 0;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    h5 {
       font-size: 1rem;
     }
+       label {
+        font-size: 1rem !important;
+      }
+      
   }
+
+@media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+  max-width: 100%;
+  padding: ${theme.spacing(8)};
+  margin-right: 5rem;
+}
+
+@media(min-width: ${theme.breakpoints.laptop}) {
+  max-width: 100%;
+  
+}
 
   h2 {
     font-family: ${theme.fonts.heading};
@@ -104,11 +127,11 @@ export const LoginBox = styled.div`
     font-family: ${theme.fonts.body};
 
     @media (max-width: ${theme.breakpoints.mobile}) {
-      font-size: 1rem;
+      font-size: 0.875rem;
     }
 
-    @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
-      font-size: 1rem;
+    @media (min-width: ${theme.breakpoints.mobile}) and (max-width: ${theme.breakpoints.tablet}) {
+      font-size: 0.9375rem;
     }
   }
 `;
@@ -119,7 +142,7 @@ export const InputWrapper = styled.div`
   border-bottom: 2px solid ${theme.colors.button};
   width: 100%;
   background: ${theme.colors.light};
-  padding: ${theme.spacing(1)} 0;
+  padding: ${theme.spacing(1)} ;
   margin-bottom: ${theme.spacing(2)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
@@ -149,7 +172,7 @@ export const Input = styled.input`
 
 export const ErrorText = styled.p`
   color: ${theme.colors.error};
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   text-align: left;
   margin-top: -${theme.spacing(1.25)};
   margin-bottom: ${theme.spacing(2)};
@@ -209,7 +232,6 @@ export const Divider = styled.div`
   }
 `;
 
-
 export const SocialButtons = styled.div`
   display: flex;
   justify-content: center;
@@ -237,7 +259,6 @@ export const SocialButtons = styled.div`
     }
   }
 `;
-
 
 export const LinkText = styled.span`
   color: ${theme.colors.primary};

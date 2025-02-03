@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../../config/axios";
+import { LoginApi } from "../../services/LoginApi";
 import {
   LoginContainer,
   RightSection,
@@ -44,9 +44,10 @@ const Login = () => {
   const handleLogin = async () => {
     if (error || phone.length < 10) return;
     setLoading(true);
+
     try {
-      const response = await axios.post("/api/auth/login", { phone });
-      console.log("Response:", response.data);
+      const response = await LoginApi(phone);
+      console.log("Response:", response);
       alert("OTP sent successfully!");
       navigate("/otp");
     } catch (err) {
