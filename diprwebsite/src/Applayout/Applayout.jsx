@@ -4,7 +4,7 @@ import Footer from "../components/Footer/Footer";
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/navbar/NavBar";
 import CategoryTab from "../components/categorytab/CategoryTab";
-import Home from "../screens/Home/Home";
+import Home from "../modules/pages/Home/Home";
 
 const Applayout = () => {
 
@@ -13,7 +13,7 @@ const Applayout = () => {
       <Header  /> 
       <NavBar/> 
       <CategoryTab/>
-      <Home/>
+      {/* <Home/> */}
       <Outlet />  
       {/* <Footer /> */}
       </div>

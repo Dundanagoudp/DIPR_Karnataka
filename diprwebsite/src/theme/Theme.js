@@ -16,13 +16,11 @@ const theme = {
         backgray:"#e0e0e0",
         button:"#1E88E5",
         margin:"#C5CEDA"
-        
       },
 
-      
       fonts: {
         body: "'poppins', sans-serif",
-        heading: "'Montserrat', sans-serif",
+        heading: "'poppins', sans-serif",
         monospace: "'Source Sans 3', monospace",
         accent: "'Nunito', sans-serif",
         display: "'Outfit', sans-serif",

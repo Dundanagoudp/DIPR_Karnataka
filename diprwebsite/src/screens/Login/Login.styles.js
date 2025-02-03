@@ -34,7 +34,6 @@ export const RightSection = styled.div`
     max-width: 100%;
   }
 `;
-
 export const LoginBox = styled.div`
   background: ${theme.colors.light};
   padding: ${theme.spacing(8)};
@@ -56,6 +55,7 @@ export const LoginBox = styled.div`
 
     h5 {
       font-size: 0.9rem;
+      padding-bottom: ${theme.spacing(5)};
     }
   }
 
@@ -102,6 +102,14 @@ export const LoginBox = styled.div`
     margin-bottom: ${theme.spacing(1)};
     color: ${theme.colors.text};
     font-family: ${theme.fonts.body};
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      font-size: 1rem;
+    }
+
+    @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+      font-size: 1rem;
+    }
   }
 `;
 
