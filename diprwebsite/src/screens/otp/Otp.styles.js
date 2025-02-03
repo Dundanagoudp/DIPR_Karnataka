@@ -20,11 +20,21 @@ export const OtpContainer = styled.div`
 
 export const OtpHeader = styled.h3`
   font-family: ${theme.fonts.heading};
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: semibold;
   color: ${theme.colors.text};
   text-align: center;
-  margin-bottom: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(3)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 2rem;
+    margin-bottom: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(2)};
+  }
+
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+    font-size: 2rem;
+    margin-bottom: ${theme.spacing(1.5)};
 `;
 
 export const OtpSubheader = styled.h5`
@@ -32,6 +42,14 @@ export const OtpSubheader = styled.h5`
   font-size: 1rem;
   color: ${theme.colors.textgray};
   margin-bottom: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.9rem;
+  }
+
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
+    font-size: 0.9rem;
+  }
 `;
 
 export const RightSection = styled.div`

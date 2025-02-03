@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { NavContainer, NewsTicker, NewsItem, NewsWrapper } from "../navbar/NavBar.styles";
+import {
+       NavContainer,
+        NewsTicker,
+         NewsItem,
+          NewsWrapper
+       } from "../navbar/NavBar.styles";
 
 const NavBar = () => {
   const [headlines, setHeadlines] = useState([]);
@@ -7,9 +12,9 @@ const NavBar = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch("https://api.example.com/news"); // Replace with actual API
+        const response = await fetch("https://api.example.com/news"); 
         const data = await response.json();
-        setHeadlines(data.headlines); // Assuming API returns { headlines: ["News 1", "News 2"] }
+        setHeadlines(data.headlines); 
       } catch (error) {
         console.error("Error fetching news:", error);
         setHeadlines([
@@ -29,7 +34,7 @@ const NavBar = () => {
     <NavContainer>
       <NewsWrapper>
         <NewsTicker>
-          {headlines.concat(headlines).map((headline, index) => ( // Duplicated for seamless loop
+          {headlines.concat(headlines).map((headline, index) => ( 
             <NewsItem key={index}>{headline}</NewsItem>
           ))}
         </NewsTicker>

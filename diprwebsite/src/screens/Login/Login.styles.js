@@ -51,7 +51,7 @@ export const LoginBox = styled.div`
     margin-right: 0;
 
     h2 {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
     }
 
     h5 {
@@ -187,7 +187,7 @@ export const Divider = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  color: ${theme.colors.textgray};
+  color: ${theme.colors.black};
   font-size: 1rem;
   margin: ${theme.spacing(3)} 0;
 
