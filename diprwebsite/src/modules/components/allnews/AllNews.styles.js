@@ -26,9 +26,11 @@ export const Tab = styled.button`
   color: ${(props) => (props.active ? theme.colors.primary : theme.colors.black)};
   border-bottom: ${(props) => (props.active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
   padding: ${theme.spacing(1)};
+  
   font-weight: bold;
   font-family: ${theme.fonts.body};
 `;
+
 
 export const NewsCard = styled.div`
   background: ${theme.colors.light};

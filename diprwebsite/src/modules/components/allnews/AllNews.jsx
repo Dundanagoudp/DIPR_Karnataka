@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaFacebook, FaTwitter, FaLink, FaPaperPlane } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaLink } from "react-icons/fa";
+import { MdOutlineMessage } from "react-icons/md";
 import {
   Container,
   TabsContainer,
@@ -19,79 +20,49 @@ import {
   TrendingTag,
   NewsMeta,
   Title,
-  OutlineDots
 } from "../allnews/AllNews.styles";
-import { MdOutlineMessage } from "react-icons/md";
-import { HiOutlineDotsVertical } from "react-icons/hi";
-import post1Image from "../../../assets/post1.png"; 
-import post2Image from "../../../assets/post2.png";
-
-const tabs = ["Tech", "Science", "Education", "Business", "Sports", "For You"];
-
-
-const fallbackNewsData = [
-  {
-    id: 1,
-    category: "Tech",
-    source: "The Verge",
-    title: "Instagram’s Threads surpasses 100 million users!",
-    image: post1Image,
-    description:
-      "Google is adding some new features to its Bard AI chatbot, including the ability for Bard to speak its answers to you and for it to respond to prompts that also include images. The chatbot is also now available in much of the world, including the EU.In a blog post, Google is positioning Bard’s spoken responses as a helpful way to “correct pronunciation of a word or listen to a poem or script.” You’ll be able to hear spoken responses by entering a prompt and selecting the sound icon. Spoken responses will be available in more than 40 languages and are live now, according to Google.",
-    date: "Jul 24, 2023",
-    readTime: "8 min read",
-    isTrending: true,
-    url: "https://www.theverge.com/",
-  },
-  {
-    id: 3,
-    category: "Tech",
-    source: "The Verge",
-    title: "July 2023: The best early Prime Day deals!",
-    image: post2Image,
-    description:
-      "Google is adding some new features to its Bard AI chatbot, including the ability for Bard to speak its answers to you and for it to respond to prompts that also include images. The chatbot is also now available in much of the world, including the EU.In a blog post, Google is positioning Bard’s spoken responses as a helpful way to “correct pronunciation of a word or listen to a poem or script.” You’ll be able to hear spoken responses by entering a prompt and selecting the sound icon. Spoken responses will be available in more than 40 languages and are live now, according to Google.",
-    date: "Jul 24, 2023",
-    readTime: "8 min read",
-    isTrending: true,
-    url: "https://www.theverge.com/",
-  },
-  {
-    id: 2,
-    category: "Science",
-    source: "BBC Science",
-    title: "NASA discovers water on Mars!",
-    image: post1Image,
-    description:
-      "New studies reveal significant traces of liquid water under the Martian surface...",
-    date: "Jan 15, 2024",
-    readTime: "5 min read",
-    isTrending: false,
-    url: "https://www.bbc.com/",
-  },
-];
+import { CategoryApi, NewsApi } from "../../../services/categoryapi/CategoryApi";
 
 const AllNews = () => {
-  const [activeTab, setActiveTab] = useState("Tech");
+  const [activeTab, setActiveTab] = useState(null);
   const [newsData, setNewsData] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-  // Fetch news from API based on selected category
+  // Fetch categories dynamically from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await CategoryApi();
+        if (response?.data && Array.isArray(response.data) && response.data.length > 0) {
+          setCategories(response.data);
+        } else {
+          console.warn("Empty category API response.");
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Fetch news based on the active tab (category)
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await AllNewsApi(activeTab);
-        const data = await response.json();
-
-        if (data.length > 0) {
-          setNewsData(data);
+        const response = await NewsApi(activeTab);
+        if (response?.data && Array.isArray(response.data) && response.data.length > 0) {
+          setNewsData(response.data);
         } else {
-          setNewsData(fallbackNewsData.filter(news => news.category === activeTab)); // Use static data as fallback
+          console.warn("Empty news API response.");
+          setNewsData([]);
         }
       } catch (error) {
         console.error("Error fetching news:", error);
-        setNewsData(fallbackNewsData.filter(news => news.category === activeTab)); // Fallback to static data
+        setNewsData([]);
       }
     };
+
     fetchNews();
   }, [activeTab]);
 
@@ -109,26 +80,42 @@ const AllNews = () => {
     alert("Link copied to clipboard!");
   };
 
+  // Format Date
+  const formatDate = (dateString) => {
+    if (!dateString) return "Unknown Date";
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  };
+
   return (
     <Container>
       <Title>All News</Title>
       <TabsContainer>
-        {tabs.map((tab) => (
-          <Tab key={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)}>
-            {tab}
-          </Tab>
-        ))}
+        {categories.length > 0 ? (
+          categories.map((category) => (
+            <Tab
+              key={category._id}
+              active={activeTab === category._id}
+              onClick={() => setActiveTab(category._id)}
+            >
+              {category.name}
+            </Tab>
+          ))
+        ) : (
+          <Tab>No Categories Available</Tab>
+        )}
       </TabsContainer>
 
+      {/* Display news based on the selected category */}
       {newsData.length > 0 ? (
         newsData.map((news) => (
-          <NewsCard key={news.id}>
-            <NewsImage src={news.image} alt={news.title} />
+          <NewsCard key={news._id}>
+            <NewsImage src={news.newsImage || "https://via.placeholder.com/300"} alt={news.title || "News Image"} />
             <NewsContent>
               <NewsHeader>
-                {news.source} • {news.category}
+                {news.author || "Unknown Author"} • {news.category?.name || "General"}
               </NewsHeader>
-              <NewsTitle>{news.title}</NewsTitle>
+              <NewsTitle>{news.title || "Untitled News"}</NewsTitle>
 
               <ShareIcons>
                 <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
@@ -136,32 +123,29 @@ const AllNews = () => {
                 <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} />
               </ShareIcons>
 
-              <NewsText>{news.description}</NewsText>
-              <ReadMore href={news.url} target="_blank" rel="noopener noreferrer">
+              <NewsText>{news.description || "No description available."}</NewsText>
+              <ReadMore href={news.url || "#"} target="_blank" rel="noopener noreferrer">
                 Read more
               </ReadMore>
 
-              {/* Comment Section (Now with Icon Inside Input) */}
               <CommentSection>
                 <CommentInputWrapper>
                   <CommentInput type="text" placeholder="Add your comment..." />
                   <CommentButton>
-                  <MdOutlineMessage />
+                    <MdOutlineMessage />
                   </CommentButton>
                 </CommentInputWrapper>
               </CommentSection>
 
               <NewsMeta>
                 {news.isTrending && <TrendingTag>Trending</TrendingTag>}
-                <span>{news.date} • {news.readTime}</span>
-             
+                <span>{formatDate(news.createdTime)} • {news.readTime || "N/A"}</span>
               </NewsMeta>
-        
             </NewsContent>
           </NewsCard>
         ))
       ) : (
-        <p>No news available in this category.</p>
+        <p>No news available for the selected category.</p>
       )}
     </Container>
   );
