@@ -4,7 +4,12 @@ import theme from "../../../theme/Theme";
 export const Container = styled.div`
   max-width: ${theme.spacing(100)};
   margin: auto;
-  padding: ${theme.spacing(2)};
+`;
+
+export const Title = styled.h1`
+  font-size: ${theme.spacing(3)};
+  color: ${theme.colors.black};
+  font-family: ${theme.fonts.heading};
 `;
 
 export const TabsContainer = styled.div`
@@ -122,6 +127,16 @@ export const TrendingTag = styled.span`
   padding: ${theme.spacing(0.6)} ${theme.spacing(1)};
   border-radius: ${theme.spacing(0.625)};
   font-family: ${theme.fonts.monospace};
+`;
+
+export const OutlineDots = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-left: ${theme.spacing(55)};
+  margin-top: ${theme.spacing(0.5)};
+  font-size: ${theme.spacing(3)};
+  color: ${theme.colors.black};
+  font-family: ${theme.fonts.body};
 `;
 
 export const ReadMore = styled.a`

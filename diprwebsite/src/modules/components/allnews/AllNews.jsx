@@ -18,14 +18,17 @@ import {
   CommentButton,
   TrendingTag,
   NewsMeta,
+  Title,
+  OutlineDots
 } from "../allnews/AllNews.styles";
 import { MdOutlineMessage } from "react-icons/md";
-
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import post1Image from "../../../assets/post1.png"; 
+import post2Image from "../../../assets/post2.png";
 
 const tabs = ["Tech", "Science", "Education", "Business", "Sports", "For You"];
 
-// Static News Data (Fallback in case API fails)
+
 const fallbackNewsData = [
   {
     id: 1,
@@ -44,10 +47,10 @@ const fallbackNewsData = [
     id: 3,
     category: "Tech",
     source: "The Verge",
-    title: "Instagram’s Threads surpasses 100 million users!",
-    image: post1Image,
+    title: "July 2023: The best early Prime Day deals!",
+    image: post2Image,
     description:
-      "Google is adding some new features to its Bard AI chatbot, including the ability for Bard to speak its answers...",
+      "Google is adding some new features to its Bard AI chatbot, including the ability for Bard to speak its answers to you and for it to respond to prompts that also include images. The chatbot is also now available in much of the world, including the EU.In a blog post, Google is positioning Bard’s spoken responses as a helpful way to “correct pronunciation of a word or listen to a poem or script.” You’ll be able to hear spoken responses by entering a prompt and selecting the sound icon. Spoken responses will be available in more than 40 languages and are live now, according to Google.",
     date: "Jul 24, 2023",
     readTime: "8 min read",
     isTrending: true,
@@ -89,7 +92,6 @@ const AllNews = () => {
         setNewsData(fallbackNewsData.filter(news => news.category === activeTab)); // Fallback to static data
       }
     };
-
     fetchNews();
   }, [activeTab]);
 
@@ -109,6 +111,7 @@ const AllNews = () => {
 
   return (
     <Container>
+      <Title>All News</Title>
       <TabsContainer>
         {tabs.map((tab) => (
           <Tab key={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)}>
@@ -151,7 +154,9 @@ const AllNews = () => {
               <NewsMeta>
                 {news.isTrending && <TrendingTag>Trending</TrendingTag>}
                 <span>{news.date} • {news.readTime}</span>
+             
               </NewsMeta>
+        
             </NewsContent>
           </NewsCard>
         ))

@@ -3,17 +3,23 @@ import theme from "../../../theme/Theme";
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: ${theme.spacing(50)};
   margin: auto;
   padding: ${theme.spacing(2)};
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
 `;
 
+export const Header = styled.h2`
+  font-size: ${theme.spacing(3)};
+  color: ${theme.colors.black};
+  font-family: ${theme.fonts.heading};
+`;
+
 export const TabContainer = styled.div`
   display: flex;
   justify-content: flex-start;
-  border-bottom: 2px solid ${theme.colors.info};
+  border-bottom: ${theme.spacing(0.25)} solid ${theme.colors.info};
   margin-bottom: ${theme.spacing(2)};
 `;
 
@@ -22,14 +28,19 @@ export const Tab = styled.button`
   border: none;
   padding: ${theme.spacing(1)} ${theme.spacing(2)};
   cursor: pointer;
-  font-size: 16px;
+  font-size: ${theme.spacing(2)};
   font-weight: bold;
-  color: ${({ active }) => (active ? theme.colors.primary : theme.colors.textgray)};
-  border-bottom: ${({ active }) => (active ? `3px solid ${theme.colors.primary}` : "none")};
+  color: ${({ active }) => (active ? theme.colors.primary : theme.colors.black)};
+  border-bottom: ${({ active }) => (active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
 
   &:hover {
     color: ${theme.colors.primary};
   }
+`;
+
+export const VideoTab = styled(Tab)`
+  color: ${({ active }) => (active ? theme.colors.secondary : theme.colors.black)};
+  border-bottom: ${({ active }) => (active ? `${theme.spacing(0.375)} solid ${theme.colors.secondary}` : "none")};
 `;
 
 export const Content = styled.div`
@@ -43,15 +54,28 @@ export const Card = styled.div`
   align-items: center;
   padding: ${theme.spacing(1)};
   background: ${theme.colors.light};
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: ${theme.spacing(1)};
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);
+`;
+
+export const VideoCard = styled(Card)`
+  background: ${theme.colors.lightGray};
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.2);
 `;
 
 export const Image = styled.img`
-  width: 80px;
-  height: 80px;
+  width: ${theme.spacing(10)};
+  height: ${theme.spacing(8)};
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: ${theme.spacing(1)};
+  margin-right: ${theme.spacing(2)};
+`;
+
+export const VideoThumbnail = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: ${theme.spacing(1)};
   margin-right: ${theme.spacing(2)};
 `;
 
@@ -61,22 +85,77 @@ export const Details = styled.div`
 `;
 
 export const Title = styled.h4`
-  font-size: 16px;
+  font-size: ${theme.spacing(2)};
   font-weight: bold;
+  
+  color: ${theme.colors.black};
   color: ${theme.colors.text};
-  margin-bottom: 4px;
+  margin-bottom: ${theme.spacing(1)};
+  font-family: ${theme.fonts.body};
 `;
 
 export const Meta = styled.span`
-  font-size: 12px;
-  color: ${theme.colors.textgray};
+  font-size: ${theme.spacing(1.8)};
+  font-weight: bold;
+ padding: ${theme.spacing(0.5)} ${theme.spacing(2)};
+   margin-top: ${theme.spacing(2)};
+ margin-right: ${theme.spacing(2)};
+  color: ${theme.colors.icons};
+`;
+export const Meta1 = styled.span`
+  font-size: ${theme.spacing(1.8)};
+  font-weight: bold;
+  color: ${theme.colors.icons};
 `;
 
 export const TrendingBadge = styled.span`
-  font-size: 10px;
-  color: white;
+  font-size: ${theme.spacing(1.25)};
+  color: ${theme.colors.background};
   background: ${theme.colors.error};
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: ${theme.spacing(0.25)} ${theme.spacing(0.75)};
+  border-radius: ${theme.spacing(0.5)};
   font-weight: bold;
 `;
+
+// video card 
+ 
+export const VideoCard1 = styled.div`
+  align-items: center;
+  padding: ${theme.spacing(2)};
+  background: ${theme.colors.light};
+  border-radius: ${theme.spacing(1)};
+  cursor: pointer;
+  
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);  
+`;
+
+export const VideoDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  
+  gap: ${theme.spacing(3)};
+`;
+
+export const VideoMeta = styled.span`
+  font-size: ${theme.spacing(2)};
+  font-weight: bold;
+  margin-top: ${theme.spacing(1)};
+  color: ${theme.colors.icons};
+`;
+
+export const VideoMetacat = styled.span`
+  font-size: ${theme.spacing(2.4)};
+  font-weight: bold;
+  color: ${theme.colors.icons};
+`;
+
+
+export const videoTitle = styled.h2`
+ font-size: ${theme.spacing(3.5)};
+  color: ${theme.colors.black};
+  font-family: ${theme.fonts.heading};
+  font-weight: bold;
+`;
+
+// video icon
+
