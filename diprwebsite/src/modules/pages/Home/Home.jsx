@@ -9,7 +9,7 @@ const Home = () => {
           <Trending/>
           <div style={{ display: "flex" }}>
             <AllNews/>
-            <MagaZines />
+            {/* <MagaZines /> */}
           </div>
         </div>
       );

@@ -18,9 +18,10 @@ import {
   CommentButton,
   TrendingTag,
   NewsMeta,
-} from "./AllNews.styles"; // Make sure this path is correct
+} from "../allnews/AllNews.styles";
+import { MdOutlineMessage } from "react-icons/md";
 
-import post1Image from "../../../assets/post1.png"; // Example Image for Static Data
+import post1Image from "../../../assets/post1.png"; 
 
 const tabs = ["Tech", "Science", "Education", "Business", "Sports", "For You"];
 
@@ -28,6 +29,19 @@ const tabs = ["Tech", "Science", "Education", "Business", "Sports", "For You"];
 const fallbackNewsData = [
   {
     id: 1,
+    category: "Tech",
+    source: "The Verge",
+    title: "Instagram’s Threads surpasses 100 million users!",
+    image: post1Image,
+    description:
+      "Google is adding some new features to its Bard AI chatbot, including the ability for Bard to speak its answers to you and for it to respond to prompts that also include images. The chatbot is also now available in much of the world, including the EU.In a blog post, Google is positioning Bard’s spoken responses as a helpful way to “correct pronunciation of a word or listen to a poem or script.” You’ll be able to hear spoken responses by entering a prompt and selecting the sound icon. Spoken responses will be available in more than 40 languages and are live now, according to Google.",
+    date: "Jul 24, 2023",
+    readTime: "8 min read",
+    isTrending: true,
+    url: "https://www.theverge.com/",
+  },
+  {
+    id: 3,
     category: "Tech",
     source: "The Verge",
     title: "Instagram’s Threads surpasses 100 million users!",
@@ -62,7 +76,7 @@ const AllNews = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch("https://your-api-url.com/news?category=" + activeTab);
+        const response = await AllNewsApi(activeTab);
         const data = await response.json();
 
         if (data.length > 0) {
@@ -95,7 +109,6 @@ const AllNews = () => {
 
   return (
     <Container>
-      {/* Tabs for categories */}
       <TabsContainer>
         {tabs.map((tab) => (
           <Tab key={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)}>
@@ -104,7 +117,6 @@ const AllNews = () => {
         ))}
       </TabsContainer>
 
-      {/* Display news based on selected category */}
       {newsData.length > 0 ? (
         newsData.map((news) => (
           <NewsCard key={news.id}>
@@ -115,7 +127,6 @@ const AllNews = () => {
               </NewsHeader>
               <NewsTitle>{news.title}</NewsTitle>
 
-              {/* Share Icons (Maintains Original Styling) */}
               <ShareIcons>
                 <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
                 <FaTwitter onClick={() => shareOnTwitter(news.url)} style={{ cursor: "pointer" }} />
@@ -132,7 +143,7 @@ const AllNews = () => {
                 <CommentInputWrapper>
                   <CommentInput type="text" placeholder="Add your comment..." />
                   <CommentButton>
-                    <FaPaperPlane />
+                  <MdOutlineMessage />
                   </CommentButton>
                 </CommentInputWrapper>
               </CommentSection>
