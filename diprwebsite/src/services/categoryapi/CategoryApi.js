@@ -44,3 +44,18 @@ export const VideoApi = async (videoId = null) => {
 };
 
 
+// banner api 
+
+export const BannerApi = async () => {
+  try {
+    const response = await axios.get("/api/banner/");
+    if (!response || !response.data) {
+      throw new Error("No data received from API");
+    }
+    return response.data;
+  } catch (err) {
+    console.error("API Error:", err);
+    throw err;
+  }
+};
+
