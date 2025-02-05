@@ -28,7 +28,6 @@ const AllNews = () => {
   const [newsData, setNewsData] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  // Fetch categories dynamically from API
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -46,7 +45,6 @@ const AllNews = () => {
     fetchCategories();
   }, []);
 
-  // Fetch news based on the active tab (category)
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -67,7 +65,6 @@ const AllNews = () => {
     fetchNews();
   }, [activeTab]);
 
-  // Social Media Sharing
   const shareOnFacebook = (url) => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank");
   };
@@ -81,7 +78,6 @@ const AllNews = () => {
     alert("Link copied to clipboard!");
   };
 
-  // Format Date
   const formatDate = (dateString) => {
     if (!dateString) return "Unknown Date";
     const date = new Date(dateString);
@@ -123,7 +119,9 @@ const AllNews = () => {
                 <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} />
               </ShareIcons>
 
-              <NewsText>{news.description || "No description available."}</NewsText>
+              <NewsText style={{ display: "-webkit-box", WebkitLineClamp: 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                {news.description || "No description available."}
+              </NewsText>
               <ReadMore href={news.url || "#"} target="_blank" rel="noopener noreferrer">
                 Read more
               </ReadMore>

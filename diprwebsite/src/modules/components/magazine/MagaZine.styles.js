@@ -8,19 +8,56 @@ export const Container = styled.div`
   padding: ${theme.spacing(2)};
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
+
+   @media (max-width: ${theme.breakpoints.tablet}) {
+    max-width: 100%;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    max-width: 100%;
+    padding: ${theme.spacing(1)};
+    padding-right: ${theme.spacing(1)};
+   
+  }
 `;
 
 export const Header = styled.h2`
   font-size: ${theme.spacing(3)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
-`;
+   @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(3.5)};
+  }
 
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(3)};
+  }
+`; 
 export const TabContainer = styled.div`
   display: flex;
-  justify-content: flex-start;
+  overflow-x: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: ${theme.colors.primary} ${theme.colors.light}; /* For Firefox */
+
+  &::-webkit-scrollbar {
+    height: ${theme.spacing(0.5)};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${theme.colors.primary};
+    border-radius: ${theme.spacing(0.25)};
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: ${theme.colors.light};
+  }
+
   border-bottom: ${theme.spacing(0.25)} solid ${theme.colors.info};
   margin-bottom: ${theme.spacing(2)};
+
+   @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(1)};
+  }
 `;
 
 export const Tab = styled.button`
@@ -32,9 +69,14 @@ export const Tab = styled.button`
   font-weight: bold;
   color: ${({ active }) => (active ? theme.colors.primary : theme.colors.black)};
   border-bottom: ${({ active }) => (active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
+  white-space: nowrap; /* Prevent text wrapping */
 
   &:hover {
     color: ${theme.colors.primary};
+  }
+      @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.75)};
+    padding: ${theme.spacing(0.75)};
   }
 `;
 
@@ -87,8 +129,6 @@ export const Details = styled.div`
 export const Title = styled.h4`
   font-size: ${theme.spacing(2)};
   font-weight: bold;
-  
-  color: ${theme.colors.black};
   color: ${theme.colors.text};
   margin-bottom: ${theme.spacing(1)};
   font-family: ${theme.fonts.body};
@@ -97,11 +137,12 @@ export const Title = styled.h4`
 export const Meta = styled.span`
   font-size: ${theme.spacing(1.8)};
   font-weight: bold;
- padding: ${theme.spacing(0.5)} ${theme.spacing(2)};
-   margin-top: ${theme.spacing(2)};
- margin-right: ${theme.spacing(2)};
+  padding: ${theme.spacing(0.5)} ${theme.spacing(2)};
+  margin-top: ${theme.spacing(2)};
+  margin-right: ${theme.spacing(2)};
   color: ${theme.colors.icons};
 `;
+
 export const Meta1 = styled.span`
   font-size: ${theme.spacing(1.8)};
   font-weight: bold;
@@ -117,22 +158,18 @@ export const TrendingBadge = styled.span`
   font-weight: bold;
 `;
 
-// video card 
- 
 export const VideoCard1 = styled.div`
   align-items: center;
   padding: ${theme.spacing(2)};
   background: ${theme.colors.light};
   border-radius: ${theme.spacing(1)};
   cursor: pointer;
-  
-  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);  
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);
 `;
 
 export const VideoDetails = styled.div`
   display: flex;
   flex-direction: column;
-  
   gap: ${theme.spacing(3)};
 `;
 
@@ -149,13 +186,100 @@ export const VideoMetacat = styled.span`
   color: ${theme.colors.icons};
 `;
 
-
-export const videoTitle = styled.h2`
- font-size: ${theme.spacing(3.5)};
+export const VideoTitle = styled.h2`
+  font-size: ${theme.spacing(3.5)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
   font-weight: bold;
 `;
 
-// video icon
+// Media Queries for Responsive Design
+const breakpoints = {
+  small: "480px",
+  medium: "768px",
+  large: "1024px",
+};
 
+export const ResponsiveContainer = styled(Container)`
+  @media (max-width: ${breakpoints.large}) {
+    max-width: 90%;
+  }
+
+  @media (max-width: ${breakpoints.medium}) {
+    max-width: 95%;
+  }
+
+  @media (max-width: ${breakpoints.small}) {
+    max-width: 100%;
+    padding: ${theme.spacing(1)};
+  }
+`;
+
+export const ResponsiveTabContainer = styled(TabContainer)`
+  @media (max-width: ${breakpoints.small}) {
+    padding-bottom: ${theme.spacing(1)};
+  }
+`;
+
+export const ResponsiveTab = styled(Tab)`
+  @media (max-width: ${breakpoints.small}) {
+    font-size: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+  }
+`;
+
+export const ResponsiveVideoTab = styled(VideoTab)`
+  @media (max-width: ${breakpoints.small}) {
+    font-size: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+  }
+`;
+
+export const ResponsiveCard = styled(Card)`
+  @media (max-width: ${breakpoints.small}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+export const ResponsiveImage = styled(Image)`
+  @media (max-width: ${breakpoints.small}) {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: ${theme.spacing(1)};
+  }
+`;
+
+export const ResponsiveVideoThumbnail = styled(VideoThumbnail)`
+  @media (max-width: ${breakpoints.small}) {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: ${theme.spacing(1)};
+  }
+`;
+
+export const ResponsiveTitle = styled(Title)`
+  @media (max-width: ${breakpoints.small}) {
+    font-size: ${theme.spacing(1.5)};
+  }
+`;
+
+export const ResponsiveMeta = styled(Meta)`
+  @media (max-width: ${breakpoints.small}) {
+    font-size: ${theme.spacing(1.2)};
+  }
+`;
+
+export const ResponsiveMeta1 = styled(Meta1)`
+  @media (max-width: ${breakpoints.small}) {
+    font-size: ${theme.spacing(1.2)};
+  }
+`;
+
+export const ResponsiveVideoTitle = styled(VideoTitle)`
+  @media (max-width: ${breakpoints.small}) {
+    font-size: ${theme.spacing(2)};
+  }
+`;

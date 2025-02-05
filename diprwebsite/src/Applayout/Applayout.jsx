@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import NavBar from "../components/navbar/NavBar";
 import CategoryTab from "../components/categorytab/CategoryTab";
 import Home from "../modules/pages/Home/Home";
+import LatestNews from "../modules/pages/Latestnews/LatestNews";
 
 const Applayout = () => {
 
@@ -13,7 +14,8 @@ const Applayout = () => {
       <Header  /> 
       <NavBar/> 
       <CategoryTab/>
-      <Home/>
+      {/* <Home/> */}
+      <LatestNews/>
       <Outlet />  
       {/* <Footer /> */}
       </div>

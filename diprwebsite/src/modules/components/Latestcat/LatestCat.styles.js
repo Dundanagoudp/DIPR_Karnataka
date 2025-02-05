@@ -2,133 +2,72 @@ import styled from "styled-components";
 import theme from "../../../theme/Theme";
 
 export const Container = styled.div`
-  max-width: ${theme.spacing(100)};
+  max-width: 1180px;
   margin: auto;
+  margin-top: ${theme.spacing(5)};
   padding: 0 ${theme.spacing(2)};
 `;
 
-export const Title = styled.h1`
-  font-size: ${theme.spacing(3)};
-  color: ${theme.colors.black};
-  font-family: ${theme.fonts.heading};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(3.5)};
-    
-  }
-`;
-
-export const TabsContainer = styled.div`
-  display: flex;
-  gap: ${theme.spacing(1.5)};
-  margin-bottom: ${theme.spacing(2)};
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: thin ; 
-  scrollbar-color:  transparent;
-
-  &::-webkit-scrollbar {
-    height: ${theme.spacing(0.5)}; 
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: ${theme.colors.primary}; /* Scrollbar color */
-    border-radius: ${theme.spacing(0.2)};
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent; 
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    gap: ${theme.spacing(1)};
-  }
-`;
-
-export const Tab = styled.button`
-  background: none;
-  border: none;
-  font-size: ${theme.spacing(2)};
-  cursor: pointer;
-  color: ${(props) => (props.active ? theme.colors.primary : theme.colors.black)};
-  border-bottom: ${(props) => (props.active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
-  padding: ${theme.spacing(1)};
-  font-weight: bold;
-  font-family: ${theme.fonts.body};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.75)};
-    padding: ${theme.spacing(0.75)};
-  }
-`;
-
-export const NewsCard = styled.div`
+export const NewsCardWrapper = styled.div`
   background: ${theme.colors.light};
   border-radius: ${theme.spacing(1)};
   overflow: hidden;
   padding: ${theme.spacing(2)};
   box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(1.25)} rgba(0, 0, 0, 0.1);
   margin-bottom: ${theme.spacing(2)};
-
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1.5)};
   }
 `;
 
-export const NewsImage = styled.img`
-  width: 100%;
-  height: 60vh;
-  object-fit: cover;
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    height: 40vh;
-    max-width: 100%;
-  }
-
-  @media (max-width: ${theme.breakpoints.tablet}) and (max-width: 1366) {
-    height: 40vh;
-    max-width: 100%;
-  }
-
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    height: 30vh;
+export const NewsImageWrapper = styled.div`
+  img {
     width: 100%;
     object-fit: cover;
+  
+    @media (max-width: ${theme.breakpoints.tablet}) {
+      height: 40vh;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      height: 30vh;
+    }
   }
 `;
 
-export const NewsContent = styled.div`
+export const NewsContentWrapper = styled.div`
   padding: ${theme.spacing(2)};
-
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1.5)};
   }
 `;
 
-export const NewsHeader = styled.div`
+export const NewsHeaderWrapper = styled.div`
   font-size: ${theme.spacing(2.8)};
   color: ${theme.colors.icons};
   font-weight: bold;
   font-family: ${theme.fonts.accent};
-
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2.2)};
   }
 `;
 
-export const NewsTitle = styled.h2`
+export const NewsTitleWrapper = styled.h2`
   font-size: ${theme.spacing(2.5)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
-
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
   }
 `;
 
-export const ShareIcons = styled.div`
+export const ShareIconsWrapper = styled.div`
   display: flex;
+  margin-top: ${theme.spacing()};
   gap: ${theme.spacing(3)};
   font-size: ${theme.spacing(3.5)};
   margin: ${theme.spacing(1)} 0;
@@ -140,7 +79,7 @@ export const ShareIcons = styled.div`
   }
 `;
 
-export const CommentSection = styled.div`
+export const CommentSectionWrapper = styled.div`
   margin-top: ${theme.spacing(1)};
 `;
 
@@ -160,7 +99,7 @@ export const CommentInputWrapper = styled.div`
   }
 `;
 
-export const CommentInput = styled.input`
+export const CommentInputField = styled.input`
   flex: 1;
   border: none;
   font-size: ${theme.spacing(1.75)};
@@ -171,7 +110,7 @@ export const CommentInput = styled.input`
   padding-left: ${theme.spacing(1.25)};
 `;
 
-export const CommentButton = styled.button`
+export const CommentButtonWrapper = styled.button`
   position: absolute;
   right: ${theme.spacing(1.25)};
   top: ${theme.spacing(0.8)};
@@ -182,7 +121,7 @@ export const CommentButton = styled.button`
   cursor: pointer;
 `;
 
-export const NewsMeta = styled.div`
+export const NewsMetaWrapper = styled.div`
   display: flex;
   margin-top: ${theme.spacing(2.5)};
   font-size: ${theme.spacing(1.75)};
@@ -195,7 +134,7 @@ export const NewsMeta = styled.div`
   }
 `;
 
-export const TrendingTag = styled.span`
+export const TrendingTagWrapper = styled.span`
   background: ${theme.colors.error};
   color: ${theme.colors.background};
   font-size: ${theme.spacing(1.5)};
@@ -211,44 +150,18 @@ export const TrendingTag = styled.span`
   }
 `;
 
-export const OutlineDots = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-left: ${theme.spacing(55)};
-  margin-top: ${theme.spacing(0.5)};
-  font-size: ${theme.spacing(3)};
+export const NewsTextWrapper = styled.p`
+  font-size: ${theme.spacing(2.1)};
   color: ${theme.colors.black};
+  line-height: 1.3;
+  margin-top: ${theme.spacing(2.8)};
   font-family: ${theme.fonts.body};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding-left: ${theme.spacing(2)};
-    font-size: ${theme.spacing(2)};
-  }
-`;
-
-export const ReadMore = styled.a`
-  color: ${theme.colors.primary};
-  font-size: ${theme.spacing(1.75)};
-  text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
-  margin-top: ${theme.spacing(0.5)};
-  &:hover {
-    text-decoration: underline;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.5)};
-  }
-`;
-
-export const NewsText = styled.p`
-  font-size: ${theme.spacing(2)};
-  color: ${theme.colors.black};
-  margin-top: ${theme.spacing(2.5)};
-  font-family: ${theme.fonts.body};
+  column-count: 2;
+  column-gap: ${theme.spacing(4)}; 
+  text-align: justify;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
+    column-count: 1; /* Switch to single column on smaller screens */
   }
 `;

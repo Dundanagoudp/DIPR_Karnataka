@@ -25,7 +25,6 @@ const Trending = () => {
       try {
         const data = await BannerApi();
         console.log("Fetched Banner Data:", data);
-
         
         const formattedData = data.map((item) => ({
           id: item._id,

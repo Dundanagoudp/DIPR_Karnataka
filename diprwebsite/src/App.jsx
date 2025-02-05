@@ -7,6 +7,8 @@ import Login from "./screens/Login/Login";
 import Otp from "./screens/otp/Otp";
 import Signup from "./screens/SignUp/SignUp";
 import Applayout from "./Applayout/Applayout";
+import LatestNews from "./modules/pages/Latestnews/LatestNews";
+import Home from "./modules/pages/Home/Home";
 
 const App = () => {
   return (
@@ -15,9 +17,11 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Applayout />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/latestnews" element={<LatestNews />} />
         </Routes>
       </Router>
     </ThemeProvider>

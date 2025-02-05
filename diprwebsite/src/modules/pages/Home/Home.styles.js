@@ -8,12 +8,15 @@ export const HomeContainer = styled.div`
 
 export const ContentWrapper = styled.div`
   display: flex;
-  gap: ${theme.spacing(0.8)}; /* Reduced gap */
-  align-items: flex-start; /* Align elements properly */
+  flex-wrap: wrap; /* Allows sections to wrap when needed */
+  gap: ${theme.spacing(0.8)};
+  align-items: flex-start;
+  width: 100%;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;
-    gap: ${theme.spacing(1)}; /* Slightly increase gap for mobile */
+    gap: ${theme.spacing(2)};
+    align-items: center;
   }
 `;
 
@@ -21,6 +24,11 @@ export const NewsSection = styled.div`
   flex: 1;
   max-width: 70%; 
   margin-left: ${theme.spacing(12)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    max-width: 100%;
+    margin-left: 0;
+  }
 `;
 
 export const MagazineSection = styled.div`
