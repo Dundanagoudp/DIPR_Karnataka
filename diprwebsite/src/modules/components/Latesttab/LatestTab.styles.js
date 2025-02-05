@@ -21,20 +21,47 @@ export const Container = styled.div`
   }
 `;
 
-export const Header = styled.h2`
-  font-size: ${theme.spacing(3.5)};
-  color: ${theme.colors.black};
-  font-family: ${theme.fonts.heading};
-  text-align: left;
-  margin-bottom: ${theme.spacing(4)};
-  letter-spacing: 1px;
+export const TabsContainer = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1.5)};
+  margin-bottom: ${theme.spacing(2)};
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin ; 
+  scrollbar-color:  transparent;
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: ${theme.spacing(3.5)};
+  &::-webkit-scrollbar {
+    height: ${theme.spacing(0.5)}; 
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${theme.colors.primary}; /* Scrollbar color */
+    border-radius: ${theme.spacing(0.2)};
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent; 
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(3)};
+    gap: ${theme.spacing(1)};
+  }
+`;
+
+export const Tab = styled.button`
+  background: none;
+  border: none;
+  font-size: ${theme.spacing(2)};
+  cursor: pointer;
+  color: ${(props) => (props.active ? theme.colors.primary : theme.colors.black)};
+  border-bottom: ${(props) => (props.active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
+  padding: ${theme.spacing(1)};
+  font-weight: bold;
+  font-family: ${theme.fonts.body};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.75)};
+    padding: ${theme.spacing(0.75)};
   }
 `;
 

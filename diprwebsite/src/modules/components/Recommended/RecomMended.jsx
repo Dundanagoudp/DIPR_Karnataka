@@ -12,7 +12,7 @@ import {
   BookmarkIconWrapper,
 } from "../Recommended/RecomMended.styles";
 import videoThumbnail from "../../../assets/v1.png";
-import { NewsApi } from "../../../services/categoryapi/CategoryApi";
+// import { NewsApi } from "../../../services/categoryapi/CategoryApi";
 import { CiBookmark } from "react-icons/ci";
 
 const fallbackVideosData = [
@@ -89,7 +89,7 @@ const RecomMended = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const result = await NewsApi();
+      //   const result = await NewsApi();
 
         console.log("Received videos data:", result);
 
