@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { TabContainer, TabsWrapper, TabItem, ProfileImage } from "../categorytab/CategoryTab.styles";
+import { FaUserCircle } from "react-icons/fa";
+import { TabContainer, TabsWrapper, TabItem, ProfileIcon } from "../categorytab/CategoryTab.styles";
 
 const tabs = ["All", "Latest News", "Magazine", "Exclusive", "About us", "Contact us"];
 
@@ -19,7 +20,7 @@ const CategoryTab = () => {
           </TabItem>
         ))}
       </TabsWrapper>
-      <ProfileImage src="https://via.placeholder.com/30" alt="Profile" />
+      <ProfileIcon />
     </TabContainer>
   );
 };

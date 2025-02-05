@@ -43,7 +43,7 @@ export const NewsCard = styled.div`
 
 export const NewsImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 60vh;
   object-fit: cover;
 `;
 

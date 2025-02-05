@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme/Theme";
+import { FaUserCircle } from "react-icons/fa";
 
 export const TabContainer = styled.div`
   display: flex;
@@ -59,7 +60,6 @@ export const TabItem = styled.div`
     props.active &&
     `&::after {
       content: "";
-   
       bottom: -18px;
       left: 10%;
       transform: translateX(-32%);
@@ -70,10 +70,14 @@ export const TabItem = styled.div`
     }`}
 `;
 
-export const ProfileImage = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-left: auto;
-  object-fit: cover;
+export const ProfileIcon = styled(FaUserCircle)`
+  font-size: 30px;
+  color: ${theme.colors.background};
+  margin-left: ${theme.spacing(80)};
+  margin-right: auto;
+  cursor: pointer;
+
+  &:hover {
+    color: ${theme.colors.light};
+  }
 `;

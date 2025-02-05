@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   TabContainer,
@@ -12,19 +12,19 @@ import {
   Header,
   VideoThumbnail,
   VideoTab,
-  VideoCard,
   VideoCard1,
   VideoDetails,
   VideoMeta,
-  videoTitle,
   VideoMetacat,
-  Meta1
+  Meta1,
 } from "../magazine/MagaZine.styles";
 import TopicImages from "../../../assets/topic1.png";
 import TopicImages2 from "../../../assets/topic2.png";
 import TopicImages3 from "../../../assets/topic3.png";
 import TopicImages4 from "../../../assets/post1.png";
 import videoThumbnail from "../../../assets/v1.png";
+
+import { VideoApi } from "../../../services/categoryapi/CategoryApi";
 
 const topicsData = [
   {
@@ -63,9 +63,9 @@ const topicsData = [
   },
 ];
 
-const videosData = [
+const fallbackVideosData = [
   {
-    id: 1,
+    id: "fallback-1",
     category: "The Verge",
     readTime: "2 min read",
     title: "OpenAI will use Associated Press news stories",
@@ -73,7 +73,7 @@ const videosData = [
     thumbnail: videoThumbnail,
   },
   {
-    id: 2,
+    id: "fallback-2",
     category: "The Verge",
     readTime: "3 min read",
     title: "Nothing Phone 2 review: the vibes abide",
@@ -84,6 +84,29 @@ const videosData = [
 
 const MagaZines = () => {
   const [activeTab, setActiveTab] = useState("Topics");
+  const [videosData, setVideosData] = useState([]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const result = await VideoApi(); // API already returns response.data, no need for result.data
+
+        console.log("Received videos data:", result); // Log entire result
+
+        if (result && Array.isArray(result) && result.length > 0) {
+          setVideosData(result);
+        } else {
+          console.warn("No video data found, using fallback data.");
+          setVideosData(fallbackVideosData);
+        }
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+        setVideosData(fallbackVideosData);
+      }
+    };
+
+    fetchVideos();
+  }, []);
 
   return (
     <Container>
@@ -105,21 +128,21 @@ const MagaZines = () => {
                 <Details>
                   <Meta1>{item.source}</Meta1>
                   <Title>{item.title}</Title>
-                  <data style={{gap: "1%"}} >
-                  {item.trending && <span className="trending">Trending</span>}
-                  <Meta>{item.date} • {item.readTime}</Meta>
+                  <data style={{ gap: "1%" }}>
+                    {item.trending && <span className="trending">Trending</span>}
+                    <Meta>{item.date} • {item.readTime}</Meta>
                   </data>
-                  
-                  
                 </Details>
               </Card>
             ))
           : videosData.map((video) => (
-              <VideoCard1 key={video.id}>
+              <VideoCard1 key={video.id || video._id}>
                 <VideoThumbnail src={video.thumbnail} alt={video.title} />
                 <VideoDetails>
-                <VideoMeta>{video.date} • {video.readTime}</VideoMeta>
-                <videoTitle style={{ color: "black" , fontWeight: "bold", fontSize: "1.3rem" }}>{video.title}</videoTitle>
+                  <VideoMeta>{new Date(video.date || video.createdAt).toDateString()}</VideoMeta>
+                  <Title style={{ color: "black", fontWeight: "bold", fontSize: "1.3rem" }}>
+                    {video.title}
+                  </Title>
                   <VideoMetacat>{video.category}</VideoMetacat>
                 </VideoDetails>
               </VideoCard1>

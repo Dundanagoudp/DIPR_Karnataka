@@ -52,6 +52,7 @@ const AllNews = () => {
       try {
         const response = await NewsApi(activeTab);
         if (response?.data && Array.isArray(response.data) && response.data.length > 0) {
+          console.log("Received news data:", response.data);
           setNewsData(response.data);
         } else {
           console.warn("Empty news API response.");
@@ -106,7 +107,6 @@ const AllNews = () => {
         )}
       </TabsContainer>
 
-      {/* Display news based on the selected category */}
       {newsData.length > 0 ? (
         newsData.map((news) => (
           <NewsCard key={news._id}>
