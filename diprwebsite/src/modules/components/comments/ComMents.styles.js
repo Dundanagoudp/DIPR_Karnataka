@@ -16,19 +16,15 @@ export const Comment = styled.div`
   max-width: 90%;
   align-items: flex-start;
   padding: ${(props) => props.theme.spacing(2)};
-  background-color: ${(props) => props.theme.colors.light};
+  background-color: transparent;  // Set to transparent
   border-radius: ${(props) => props.theme.spacing(1)};
 
-
-  @media (max-width: ${(props) => props.theme.breakpoints.tabletS}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.tablet}) {
     max-width: 100%;
     padding: ${(props) => props.theme.spacing(1)};
   }
-
- 
-
-  
 `;
+
 
 export const ProfileImage = styled.img`
   width: ${(props) => props.theme.spacing(5)};

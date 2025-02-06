@@ -11,7 +11,7 @@ import {
 const tabs = [
   { name: "All", path: "/" },
   { name: "Latest News", path: "/latestnews" },
-  { name: "Magazine",  },
+  { name: "Magazine", path: "/magazinepages" },
   { name: "Exclusive",  },
   { name: "About us",  },
   { name: "Contact us",  }

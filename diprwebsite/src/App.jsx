@@ -9,7 +9,7 @@ import Signup from "./screens/SignUp/SignUp";
 import Applayout from "./Applayout/Applayout";
 import Home from "./modules/pages/Home/Home";
 import LatestNews from "./modules/pages/Latestnews/LatestNews";
-import ComMents from "./modules/components/comments/ComMents";
+import MagaZinepages from "./modules/pages/magazinepage/MagaZinepage";
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
           <Route path="/" element={<Applayout />}>
             <Route index element={<Home />} />
             <Route path="/latestnews" element={<LatestNews />} />
-            {/* <Route path="/comments" element={<ComMents />} /> */}
+            <Route path="/magazinepages" element={<MagaZinepages />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/otp" element={<Otp />} />

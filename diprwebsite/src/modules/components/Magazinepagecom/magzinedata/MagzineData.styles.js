@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import theme from "../../../theme/Theme";
+import theme from "../../../../theme/Theme";
 
 export const Container = styled.div`
-  margin: auto;
+//   margin: auto;
   max-width: 1200px;
-  margin-top: ${theme.spacing(5)};
-  padding: 0 ${theme.spacing(5)};
+  padding: 0 ${theme.spacing(10)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     padding:  ${theme.spacing(1)}; 
@@ -16,15 +15,13 @@ export const Container = styled.div`
     padding:  ${theme.spacing(1.9)}; 
   }
 
-
 `;
 
 export const NewsCardWrapper = styled.div`
-  background: ${theme.colors.light};
   border-radius: ${theme.spacing(1)};
   overflow: hidden;
+
   padding: ${theme.spacing(2)};
-  // box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(1.25)} rgba(0, 0, 0, 0.1);
   margin-bottom: ${theme.spacing(2)};
   
   @media (max-width: ${theme.breakpoints.tablet}) {
@@ -40,6 +37,8 @@ export const NewsCardWrapper = styled.div`
 export const NewsImageWrapper = styled.div`
   img {
     width: 100%;
+    height: 50vh;
+    margin-bottom: ${theme.spacing(2)};
     object-fit: cover;
   
     @media (max-width: ${theme.breakpoints.tablet}) {
