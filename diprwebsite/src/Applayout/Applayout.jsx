@@ -14,8 +14,6 @@ const Applayout = () => {
       <Header  /> 
       <NavBar/> 
       <CategoryTab/>
-      {/* <Home/> */}
-      <LatestNews/>
       <Outlet />  
       {/* <Footer /> */}
       </div>

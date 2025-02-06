@@ -1,26 +1,45 @@
 import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { TabContainer, TabsWrapper, TabItem, ProfileIcon } from "../categorytab/CategoryTab.styles";
+import { 
+  TabContainer, 
+  TabsWrapper, 
+  TabItem, 
+  ProfileIcon 
+} from "../categorytab/CategoryTab.styles";
 
-const tabs = ["All", "Latest News", "Magazine", "Exclusive", "About us", "Contact us"];
+const tabs = [
+  { name: "All", path: "/" },
+  { name: "Latest News", path: "/latestnews" },
+  { name: "Magazine",  },
+  { name: "Exclusive",  },
+  { name: "About us",  },
+  { name: "Contact us",  }
+];
 
 const CategoryTab = () => {
-  const [activeTab, setActiveTab] = useState("All");
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(location.pathname);
 
   return (
     <TabContainer>
       <TabsWrapper>
-        {tabs.map((tab) => (
-          <TabItem 
-            key={tab} 
-            active={activeTab === tab} 
-            onClick={() => setActiveTab(tab)}
+        {tabs.map(({ name, path }) => (
+          <Link 
+            key={name} 
+            to={path} 
+            onClick={() => setActiveTab(path)}
+            style={{ textDecoration: "none" }}
           >
-            {tab}
-          </TabItem>
+            <TabItem active={activeTab === path}>
+              {name}
+            </TabItem>
+          </Link>
         ))}
       </TabsWrapper>
-      <ProfileIcon />
+      <ProfileIcon>
+        <FaUserCircle size={24} />
+      </ProfileIcon>
     </TabContainer>
   );
 };

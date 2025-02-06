@@ -13,16 +13,16 @@ import {
   Tab
 } from "../Latesttab/LatestTab.styles";
 import videoThumbnail from "../../../assets/v1.png";
-import { NewsApi, CategoryApi } from "../../../services/categoryapi/CategoryApi"; // Assuming you have these APIs
+import { NewsApi, CategoryApi } from "../../../services/categoryapi/CategoryApi"; 
 import { CiBookmark } from "react-icons/ci";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useNavigate } from "react-router-dom"; 
 
 const LatestTab = () => {
   const [videosData, setVideosData] = useState([]);
   const [bookmarkedVideos, setBookmarkedVideos] = useState(new Set());
   const [activeTab, setActiveTab] = useState(null);
   const [categories, setCategories] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -30,7 +30,7 @@ const LatestTab = () => {
         const response = await CategoryApi();
         if (response?.data && Array.isArray(response.data) && response.data.length > 0) {
           setCategories(response.data);
-          setActiveTab(response.data[0]._id); // Set the first category as active by default
+          setActiveTab(response.data[0]._id); 
         } else {
           console.warn("Empty category API response.");
         }
@@ -50,11 +50,11 @@ const LatestTab = () => {
           setVideosData(response.data);
         } else {
           console.warn("Empty news API response.");
-          setVideosData([]); // Set videosData to an empty array if no data is available
+          setVideosData([]); 
         }
       } catch (error) {
         console.error("Error fetching news:", error);
-        setVideosData([]); // Set videosData to an empty array if there's an error
+        setVideosData([]); 
       }
     };
 

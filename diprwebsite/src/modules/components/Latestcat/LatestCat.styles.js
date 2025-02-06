@@ -165,3 +165,22 @@ export const NewsTextWrapper = styled.p`
     column-count: 1; /* Switch to single column on smaller screens */
   }
 `;
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+
+  svg {
+    font-size: 22px;
+    margin-top: 15px;
+    color: ${({ theme }) => theme.colors.black};
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+  }
+`;

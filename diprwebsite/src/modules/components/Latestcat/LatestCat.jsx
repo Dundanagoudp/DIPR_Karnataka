@@ -14,16 +14,18 @@ import {
   CommentButtonWrapper,
   TrendingTagWrapper,
   NewsMetaWrapper,
+  IconWrapper
 } from './LatestCat.styles';
-import { FaFacebook, FaTwitter, FaLink } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaLink, FaRegHeart, FaRegComment, FaPaperPlane } from 'react-icons/fa';
 import { MdOutlineMessage } from 'react-icons/md';
 import Image1 from "../../../assets/post1.png";
+import ComMents from '../comments/ComMents';
 
 const dummyNews = [
   {
     _id: "fallback1",
     title: "Breaking News: AI Revolution",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam..",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
     newsImage: Image1,
     category: "Technology",
     author: "John Doe",
@@ -36,11 +38,15 @@ const dummyNews = [
 
 const LatestCat = () => {
   const [news, setNews] = useState([]);
+  const [showComments, setShowComments] = useState(false); // State to manage comment visibility
 
   useEffect(() => {
-    // Simulate API call with dummy data
     setNews(dummyNews);
   }, []);
+
+  const toggleComments = () => {
+    setShowComments((prev) => !prev); // Toggle the visibility of comments
+  };
 
   const shareOnFacebook = (url) => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank");
@@ -74,7 +80,17 @@ const LatestCat = () => {
               {newsItem.author || "Unknown Author"} • {newsItem.category || "General"}
             </NewsHeaderWrapper>
 
-            <NewsTitleWrapper>{newsItem.title || "Untitled News"}</NewsTitleWrapper>
+            <NewsTitleWrapper>
+              {newsItem.title || "Untitled News"}
+              <IconWrapper>
+                <FaRegHeart />
+                <FaRegComment onClick={toggleComments} style={{ cursor: "pointer" }} />
+                <FaPaperPlane />
+              </IconWrapper>
+
+              {/* Comments section, only visible if showComments is true */}
+              {showComments && <ComMents />}
+            </NewsTitleWrapper>
 
             <CommentSectionWrapper>
               <CommentInputWrapper>
@@ -96,7 +112,7 @@ const LatestCat = () => {
               <FaLink onClick={() => copyLink(newsItem.url)} style={{ cursor: "pointer" }} />
             </ShareIconsWrapper>
 
-            <NewsTextWrapper style={{ display: "-webkit-box", WebkitLineClamp: 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+            <NewsTextWrapper>
               {newsItem.description || "No description available."}
             </NewsTextWrapper>
           </NewsContentWrapper>
