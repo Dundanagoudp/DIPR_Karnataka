@@ -8,24 +8,21 @@ import {
   NewsTitleWrapper,
   NewsTextWrapper,
   ShareIconsWrapper,
-  CommentSectionWrapper,
-  CommentInputWrapper,
-  CommentInputField,
-  CommentButtonWrapper,
   TrendingTagWrapper,
   NewsMetaWrapper,
   IconWrapper
 } from './LatestCat.styles';
 import { FaFacebook, FaTwitter, FaLink, FaRegHeart, FaRegComment, FaPaperPlane } from 'react-icons/fa';
-import { MdOutlineMessage } from 'react-icons/md';
+import { motion, AnimatePresence } from "framer-motion";
 import Image1 from "../../../assets/post1.png";
 import ComMents from '../comments/ComMents';
+import AddComments from '../comments/AddComments';
 
 const dummyNews = [
   {
     _id: "fallback1",
     title: "Breaking News: AI Revolution",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit... Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitvvv Lorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitvvvvvvLorem ipsum dolor sit amet, consectetur adipiscing elit...",
     newsImage: Image1,
     category: "Technology",
     author: "John Doe",
@@ -38,14 +35,14 @@ const dummyNews = [
 
 const LatestCat = () => {
   const [news, setNews] = useState([]);
-  const [showComments, setShowComments] = useState(false); // State to manage comment visibility
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     setNews(dummyNews);
   }, []);
 
   const toggleComments = () => {
-    setShowComments((prev) => !prev); // Toggle the visibility of comments
+    setShowComments((prev) => !prev);
   };
 
   const shareOnFacebook = (url) => {
@@ -87,19 +84,25 @@ const LatestCat = () => {
                 <FaRegComment onClick={toggleComments} style={{ cursor: "pointer" }} />
                 <FaPaperPlane />
               </IconWrapper>
-
-              {/* Comments section, only visible if showComments is true */}
-              {showComments && <ComMents />}
             </NewsTitleWrapper>
 
-            <CommentSectionWrapper>
-              <CommentInputWrapper>
-                <CommentInputField type="text" placeholder="Add your comment..." />
-                <CommentButtonWrapper>
-                  <MdOutlineMessage />
-                </CommentButtonWrapper>
-              </CommentInputWrapper>
-            </CommentSectionWrapper>
+            {/* Smoothly Animated Comments Section */}
+            <AnimatePresence>
+              {showComments && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <ComMents />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Add comment box section */}
+            <AddComments />
 
             <NewsMetaWrapper>
               {newsItem.isTrending && <TrendingTagWrapper>Trending</TrendingTagWrapper>}

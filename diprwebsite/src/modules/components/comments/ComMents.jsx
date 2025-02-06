@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import {
   CommentSection,
@@ -17,17 +18,19 @@ import {
   ActionIcon,
 } from "../comments/ComMents.styles";
 
-import profileImg from "../../../assets/post1.png";
+import profileImg from "../../../assets/comment1.png";
+import profileImg1 from "../../../assets/comment2.png";
+import { addComment, likeComment } from "../../../services/categoryapi/CategoryApi";
 
 const commentsData = [
   {
-    id: 1,
+    _id: 1,
     user: "tobi",
-    verified: true,
+    success: true,
     comment: "There are so many great little design touches in threads. Really Great",
     replies: 26,
     likes: 112,
-    time: "7h",
+    createdTime: "7h",
     profileImg: profileImg,
     nested: {
       user: "h1brd",
@@ -35,22 +38,49 @@ const commentsData = [
     },
   },
   {
-    id: 2,
+    _id: 2,
     user: "jack",
     verified: true,
     comment: "We wanted flying cars, instead we got 7 Twitter clones.",
     replies: 26,
     likes: 112,
-    time: "33m",
-    profileImg: profileImg,
+    createdTime: "33m",
+    profileImg: profileImg1,
   },
 ];
 
 const ComMents = () => {
+  const [comments, setComments] = useState(commentsData);
+
+  useEffect(() => {
+    // Fetch initial comments if needed
+    // axios.get("/api/news/comments").then(response => setComments(response.data));
+  }, []);
+
+  const handleAddComment = async (newComment) => {
+    try {
+      const addedComment = await addComment(newComment);
+      setComments([...comments, addedComment.data]);
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
+  };
+
+  const handleLikeComment = async (commentId) => {
+    try {
+      const updatedComment = await likeComment(commentId);
+      setComments(comments.map(comment => 
+        comment._id === commentId ? { ...comment, likes: updatedComment.likes } : comment
+      ));
+    } catch (err) {
+      console.error("Error liking comment:", err);
+    }
+  };
+
   return (
     <CommentSection>
-      {commentsData.map((comment) => (
-        <Comment key={comment.id}>
+      {comments.map((comment) => (
+        <Comment key={comment._id}>
           <ProfileImage src={comment.profileImg} alt={comment.user} />
           <CommentContent>
             <UserHeader>
@@ -58,7 +88,7 @@ const ComMents = () => {
                 <Username>{comment.user}</Username>
                 {comment.verified && <VerifiedIcon>✔</VerifiedIcon>}
               </UserInfo>
-              <Time>{comment.time}</Time>
+              <Time>{comment.createdTime}</Time>
             </UserHeader>
             <CommentText>{comment.comment}</CommentText>
             {comment.nested && (
@@ -74,7 +104,7 @@ const ComMents = () => {
               <ActionIcon>
                 <FaRetweet />
               </ActionIcon>
-              <ActionIcon>
+              <ActionIcon onClick={() => handleLikeComment(comment._id)}>
                 <FaHeart />
                 {comment.likes}
               </ActionIcon>

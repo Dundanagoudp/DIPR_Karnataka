@@ -140,48 +140,6 @@ export const ShareIcons = styled.div`
   }
 `;
 
-export const CommentSection = styled.div`
-  margin-top: ${theme.spacing(1)};
-`;
-
-export const CommentInputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${theme.colors.background};
-  border-radius: ${theme.spacing(1.875)};
-  margin-top: ${theme.spacing(2.5)};
-  border: ${theme.spacing(0.125)} solid ${theme.colors.info};
-  padding: ${theme.spacing(0.7)};
-  width: ${theme.spacing(30)};
-  position: relative;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-export const CommentInput = styled.input`
-  flex: 1;
-  border: none;
-  font-size: ${theme.spacing(1.75)};
-  outline: none;
-  max-width: 100%;
-  background: transparent;
-  padding-right: ${theme.spacing(4.375)};
-  padding-left: ${theme.spacing(1.25)};
-`;
-
-export const CommentButton = styled.button`
-  position: absolute;
-  right: ${theme.spacing(1.25)};
-  top: ${theme.spacing(0.8)};
-  background: none;
-  border: none;
-  font-size: ${theme.spacing(2.375)};
-  color: ${theme.colors.icons};
-  cursor: pointer;
-`;
-
 export const NewsMeta = styled.div`
   display: flex;
   margin-top: ${theme.spacing(2.5)};

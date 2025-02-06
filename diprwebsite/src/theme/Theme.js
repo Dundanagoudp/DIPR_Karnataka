@@ -33,15 +33,15 @@ const theme = {
       // },
 
       breakpoints: {
-        mobile: "320px",  
+        mobile: "320px",
+        desktop: "1024px", 
+        tablet: "768px",  
         mobileM: "375px",  
         mobileL: "425px",  
         tabletS: "600px", 
-        tablet: "768px",  
         tabletL: "820px",  
-        desktop: "1024px", 
         laptopL: "1440px", 
-        desktop: "1600px", 
+        desktop2: "1600px", 
       },
       spacing: (factor) => `${factor * 8}px`,
     };

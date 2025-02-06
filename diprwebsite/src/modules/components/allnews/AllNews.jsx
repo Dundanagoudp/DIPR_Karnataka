@@ -13,15 +13,12 @@ import {
   NewsText,
   ShareIcons,
   ReadMore,
-  CommentSection,
-  CommentInputWrapper,
-  CommentInput,
-  CommentButton,
   TrendingTag,
   NewsMeta,
   Title,
 } from "../allnews/AllNews.styles";
 import { CategoryApi, NewsApi } from "../../../services/categoryapi/CategoryApi";
+import AddComments from "../comments/AddComments";
 
 const AllNews = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -125,15 +122,8 @@ const AllNews = () => {
               <ReadMore href={news.url || "#"} target="_blank" rel="noopener noreferrer">
                 Read more
               </ReadMore>
-
-              <CommentSection>
-                <CommentInputWrapper>
-                  <CommentInput type="text" placeholder="Add your comment..." />
-                  <CommentButton>
-                    <MdOutlineMessage />
-                  </CommentButton>
-                </CommentInputWrapper>
-              </CommentSection>
+{/* add comment section */}
+             <AddComments/>
 
               <NewsMeta>
                 {news.isTrending && <TrendingTag>Trending</TrendingTag>}
