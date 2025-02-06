@@ -2,13 +2,12 @@ import styled from "styled-components";
 import theme from "../../../theme/Theme";
 
 export const Container = styled.div`
-  width: 1200px;
-  margin: auto;
+    margin: auto;
+  max-width: 1200px;
   padding: ${theme.spacing(3)};
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
   border-radius: 12px;
-  // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
@@ -18,6 +17,7 @@ export const Container = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
     padding: ${theme.spacing(1)};
+    margin: 0;
   }
 `;
 
@@ -27,8 +27,8 @@ export const TabsContainer = styled.div`
   margin-bottom: ${theme.spacing(2)};
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: thin ; 
-  scrollbar-color:  transparent;
+  scrollbar-width: thin; 
+  scrollbar-color: transparent;
 
   &::-webkit-scrollbar {
     height: ${theme.spacing(0.5)}; 
@@ -45,6 +45,7 @@ export const TabsContainer = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing(1)};
+    padding: 0.5rem;
   }
 `;
 
@@ -77,13 +78,15 @@ export const Content = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr); 
     gap: ${theme.spacing(2)};
+    margin-right: 0;
+    padding: 0.5rem;
   }
 `;
 
 export const VideoCard1 = styled.div`
-  padding: ${theme.spacing(2)};
+  padding: ${theme.spacing(1)};
   background: ${theme.colors.light};
   border-radius: 8px;
   cursor: pointer;
@@ -97,12 +100,13 @@ export const VideoCard1 = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
+    padding: ${theme.spacing(1)};
   }
 `;
 
 export const VideoThumbnail = styled.img`
   width: 100%;
-  height: 180px;
+  height: auto;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: ${theme.spacing(1.5)};
@@ -111,11 +115,11 @@ export const VideoThumbnail = styled.img`
 export const VideoDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing(1)};
+  gap: ${theme.spacing(0.5)};
 `;
 
 export const VideoMeta = styled.span`
-  font-size: ${theme.spacing(1.8)};
+  font-size: ${theme.spacing(1.95)};
   font-weight: bold;
   margin-top: ${theme.spacing(1)};
   color: ${theme.colors.secondary};
@@ -128,6 +132,10 @@ export const VideoMetacat = styled.span`
   align-items: center;
   color: ${theme.colors.text};
   gap: ${theme.spacing(1)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.5)};
+  }
 `;
 
 export const Title = styled.h4`
@@ -137,18 +145,28 @@ export const Title = styled.h4`
   margin-bottom: ${theme.spacing(1)};
   font-family: ${theme.fonts.body};
   line-height: 1.4;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.8)};
+    margin-bottom: ${theme.spacing(0.5)};
+    line-height: 1.2;
+      color: ${theme.colors.textDark};
+  margin-bottom: ${theme.spacing(1)};
+  font-family: ${theme.fonts.body};
+
+  }
 `;
 
 export const NewsMeta = styled.div`
   display: flex;
   margin-top: ${theme.spacing(2)};
-  font-size: ${theme.spacing(1.6)};
+  font-size: ${theme.spacing(1.8)};
   color: ${theme.colors.textLight};
   font-family: ${theme.fonts.body};
   gap: ${theme.spacing(1)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.4)};
+    font-size: ${theme.spacing(1.7)};
   }
 `;
 

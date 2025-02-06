@@ -26,22 +26,13 @@ const theme = {
         accent: "'Nunito', sans-serif",
         display: "'Outfit', sans-serif",
       },
-      // breakpoints: {
-      //   mobile: "480px",
-      //   tablet: "768px",
-      //   desktop: "1024px",
-      // },
-
+    
       breakpoints: {
-        mobile: "320px",
-        desktop: "1024px", 
+        mobile: "480px",
+        tablet: "768px",
         tablet: "768px",  
-        mobileM: "375px",  
-        mobileL: "425px",  
-        tabletS: "600px", 
-        tabletL: "820px",  
-        laptopL: "1440px", 
-        desktop2: "1600px", 
+        desktop: "1024px",
+
       },
       spacing: (factor) => `${factor * 8}px`,
     };

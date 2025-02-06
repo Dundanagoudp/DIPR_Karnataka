@@ -2,10 +2,19 @@ import styled from "styled-components";
 import theme from "../../../theme/Theme";
 
 export const Container = styled.div`
-  max-width: 1180px;
   margin: auto;
+  max-width: 1200px;
   margin-top: ${theme.spacing(5)};
   padding: 0 ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 0 ${theme.spacing(1)}; 
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding:  ${theme.spacing(1.9)}; 
+
+  }
 `;
 
 export const NewsCardWrapper = styled.div`
@@ -17,7 +26,13 @@ export const NewsCardWrapper = styled.div`
   margin-bottom: ${theme.spacing(2)};
   
   @media (max-width: ${theme.breakpoints.mobile}) {
+    // padding: ${theme.spacing(1.5)};
+
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1.5)};
+    max-width: 100%;
   }
 `;
 

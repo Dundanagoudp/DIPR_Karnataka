@@ -27,15 +27,7 @@ export const Comment = styled.div`
 
  
 
-  @media (max-width: ${(props) => props.theme.breakpoints.mobileM}) {
-    max-width: 100%;
-    padding: ${(props) => props.theme.spacing(0.8)};
-  }
-
-  @media (max-width: ${(props) => props.theme.breakpoints.mobileS}) {
-    max-width: 100%;
-    padding: ${(props) => props.theme.spacing(0.5)};
-  }
+  
 `;
 
 export const ProfileImage = styled.img`

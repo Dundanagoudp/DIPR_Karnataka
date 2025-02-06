@@ -14,11 +14,11 @@ const AddComments = ({ newsId, userId }) => {
       return;
     }
 
-    const commentData = {
-      user: userId,
-      news: newsId,
-      comment: comment,
-    };
+    // const commentData = {
+    //   user: userId,
+    //   news: newsId,
+    //   comment: comment,
+    // };
 
     try {
       const response = await addComment(commentData);
