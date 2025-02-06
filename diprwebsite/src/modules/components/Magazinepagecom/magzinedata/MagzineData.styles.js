@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import theme from "../../../../theme/Theme";
 
-export const Container = styled.div`
-//   margin: auto;
+export const MagzineDataContainer = styled.div`
   max-width: 1200px;
   padding: 0 ${theme.spacing(10)};
 
@@ -14,13 +13,11 @@ export const Container = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding:  ${theme.spacing(1.9)}; 
   }
-
 `;
 
-export const NewsCardWrapper = styled.div`
+export const MagzineDataNewsCardWrapper = styled.div`
   border-radius: ${theme.spacing(1)};
   overflow: hidden;
-
   padding: ${theme.spacing(2)};
   margin-bottom: ${theme.spacing(2)};
   
@@ -34,7 +31,7 @@ export const NewsCardWrapper = styled.div`
   }
 `;
 
-export const NewsImageWrapper = styled.div`
+export const MagzineDataNewsImageWrapper = styled.div`
   img {
     width: 100%;
     height: 50vh;
@@ -51,7 +48,7 @@ export const NewsImageWrapper = styled.div`
   }
 `;
 
-export const NewsContentWrapper = styled.div`
+export const MagzineDataNewsContentWrapper = styled.div`
   padding: ${theme.spacing(2)};
   
   @media (max-width: ${theme.breakpoints.mobile}) {
@@ -59,7 +56,7 @@ export const NewsContentWrapper = styled.div`
   }
 `;
 
-export const NewsHeaderWrapper = styled.div`
+export const MagzineDataNewsHeaderWrapper = styled.div`
   font-size: ${theme.spacing(2.8)};
   color: ${theme.colors.icons};
   font-weight: bold;
@@ -70,7 +67,7 @@ export const NewsHeaderWrapper = styled.div`
   }
 `;
 
-export const NewsTitleWrapper = styled.h2`
+export const MagzineDataNewsTitleWrapper = styled.h2`
   font-size: ${theme.spacing(2.5)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
@@ -80,7 +77,7 @@ export const NewsTitleWrapper = styled.h2`
   }
 `;
 
-export const ShareIconsWrapper = styled.div`
+export const MagzineDataShareIconsWrapper = styled.div`
   display: flex;
   margin-top: ${theme.spacing()};
   gap: ${theme.spacing(3)};
@@ -94,62 +91,7 @@ export const ShareIconsWrapper = styled.div`
   }
 `;
 
-export const CommentSectionWrapper = styled.div`
-  margin-top: ${theme.spacing(1)};
-`;
-
-export const CommentInputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${theme.colors.background};
-  border-radius: ${theme.spacing(1.875)};
-  margin-top: ${theme.spacing(2.5)};
-  border: ${theme.spacing(0.125)} solid ${theme.colors.info};
-  padding: ${theme.spacing(0.7)};
-  width: ${theme.spacing(30)};
-  position: relative;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-export const CommentInputField = styled.input`
-  flex: 1;
-  border: none;
-  font-size: ${theme.spacing(1.75)};
-  outline: none;
-  max-width: 100%;
-  background: transparent;
-  padding-right: ${theme.spacing(4.375)};
-  padding-left: ${theme.spacing(1.25)};
-`;
-
-export const CommentButtonWrapper = styled.button`
-  position: absolute;
-  right: ${theme.spacing(1.25)};
-  top: ${theme.spacing(0.8)};
-  background: none;
-  border: none;
-  font-size: ${theme.spacing(2.375)};
-  color: ${theme.colors.icons};
-  cursor: pointer;
-`;
-
-export const NewsMetaWrapper = styled.div`
-  display: flex;
-  margin-top: ${theme.spacing(2.5)};
-  font-size: ${theme.spacing(1.75)};
-  color: ${theme.colors.black};
-  font-family: ${theme.fonts.body};
-  margin-top: ${theme.spacing(2.95)};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.5)};
-  }
-`;
-
-export const TrendingTagWrapper = styled.span`
+export const MagzineDataTrendingTagWrapper = styled.span`
   background: ${theme.colors.error};
   color: ${theme.colors.background};
   font-size: ${theme.spacing(1.5)};
@@ -165,7 +107,20 @@ export const TrendingTagWrapper = styled.span`
   }
 `;
 
-export const NewsTextWrapper = styled.p`
+export const MagzineDataNewsMetaWrapper = styled.div`
+  display: flex;
+  margin-top: ${theme.spacing(2.5)};
+  font-size: ${theme.spacing(1.75)};
+  color: ${theme.colors.black};
+  font-family: ${theme.fonts.body};
+  margin-top: ${theme.spacing(2.95)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.5)};
+  }
+`;
+
+export const MagzineDataNewsTextWrapper = styled.p`
   font-size: ${theme.spacing(2.1)};
   color: ${theme.colors.black};
   line-height: 1.3;
@@ -181,7 +136,7 @@ export const NewsTextWrapper = styled.p`
   }
 `;
 
-export const IconWrapper = styled.div`
+export const MagzineDataIconWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;

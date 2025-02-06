@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import {
-  Container,
-  TabContainer,
-  Tab,
-  Content,
-  Card,
-  Image,
-  Details,
-  Title,
-  Meta,
-  Header,
-  VideoThumbnail,
-  VideoTab,
-  VideoCard1,
-  VideoDetails,
-  VideoMeta,
-  VideoMetacat,
-  Meta1,
+  MagazineContainer,
+  MagazineTabContainer,
+  MagazineTab,
+  MagazineContent,
+  MagazineCard,
+  MagazineImage,
+  MagazineDetails,
+  MagazineTitle,
+  MagazineMeta,
+  MagazineHeader,
+  MagazineVideoThumbnail,
+  MagazineVideoTab,
+  MagazineVideoCard1,
+  MagazineVideoDetails,
+  MagazineVideoMeta,
+  MagazineVideoMetacat,
+  MagazineMeta1,
 } from "../RecommendNews/RecommendNews.styles";
 import TopicImages from "../../../../assets/topic1.png";
 import TopicImages2 from "../../../../assets/topic2.png";
@@ -109,46 +109,46 @@ const MagaZines = () => {
   }, []);
 
   return (
-    <Container>
-      <Header>Recommended for you</Header>
-      <TabContainer>
-        <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}>
-          Topics
-        </Tab>
-        <VideoTab active={activeTab === "Video"} onClick={() => setActiveTab("Video")}>
-          Video
-        </VideoTab>
-      </TabContainer>
-
-      <Content>
-        {activeTab === "Topics"
-          ? topicsData.map((item) => (
-              <Card key={item.id}>
-                <Image src={item.image} alt={item.title} />
-                <Details>
-                  <Meta1>{item.source}</Meta1>
-                  <Title>{item.title}</Title>
-                  <data style={{ gap: "1%" }}>
-                    {item.trending && <span className="trending">Trending</span>}
-                    <Meta>{item.date} • {item.readTime}</Meta>
-                  </data>
-                </Details>
-              </Card>
-            ))
-          : videosData.map((video) => (
-              <VideoCard1 key={video.id || video._id}>
-                <VideoThumbnail src={video.thumbnail} alt={video.title} />
-                <VideoDetails>
-                  <VideoMeta>{new Date(video.date || video.createdAt).toDateString()}</VideoMeta>
-                  <Title style={{ color: "black", fontWeight: "bold", fontSize: "1.3rem" }}>
-                    {video.title}
-                  </Title>
-                  <VideoMetacat>{video.category}</VideoMetacat>
-                </VideoDetails>
-              </VideoCard1>
-            ))}
-      </Content>
-    </Container>
+    <MagazineContainer>
+    <MagazineHeader>Recommended for you</MagazineHeader>
+    <MagazineTabContainer>
+      <MagazineTab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}>
+        Topics
+      </MagazineTab>
+      <MagazineVideoTab active={activeTab === "Video"} onClick={() => setActiveTab("Video")}>
+        Video
+      </MagazineVideoTab>
+    </MagazineTabContainer>
+  
+    <MagazineContent>
+      {activeTab === "Topics"
+        ? topicsData.map((item) => (
+            <MagazineCard key={item.id}>
+              <MagazineImage src={item.image} alt={item.title} />
+              <MagazineDetails>
+                <MagazineMeta1>{item.source}</MagazineMeta1>
+                <MagazineTitle>{item.title}</MagazineTitle>
+                <data style={{ gap: "1%" }}>
+                  {item.trending && <span className="trending">Trending</span>}
+                  <MagazineMeta>{item.date} • {item.readTime}</MagazineMeta>
+                </data>
+              </MagazineDetails>
+            </MagazineCard>
+          ))
+        : videosData.map((video) => (
+            <MagazineVideoCard1 key={video.id || video._id}>
+              <MagazineVideoThumbnail src={video.thumbnail} alt={video.title} />
+              <MagazineVideoDetails>
+                <MagazineVideoMeta>{new Date(video.date || video.createdAt).toDateString()}</MagazineVideoMeta>
+                <MagazineTitle style={{ color: "black", fontWeight: "bold", fontSize: "1.3rem" }}>
+                  {video.title}
+                </MagazineTitle>
+                <MagazineVideoMetacat>{video.category}</MagazineVideoMetacat>
+              </MagazineVideoDetails>
+            </MagazineVideoCard1>
+          ))}
+    </MagazineContent>
+  </MagazineContainer>
   );
 };
 

@@ -8,7 +8,7 @@ export const HomeContainer = styled.div`
 
 export const ContentWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap; /* Allows sections to wrap when needed */
+  flex-wrap: wrap; 
   gap: ${theme.spacing(0.8)};
   align-items: flex-start;
   width: 100%;
@@ -38,6 +38,14 @@ export const MagazineSection = styled.div`
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
+    margin-right: 7%;
     margin-left: 0;
+    
+    padding: ${theme.spacing(2)};
+  }
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-left: 0;
+    margin-right: 0;
+    padding: ${theme.spacing(3)};
   }
 `;

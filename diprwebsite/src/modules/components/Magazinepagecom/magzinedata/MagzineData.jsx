@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  Container, 
-  NewsCardWrapper,
-  NewsImageWrapper,
-  NewsContentWrapper,
-  NewsHeaderWrapper,
-  NewsTitleWrapper,
-  NewsTextWrapper,
-  ShareIconsWrapper,
-  TrendingTagWrapper,
-  NewsMetaWrapper,
-  IconWrapper
+  MagzineDataContainer, 
+  MagzineDataNewsCardWrapper,
+  MagzineDataNewsImageWrapper,
+  MagzineDataNewsContentWrapper,
+  MagzineDataNewsHeaderWrapper,
+  MagzineDataNewsTitleWrapper,
+  MagzineDataNewsTextWrapper,
+  MagzineDataShareIconsWrapper,
+  MagzineDataTrendingTagWrapper,
+  MagzineDataNewsMetaWrapper,
+  MagzineDataIconWrapper
 } from '../magzinedata/MagzineData.styles';
 import { FaFacebook, FaTwitter, FaLink, FaRegHeart, FaRegComment, FaPaperPlane } from 'react-icons/fa';
 import { motion, AnimatePresence } from "framer-motion";
 import Image1 from "../../../../assets/post1.png";
 import ComMents from '../../comments/ComMents';
 import AddComments from '../../comments/AddComments';
-
 
 const dummyNews = [
   {
@@ -66,23 +65,23 @@ const MagzineData = () => {
   };
 
   return (
-    <Container>
+    <MagzineDataContainer>
       {news.map((newsItem) => (
-        <NewsCardWrapper key={newsItem._id}>
+        <MagzineDataNewsCardWrapper key={newsItem._id}>
 
-          <NewsContentWrapper>
-            <NewsHeaderWrapper>
+          <MagzineDataNewsContentWrapper>
+            <MagzineDataNewsHeaderWrapper>
               {newsItem.author || "Unknown Author"} • {newsItem.category || "General"}
-            </NewsHeaderWrapper>
+            </MagzineDataNewsHeaderWrapper>
 
-            <NewsTitleWrapper>
+            <MagzineDataNewsTitleWrapper>
               {newsItem.title || "Untitled News"}
-              <IconWrapper>
+              <MagzineDataIconWrapper>
                 <FaRegHeart />
                 <FaRegComment onClick={toggleComments} style={{ cursor: "pointer" }} />
                 <FaPaperPlane />
-              </IconWrapper>
-            </NewsTitleWrapper>
+              </MagzineDataIconWrapper>
+            </MagzineDataNewsTitleWrapper>
 
             {/* Smoothly Animated Comments Section */}
             <AnimatePresence>
@@ -102,29 +101,30 @@ const MagzineData = () => {
             {/* Add comment box section */}
             <AddComments />
 
-            <NewsMetaWrapper>
-              {newsItem.isTrending && <TrendingTagWrapper>Trending</TrendingTagWrapper>}
+            <MagzineDataNewsMetaWrapper>
+              {newsItem.isTrending && <MagzineDataTrendingTagWrapper>Trending</MagzineDataTrendingTagWrapper>}
               <span>{formatDate(newsItem.createdTime)} • {newsItem.readTime || "N/A"}</span>
-            </NewsMetaWrapper>
+            </MagzineDataNewsMetaWrapper>
 
-            <ShareIconsWrapper>
+            <MagzineDataShareIconsWrapper>
               <FaFacebook onClick={() => shareOnFacebook(newsItem.url)} style={{ cursor: "pointer" }} />
               <FaTwitter onClick={() => shareOnTwitter(newsItem.url)} style={{ cursor: "pointer" }} />
               <FaLink onClick={() => copyLink(newsItem.url)} style={{ cursor: "pointer" }} />
-            </ShareIconsWrapper>
+            </MagzineDataShareIconsWrapper>
 
-            {/* <NewsTextWrapper>
+            {/* <MagzineDataNewsTextWrapper>
               {newsItem.description || "No description available."}
-            </NewsTextWrapper> */}
-          </NewsContentWrapper>
-          <NewsImageWrapper>
+            </MagzineDataNewsTextWrapper> */}
+          </MagzineDataNewsContentWrapper>
+          <MagzineDataNewsImageWrapper>
             <img src={newsItem.newsImage || "https://via.placeholder.com/300"} alt={newsItem.title || "News Image"} />
-          </NewsImageWrapper><NewsImageWrapper>
+          </MagzineDataNewsImageWrapper>
+          <MagzineDataNewsImageWrapper>
             <img src={newsItem.newsImage || "https://via.placeholder.com/300"} alt={newsItem.title || "News Image"} />
-          </NewsImageWrapper>
-        </NewsCardWrapper>
+          </MagzineDataNewsImageWrapper>
+        </MagzineDataNewsCardWrapper>
       ))}
-    </Container>
+    </MagzineDataContainer>
   );
 };
 

@@ -5,6 +5,15 @@ export const Container = styled.div`
   max-width: ${theme.spacing(100)};
   margin: auto;
   padding: 0 ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 0 ${theme.spacing(1)};
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 0 ${theme.spacing(2)};
+    max-width: 100%;
+  }
 `;
 
 export const Title = styled.h1`
@@ -77,23 +86,24 @@ export const NewsCard = styled.div`
 
 export const NewsImage = styled.img`
   width: 100%;
-  height: 60vh;
+ hight: auto;  
   object-fit: cover;
+  border-radius: ${theme.spacing(1)};
+  
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    height: 40vh;
-    max-width: 100%;
-  }
 
   @media (max-width: ${theme.breakpoints.tablet}) and (max-width: 1366) {
     height: 40vh;
     max-width: 100%;
+    border-radius: ${theme.spacing(1)};
+    object-fit: cover;
   }
 
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    height: 30vh;
+    height: 25vh;
     width: 100%;
+    border-radius: ${theme.spacing(1)};
     object-fit: cover;
   }
 `;

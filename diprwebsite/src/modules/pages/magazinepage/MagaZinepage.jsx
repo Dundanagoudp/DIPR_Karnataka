@@ -2,7 +2,6 @@ import React from "react";
 import MagazineDownloadPdf from "../../components/Magazinepagecom/Downloadpdf/DownloadPdf";
 import MagaZineRecommend from "../../components/Magazinepagecom/RecommendNews/RecommendNews";
 import MagzineData from "../../components/Magazinepagecom/magzinedata/MagzineData";
-// import MagzineData from "../../components/Magazinepagecom/magzinedata/MagzineData";
 
 const MagaZinepages = () => {
       return (

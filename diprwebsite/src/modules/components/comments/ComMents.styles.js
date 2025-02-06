@@ -25,7 +25,6 @@ export const Comment = styled.div`
   }
 `;
 
-
 export const ProfileImage = styled.img`
   width: ${(props) => props.theme.spacing(5)};
   height: ${(props) => props.theme.spacing(5)};
