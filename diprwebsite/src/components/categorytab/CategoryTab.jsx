@@ -12,8 +12,8 @@ const tabs = [
   { name: "All", path: "/" },
   { name: "Latest News", path: "/latestnews" },
   { name: "Magazine", path: "/magazinepages" },
-  { name: "Exclusive",  },
-  { name: "About us",  },
+  { name: "Exclusive", path: "/exclusive" },
+  { name: "About us", path: "/aboutuspage" },
   { name: "Contact us",  }
 ];
 

@@ -17,8 +17,7 @@ const theme = {
         button:"#1E88E5",
         margin:"#C5CEDA",
         icons:"#787878",
-        trcloure:"hsla(0, 0.00%, 100.00%, 0.20)",
-        
+        trcloure:"hsla(0, 0.00%, 100.00%, 0.20)",    
       },
 
       fonts: {
@@ -32,9 +31,7 @@ const theme = {
       breakpoints: {
         mobile: "480px",
         tablet: "768px",
-        // tablet: "768px",  
         desktop: "1024px",
-
       },
       spacing: (factor) => `${factor * 8}px`,
     };

@@ -18,31 +18,42 @@ export const ContentWrapper = styled.div`
     gap: ${theme.spacing(2)};
     align-items: center;
   }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.spacing(2)};
+    align-items: center;
+  }
 `;
 
 export const NewsSection = styled.div`
   flex: 1;
-  max-width: 70%; 
   margin-left: ${theme.spacing(12)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
+    max-width: 100%;
     margin-left: 0;
   }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-left: 0; 
+    }
 `;
 
 export const MagazineSection = styled.div`
   flex: 1;
-  max-width: 30%;
   margin-right: ${theme.spacing(12)};
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
     margin-right: 7%;
     margin-left: 0;
-    
+
     padding: ${theme.spacing(2)};
   }
+    
   @media (max-width: ${theme.breakpoints.mobile}) {
     margin-left: 0;
     margin-right: 0;

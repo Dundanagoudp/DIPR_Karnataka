@@ -73,7 +73,8 @@ export const TabItem = styled.div`
 export const ProfileIcon = styled(FaUserCircle)`
   font-size: 30px;
   color: ${theme.colors.background};
-  margin-left: ${theme.spacing(80)};
+  // margin-left: ${theme.spacing(80)};
+  margin-left: 38%;
   margin-right: auto;
   cursor: pointer;
 

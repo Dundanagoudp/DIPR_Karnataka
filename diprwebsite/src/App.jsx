@@ -10,6 +10,8 @@ import Applayout from "./Applayout/Applayout";
 import Home from "./modules/pages/Home/Home";
 import LatestNews from "./modules/pages/Latestnews/LatestNews";
 import MagaZinepages from "./modules/pages/magazinepage/MagaZinepage";
+import AboutUspage from "./modules/pages/aboutuspage/AboutUspage";
+import Exclusive from "./modules/pages/exclusivepage/Exclusive";
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="/latestnews" element={<LatestNews />} />
             <Route path="/magazinepages" element={<MagaZinepages />} />
+            <Route path="/exclusive" element={<Exclusive />} />
+            <Route path="/aboutuspage" element={<AboutUspage />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/otp" element={<Otp />} />
