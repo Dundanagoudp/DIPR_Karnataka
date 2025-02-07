@@ -6,7 +6,7 @@ import AboutusAllnews from "../../components/aboutuscom/aboutusnews/AboutAllNews
 const AboutUspage = () => (
       <div style={{width:"100%"}}>
             <AboutUsText />
-            <div style={{display:"flex" ,marginLeft:"60px",marginRight:"40px" ,padding:"20px",gap:"30px",} }>
+            <div style={{display:"flex" ,marginLeft:"8%",marginRight:"40px" ,padding:"20px",gap:"30px",} }>
             <div style={{width:"30%",}}>
              <AboutUsRecommendeds />
             </div>

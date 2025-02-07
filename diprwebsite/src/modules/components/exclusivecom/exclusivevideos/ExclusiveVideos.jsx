@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaPlay } from "react-icons/fa"; // Import play icon
 import {
   CarouselContainer,
   CarouselItem,
@@ -11,62 +12,102 @@ import {
   NewsItem,
   NavContainer,
   NewsWrapper,
-  CarouselInner
+  CarouselInner,
+  VideoContainer,
+  PlayIconContainer,
 } from "../exclusivevideos/ExclusiveVideos.styles";
-import Videos from "../../../../assets/Videos.png";
+import videos from "../../../../assets/videos.png";
+
+// Fallback Data
+const fallbackVideos = [
+  {
+    id: 1,
+    category: "Trending",
+    date: "Feb 7, 2025",
+    readTime: "5 min watch",
+    title: "The Future of AI",
+    thumbnail: videos,
+    videoUrl: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+  },
+  {
+    id: 2,
+    category: "Tech",
+    date: "Feb 6, 2025",
+    readTime: "3 min watch",
+    title: "Exploring the Metaverse",
+    thumbnail: videos,
+    videoUrl: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+  },
+];
 
 const ExclusiveVideos = () => {
-  const [trendingNews, setTrendingNews] = useState([
-    {
-      id: 1,
-      category: "Trending",
-      date: "Jul 24, 2023",
-      readTime: "8 min read",
-      title: "A month with DJI Mini 3",
-      image: Videos,
-      link: "#",
-    },
-    {
-      id: 2,
-      category: "Trending",
-      date: "Jul 24, 2023",
-      readTime: "8 min read",
-      title: "Tech Innovation in 2024",
-      image: Videos,
-      link: "#",
-    },
-  ]);
+  const [trendingVideos, setTrendingVideos] = useState([]);
+  const [playingVideoId, setPlayingVideoId] = useState(null);
 
-  const headlines = trendingNews.length > 0 ? trendingNews.map(news => news.title) : ["No trending news available"];
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch("https://your-backend-api.com/api/videos");
+        if (!response.ok) throw new Error("Failed to fetch videos");
+        const data = await response.json();
+        setTrendingVideos(data.length > 0 ? data : fallbackVideos);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+        setTrendingVideos(fallbackVideos);
+      }
+    };
+
+    fetchVideos();
+  }, []);
+
+  const headlines =
+    trendingVideos.length > 0
+      ? trendingVideos.map((video) => video.title)
+      : ["No trending videos available"];
+
+  const handlePlayClick = (videoId) => {
+    setPlayingVideoId(videoId);
+  };
 
   return (
     <CarouselContainer>
       <CarouselInner>
-        {trendingNews.length > 0 ? (
-          trendingNews.map((news) => (
-            <CarouselItem key={news.id} bgImage={news.image}>
-              <Overlay />
-              <ContentWrapper>
-                <div style={{ display: "flex", alignItems: "center", gap: "1%" }}>
-                  <TrendingCategory>{news.category}</TrendingCategory>
-                  <NewsInfo>• {news.date} • {news.readTime}</NewsInfo>
-                </div>
-                <NewsTitle>{news.title}</NewsTitle>
-                <NavContainer>
-                  <NewsWrapper>
-                    <NewsTicker>
-                      {headlines.map((headline, index) => (
-                        <NewsItem key={index}>{headline}</NewsItem>
-                      ))}
-                    </NewsTicker>
-                  </NewsWrapper>
-                </NavContainer>
-              </ContentWrapper>
-            </CarouselItem>
-          ))
-        ) : (
-          <h2>No Exclusive Videos Available</h2>
-        )}
+        {trendingVideos.map((video) => (
+          <CarouselItem key={video.id} bgImage={video.thumbnail}>
+            <Overlay />
+            <ContentWrapper>
+              <div style={{ display: "flex", alignItems: "center", gap: "1%" }}>
+                <TrendingCategory>{video.category}</TrendingCategory>
+                <NewsInfo>• {video.date} • {video.readTime}</NewsInfo>
+              </div>
+              <NewsTitle>{video.title}</NewsTitle>
+
+              {/* Video Player */}
+              {/* <VideoContainer>
+                {playingVideoId === video.id ? (
+                  <video controls autoPlay>
+                    <source src={video.videoUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <PlayIconContainer onClick={() => handlePlayClick(video.id)}>
+                    <FaPlay size={50} color="#fff" />
+                  </PlayIconContainer>
+                )}
+              </VideoContainer> */}
+
+              <NavContainer>
+                <NewsWrapper>
+                  <NewsTicker>
+                    {headlines.map((headline, index) => (
+                      <NewsItem key={index}>{headline}</NewsItem>
+                    ))}
+                  </NewsTicker>
+                </NewsWrapper>
+              </NavContainer>
+            </ContentWrapper>
+          </CarouselItem>
+        ))}
       </CarouselInner>
     </CarouselContainer>
   );

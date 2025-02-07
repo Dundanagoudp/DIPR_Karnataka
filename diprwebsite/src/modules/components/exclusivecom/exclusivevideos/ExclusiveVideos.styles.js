@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 import theme from "../../../../theme/Theme";
 
 export const CarouselContainer = styled.div`
-  width: 70%;
+  width: 800px;
   height: auto;
   overflow: visible;
   position: relative;
@@ -116,4 +116,37 @@ export const NewsItem = styled.span`
   font-weight: bold;
   padding: 0 ${theme.spacing(2)};
   white-space: nowrap;
+`;
+
+export const VideoContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 250px;
+  margin-top: ${theme.spacing(2)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  video {
+    width: 100%;
+    height: 100%;
+    border-radius: ${theme.spacing(1)};
+    object-fit: cover;
+  }
+`;
+
+export const PlayIconContainer = styled.div`
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: ${theme.spacing(1)};
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
 `;
