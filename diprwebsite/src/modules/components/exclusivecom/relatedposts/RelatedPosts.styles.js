@@ -2,8 +2,8 @@ import styled from "styled-components";
 import theme from "../../../../theme/Theme";
 
 export const RelatedPostsContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
+//   max-width: 1200px;
+  margin: auto;
   padding: ${theme.spacing(2)};
   display: grid;
   grid-template-columns: repeat(2, 1fr);

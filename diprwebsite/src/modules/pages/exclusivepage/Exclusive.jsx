@@ -14,8 +14,8 @@ const Exclusive = () => {
                  <ExclusivePosts/>
                   </div>
                   </div>
-                  <div>
-                        <RelatedPosts/>
+                  <div style={{marginLeft:"100px",marginRight:"100px"}}>
+                 <RelatedPosts/>
                   </div>
             </div>
       );
