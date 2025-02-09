@@ -4,14 +4,15 @@ import theme from "../../../../theme/Theme";
 export const MagzineDataContainer = styled.div`
   max-width: 1200px;
   padding: 0 ${theme.spacing(10)};
+  margin: 0 auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding:  ${theme.spacing(1)}; 
+    padding: 0 ${theme.spacing(2)};
     max-width: 100%;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding:  ${theme.spacing(1.9)}; 
+    padding: 0 ${theme.spacing(1.5)};
   }
 `;
 
@@ -20,14 +21,15 @@ export const MagzineDataNewsCardWrapper = styled.div`
   overflow: hidden;
   padding: ${theme.spacing(2)};
   margin-bottom: ${theme.spacing(2)};
-  
+  background: ${theme.colors.background};
+
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(1.9)};
+    padding: ${theme.spacing(1.5)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(1.5)};
-    max-width: 100%;
+    padding: ${theme.spacing(1)};
+    margin-bottom: ${theme.spacing(1)};
   }
 `;
 
@@ -37,7 +39,8 @@ export const MagzineDataNewsImageWrapper = styled.div`
     height: 50vh;
     margin-bottom: ${theme.spacing(2)};
     object-fit: cover;
-  
+    border-radius: ${theme.spacing(1)};
+
     @media (max-width: ${theme.breakpoints.tablet}) {
       height: 40vh;
     }
@@ -50,9 +53,13 @@ export const MagzineDataNewsImageWrapper = styled.div`
 
 export const MagzineDataNewsContentWrapper = styled.div`
   padding: ${theme.spacing(2)};
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
     padding: ${theme.spacing(1.5)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(1)};
   }
 `;
 
@@ -61,9 +68,14 @@ export const MagzineDataNewsHeaderWrapper = styled.div`
   color: ${theme.colors.icons};
   font-weight: bold;
   font-family: ${theme.fonts.accent};
-  
+  margin-bottom: ${theme.spacing(1.5)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(2.5)};
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(2.2)};
+    font-size: ${theme.spacing(2)};
   }
 `;
 
@@ -71,7 +83,12 @@ export const MagzineDataNewsTitleWrapper = styled.h2`
   font-size: ${theme.spacing(2.5)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
-  
+  margin-bottom: ${theme.spacing(1.5)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(2.2)};
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
   }
@@ -79,15 +96,19 @@ export const MagzineDataNewsTitleWrapper = styled.h2`
 
 export const MagzineDataShareIconsWrapper = styled.div`
   display: flex;
-  margin-top: ${theme.spacing()};
+  margin-top: ${theme.spacing(2)};
   gap: ${theme.spacing(3)};
   font-size: ${theme.spacing(3.5)};
-  margin: ${theme.spacing(1)} 0;
   color: ${theme.colors.icons};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(3)};
+    gap: ${theme.spacing(2)};
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2.5)};
-    gap: ${theme.spacing(2)};
+    gap: ${theme.spacing(1.5)};
   }
 `;
 
@@ -101,9 +122,14 @@ export const MagzineDataTrendingTagWrapper = styled.span`
   border-radius: ${theme.spacing(0.625)};
   font-family: ${theme.fonts.monospace};
 
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(1.4)};
+    margin-right: ${theme.spacing(2)};
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.25)};
-    margin-right: ${theme.spacing(2)};
+    margin-right: ${theme.spacing(1.5)};
   }
 `;
 
@@ -113,10 +139,15 @@ export const MagzineDataNewsMetaWrapper = styled.div`
   font-size: ${theme.spacing(1.75)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.body};
-  margin-top: ${theme.spacing(2.95)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(1.6)};
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
+    flex-direction: column;
+    gap: ${theme.spacing(0.5)};
   }
 `;
 
@@ -127,30 +158,42 @@ export const MagzineDataNewsTextWrapper = styled.p`
   margin-top: ${theme.spacing(2.8)};
   font-family: ${theme.fonts.body};
   column-count: 2;
-  column-gap: ${theme.spacing(4)}; 
+  column-gap: ${theme.spacing(4)};
   text-align: justify;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    column-gap: ${theme.spacing(3)};
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
-    column-count: 1; /* Switch to single column on smaller screens */
+    column-count: 1;
+    margin-top: ${theme.spacing(2)};
   }
 `;
 
 export const MagzineDataIconWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: ${theme.spacing(2)};
   margin-left: auto;
 
   svg {
-    font-size: 22px;
-    margin-top: 15px;
-    color: ${({ theme }) => theme.colors.black};
+    font-size: ${theme.spacing(2.75)};
+    color: ${theme.colors.black};
     cursor: pointer;
     transition: color 0.2s ease-in-out;
 
     &:hover {
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${theme.colors.primary};
+    }
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+      font-size: ${theme.spacing(2.5)};
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      font-size: ${theme.spacing(2)};
     }
   }
 `;

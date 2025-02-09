@@ -24,6 +24,7 @@ export const MagazineHeader = styled.h2`
   font-size: ${theme.spacing(3)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
+
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: ${theme.spacing(3.5)};
   }
@@ -36,8 +37,8 @@ export const MagazineHeader = styled.h2`
 export const MagazineTabContainer = styled.div`
   display: flex;
   overflow-x: auto;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: ${theme.colors.primary} ${theme.colors.light}; /* For Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: ${theme.colors.primary} ${theme.colors.light};
 
   &::-webkit-scrollbar {
     height: ${theme.spacing(0.5)};
@@ -69,11 +70,12 @@ export const MagazineTab = styled.button`
   font-weight: bold;
   color: ${({ active }) => (active ? theme.colors.primary : theme.colors.black)};
   border-bottom: ${({ active }) => (active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap;
 
   &:hover {
     color: ${theme.colors.primary};
   }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
     padding: ${theme.spacing(0.75)};
@@ -98,6 +100,11 @@ export const MagazineCard = styled.div`
   background: ${theme.colors.light};
   border-radius: ${theme.spacing(1)};
   box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const MagazineVideoCard = styled(MagazineCard)`
@@ -111,6 +118,13 @@ export const MagazineImage = styled.img`
   object-fit: cover;
   border-radius: ${theme.spacing(1)};
   margin-right: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: ${theme.spacing(1)};
+  }
 `;
 
 export const MagazineVideoThumbnail = styled.img`
@@ -119,6 +133,13 @@ export const MagazineVideoThumbnail = styled.img`
   object-fit: cover;
   border-radius: ${theme.spacing(1)};
   margin-right: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: ${theme.spacing(1)};
+  }
 `;
 
 export const MagazineDetails = styled.div`
@@ -132,6 +153,10 @@ export const MagazineTitle = styled.h4`
   color: ${theme.colors.text};
   margin-bottom: ${theme.spacing(1)};
   font-family: ${theme.fonts.body};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.5)};
+  }
 `;
 
 export const MagazineMeta = styled.span`
@@ -141,12 +166,20 @@ export const MagazineMeta = styled.span`
   margin-top: ${theme.spacing(2)};
   margin-right: ${theme.spacing(2)};
   color: ${theme.colors.icons};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.2)};
+  }
 `;
 
 export const MagazineMeta1 = styled.span`
   font-size: ${theme.spacing(1.8)};
   font-weight: bold;
   color: ${theme.colors.icons};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.2)};
+  }
 `;
 
 export const MagazineTrendingBadge = styled.span`
@@ -191,95 +224,8 @@ export const MagazineVideoTitle = styled.h2`
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
   font-weight: bold;
-`;
 
-// Media Queries for Responsive Design
-const breakpoints = {
-  small: "480px",
-  medium: "768px",
-  large: "1024px",
-};
-
-export const ResponsiveMagazineContainer = styled(MagazineContainer)`
-  @media (max-width: ${breakpoints.large}) {
-    max-width: 90%;
-  }
-
-  @media (max-width: ${breakpoints.medium}) {
-    max-width: 95%;
-  }
-
-  @media (max-width: ${breakpoints.small}) {
-    max-width: 100%;
-    padding: ${theme.spacing(1)};
-  }
-`;
-
-export const ResponsiveMagazineTabContainer = styled(MagazineTabContainer)`
-  @media (max-width: ${breakpoints.small}) {
-    padding-bottom: ${theme.spacing(1)};
-  }
-`;
-
-export const ResponsiveMagazineTab = styled(MagazineTab)`
-  @media (max-width: ${breakpoints.small}) {
-    font-size: ${theme.spacing(1.5)};
-    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
-  }
-`;
-
-export const ResponsiveMagazineVideoTab = styled(MagazineVideoTab)`
-  @media (max-width: ${breakpoints.small}) {
-    font-size: ${theme.spacing(1.5)};
-    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
-  }
-`;
-
-export const ResponsiveMagazineCard = styled(MagazineCard)`
-  @media (max-width: ${breakpoints.small}) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-export const ResponsiveMagazineImage = styled(MagazineImage)`
-  @media (max-width: ${breakpoints.small}) {
-    width: 100%;
-    height: auto;
-    margin-right: 0;
-    margin-bottom: ${theme.spacing(1)};
-  }
-`;
-
-export const ResponsiveMagazineVideoThumbnail = styled(MagazineVideoThumbnail)`
-  @media (max-width: ${breakpoints.small}) {
-    width: 100%;
-    height: auto;
-    margin-right: 0;
-    margin-bottom: ${theme.spacing(1)};
-  }
-`;
-
-export const ResponsiveMagazineTitle = styled(MagazineTitle)`
-  @media (max-width: ${breakpoints.small}) {
-    font-size: ${theme.spacing(1.5)};
-  }
-`;
-
-export const ResponsiveMagazineMeta = styled(MagazineMeta)`
-  @media (max-width: ${breakpoints.small}) {
-    font-size: ${theme.spacing(1.2)};
-  }
-`;
-
-export const ResponsiveMagazineMeta1 = styled(MagazineMeta1)`
-  @media (max-width: ${breakpoints.small}) {
-    font-size: ${theme.spacing(1.2)};
-  }
-`;
-
-export const ResponsiveMagazineVideoTitle = styled(MagazineVideoTitle)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
   }
 `;

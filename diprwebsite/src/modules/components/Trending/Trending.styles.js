@@ -8,6 +8,16 @@ export const CarouselContainer = styled.div`
   position: relative;
   border-radius: ${theme.spacing(1)};
   margin: ${theme.spacing(2)} auto;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 90%;
+    height: 320px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 95%;
+    height: 240px;
+  }
 `;
 
 export const CarouselItem = styled.div`
@@ -46,6 +56,18 @@ export const ContentWrapper = styled.div`
   z-index: 2;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    bottom: ${theme.spacing(1)};
+    left: ${theme.spacing(1)};
+    right: ${theme.spacing(1)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    bottom: ${theme.spacing(0.5)};
+    left: ${theme.spacing(0.5)};
+    right: ${theme.spacing(0.5)};
+  }
 `;
 
 export const TrendingCategory = styled.div`
@@ -57,11 +79,29 @@ export const TrendingCategory = styled.div`
   border-radius: ${theme.spacing(0.5)};
   display: inline-block;
   width: auto;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(0.3)} ${theme.spacing(1)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.2)};
+    padding: ${theme.spacing(0.2)} ${theme.spacing(0.8)};
+  }
 `;
 
 export const NewsInfo = styled.div`
   color: ${theme.colors.light};
   font-size: ${theme.spacing(1.9)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(1.6)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.3)};
+  }
 `;
 
 export const NewsTitle = styled.h2`
@@ -70,9 +110,20 @@ export const NewsTitle = styled.h2`
   font-weight: semibold;
   margin-top: ${theme.spacing(2)};
   margin-bottom: ${theme.spacing(4)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(3)};
+    margin-top: ${theme.spacing(1.5)};
+    margin-bottom: ${theme.spacing(3)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(2.5)};
+    margin-top: ${theme.spacing(1)};
+    margin-bottom: ${theme.spacing(2)};
+  }
 `;
 
-// Styling the Arrow Icon as a button
 export const ArrowIcon = styled.button`
   position: absolute;
   bottom: ${theme.spacing(5)};
@@ -96,16 +147,35 @@ export const ArrowIcon = styled.button`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    bottom: ${theme.spacing(4)};
+    right: ${theme.spacing(4)};
+    padding: ${theme.spacing(1.5)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    bottom: ${theme.spacing(3)};
+    right: ${theme.spacing(3)};
+    padding: ${theme.spacing(1)};
+  }
 `;
 
-// Dots for carousel indicators
 export const DotContainer = styled.div`
   position: absolute;
-  top: 10px;  /* Adjusted to match the middle top position */
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: ${theme.spacing(1)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    top: ${theme.spacing(1)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    top: ${theme.spacing(0.8)};
+  }
 `;
 
 export const Dot = styled.div`
