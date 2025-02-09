@@ -1,23 +1,22 @@
 import React from "react";
-import MagazineDownloadPdf from "../../components/Magazinepagecom/Downloadpdf/DownloadPdf";
 import MagaZineRecommend from "../../components/Magazinepagecom/RecommendNews/RecommendNews";
 import MagzineData from "../../components/Magazinepagecom/magzinedata/MagzineData";
-
+import MagazineDownloadPdf from "../../components/Magazinepagecom/downloadpdf/DownloadPdfs";
+import { FlexContainer } from "../magazinepage/MagaZinepage.styles";
 const MagaZinepages = () => {
-      return (
-            <div>
-         <MagazineDownloadPdf/>
-         <div style={{display:"flex" ,marginLeft:"100px",marginRight:"20px"} }>
-            <div >
-            <MagaZineRecommend/>
-            </div>
-            <div>
-            <MagzineData/>
-            </div>
-         </div>
-         </div>
-        
-      );
+  return (
+    <div>
+      <MagazineDownloadPdf />
+      <FlexContainer>
+        <div>
+          <MagaZineRecommend />
+        </div>
+        <div>
+          <MagzineData />
+        </div>
+      </FlexContainer>
+    </div>
+  );
 };
 
 export default MagaZinepages;
