@@ -2,6 +2,9 @@ import React from "react";
 import ExclusiveVideos from "../../components/exclusivecom/exclusivevideos/ExclusiveVideos";
 import ExclusivePosts from "../../components/exclusivecom/exclusivepost/ExclusivePosts";
 import RelatedPosts from "../../components/exclusivecom/relatedposts/RelatedPosts";
+import ExclusiveNews from "../../components/exclusivecom/exclusiveRecommended/ExclusiveNews";
+import ExclusiveAllNews from "../../components/exclusivecom/exclusiveallnews/ExclusiveAllNews";
+// import ExclusiveNews from "../../components/exclusivecom/exclusiveRecommended/ExclusiveNews";
 
 const Exclusive = () => {
       return (
@@ -16,6 +19,14 @@ const Exclusive = () => {
                   </div>
                   <div style={{marginLeft:"100px",marginRight:"100px"}}>
                  <RelatedPosts/>
+                  </div>
+                  <div style={{display:"flex" ,marginLeft:"100px",padding:"20px",gap:"30px",}}>
+                        <div>
+                              <ExclusiveNews/>
+                        </div>
+                         <div>
+                              <ExclusiveAllNews/>
+                         </div>
                   </div>
             </div>
       );
