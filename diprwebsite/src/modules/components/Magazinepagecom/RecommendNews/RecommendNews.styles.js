@@ -16,7 +16,6 @@ export const MagazineContainer = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
     padding: ${theme.spacing(1)};
-    padding-right: ${theme.spacing(1)};
   }
 `;
 
@@ -30,7 +29,7 @@ export const MagazineHeader = styled.h2`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(3)};
+    font-size: ${theme.spacing(2.5)};
   }
 `;
 
@@ -226,6 +225,6 @@ export const MagazineVideoTitle = styled.h2`
   font-weight: bold;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(2)};
+    font-size: ${theme.spacing(2.5)};
   }
 `;

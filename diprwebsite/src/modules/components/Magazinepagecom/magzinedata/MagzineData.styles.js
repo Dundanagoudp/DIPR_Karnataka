@@ -3,16 +3,15 @@ import theme from "../../../../theme/Theme";
 
 export const MagzineDataContainer = styled.div`
   max-width: 1200px;
-  padding: 0 ${theme.spacing(10)};
   margin: 0 auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: 0 ${theme.spacing(2)};
     max-width: 100%;
+    padding: 0 ${theme.spacing(2)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 0 ${theme.spacing(1.5)};
+    padding: 0 ${theme.spacing(1)};
   }
 `;
 
@@ -76,6 +75,7 @@ export const MagzineDataNewsHeaderWrapper = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
+    margin-bottom: ${theme.spacing(1)};
   }
 `;
 
@@ -91,6 +91,7 @@ export const MagzineDataNewsTitleWrapper = styled.h2`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
+    margin-bottom: ${theme.spacing(1)};
   }
 `;
 
@@ -109,6 +110,7 @@ export const MagzineDataShareIconsWrapper = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2.5)};
     gap: ${theme.spacing(1.5)};
+    justify-content: center; // Center align icons on mobile
   }
 `;
 
@@ -148,6 +150,7 @@ export const MagzineDataNewsMetaWrapper = styled.div`
     font-size: ${theme.spacing(1.5)};
     flex-direction: column;
     gap: ${theme.spacing(0.5)};
+    align-items: flex-start; // Align meta info to the left on mobile
   }
 `;
 
@@ -167,7 +170,7 @@ export const MagzineDataNewsTextWrapper = styled.p`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
-    column-count: 1;
+    column-count: 1; // Single column for mobile
     margin-top: ${theme.spacing(2)};
   }
 `;

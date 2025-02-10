@@ -11,8 +11,8 @@ const MagaZinepages = () => {
         <div>
           <MagaZineRecommend />
         </div>
-        <div>
-          <MagzineData />
+        <div style={{ width: "70%" }}>
+          <MagzineData  />
         </div>
       </FlexContainer>
     </div>

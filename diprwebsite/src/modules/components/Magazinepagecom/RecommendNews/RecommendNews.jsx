@@ -89,9 +89,9 @@ const MagaZines = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const result = await VideoApi(); // API already returns response.data, no need for result.data
+        const result = await VideoApi(); 
 
-        console.log("Received videos data:", result); // Log entire result
+        console.log("Received videos data:", result); 
 
         if (result && Array.isArray(result) && result.length > 0) {
           setVideosData(result);
