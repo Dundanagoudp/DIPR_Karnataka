@@ -4,32 +4,36 @@ import ExclusivePosts from "../../components/exclusivecom/exclusivepost/Exclusiv
 import RelatedPosts from "../../components/exclusivecom/relatedposts/RelatedPosts";
 import ExclusiveNews from "../../components/exclusivecom/exclusiveRecommended/ExclusiveNews";
 import ExclusiveAllNews from "../../components/exclusivecom/exclusiveallnews/ExclusiveAllNews";
-// import ExclusiveNews from "../../components/exclusivecom/exclusiveRecommended/ExclusiveNews";
+import {
+  FlexContainer,
+  RelatedPostsContainer,
+  SecondFlexContainer,
+} from "../exclusivepage/Exclusive.styles"; 
 
 const Exclusive = () => {
-      return (
-            <div>
-                  <div style={{display:"flex" ,marginLeft:"100px",marginRight:"40px" ,padding:"20px",gap:"60px",}} >
-                  <div >
-                  <ExclusiveVideos/>
-                  </div>
-                  <div>
-                 <ExclusivePosts/>
-                  </div>
-                  </div>
-                  <div style={{marginLeft:"100px",marginRight:"100px"}}>
-                 <RelatedPosts/>
-                  </div>
-                  <div style={{display:"flex" ,marginLeft:"100px",padding:"20px",gap:"30px",}}>
-                        <div>
-                              <ExclusiveNews/>
-                        </div>
-                         <div>
-                              <ExclusiveAllNews/>
-                         </div>
-                  </div>
-            </div>
-      );
+  return (
+    <div>
+      <FlexContainer>
+        <div>
+          <ExclusiveVideos />
+        </div>
+        <div>
+          <ExclusivePosts />
+        </div>
+      </FlexContainer>
+      <RelatedPostsContainer>
+        <RelatedPosts />
+      </RelatedPostsContainer>
+      <SecondFlexContainer>
+        <div>
+          <ExclusiveNews />
+        </div>
+        <div>
+          <ExclusiveAllNews />
+        </div>
+      </SecondFlexContainer>
+    </div>
+  );
 };
 
 export default Exclusive;
