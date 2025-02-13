@@ -1,12 +1,16 @@
 import styled, { keyframes } from "styled-components";
 import theme from "../../../../theme/Theme";
 
+const scrollAnimation = keyframes`
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-20%); }
+`;
+
 export const CarouselContainer = styled.div`
   width: 800px;
-  height: 350px;
-  overflow: visible;
-  position: relative;
-  border-radius: ${theme.spacing(1)};
+  hight: 450px !important;
+  overflow: hidden;
+  max-width: 1200px;
   margin: ${theme.spacing(2)} auto;
   display: flex;
   flex-direction: column;
@@ -18,45 +22,33 @@ export const CarouselInner = styled.div`
   flex-direction: column;
   gap: ${theme.spacing(2)};
   width: 100%;
-  overflow: visible;
 `;
 
 export const CarouselItem = styled.div`
   width: 100%;
-  height: 45vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: ${theme.spacing(2)};
-  // background-image: ${({ bgImage }) => `url(${bgImage})`};
+  // padding: ${theme.spacing(2)};
+  background-image: ${({ bgImage }) => `url(${bgImage})`};
   background-size: cover;
   background-position: center;
   position: relative;
   border-radius: ${theme.spacing(1)};
   overflow: hidden;
-`;
-
-export const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: ${theme.spacing(1)};
-  overflow: hidden;
+  margin-bottom: ${theme.spacing(2)};
 `;
 
 export const ContentWrapper = styled.div`
-  position: absolute;
-  bottom: ${theme.spacing(2)};
-  left: ${theme.spacing(2)};
-  right: ${theme.spacing(2)};
+  position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   border-radius: ${theme.spacing(1)};
-  overflow: hidden;
+  // overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
+  // padding: ${theme.spacing(2)};
 `;
 
 export const TrendingCategory = styled.div`
@@ -82,16 +74,102 @@ export const NewsTitle = styled.h2`
   margin-top: ${theme.spacing(2)};
 `;
 
-const scrollAnimation = keyframes`
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-20%); }
+export const VideoContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: ${theme.spacing(45)};
+  // margin-top: ${theme.spacing(2)};
+  // display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: ${theme.spacing(1)};
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: ${theme.spacing(1)};
+  }
+`;
+
+export const PlayIconContainer = styled.div`
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: ${theme.spacing(1)};
+  transition: background 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+`;
+
+export const InteractionContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${theme.spacing(1)} ${theme.spacing(1)};
+  margin-top: ${theme.spacing(1)};
+  width: 100%;
+`;
+
+export const LikeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const CommentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(1)};
+  width: 70%;
+`;
+
+export const CommentInput = styled.input`
+  width: 100%;
+  padding: ${theme.spacing(1)} ${theme.spacing(2)};
+  font-size: ${theme.spacing(2)};
+  border-radius: ${theme.spacing(1)};
+  border: 1px solid ${theme.spacing(1)};
+  outline: none;
+  transition: border 0.3s;
+
+  &:focus {
+    border-color: ${theme.colors.primary};
+  }
+`;
+
+export const CommentButton = styled.button`
+  background-color: ${theme.colors.primary};
+  color: ${theme.colors.background};
+  font-size: ${theme.spacing(2)};
+  padding: ${theme.spacing(0.8)} ${theme.spacing(2)};
+  border: none;
+  border-radius: ${theme.spacing(1)};
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${theme.colors.secondary};
+  }
 `;
 
 export const NavContainer = styled.nav`
   background-color: ${theme.colors.error};
-  padding: ${theme.spacing(0.5)} 0;
+  margin: ${theme.spacing(2)} 0;
+  padding: ${theme.spacing(0.8)} 0;
   overflow: visible;
-  margin-right: ${theme.spacing(8)};
+  margin-right: ${theme.spacing(1)};
   white-space: nowrap;
   position: relative;
 `;
@@ -111,88 +189,17 @@ export const NewsWrapper = styled.div`
 `;
 
 export const NewsItem = styled.span`
-  color: ${theme.colors.background};
+  color: ${theme.colors.white};
   font-family: ${theme.fonts.heading};
   font-weight: bold;
   padding: 0 ${theme.spacing(2)};
   white-space: nowrap;
 `;
 
-export const VideoContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 300px;
-  margin-top: ${theme.spacing(2)};
-  display: flex;
-  justify-content: center;
+export const FlexContainer = styled.div`
+  margin-top: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
   align-items: center;
-
-  video {
-    width: 100%;
-    height: 100%;
-    border-radius: ${theme.spacing(1)};
-    object-fit: cover;
-  }
-`;
-
-export const PlayIconContainer = styled.div`
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: ${theme.spacing(1)};
-  transition: background 0.3s ease;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.7);
-  }
-`;
-export const CommentButton = styled.button`
-  background-color: ${theme.colors.primary};
-  color: ${theme.colors.background};
-  font-size: ${theme.spacing(2)};
-  padding: ${theme.spacing(0.8)} ${theme.spacing(2)};
-  border: none;
-  border-radius: ${theme.spacing(1)};
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: ${theme.colors.secondary};
-  }
-`;
-
-export const LikeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin-top: ${theme.spacing(1)};
-`;
-
-// Comment Input Container
-export const CommentContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: ${theme.spacing(2)};
-  gap: ${theme.spacing(1)};
-  width: 100%;
-`;
-
-// Styled input for adding a comment
-export const CommentInput = styled.input`
-  width: 100%;
-  padding: ${theme.spacing(1)} ${theme.spacing(2)};
-  font-size: ${theme.spacing(2)};
-  border-radius: ${theme.spacing(1)};
-  border: 1px solid ${theme.colors.light};
-  outline: none;
-  transition: border 0.3s;
-
-  &:focus {
-    border-color: ${theme.colors.primary};
-  }
+  gap: 0.5%;
 `;

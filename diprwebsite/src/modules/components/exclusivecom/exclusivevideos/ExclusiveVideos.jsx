@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaPlay, FaThumbsUp, FaRegThumbsUp, FaComment } from "react-icons/fa"; // Added like and comment icons
+import { FaPlay, FaThumbsUp, FaRegThumbsUp, FaComment } from "react-icons/fa";
 import {
   CarouselContainer,
   CarouselItem,
-  Overlay,
   ContentWrapper,
-  TrendingCategory,
   NewsInfo,
   NewsTitle,
   NewsTicker,
@@ -19,16 +17,17 @@ import {
   CommentContainer,
   CommentInput,
   CommentButton,
-} from "../exclusivevideos/ExclusiveVideos.styles"; // Import styles
-
-import { getLongVideos } from "../../../../services/videoApi/videoApi"; // Fetch videos from API
+  InteractionContainer,
+  FlexContainer,
+} from "../exclusivevideos/ExclusiveVideos.styles";
+import { getLongVideos } from "../../../../services/videoApi/videoApi";
 
 const ExclusiveVideos = () => {
   const [videosData, setVideosData] = useState([]);
   const [playingVideoId, setPlayingVideoId] = useState(null);
-  const [likedVideos, setLikedVideos] = useState(new Set()); // To track liked videos
-  const [comments, setComments] = useState({}); // To store comments for each video
-  const [newComment, setNewComment] = useState(""); // For new comment input
+  const [likedVideos, setLikedVideos] = useState(new Set());
+  const [comments, setComments] = useState({});
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -38,11 +37,11 @@ const ExclusiveVideos = () => {
           setVideosData(response.data);
         } else {
           console.warn("No video data found.");
-          setVideosData([]); // Fallback if no data
+          setVideosData([]);
         }
       } catch (error) {
         console.error("Error fetching videos:", error);
-        setVideosData([]); // Fallback if API fails
+        setVideosData([]);
       }
     };
 
@@ -55,10 +54,12 @@ const ExclusiveVideos = () => {
 
   const handleHoverVideo = (videoId, isHovered) => {
     const videoElement = document.getElementById(videoId);
-    if (isHovered) {
-      videoElement.play();
-    } else {
-      videoElement.pause();
+    if (videoElement) {
+      if (isHovered && playingVideoId === videoId) {
+        videoElement.play();
+      } else {
+        videoElement.pause();
+      }
     }
   };
 
@@ -94,18 +95,6 @@ const ExclusiveVideos = () => {
         {videosData.map((video) => (
           <CarouselItem key={video._id} bgImage={video.thumbnail}>
             <ContentWrapper>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "0.5%" }}
-              >
-                <TrendingCategory>{video.category}</TrendingCategory>
-                <NewsInfo>
-                  • {new Date(video.createdAt).toLocaleDateString()} • 5 min
-                  watch
-                </NewsInfo>
-              </div>
-              <NewsTitle>{video.title}</NewsTitle>
-
-              {/* Video Player */}
               <VideoContainer
                 onMouseEnter={() => handleHoverVideo(video._id, true)}
                 onMouseLeave={() => handleHoverVideo(video._id, false)}
@@ -117,57 +106,69 @@ const ExclusiveVideos = () => {
                     autoPlay
                     loop
                     width="100%"
-                    height="auto"
+                    height="100%"
                   >
                     <source src={video.video_url} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 ) : (
-                  <PlayIconContainer onClick={() => handlePlayClick(video._id)}>
-                    <FaPlay size={50} color="#fff" />
-                  </PlayIconContainer>
+                  <>
+                    <PlayIconContainer onClick={() => handlePlayClick(video._id)}>
+                      <FaPlay size={40} color="#fff" />
+                    </PlayIconContainer>
+                    <FlexContainer>
+                      <NewsInfo>
+                        {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
+                      </NewsInfo>
+                      <NewsTitle>{video.title}</NewsTitle>
+                      <NavContainer>
+                      <NewsWrapper>
+                        <NewsTicker>
+                          <NewsItem>{video.description}</NewsItem>
+                        </NewsTicker>
+                      </NewsWrapper>
+                    </NavContainer>
+                    </FlexContainer>
+                 
+                  </>
                 )}
               </VideoContainer>
 
-              <LikeContainer onClick={() => handleLikeClick(video._id)}>
-                {likedVideos.has(video._id) ? (
-                  <FaThumbsUp size={30} color="blue" />
-                ) : (
-                  <FaRegThumbsUp size={30} />
-                )}
-              </LikeContainer>
+              {playingVideoId !== video._id && (
+                <>
+                  {comments[video._id] && comments[video._id].length > 0 && (
+                    <div>
+                      {comments[video._id].map((comment, index) => (
+                        <NewsTicker key={index}>
+                          <NewsItem>{comment}</NewsItem>
+                        </NewsTicker>
+                      ))}
+                    </div>
+                  )}
 
-              {/* Comment Section */}
-              <CommentContainer>
-                <CommentInput
-                  type="text"
-                  value={newComment}
-                  onChange={handleCommentChange}
-                  placeholder="Add a comment..."
-                />
-                <CommentButton onClick={() => handleAddComment(video._id)}>
-                  Add Comment
-                </CommentButton>
-              </CommentContainer>
+                  <InteractionContainer>
+                    <LikeContainer onClick={() => handleLikeClick(video._id)}>
+                      {likedVideos.has(video._id) ? (
+                        <FaThumbsUp size={30} color="blue" />
+                      ) : (
+                        <FaRegThumbsUp size={30} />
+                      )}
+                    </LikeContainer>
 
-              {/* Display Comments */}
-              {comments[video._id] && comments[video._id].length > 0 && (
-                <div>
-                  {comments[video._id].map((comment, index) => (
-                    <NewsTicker key={index}>
-                      <NewsItem>{comment}</NewsItem>
-                    </NewsTicker>
-                  ))}
-                </div>
+                    <CommentContainer>
+                      <CommentInput
+                        type="text"
+                        value={newComment}
+                        onChange={handleCommentChange}
+                        placeholder="Add a comment..."
+                      />
+                      <CommentButton onClick={() => handleAddComment(video._id)}>
+                        Add Comment
+                      </CommentButton>
+                    </CommentContainer>
+                  </InteractionContainer>
+                </>
               )}
-
-              <NavContainer>
-                <NewsWrapper>
-                  <NewsTicker>
-                    <NewsItem>{video.description}</NewsItem>
-                  </NewsTicker>
-                </NewsWrapper>
-              </NavContainer>
             </ContentWrapper>
           </CarouselItem>
         ))}
