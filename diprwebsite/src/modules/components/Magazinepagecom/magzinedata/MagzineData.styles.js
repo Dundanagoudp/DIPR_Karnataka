@@ -2,12 +2,11 @@ import styled from "styled-components";
 import theme from "../../../../theme/Theme";
 
 export const MagzineDataContainer = styled.div`
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
-    padding: 0 ${theme.spacing(2)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
@@ -41,11 +40,11 @@ export const MagzineDataNewsImageWrapper = styled.div`
     border-radius: ${theme.spacing(1)};
 
     @media (max-width: ${theme.breakpoints.tablet}) {
-      height: 40vh;
+      height: 30vh;
     }
 
     @media (max-width: ${theme.breakpoints.mobile}) {
-      height: 30vh;
+      height: 25vh;
     }
   }
 `;
