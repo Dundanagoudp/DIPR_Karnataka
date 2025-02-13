@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { 
-  TabContainer, 
-  TabsWrapper, 
-  TabItem, 
-  ProfileIcon 
+import {
+  TabContainer,
+  TabsWrapper,
+  TabItem,
+  ProfileIcon,
 } from "../categorytab/CategoryTab.styles";
 
 const tabs = [
   { name: "All", path: "/" },
   { name: "Latest News", path: "/latestnews" },
   { name: "Magazine", path: "/magazinepages" },
-  { name: "Exclusive", path: "/exclusive" },
+  { name: "Gallery", path: "/Gallery" },
   { name: "About us", path: "/aboutuspage" },
-  { name: "Contact us",  }
+  { name: "Contact us" },
 ];
 
 const CategoryTab = () => {
@@ -25,15 +25,13 @@ const CategoryTab = () => {
     <TabContainer>
       <TabsWrapper>
         {tabs.map(({ name, path }) => (
-          <Link 
-            key={name} 
-            to={path} 
+          <Link
+            key={name}
+            to={path}
             onClick={() => setActiveTab(path)}
             style={{ textDecoration: "none" }}
           >
-            <TabItem active={activeTab === path}>
-              {name}
-            </TabItem>
+            <TabItem active={activeTab === path}>{name}</TabItem>
           </Link>
         ))}
       </TabsWrapper>

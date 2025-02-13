@@ -9,7 +9,7 @@ export const Container = styled.div`
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
 
-   @media (max-width: ${theme.breakpoints.tablet}) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
   }
 
@@ -17,7 +17,6 @@ export const Container = styled.div`
     max-width: 100%;
     padding: ${theme.spacing(1)};
     padding-right: ${theme.spacing(1)};
-   
   }
 `;
 
@@ -25,14 +24,14 @@ export const Header = styled.h2`
   font-size: ${theme.spacing(3)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
-   @media (max-width: ${theme.breakpoints.tablet}) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: ${theme.spacing(3.5)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(3)};
   }
-`; 
+`;
 export const TabContainer = styled.div`
   display: flex;
   overflow-x: auto;
@@ -55,7 +54,7 @@ export const TabContainer = styled.div`
   border-bottom: ${theme.spacing(0.25)} solid ${theme.colors.info};
   margin-bottom: ${theme.spacing(2)};
 
-   @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing(1)};
   }
 `;
@@ -67,22 +66,28 @@ export const Tab = styled.button`
   cursor: pointer;
   font-size: ${theme.spacing(2)};
   font-weight: bold;
-  color: ${({ active }) => (active ? theme.colors.primary : theme.colors.black)};
-  border-bottom: ${({ active }) => (active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
+  color: ${({ active }) =>
+    active ? theme.colors.primary : theme.colors.black};
+  border-bottom: ${({ active }) =>
+    active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none"};
   white-space: nowrap; /* Prevent text wrapping */
 
   &:hover {
     color: ${theme.colors.primary};
   }
-      @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
     padding: ${theme.spacing(0.75)};
   }
 `;
 
 export const VideoTab = styled(Tab)`
-  color: ${({ active }) => (active ? theme.colors.secondary : theme.colors.black)};
-  border-bottom: ${({ active }) => (active ? `${theme.spacing(0.375)} solid ${theme.colors.secondary}` : "none")};
+  color: ${({ active }) =>
+    active ? theme.colors.secondary : theme.colors.black};
+  border-bottom: ${({ active }) =>
+    active
+      ? `${theme.spacing(0.375)} solid ${theme.colors.secondary}`
+      : "none"};
 `;
 
 export const Content = styled.div`
@@ -97,12 +102,14 @@ export const Card = styled.div`
   padding: ${theme.spacing(1)};
   background: ${theme.colors.light};
   border-radius: ${theme.spacing(1)};
-  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)}
+    rgba(0, 0, 0, 0.1);
 `;
 
 export const VideoCard = styled(Card)`
   background: ${theme.colors.lightGray};
-  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.2);
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)}
+    rgba(0, 0, 0, 0.2);
 `;
 
 export const Image = styled.img`
@@ -164,7 +171,8 @@ export const VideoCard1 = styled.div`
   background: ${theme.colors.light};
   border-radius: ${theme.spacing(1)};
   cursor: pointer;
-  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)}
+    rgba(0, 0, 0, 0.1);
 `;
 
 export const VideoDetails = styled.div`

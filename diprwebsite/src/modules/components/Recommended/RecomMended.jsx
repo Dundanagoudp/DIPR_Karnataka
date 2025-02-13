@@ -12,100 +12,49 @@ import {
   BookmarkIconWrapper,
 } from "../Recommended/RecomMended.styles";
 import videoThumbnail from "../../../assets/v1.png";
-// import { NewsApi } from "../../../services/categoryapi/CategoryApi";
 import { CiBookmark } from "react-icons/ci";
+import { getRecommendedNews } from "../../../services/newsApi/NewsApi"; // Adjust the path to your API
 
-const fallbackVideosData = [
-  {
-    id: "fallback-1",
-    category: "The Verge",
-    readTime: "2 min read",
-    title: "OpenAI will use Associated Press news stories",
-    date: "Jul 13, 2023",
-    thumbnail: videoThumbnail,
-  },
-  {
-    id: "fallback-2",
-    category: "The Verge",
-    readTime: "3 min read",
-    title: "Nothing Phone 2 review: the vibes abide",
-    date: "Jul 13, 2023",
-    thumbnail: videoThumbnail,
-  },
-  {
-    id: "fallback-3",
-    category: "The Verge",
-    readTime: "3 min read",
-    title: "Nothing Phone 2 review: the vibes abide",
-    date: "Jul 13, 2023",
-    thumbnail: videoThumbnail,
-  },
-  {
-    id: "fallback-4",
-    category: "The Verge",
-    readTime: "3 min read",
-    title: "Nothing Phone 2 review: the vibes abide",
-    date: "Jul 13, 2023",
-    thumbnail: videoThumbnail,
-  },
-  {
-      id: "fallback-4",
-      category: "The Verge",
-      readTime: "3 min read",
-      title: "Nothing Phone 2 review: the vibes abide",
-      date: "Jul 13, 2023",
-      thumbnail: videoThumbnail,
-    },
-    {
-      id: "fallback-4",
-      category: "The Verge",
-      readTime: "3 min read",
-      title: "Nothing Phone 2 review: the vibes abide",
-      date: "Jul 13, 2023",
-      thumbnail: videoThumbnail,
-    },
-    {
-      id: "fallback-4",
-      category: "The Verge",
-      readTime: "3 min read",
-      title: "Nothing Phone 2 review: the vibes abide",
-      date: "Jul 13, 2023",
-      thumbnail: videoThumbnail,
-    },
-    {
-      id: "fallback-4",
-      category: "The Verge",
-      readTime: "3 min read",
-      title: "Nothing Phone 2 review: the vibes abide",
-      date: "Jul 13, 2023",
-      thumbnail: videoThumbnail,
-    },
-];
+// Helper function to get cookies by name
+const getCookie = (name) => {
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  return match ? decodeURIComponent(match[2]) : null;
+};
 
 const RecomMended = () => {
   const [videosData, setVideosData] = useState([]);
   const [bookmarkedVideos, setBookmarkedVideos] = useState(new Set());
 
   useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-      //   const result = await NewsApi();
+    const userId = getCookie("userId"); // Extract userId from cookies
 
-        console.log("Received videos data:", result);
+    if (userId) {
+      const fetchVideos = async () => {
+        try {
+          const result = await getRecommendedNews(userId);
+          console.log("Received videos data:", result);
 
-        if (result && Array.isArray(result) && result.length > 0) {
-          setVideosData(result);
-        } else {
-          console.warn("No video data found, using fallback data.");
-          setVideosData(fallbackVideosData);
+          if (
+            result &&
+            result.success &&
+            Array.isArray(result.data) &&
+            result.data.length > 0
+          ) {
+            setVideosData(result.data);
+          } else {
+            console.warn("No video data found, using fallback data.");
+            setVideosData(fallbackVideosData); // Ensure fallback data is defined elsewhere
+          }
+        } catch (error) {
+          console.error("Error fetching videos:", error);
+          setVideosData(fallbackVideosData); // Ensure fallback data is defined elsewhere
         }
-      } catch (error) {
-        console.error("Error fetching videos:", error);
-        setVideosData(fallbackVideosData);
-      }
-    };
+      };
 
-    fetchVideos();
+      fetchVideos();
+    } else {
+      console.error("No userId found in cookies.");
+    }
   }, []);
 
   const formatDate = (dateString) => {
@@ -135,21 +84,24 @@ const RecomMended = () => {
       <Header>Recommended for you</Header>
       <Content>
         {videosData.map((video) => (
-          <VideoCard1 key={video.id || video._id}>
-            <VideoThumbnail src={video.thumbnail} alt={video.title} />
+          <VideoCard1 key={video._id}>
+            <VideoThumbnail
+              src={video.newsImage || videoThumbnail}
+              alt={video.title}
+            />
             <VideoDetails>
               <NewsMeta>
                 {video.isTrending && <span>Trending</span>}
                 <span>
-                  {formatDate(video.createdTime)} • {video.readTime || "N/A"}
+                  {formatDate(video.publishedAt)} • {video.readTime || "N/A"}
                 </span>
               </NewsMeta>
               <Title>{video.title}</Title>
               <VideoMetacat>
-                {video.category}
+                {video.category.name}
                 <BookmarkIconWrapper
-                  onClick={() => handleBookmarkClick(video.id || video._id)}
-                  isBookmarked={bookmarkedVideos.has(video.id || video._id)}
+                  onClick={() => handleBookmarkClick(video._id)}
+                  isBookmarked={bookmarkedVideos.has(video._id)}
                 >
                   <CiBookmark />
                 </BookmarkIconWrapper>

@@ -8,7 +8,7 @@ import {
   FlexContainer,
   RelatedPostsContainer,
   SecondFlexContainer,
-} from "../exclusivepage/Exclusive.styles"; 
+} from "../exclusivepage/Exclusive.styles";
 
 const Exclusive = () => {
   return (
@@ -21,13 +21,13 @@ const Exclusive = () => {
           <ExclusivePosts />
         </div>
       </FlexContainer>
-      <RelatedPostsContainer>
+      {/* <RelatedPostsContainer>
         <RelatedPosts />
-      </RelatedPostsContainer>
+      </RelatedPostsContainer> */}
       <SecondFlexContainer>
-        <div>
+        {/* <div>
           <ExclusiveNews />
-        </div>
+        </div> */}
         <div>
           <ExclusiveAllNews />
         </div>

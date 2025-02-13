@@ -21,9 +21,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Applayout />}>
             <Route index element={<Home />} />
-            <Route path="/latestnews" element={<LatestNews />} />
+            <Route path="/news/:id" element={<LatestNews />} />
             <Route path="/magazinepages" element={<MagaZinepages />} />
-            <Route path="/exclusive" element={<Exclusive />} />
+            <Route path="/Gallery" element={<Exclusive />} />
             <Route path="/aboutuspage" element={<AboutUspage />} />
           </Route>
           <Route path="/login" element={<Login />} />
