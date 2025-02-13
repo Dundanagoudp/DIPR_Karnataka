@@ -1,13 +1,28 @@
-import axios from "../config/axios";
+// import axios from "../config/axios";
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
+export const LoginApi = async (idToken) => {
+  try {
+    const response = await fetch(`${VITE_API_URL}api/users/login-on-web`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Set the Content-Type to JSON
+      },
+      body: JSON.stringify({ idToken }), // Send the idToken in the request body
+      credentials: "include", // Ensures cookies are included with the request
+    });
 
-export const LoginApi = async (phone) => { 
-      try {
-        const fullPhoneNumber = `+91${phone}`;
-        const response = await axios.post("/api/auth/login", { phone_Number: fullPhoneNumber });
-        return response.data;
-      } catch (err) {
-        throw err;
-      }
-    };
-    
+    const data = await response.json();
+    console.log("Login API Response:", data);
+
+    // Parse the response data as JSON
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong with the login.");
+    }
+
+    return data; // Return the response data if successful
+  } catch (err) {
+    throw err; // Handle any errors that occur during the request
+  }
+};

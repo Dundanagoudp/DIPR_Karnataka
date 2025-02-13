@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { 
-  Container, 
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Cookies from "js-cookie";
+import {
+  Container,
   NewsCardWrapper,
   NewsImageWrapper,
   NewsContentWrapper,
@@ -10,117 +12,218 @@ import {
   ShareIconsWrapper,
   TrendingTagWrapper,
   NewsMetaWrapper,
-  IconWrapper
-} from './LatestCat.styles';
-import { FaFacebook, FaTwitter, FaLink, FaRegHeart, FaRegComment, FaPaperPlane } from 'react-icons/fa';
+  IconWrapper,
+} from "./LatestCat.styles";
+import {
+  FaFacebook,
+  FaTwitter,
+  FaLink,
+  FaRegHeart,
+  FaHeart,
+  FaRegComment,
+  FaPaperPlane,
+} from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import Image1 from "../../../assets/post1.png";
-import ComMents from '../comments/ComMents';
-import AddComments from '../comments/AddComments';
+import { getNewsByid, likeNews } from "../../../services/newsApi/NewsApi";
+import ComMents from "../comments/ComMents";
+import AddComments from "../comments/AddComments";
 
-const dummyNews = [
-  {
-    _id: "fallback1",
-    title: "Breaking News: AI Revolution",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitvvv Lorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitvvvvvvLorem ipsum dolor sit amet, consectetur adipiscing elit...",
-    newsImage: Image1,
-    category: "Technology",
-    author: "John Doe",
-    createdTime: "2023-07-24T10:00:00.000Z",
-    readTime: "8 min read",
-    isTrending: true,
-    url: "https://example.com"
-  }
-];
+const fallbackNews = {
+  _id: "fallback1",
+  title: "Fallback News: AI Revolution",
+  description:
+    "This is placeholder content because the news data couldn't be fetched.",
+  newsImage: "https://via.placeholder.com/300",
+  category: { name: "Technology" },
+  author: "Unknown Author",
+  createdTime: "2023-07-24T10:00:00.000Z",
+  readTime: "8 min read",
+  isTrending: false,
+  url: "https://example.com",
+  likedBy: [],
+  comments: [],
+};
 
 const LatestCat = () => {
-  const [news, setNews] = useState([]);
+  const { id } = useParams(); // Get the news ID from the URL
+  const [news, setNews] = useState(null);
   const [showComments, setShowComments] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const userId = Cookies.get("userId"); // Fetch userId from cookies
 
   useEffect(() => {
-    setNews(dummyNews);
-  }, []);
+    const fetchNews = async () => {
+      try {
+        setLoading(true);
+        const result = await getNewsByid(id);
+
+        if (result.success && result.data) {
+          setNews(result.data);
+        } else {
+          console.warn("No news data found, using fallback data.");
+          setNews(fallbackNews);
+        }
+      } catch (error) {
+        console.error("Error fetching news:", error);
+        setNews(fallbackNews);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, [id]);
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
   };
 
-  const shareOnFacebook = (url) => {
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank");
-  };
+  const handleLikeNews = async () => {
+    if (!userId) {
+      alert("You must be logged in to like this news.");
+      return;
+    }
 
-  const shareOnTwitter = (url) => {
-    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, "_blank");
-  };
+    try {
+      const response = await likeNews({ newsId: news._id, userId });
 
-  const copyLink = (url) => {
-    navigator.clipboard.writeText(url);
-    alert("Link copied to clipboard!");
+      if (response.success) {
+        // Toggle like status in the frontend
+        setNews((prevNews) => {
+          const newLikedBy = prevNews.likedBy.includes(userId)
+            ? prevNews.likedBy.filter((id) => id !== userId) // Remove like
+            : [...prevNews.likedBy, userId]; // Add like
+
+          // Store the updated likedBy in localStorage
+          localStorage.setItem(
+            `likedNews_${news._id}`,
+            JSON.stringify(newLikedBy)
+          );
+
+          return { ...prevNews, likedBy: newLikedBy };
+        });
+      }
+    } catch (error) {
+      console.error("Error liking/unliking news:", error);
+    }
   };
 
   const formatDate = (dateString) => {
     if (!dateString) return "Unknown Date";
     const date = new Date(dateString);
-    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+    return isNaN(date.getTime())
+      ? "Invalid Date"
+      : date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
   };
+
+  // Set the initial like state on component mount
+  useEffect(() => {
+    if (news && userId) {
+      const likedNews = JSON.parse(
+        localStorage.getItem(`likedNews_${news._id}`)
+      );
+      if (likedNews && likedNews.includes(userId)) {
+        setNews((prevNews) => ({
+          ...prevNews,
+          likedBy: likedNews,
+        }));
+      }
+    }
+  }, [news, userId]);
+
+  if (loading) {
+    return <Container>Loading...</Container>;
+  }
 
   return (
     <Container>
-      {news.map((newsItem) => (
-        <NewsCardWrapper key={newsItem._id}>
-          <NewsImageWrapper>
-            <img src={newsItem.newsImage || "https://via.placeholder.com/300"} alt={newsItem.title || "News Image"} />
-          </NewsImageWrapper>
+      <NewsCardWrapper key={news._id}>
+        <NewsImageWrapper>
+          <img
+            src={news.newsImage || "https://via.placeholder.com/300"}
+            alt={news.title || "News Image"}
+          />
+        </NewsImageWrapper>
 
-          <NewsContentWrapper>
-            <NewsHeaderWrapper>
-              {newsItem.author || "Unknown Author"} • {newsItem.category || "General"}
-            </NewsHeaderWrapper>
+        <NewsContentWrapper>
+          <NewsHeaderWrapper>
+            {news.author || "Unknown Author"} •{" "}
+            {news.category?.name || "General"}
+          </NewsHeaderWrapper>
 
-            <NewsTitleWrapper>
-              {newsItem.title || "Untitled News"}
-              <IconWrapper>
-                <FaRegHeart />
-                <FaRegComment onClick={toggleComments} style={{ cursor: "pointer" }} />
-                <FaPaperPlane />
-              </IconWrapper>
-            </NewsTitleWrapper>
-
-            {/* Smoothly Animated Comments Section */}
-            <AnimatePresence>
-              {showComments && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
-                >
-                  <ComMents />
-                </motion.div>
+          <NewsTitleWrapper>
+            {news.title || "Untitled News"}
+            <IconWrapper>
+              {news.likedBy.includes(userId) ? (
+                <FaHeart
+                  onClick={handleLikeNews}
+                  style={{ cursor: "pointer", color: "red" }}
+                />
+              ) : (
+                <FaRegHeart
+                  onClick={handleLikeNews}
+                  style={{ cursor: "pointer" }}
+                />
               )}
-            </AnimatePresence>
+              <FaRegComment
+                onClick={toggleComments}
+                style={{ cursor: "pointer" }}
+              />
+              <FaPaperPlane />
+            </IconWrapper>
+          </NewsTitleWrapper>
 
-            {/* Add comment box section */}
-            <AddComments />
+          {/* Animated Comments Section */}
+          <AnimatePresence>
+            {showComments && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                style={{ overflow: "hidden" }}
+              >
+                <ComMents comments={news.comments || []} />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            <NewsMetaWrapper>
-              {newsItem.isTrending && <TrendingTagWrapper>Trending</TrendingTagWrapper>}
-              <span>{formatDate(newsItem.createdTime)} • {newsItem.readTime || "N/A"}</span>
-            </NewsMetaWrapper>
+          {/* Add comment box */}
+          <AddComments newsId={news?._id || id} />
 
-            <ShareIconsWrapper>
-              <FaFacebook onClick={() => shareOnFacebook(newsItem.url)} style={{ cursor: "pointer" }} />
-              <FaTwitter onClick={() => shareOnTwitter(newsItem.url)} style={{ cursor: "pointer" }} />
-              <FaLink onClick={() => copyLink(newsItem.url)} style={{ cursor: "pointer" }} />
-            </ShareIconsWrapper>
+          <NewsMetaWrapper>
+            {news.isTrending && (
+              <TrendingTagWrapper>Trending</TrendingTagWrapper>
+            )}
+            <span>
+              {formatDate(news.createdTime)} • {news.readTime || "N/A"}
+            </span>
+          </NewsMetaWrapper>
 
-            <NewsTextWrapper>
-              {newsItem.description || "No description available."}
-            </NewsTextWrapper>
-          </NewsContentWrapper>
-        </NewsCardWrapper>
-      ))}
+          <ShareIconsWrapper>
+            <FaFacebook
+              onClick={() => shareOnFacebook(news.url)}
+              style={{ cursor: "pointer" }}
+            />
+            <FaTwitter
+              onClick={() => shareOnTwitter(news.url)}
+              style={{ cursor: "pointer" }}
+            />
+            <FaLink
+              onClick={() => copyLink(news.url)}
+              style={{ cursor: "pointer" }}
+            />
+          </ShareIconsWrapper>
+
+          <NewsTextWrapper>
+            {news.description?.split(" ").slice(0, 50).join(" ") + "..."}
+          </NewsTextWrapper>
+        </NewsContentWrapper>
+      </NewsCardWrapper>
     </Container>
   );
 };

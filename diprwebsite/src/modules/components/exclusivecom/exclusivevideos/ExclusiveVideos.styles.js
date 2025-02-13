@@ -3,7 +3,7 @@ import theme from "../../../../theme/Theme";
 
 export const CarouselContainer = styled.div`
   width: 800px;
-  height: auto;
+  height: 350px;
   overflow: visible;
   position: relative;
   border-radius: ${theme.spacing(1)};
@@ -23,12 +23,12 @@ export const CarouselInner = styled.div`
 
 export const CarouselItem = styled.div`
   width: 100%;
-  height: 350px;
+  height: 45vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: ${theme.spacing(2)};
-  background-image: ${({ bgImage }) => `url(${bgImage})`};
+  // background-image: ${({ bgImage }) => `url(${bgImage})`};
   background-size: cover;
   background-position: center;
   position: relative;
@@ -121,7 +121,7 @@ export const NewsItem = styled.span`
 export const VideoContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 250px;
+  height: 300px;
   margin-top: ${theme.spacing(2)};
   display: flex;
   justify-content: center;
@@ -148,5 +148,51 @@ export const PlayIconContainer = styled.div`
 
   &:hover {
     background: rgba(0, 0, 0, 0.7);
+  }
+`;
+export const CommentButton = styled.button`
+  background-color: ${theme.colors.primary};
+  color: ${theme.colors.background};
+  font-size: ${theme.spacing(2)};
+  padding: ${theme.spacing(0.8)} ${theme.spacing(2)};
+  border: none;
+  border-radius: ${theme.spacing(1)};
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${theme.colors.secondary};
+  }
+`;
+
+export const LikeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-top: ${theme.spacing(1)};
+`;
+
+// Comment Input Container
+export const CommentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: ${theme.spacing(2)};
+  gap: ${theme.spacing(1)};
+  width: 100%;
+`;
+
+// Styled input for adding a comment
+export const CommentInput = styled.input`
+  width: 100%;
+  padding: ${theme.spacing(1)} ${theme.spacing(2)};
+  font-size: ${theme.spacing(2)};
+  border-radius: ${theme.spacing(1)};
+  border: 1px solid ${theme.colors.light};
+  outline: none;
+  transition: border 0.3s;
+
+  &:focus {
+    border-color: ${theme.colors.primary};
   }
 `;
