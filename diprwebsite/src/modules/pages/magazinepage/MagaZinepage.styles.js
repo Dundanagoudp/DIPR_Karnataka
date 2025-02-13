@@ -3,7 +3,7 @@ import theme from "../../../theme/Theme";
 
 export const FlexContainer = styled.div`
   display: flex;
-  margin-left: ${theme.spacing(10)};
+  margin-left: ${theme.spacing(12)};
   margin-right: ${theme.spacing(10)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
@@ -17,4 +17,9 @@ export const FlexContainer = styled.div`
     margin-left: ${theme.spacing(2)}; 
     gap: ${theme.spacing(2)}; 
   }
+`;
+
+export const MagzineDataContainer = styled.div`
+  max-width: 100%;
+  margin: 0 auto;
 `;

@@ -14,7 +14,7 @@ const tabs = [
   { name: "Magazine", path: "/magazinepages" },
   { name: "Gallery", path: "/Gallery" },
   { name: "About us", path: "/aboutuspage" },
-  { name: "Contact us" },
+  { name: "Contact us", path: "/contactus" },
 ];
 
 const CategoryTab = () => {

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import theme from "../../../../theme/Theme";
 
 export const MagazineContainer = styled.div`
-  width: 100%;
+  // width: 100%;
   max-width: ${theme.spacing(50)};
   margin: auto;
   padding: ${theme.spacing(2)};

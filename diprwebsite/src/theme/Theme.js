@@ -2,6 +2,7 @@ const theme = {
       colors: {
         primary: "#1E88E5",
         background:"#ffffff",
+        white:"#ffffff",
         secondary: "#1E88E5",
         success: "#28a745",
         error: "#DD403C",
@@ -15,6 +16,8 @@ const theme = {
         lightgreen: "#ebfced",
         backgray:"#e0e0e0",
         button:"#1E88E5",
+        Footerbg:"#235FCD",
+        Footerstrip:"#1A4492",
         margin:"#C5CEDA",
         icons:"#787878",
         trcloure:"hsla(0, 0.00%, 100.00%, 0.20)",    
@@ -27,7 +30,6 @@ const theme = {
         accent: "'Nunito', sans-serif",
         display: "'Outfit', sans-serif",
       },
-    
       breakpoints: {
         mobile: "480px",
         tablet: "768px",

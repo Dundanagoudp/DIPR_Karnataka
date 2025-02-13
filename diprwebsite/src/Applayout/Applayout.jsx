@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "../components/Header/Header";
-// import Footer from "../components/Footer/Footer";
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/navbar/NavBar";
 import CategoryTab from "../components/categorytab/CategoryTab";
+import Footer from "../components/Footer/Footer";
 
 
 const Applayout = () => {
@@ -14,7 +14,7 @@ const Applayout = () => {
       <NavBar/> 
       <CategoryTab/>
       <Outlet />  
-      {/* <Footer /> */}
+      <Footer />
       </div>
   );
 };
