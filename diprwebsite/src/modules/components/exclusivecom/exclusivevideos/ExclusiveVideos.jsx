@@ -162,18 +162,18 @@ const ExclusiveVideos = () => {
                         <FaPlay size={40} color="#fff" />
                       </PlayIconContainer>
                       <FlexContainer>
-                        <NewsInfo>
-                          {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
-                        </NewsInfo>
-                        <NewsTitle>{video.title}</NewsTitle>
-                        <NavContainer>
-                          <NewsWrapper>
-                            <NewsTicker>
-                              <NewsItem>{video.description}</NewsItem>
-                            </NewsTicker>
-                          </NewsWrapper>
-                        </NavContainer>
-                      </FlexContainer>
+  <NewsInfo>
+    {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
+  </NewsInfo>
+  <NewsTitle>{video.title}</NewsTitle>
+  <NavContainer>
+    <NewsWrapper>
+      <NewsTicker>
+        <NewsItem>{video.description}</NewsItem>
+      </NewsTicker>
+    </NewsWrapper>
+  </NavContainer>
+</FlexContainer>
                     </>
                   )}
                 </VideoContainer>

@@ -8,21 +8,34 @@ const scrollAnimation = keyframes`
 
 export const CarouselContainer = styled.div`
   width: 800px;
-  hight: 450px !important;
-  overflow: hidden;
   max-width: 1200px;
+  height: auto;
+  overflow: hidden;
   margin: ${theme.spacing(2)} auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 90%;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100%;
+    margin: ${theme.spacing(1)} auto;
+  }
 `;
 
 export const CarouselInner = styled.div`
   display: flex;
-    background-image: ${({ bgImage }) => `url(${bgImage})`};
+  background-image: ${({ bgImage }) => `url(${bgImage})`};
   flex-direction: column;
   gap: ${theme.spacing(2)};
   width: 100%;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(1)};
+  }
 `;
 
 export const CarouselItem = styled.div`
@@ -31,7 +44,6 @@ export const CarouselItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  // padding: ${theme.spacing(2)};
   background-image: ${({ bgImage }) => `url(${bgImage})`};
   background-size: cover;
   background-position: center;
@@ -39,6 +51,10 @@ export const CarouselItem = styled.div`
   border-radius: ${theme.spacing(1)};
   overflow: hidden;
   margin-bottom: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-bottom: ${theme.spacing(1)};
+  }
 `;
 
 export const ContentWrapper = styled.div`
@@ -47,9 +63,7 @@ export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: ${theme.spacing(1)};
-  // overflow: hidden;
   background: rgba(0, 0, 0, 0.5);
-  // padding: ${theme.spacing(2)};
 `;
 
 export const TrendingCategory = styled.div`
@@ -61,11 +75,20 @@ export const TrendingCategory = styled.div`
   border-radius: ${theme.spacing(0.5)};
   display: inline-block;
   width: auto;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(0.3)} ${theme.spacing(1)};
+  }
 `;
 
 export const NewsInfo = styled.div`
   color: ${theme.colors.light};
   font-size: ${theme.spacing(1.9)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.5)};
+  }
 `;
 
 export const NewsTitle = styled.h2`
@@ -73,14 +96,21 @@ export const NewsTitle = styled.h2`
   font-size: ${theme.spacing(3.8)};
   font-weight: semibold;
   margin-top: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.spacing(3)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(2.5)};
+    margin-top: ${theme.spacing(1)};
+  }
 `;
 
 export const VideoContainer = styled.div`
   position: relative;
   width: 100%;
   height: ${theme.spacing(45)};
-  // margin-top: ${theme.spacing(2)};
-  // display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -91,6 +121,14 @@ export const VideoContainer = styled.div`
     height: 100%;
     object-fit: cover;
     border-radius: ${theme.spacing(1)};
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: ${theme.spacing(35)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: ${theme.spacing(25)};
   }
 `;
 
@@ -112,21 +150,6 @@ export const PlayIconContainer = styled.div`
     background: rgba(0, 0, 0, 0.7);
   }
 `;
-export const InteractionContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: ${theme.spacing(1)} ${theme.spacing(1)};
-  margin-top: ${theme.spacing(1)};
-  width: 100%;
-`;
-
-export const LikeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
 
 export const CommentSection = styled.div`
   display: flex;
@@ -135,13 +158,66 @@ export const CommentSection = styled.div`
   width: 100%;
   align-items: center;
   margin-top: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: ${theme.spacing(1)};
+  }
+`;
+
+export const InteractionContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: ${theme.spacing(2)};
+  padding: ${theme.spacing(1)} 0;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex-direction: row; /* Keep it in a single line on mobile */
+    align-items: center;
+    gap: ${theme.spacing(1)};
+  }
+`;
+
+export const LikeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(1)};
+  }
+`;
+
+export const FlexContainer2 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(1)};
+  }
+`;
+
+export const LikeCount = styled.span`
+  font-weight: semibold;
+  font-size: ${theme.spacing(2.5)};
+  color: ${theme.colors.black};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(2)};
+  }
 `;
 
 export const CommentContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: ${theme.spacing(1)};
-  margin-top: ${theme.spacing(2.5)};
+  position: relative; 
+  width: 50%;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex: 1; 
+  }
 `;
 
 export const CommentInput = styled.input`
@@ -149,11 +225,12 @@ export const CommentInput = styled.input`
   background: ${theme.colors.background};
   border-radius: ${theme.spacing(1.875)};
   border: ${theme.spacing(0.125)} solid ${theme.colors.info};
-  padding: ${theme.spacing(0.7)};
+  padding: ${theme.spacing(0.7)} ${theme.spacing(8)} ${theme.spacing(0.7)} ${theme.spacing(1)}; /* Extra padding for button */
   width: 100%;
-  
+  font-size: ${theme.spacing(1.9)};
+
   @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 100%;
+    padding-right: ${theme.spacing(6)}; /* Less padding on mobile */
   }
 `;
 
@@ -167,9 +244,19 @@ export const CommentButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s;
   white-space: nowrap;
+  position: absolute; 
+  right: ${theme.spacing(1)}; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  height: 80%; 
 
   &:hover {
     background-color: ${theme.colors.secondary};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(0.6)} ${theme.spacing(1)}; /* Smaller padding on mobile */
+    right: ${theme.spacing(0.5)}; /* Adjust position for mobile */
   }
 `;
 export const NavContainer = styled.nav`
@@ -180,6 +267,10 @@ export const NavContainer = styled.nav`
   margin-right: ${theme.spacing(1)};
   white-space: nowrap;
   position: relative;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin: ${theme.spacing(1)} 0;
+  }
 `;
 
 export const NewsTicker = styled.div`
@@ -188,6 +279,10 @@ export const NewsTicker = styled.div`
   animation: ${scrollAnimation} 20s linear infinite;
   min-width: 200%;
   overflow: visible;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(1)};
+  }
 `;
 
 export const NewsWrapper = styled.div`
@@ -202,26 +297,29 @@ export const NewsItem = styled.span`
   font-weight: bold;
   padding: 0 ${theme.spacing(2)};
   white-space: nowrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.5)};
+  }
 `;
 
 export const FlexContainer = styled.div`
   margin-top: 200px;
-  margin-left: 10px;
-  margin-right: 10px;
-  align-items: center;
-  gap: 0.5%;
-`;
+  position: relative;
+  bottom: ${theme.spacing(2)};
+  // left: ${theme.spacing(2)};
+  // right: ${theme.spacing(2)};
+  z-index: 3; 
+  padding: ${theme.spacing(2)};
+  border-radius: ${theme.spacing(1)};
+  color: ${theme.colors.white}; 
 
-export const  FlexContainer2 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px; 
-`;
-
-export const LikeCount = styled.span`
-  // margin-left: ${theme.spacing(1)};
-  font-weight: semibold;
-  font-size: ${theme.spacing(3)};
-  font-size: ${theme.spacing(2.5)};
-  color: #0000;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: 90px;
+    bottom: ${theme.spacing(1)};
+    left: ${theme.spacing(1)};
+    right: ${theme.spacing(1)};
+    // padding: ${theme.spacing(2)};
+    padding-right: ${theme.spacing(4)};
+  }
 `;

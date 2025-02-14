@@ -36,6 +36,7 @@ const LongVideoComment = ({ videoId }) => {
           }
         } catch (error) {
           console.error("Error fetching comments:", error);
+          // Display a user-friendly error message
           alert("Failed to load comments. Please try again later.");
         } finally {
           setLoading(false);
