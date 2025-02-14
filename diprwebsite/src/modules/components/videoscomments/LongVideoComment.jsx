@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import {
   CommentSection,
@@ -14,48 +13,46 @@ import {
   CommentText,
   Actions,
   ActionIcon,
-} from "../comments/ComMents.styles";
-import { getNewsByid } from "../../../services/newsApi/NewsApi";
-import { likeComment } from "../../../services/categoryapi/CategoryApi";
+} from "../videoscomments/LongVideoComment.styles";
+import { longVideoComments } from "../../../services/videoApi/videoApi";
 
-const ComMents = () => {
-  const { id: newsId } = useParams(); 
+const LongVideoComment = ({ videoId }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        setLoading(true);
-        const response = await getNewsByid(newsId);
-        if (response.success && response.data.comments) {
-          setComments(response.data.comments);
-        } else {
-          console.warn("No comments found.");
+      const fetchComments = async () => {
+        try {
+          setLoading(true);
+          const response = await longVideoComments(videoId);
+    
+          console.log("API Response:", response);
+    
+          if (response.success && Array.isArray(response.data)) {
+            setComments(response.data);
+          } else {
+            console.warn("No comments found for this video.");
+            setComments([]);
+          }
+        } catch (error) {
+          console.error("Error fetching comments:", error);
+          alert("Failed to load comments. Please try again later.");
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
+    
+      fetchComments();
+    }, [videoId]);
 
-    fetchComments();
-  }, [newsId]);
-
-  const handleLikeComment = async (commentId) => {
-    try {
-      const updatedComment = await likeComment(commentId);
-      setComments((prevComments) =>
-        prevComments.map((comment) =>
-          comment._id === commentId
-            ? { ...comment, likes: updatedComment.likes }
-            : comment
-        )
-      );
-    } catch (err) {
-      console.error("Error liking comment:", err);
-    }
+  const handleLikeComment = (commentId) => {
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment._id === commentId
+          ? { ...comment, likes: (comment.likes || 0) + 1 }
+          : comment
+      )
+    );
   };
 
   return (
@@ -68,7 +65,7 @@ const ComMents = () => {
         comments.map((comment) => (
           <Comment key={comment._id}>
             <ProfileImage
-              src="https://via.placeholder.com/50"
+              src={comment.user.profileImage || "https://via.placeholder.com/50"}
               alt={comment.user.displayName}
             />
             <CommentContent>
@@ -90,7 +87,7 @@ const ComMents = () => {
                   <FaRetweet />
                 </ActionIcon>
                 <ActionIcon onClick={() => handleLikeComment(comment._id)}>
-                  <FaHeart />
+                  <FaHeart /> {comment.likes || 0}
                 </ActionIcon>
               </Actions>
             </CommentContent>
@@ -101,4 +98,4 @@ const ComMents = () => {
   );
 };
 
-export default ComMents;
+export default LongVideoComment;

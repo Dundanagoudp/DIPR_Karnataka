@@ -19,6 +19,7 @@ export const CarouselContainer = styled.div`
 
 export const CarouselInner = styled.div`
   display: flex;
+    background-image: ${({ bgImage }) => `url(${bgImage})`};
   flex-direction: column;
   gap: ${theme.spacing(2)};
   width: 100%;
@@ -111,7 +112,6 @@ export const PlayIconContainer = styled.div`
     background: rgba(0, 0, 0, 0.7);
   }
 `;
-
 export const InteractionContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -128,42 +128,50 @@ export const LikeContainer = styled.div`
   cursor: pointer;
 `;
 
+export const CommentSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(1)};
+  width: 100%;
+  align-items: center;
+  margin-top: ${theme.spacing(2)};
+`;
+
 export const CommentContainer = styled.div`
   display: flex;
   align-items: center;
   gap: ${theme.spacing(1)};
-  width: 70%;
+  margin-top: ${theme.spacing(2.5)};
 `;
 
 export const CommentInput = styled.input`
+  flex: 1;
+  background: ${theme.colors.background};
+  border-radius: ${theme.spacing(1.875)};
+  border: ${theme.spacing(0.125)} solid ${theme.colors.info};
+  padding: ${theme.spacing(0.7)};
   width: 100%;
-  padding: ${theme.spacing(1)} ${theme.spacing(2)};
-  font-size: ${theme.spacing(2)};
-  border-radius: ${theme.spacing(1)};
-  border: 1px solid ${theme.spacing(1)};
-  outline: none;
-  transition: border 0.3s;
-
-  &:focus {
-    border-color: ${theme.colors.primary};
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100%;
   }
 `;
 
 export const CommentButton = styled.button`
   background-color: ${theme.colors.primary};
   color: ${theme.colors.background};
-  font-size: ${theme.spacing(2)};
-  padding: ${theme.spacing(0.8)} ${theme.spacing(2)};
+  font-size: ${theme.spacing(1.9)};
+  padding: ${theme.spacing(0.6)} ${theme.spacing(1.5)};
   border: none;
   border-radius: ${theme.spacing(1)};
   cursor: pointer;
   transition: background-color 0.3s;
+  white-space: nowrap;
 
   &:hover {
     background-color: ${theme.colors.secondary};
   }
 `;
-
 export const NavContainer = styled.nav`
   background-color: ${theme.colors.error};
   margin: ${theme.spacing(2)} 0;
@@ -202,4 +210,18 @@ export const FlexContainer = styled.div`
   margin-right: 10px;
   align-items: center;
   gap: 0.5%;
+`;
+
+export const  FlexContainer2 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+`;
+
+export const LikeCount = styled.span`
+  // margin-left: ${theme.spacing(1)};
+  font-weight: semibold;
+  font-size: ${theme.spacing(3)};
+  font-size: ${theme.spacing(2.5)};
+  color: #0000;
 `;

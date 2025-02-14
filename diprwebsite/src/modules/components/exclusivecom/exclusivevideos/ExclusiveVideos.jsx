@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FaPlay, FaThumbsUp, FaRegThumbsUp, FaComment } from "react-icons/fa";
+import Cookies from "js-cookie"; 
+import { FaPlay, FaRegComment, FaPaperPlane } from "react-icons/fa";
+import { AiOutlineLike } from "react-icons/ai";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   CarouselContainer,
   CarouselItem,
@@ -19,8 +22,12 @@ import {
   CommentButton,
   InteractionContainer,
   FlexContainer,
+  CommentSection,
+  FlexContainer2,
+  LikeCount
 } from "../exclusivevideos/ExclusiveVideos.styles";
-import { getLongVideos } from "../../../../services/videoApi/videoApi";
+import { getLongVideos, likeLongVideo, LongVideoaddComment } from "../../../../services/videoApi/videoApi";
+import LongVideoComment from "../../videoscomments/LongVideoComment";
 
 const ExclusiveVideos = () => {
   const [videosData, setVideosData] = useState([]);
@@ -28,6 +35,15 @@ const ExclusiveVideos = () => {
   const [likedVideos, setLikedVideos] = useState(new Set());
   const [comments, setComments] = useState({});
   const [newComment, setNewComment] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [likeCounts, setLikeCounts] = useState({});
+  const [error, setError] = useState("");
+  const [openCommentSection, setOpenCommentSection] = useState(null);
+
+  useEffect(() => {
+    const storedUserId = Cookies.get("userId");
+    setUserId(storedUserId);
+  }, []);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -35,12 +51,15 @@ const ExclusiveVideos = () => {
         const response = await getLongVideos();
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
+          const initialLikeCounts = {};
+          response.data.forEach(video => {
+            initialLikeCounts[video._id] = video.likes || 0;
+          });
+          setLikeCounts(initialLikeCounts);
         } else {
-          console.warn("No video data found.");
           setVideosData([]);
         }
       } catch (error) {
-        console.error("Error fetching videos:", error);
         setVideosData([]);
       }
     };
@@ -63,114 +82,150 @@ const ExclusiveVideos = () => {
     }
   };
 
-  const handleLikeClick = (videoId) => {
-    const newLikedVideos = new Set(likedVideos);
-    if (newLikedVideos.has(videoId)) {
-      newLikedVideos.delete(videoId);
-    } else {
-      newLikedVideos.add(videoId);
+  const handleLikeClick = async (videoId) => {
+    if (!userId) {
+      return;
     }
-    setLikedVideos(newLikedVideos);
+
+    try {
+      const isLiked = likedVideos.has(videoId);
+      const likeData = { longVideoId: videoId, userId };
+
+      const response = await likeLongVideo(likeData);
+      const newLikedVideos = new Set(likedVideos);
+      isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
+      setLikedVideos(newLikedVideos);
+
+      setLikeCounts(prevCounts => ({
+        ...prevCounts,
+        [videoId]: isLiked ? prevCounts[videoId] - 1 : prevCounts[videoId] + 1
+      }));
+    } catch (error) {
+      console.error("Error liking video:", error);
+    }
   };
 
-  const handleCommentChange = (event) => {
-    setNewComment(event.target.value);
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
   };
 
-  const handleAddComment = (videoId) => {
-    if (newComment.trim()) {
-      const updatedComments = { ...comments };
-      if (!updatedComments[videoId]) {
-        updatedComments[videoId] = [];
-      }
-      updatedComments[videoId].push(newComment);
-      setComments(updatedComments);
+  const handleAddComment = async (videoId) => {
+    if (!newComment.trim()) {
+      alert("Please enter a comment.");
+      return;
+    }
+
+    if (!userId) {
+      setError("User is not logged in.");
+      return;
+    }
+
+    const commentData = { text: newComment, videoId, userId };
+
+    try {
+      const response = await LongVideoaddComment(commentData);
+      setComments(prevComments => ({
+        ...prevComments,
+        [videoId]: [...(prevComments[videoId] || []), response.comment]
+      }));
+
       setNewComment("");
+      setError("");
+    } catch (err) {
+      setError("Failed to add comment. Please try again.");
     }
+  };
+
+  const toggleCommentSection = (videoId) => {
+    setOpenCommentSection(openCommentSection === videoId ? null : videoId);
   };
 
   return (
     <CarouselContainer>
       <CarouselInner>
         {videosData.map((video) => (
-          <CarouselItem key={video._id} bgImage={video.thumbnail}>
-            <ContentWrapper>
-              <VideoContainer
-                onMouseEnter={() => handleHoverVideo(video._id, true)}
-                onMouseLeave={() => handleHoverVideo(video._id, false)}
-              >
-                {playingVideoId === video._id ? (
-                  <video
-                    id={video._id}
-                    controls
-                    autoPlay
-                    loop
-                    width="100%"
-                    height="100%"
-                  >
-                    <source src={video.video_url} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
-                  <>
-                    <PlayIconContainer onClick={() => handlePlayClick(video._id)}>
-                      <FaPlay size={40} color="#fff" />
-                    </PlayIconContainer>
-                    <FlexContainer>
-                      <NewsInfo>
-                        {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
-                      </NewsInfo>
-                      <NewsTitle>{video.title}</NewsTitle>
-                      <NavContainer>
-                      <NewsWrapper>
-                        <NewsTicker>
-                          <NewsItem>{video.description}</NewsItem>
-                        </NewsTicker>
-                      </NewsWrapper>
-                    </NavContainer>
-                    </FlexContainer>
-                 
-                  </>
-                )}
-              </VideoContainer>
-
-              {playingVideoId !== video._id && (
-                <>
-                  {comments[video._id] && comments[video._id].length > 0 && (
-                    <div>
-                      {comments[video._id].map((comment, index) => (
-                        <NewsTicker key={index}>
-                          <NewsItem>{comment}</NewsItem>
-                        </NewsTicker>
-                      ))}
-                    </div>
+          <div key={video._id}>
+            <CarouselItem bgImage={video.thumbnail}>
+              <ContentWrapper>
+                <VideoContainer
+                  onMouseEnter={() => handleHoverVideo(video._id, true)}
+                  onMouseLeave={() => handleHoverVideo(video._id, false)}
+                >
+                  {playingVideoId === video._id ? (
+                    <video id={video._id} controls autoPlay loop width="100%" height="100%">
+                      <source src={video.video_url} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <>
+                      <PlayIconContainer onClick={() => handlePlayClick(video._id)}>
+                        <FaPlay size={40} color="#fff" />
+                      </PlayIconContainer>
+                      <FlexContainer>
+                        <NewsInfo>
+                          {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
+                        </NewsInfo>
+                        <NewsTitle>{video.title}</NewsTitle>
+                        <NavContainer>
+                          <NewsWrapper>
+                            <NewsTicker>
+                              <NewsItem>{video.description}</NewsItem>
+                            </NewsTicker>
+                          </NewsWrapper>
+                        </NavContainer>
+                      </FlexContainer>
+                    </>
                   )}
+                </VideoContainer>
+              </ContentWrapper>
+            </CarouselItem>
 
-                  <InteractionContainer>
-                    <LikeContainer onClick={() => handleLikeClick(video._id)}>
-                      {likedVideos.has(video._id) ? (
-                        <FaThumbsUp size={30} color="blue" />
-                      ) : (
-                        <FaRegThumbsUp size={30} />
-                      )}
-                    </LikeContainer>
+            <CommentSection>
+              <InteractionContainer>
+                <LikeContainer>
+                  <FlexContainer2>
+                    <AiOutlineLike 
+                      size={30} 
+                      color={likedVideos.has(video._id) ? "blue" : "#000"} 
+                      onClick={() => handleLikeClick(video._id)} 
+                    />
+                    <LikeCount style={{color:"#000"}} >{likeCounts[video._id] || 0}</LikeCount>
+                    <FaRegComment 
+                      size={25} 
+                      onClick={() => toggleCommentSection(video._id)} 
+                    />
+                    <FaPaperPlane size={25}  />
+                  </FlexContainer2>
+                </LikeContainer>
 
-                    <CommentContainer>
-                      <CommentInput
-                        type="text"
-                        value={newComment}
-                        onChange={handleCommentChange}
-                        placeholder="Add a comment..."
-                      />
-                      <CommentButton onClick={() => handleAddComment(video._id)}>
-                        Add Comment
-                      </CommentButton>
-                    </CommentContainer>
-                  </InteractionContainer>
-                </>
-              )}
-            </ContentWrapper>
-          </CarouselItem>
+                <CommentContainer>
+                  <CommentInput
+                    type="text"
+                    value={newComment}
+                    onChange={handleCommentChange}
+                    placeholder="Add a comment..."
+                  />
+                  <CommentButton onClick={() => handleAddComment(video._id)}>
+                    Add Comment
+                  </CommentButton>
+                </CommentContainer>
+              </InteractionContainer>
+
+              {/* Animate the opening and closing of the comment section */}
+              <AnimatePresence>
+                {openCommentSection === video._id && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <LongVideoComment videoId={video._id} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </CommentSection>
+          </div>
         ))}
       </CarouselInner>
     </CarouselContainer>
