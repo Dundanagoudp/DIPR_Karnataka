@@ -173,7 +173,7 @@ export const InteractionContainer = styled.div`
   padding: ${theme.spacing(1)} 0;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    flex-direction: row;
+    flex-direction: row; /* Keep it in a single line on mobile */
     align-items: center;
     gap: ${theme.spacing(1)};
   }
@@ -212,11 +212,11 @@ export const LikeCount = styled.span`
 export const CommentContainer = styled.div`
   display: flex;
   align-items: center;
-  position: relative;
+  position: relative; 
   width: 50%;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    flex: 1;
+    flex: 1; 
   }
 `;
 
@@ -225,12 +225,12 @@ export const CommentInput = styled.input`
   background: ${theme.colors.background};
   border-radius: ${theme.spacing(1.875)};
   border: ${theme.spacing(0.125)} solid ${theme.colors.info};
-  padding: ${theme.spacing(0.7)} ${theme.spacing(8)} ${theme.spacing(0.7)} ${theme.spacing(1)};
+  padding: ${theme.spacing(0.7)} ${theme.spacing(8)} ${theme.spacing(0.7)} ${theme.spacing(1)}; /* Extra padding for button */
   width: 100%;
   font-size: ${theme.spacing(1.9)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding-right: ${theme.spacing(6)};
+    padding-right: ${theme.spacing(6)}; /* Less padding on mobile */
   }
 `;
 
@@ -244,22 +244,21 @@ export const CommentButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s;
   white-space: nowrap;
-  position: absolute;
-  right: ${theme.spacing(1)};
-  top: 50%;
-  transform: translateY(-50%);
-  height: 80%;
+  position: absolute; 
+  right: ${theme.spacing(1)}; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  height: 80%; 
 
   &:hover {
     background-color: ${theme.colors.secondary};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(0.6)} ${theme.spacing(1)};
-    right: ${theme.spacing(0.5)};
+    padding: ${theme.spacing(0.6)} ${theme.spacing(1)}; /* Smaller padding on mobile */
+    right: ${theme.spacing(0.5)}; /* Adjust position for mobile */
   }
 `;
-
 export const NavContainer = styled.nav`
   background-color: ${theme.colors.error};
   margin: ${theme.spacing(2)} 0;
@@ -308,16 +307,19 @@ export const FlexContainer = styled.div`
   margin-top: 200px;
   position: relative;
   bottom: ${theme.spacing(2)};
-  z-index: 3;
+  // left: ${theme.spacing(2)};
+  // right: ${theme.spacing(2)};
+  z-index: 3; 
   padding: ${theme.spacing(2)};
   border-radius: ${theme.spacing(1)};
-  color: ${theme.colors.white};
+  color: ${theme.colors.white}; 
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     margin-top: 90px;
     bottom: ${theme.spacing(1)};
     left: ${theme.spacing(1)};
     right: ${theme.spacing(1)};
+    // padding: ${theme.spacing(2)};
     padding-right: ${theme.spacing(4)};
   }
 `;
