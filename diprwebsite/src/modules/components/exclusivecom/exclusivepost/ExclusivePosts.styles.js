@@ -42,7 +42,7 @@ export const Header = styled.h2`
   letter-spacing: 1px;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: ${theme.spacing(3)}; 
+    font-size: ${theme.spacing(3)}; // Slightly smaller for tablets
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
