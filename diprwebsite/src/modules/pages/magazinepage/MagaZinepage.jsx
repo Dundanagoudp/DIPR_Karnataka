@@ -3,6 +3,7 @@ import MagaZineRecommend from "../../components/Magazinepagecom/RecommendNews/Re
 import MagzineData from "../../components/Magazinepagecom/magzinedata/MagzineData";
 import MagazineDownloadPdf from "../../components/Magazinepagecom/downloadpdf/DownloadPdfs";
 import { FlexContainer ,MagzineDataContainer} from "../magazinepage/MagaZinepage.styles";
+import MagazinePdf from "../../components/Magazinepagecom/magazinepdf/MagazinePdf";
 const MagaZinepages = () => {
   return (
     <div>
@@ -15,6 +16,7 @@ const MagaZinepages = () => {
           <MagzineData />
         </MagzineDataContainer>
       </FlexContainer>
+      <MagazinePdf/>
     </div>
   );
 };

@@ -13,7 +13,7 @@ import {
 } from "../Recommended/RecomMended.styles";
 import videoThumbnail from "../../../assets/v1.png";
 import { CiBookmark } from "react-icons/ci";
-import { getRecommendedNews } from "../../../services/newsApi/NewsApi"; // Adjust the path to your API
+import { getRecommendedNews } from "../../../services/newsApi/NewsApi"; 
 
 // Helper function to get cookies by name
 const getCookie = (name) => {

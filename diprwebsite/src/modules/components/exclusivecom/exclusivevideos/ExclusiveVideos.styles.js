@@ -326,15 +326,6 @@ export const FlexContainer = styled.div`
 
 // commnet setion
 
-// export const CommentSection = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: ${(props) => props.theme.spacing(1)};
-//   width: 100%;
-//   align-items: center;
-//   margin-top: ${(props) => props.theme.spacing(2)};
-// `;
-
 export const Comment = styled.div`
   display: flex;
   width: 100%;
