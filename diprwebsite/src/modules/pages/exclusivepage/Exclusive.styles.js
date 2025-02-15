@@ -36,7 +36,7 @@ export const FlexContainer = styled.div`
   padding: 20px;
   gap: 60px;
   overflow: hidden;
-  position: relative; /* Ensure proper stacking context */
+  position: relative; 
 
 
   /* Specific device adjustments */

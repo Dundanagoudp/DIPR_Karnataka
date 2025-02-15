@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie"; 
-import { FaPlay, FaRegComment, FaPaperPlane } from "react-icons/fa";
+import { FaPlay, FaRegComment, FaPaperPlane, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -24,10 +24,19 @@ import {
   FlexContainer,
   CommentSection,
   FlexContainer2,
-  LikeCount
+  LikeCount,
+  Comment,
+  ProfileImage,
+  CommentContent,
+  UserHeader,
+  UserInfo,
+  Username,
+  Time,
+  CommentText,
+  Actions,
+  ActionIcon
 } from "../exclusivevideos/ExclusiveVideos.styles";
 import { getLongVideos, likeLongVideo, LongVideoaddComment } from "../../../../services/videoApi/videoApi";
-import LongVideoComment from "../../videoscomments/LongVideoComment";
 
 const ExclusiveVideos = () => {
   const [videosData, setVideosData] = useState([]);
@@ -39,6 +48,7 @@ const ExclusiveVideos = () => {
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
   const [openCommentSection, setOpenCommentSection] = useState(null);
+  const [loadingComments, setLoadingComments] = useState(false);
 
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
@@ -51,11 +61,23 @@ const ExclusiveVideos = () => {
         const response = await getLongVideos();
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
+          console.log("Received videos data:", response.data);
+
+          // Initialize like counts
           const initialLikeCounts = {};
           response.data.forEach(video => {
             initialLikeCounts[video._id] = video.likes || 0;
           });
           setLikeCounts(initialLikeCounts);
+
+          // Initialize comments if they exist in the video data
+          const initialComments = {};
+          response.data.forEach(video => {
+            if (video.Comments && Array.isArray(video.Comments)) {
+              initialComments[video._id] = video.Comments;
+            }
+          });
+          setComments(initialComments);
         } else {
           setVideosData([]);
         }
@@ -137,7 +159,22 @@ const ExclusiveVideos = () => {
   };
 
   const toggleCommentSection = (videoId) => {
-    setOpenCommentSection(openCommentSection === videoId ? null : videoId);
+    if (openCommentSection === videoId) {
+      setOpenCommentSection(null);
+    } else {
+      setOpenCommentSection(videoId);
+    }
+  };
+
+  const handleLikeComment = (commentId, videoId) => {
+    setComments(prevComments => ({
+      ...prevComments,
+      [videoId]: prevComments[videoId].map(comment =>
+        comment._id === commentId
+          ? { ...comment, likes: (comment.likes || 0) + 1 }
+          : comment
+      )
+    }));
   };
 
   return (
@@ -162,18 +199,18 @@ const ExclusiveVideos = () => {
                         <FaPlay size={40} color="#fff" />
                       </PlayIconContainer>
                       <FlexContainer>
-  <NewsInfo>
-    {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
-  </NewsInfo>
-  <NewsTitle>{video.title}</NewsTitle>
-  <NavContainer>
-    <NewsWrapper>
-      <NewsTicker>
-        <NewsItem>{video.description}</NewsItem>
-      </NewsTicker>
-    </NewsWrapper>
-  </NavContainer>
-</FlexContainer>
+                        <NewsInfo>
+                          {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
+                        </NewsInfo>
+                        <NewsTitle>{video.title}</NewsTitle>
+                        <NavContainer>
+                          <NewsWrapper>
+                            <NewsTicker>
+                              <NewsItem>{video.description}</NewsItem>
+                            </NewsTicker>
+                          </NewsWrapper>
+                        </NavContainer>
+                      </FlexContainer>
                     </>
                   )}
                 </VideoContainer>
@@ -220,7 +257,40 @@ const ExclusiveVideos = () => {
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <LongVideoComment videoId={video._id} />
+                    {comments[video._id]?.length === 0 ? (
+                      <p>No comments yet.</p>
+                    ) : (
+                      comments[video._id]?.map((comment) => (
+                        <Comment key={comment._id}>
+                          <ProfileImage
+                            src={comment.user.profileImage || "https://via.placeholder.com/50"}
+                            alt={comment.user.displayName}
+                          />
+                          <CommentContent>
+                            <UserHeader>
+                              <UserInfo>
+                                <Username>{comment.user.displayName}</Username>
+                              </UserInfo>
+                              <Time>
+                                {new Date(comment.createdTime).toLocaleTimeString()}
+                              </Time>
+                            </UserHeader>
+                            <CommentText>{comment.comment}</CommentText>
+                            <Actions>
+                              <ActionIcon>
+                                <FaComment />
+                              </ActionIcon>
+                              <ActionIcon>
+                                <FaRetweet />
+                              </ActionIcon>
+                              <ActionIcon onClick={() => handleLikeComment(comment._id, video._id)}>
+                                <FaHeart /> {comment.likes || 0}
+                              </ActionIcon>
+                            </Actions>
+                          </CommentContent>
+                        </Comment>
+                      ))
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>

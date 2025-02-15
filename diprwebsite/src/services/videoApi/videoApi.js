@@ -102,8 +102,6 @@ export const LongVideoaddComment = async (commentData) => {
   }
 };
 
-
-
 // videos by id
 export const getVideoById = async (id) => {
   try {
@@ -125,25 +123,3 @@ export const getVideoById = async (id) => {
   }
 };
 
-
-// getcommets data
-
-export const longVideoComments = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}api/longVideo`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} - ${response.statusText}`);
-    }
-    const data = await response.json();
-    console.log("Received long videos data:", data);
-    return { success: true, data }; 
-  } catch (error) {
-    console.error("Error loading long videos:", error);
-    throw error;
-  }
-};
