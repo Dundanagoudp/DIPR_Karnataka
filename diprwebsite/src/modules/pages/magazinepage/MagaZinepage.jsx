@@ -8,6 +8,7 @@ const MagaZinepages = () => {
   return (
     <div>
       <MagazineDownloadPdf />
+      <MagazinePdf/>
       {/* <FlexContainer>
         <div>
           <MagaZineRecommend />
@@ -16,7 +17,6 @@ const MagaZinepages = () => {
           <MagzineData />
         </MagzineDataContainer>
       </FlexContainer> */}
-      <MagazinePdf/>
     </div>
   );
 };

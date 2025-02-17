@@ -21,6 +21,7 @@ import Guidelines from "./components/WebsitePolicies/Guidelines/Guidelines";
 import TermsAndConditions from "./components/WebsitePolicies/TermsAndConditions/TermsAndConditions";
 import PrivacyPolicy from "./components/WebsitePolicies/PrivacyPolicy/PrivacyPolicy";
 import Help from "./components/WebsitePolicies/Help/Help";
+import LatestData from "./modules/pages/Latest/LatestData";
 
 const App = () => {
   return (
@@ -35,7 +36,8 @@ const App = () => {
             <Route path="/Gallery" element={<Exclusive />} />
             <Route path="/aboutuspage" element={<AboutUspage />} />
             <Route path="/contactus" element={<ContactUs />} />
-            <Route path="/test" element={<Test />} />
+            <Route path="/latestdata" element={<LatestData />} />
+            {/* <Route path="/test" element={<Test />} /> */}
             <Route  path="/copyright-policy" element={<CopyrightPolicy />} />
             <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
             <Route path="/security-policy" element={<SecurityPolicy />} />

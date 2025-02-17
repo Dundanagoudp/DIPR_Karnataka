@@ -10,10 +10,10 @@ import {
   NewsMeta,
   VideoMetacat,
   BookmarkIconWrapper,
-} from "../Recommended/RecomMended.styles";
-import videoThumbnail from "../../../assets/v1.png";
+} from "../newsrecommended/NewsRecommended.styles";    
+import videoThumbnail from "../../../../assets/v1.png";
 import { CiBookmark } from "react-icons/ci";
-import { getRecommendedNews } from "../../../services/newsApi/NewsApi"; 
+import { getRecommendedNews } from "../../../../services/newsApi/NewsApi"; 
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -21,7 +21,7 @@ const getCookie = (name) => {
   return match ? decodeURIComponent(match[2]) : null;
 };
 
-const RecomMended = () => {
+const NewsRecommended = () => {
   const [videosData, setVideosData] = useState([]);
   const [bookmarkedVideos, setBookmarkedVideos] = useState(new Set());
 
@@ -43,11 +43,11 @@ const RecomMended = () => {
             setVideosData(result.data);
           } else {
             console.warn("No video data found, using fallback data.");
-            setVideosData(fallbackVideosData); // Ensure fallback data is defined elsewhere
+            setVideosData(fallbackVideosData); 
           }
         } catch (error) {
           console.error("Error fetching videos:", error);
-          setVideosData(fallbackVideosData); // Ensure fallback data is defined elsewhere
+          setVideosData(fallbackVideosData); 
         }
       };
 
@@ -81,7 +81,7 @@ const RecomMended = () => {
 
   return (
     <Container>
-      <Header>Recommended for you</Header>
+      <Header>Latest Recommended for you</Header>
       <Content>
         {videosData.map((video) => (
           <VideoCard1 key={video._id}>
@@ -114,4 +114,4 @@ const RecomMended = () => {
   );
 };
 
-export default RecomMended;
+export default NewsRecommended;
