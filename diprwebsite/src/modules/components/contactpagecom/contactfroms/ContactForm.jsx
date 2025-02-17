@@ -1,82 +1,39 @@
-import React, { useState } from "react";
-import {
-  ContactContainer,
-  ContactTitle,
-  ContactDetails,
-  ContactInfo,
-  ContactLabel,
-  ContactInput,
-  ContactButton,
-} from "../contactfroms/ContactForm.styles";
-
+import React from 'react';
+import { FaMapMarkerAlt, FaEnvelope } from 'react-icons/fa';
+import { ContactFormContainer, ContactItem, ContactIcon } from './ContactForm.styles';
+ 
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    contactNo: "",
-    email: "",
-    address: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await contact(formData);
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
-      alert("Form submitted successfully!");
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
   return (
-    <ContactContainer>
-      <ContactTitle>Contact Us</ContactTitle>
-      <form onSubmit={handleSubmit}>
-        <ContactDetails>
-          <ContactInfo>
-            <ContactLabel>Contact No</ContactLabel>
-            <ContactInput
-              type="text"
-              name="contactNo"
-              value={formData.contactNo}
-              onChange={handleChange}
-              required
-            />
-          </ContactInfo>
-          <ContactInfo>
-            <ContactLabel>Email</ContactLabel>
-            <ContactInput
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </ContactInfo>
-          <ContactInfo>
-            <ContactLabel>Address</ContactLabel>
-            <ContactInput
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-          </ContactInfo>
-        </ContactDetails>
-        <ContactButton type="submit">Submit</ContactButton>
-      </form>
-    </ContactContainer>
+    <ContactFormContainer>
+      <h2>Get In Touch With Us</h2>
+      <p>
+        For any inquiries or information, please reach out to us at the following address:
+      </p>
+      <div className="contact-info">
+        <ContactItem>
+          <ContactIcon as={FaMapMarkerAlt} />
+          <div>
+            <h4>Directorate of Information and Public Relations</h4>
+            <p> Bhawan, Bagalkot, Karnataka, 587102</p>
+          </div>
+        </ContactItem>
+        <ContactItem>
+          <ContactIcon as={FaEnvelope} />
+          <div>
+            <h4>Mail</h4>
+            <p>diprarunx@gmail.com</p>
+          </div>
+        </ContactItem>
+        <ContactItem>
+          <ContactIcon as={FaEnvelope} />
+          <div>
+            <h4>Mail</h4>
+            <p>dipr_arun@rediffmail.com</p>
+          </div>
+        </ContactItem>
+      </div>
+    </ContactFormContainer>
   );
 };
-
+ 
 export default ContactForm;

@@ -8,14 +8,14 @@ const MagaZinepages = () => {
   return (
     <div>
       <MagazineDownloadPdf />
-      <FlexContainer>
+      {/* <FlexContainer>
         <div>
           <MagaZineRecommend />
         </div>
         <MagzineDataContainer >
           <MagzineData />
         </MagzineDataContainer>
-      </FlexContainer>
+      </FlexContainer> */}
       <MagazinePdf/>
     </div>
   );
