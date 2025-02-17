@@ -12,7 +12,6 @@ import {
   BookmarkIconWrapper,
 } from "../exclusivepost/ExclusivePosts.styles";
 import videoThumbnail from "../../../../assets/v1.png";
-// import { NewsApi } from "../../../services/categoryapi/CategoryApi";
 import { CiBookmark } from "react-icons/ci";
 
 const fallbackVideosData = [
@@ -33,7 +32,6 @@ const fallbackVideosData = [
     thumbnail: videoThumbnail,
   },
   
-   
 ];
 
 const ExclusivePosts = () => {

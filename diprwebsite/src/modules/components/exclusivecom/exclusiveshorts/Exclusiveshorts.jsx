@@ -1,29 +1,22 @@
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie"; 
-import { FaPlay, FaRegComment, FaPaperPlane, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
+import Cookies from "js-cookie";
+import { FaPlay, FaRegComment, FaHeart } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  CarouselContainer,
-  CarouselItem,
-  ContentWrapper,
-  NewsInfo,
-  NewsTitle,
-  NewsTicker,
-  NewsItem,
-  NavContainer,
-  NewsWrapper,
-  CarouselInner,
-  VideoContainer,
-  PlayIconContainer,
-  LikeContainer,
+  Container,
+  Content,
+  VideoCard1,
+  VideoThumbnail,
+  VideoDetails,
+  NewsMeta,
+  VideoMetacat,
+  Title,
   CommentContainer,
   CommentInput,
   CommentButton,
   InteractionContainer,
-  FlexContainer,
   CommentSection,
-  FlexContainer2,
   LikeCount,
   Comment,
   ProfileImage,
@@ -34,11 +27,11 @@ import {
   Time,
   CommentText,
   Actions,
-  ActionIcon
-} from "../exclusivevideos/ExclusiveVideos.styles";
-import { getLongVideos, likeLongVideo, LongVideoaddComment } from "../../../../services/videoApi/videoApi";
+  ActionIcon,
+} from "../exclusiveshorts/Exclusiveshorts.styles";
+import { getVideos, ShortlikeVideo, ShortVideoaddComment } from "../../../../services/videoApi/videoApi";
 
-const ExclusiveVideos = () => {
+const Exclusiveshorts = () => {
   const [videosData, setVideosData] = useState([]);
   const [playingVideoId, setPlayingVideoId] = useState(null);
   const [likedVideos, setLikedVideos] = useState(new Set());
@@ -48,7 +41,6 @@ const ExclusiveVideos = () => {
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
   const [openCommentSection, setOpenCommentSection] = useState(null);
-  const [loadingComments, setLoadingComments] = useState(false);
 
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
@@ -58,21 +50,21 @@ const ExclusiveVideos = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await getLongVideos();
+        const response = await getVideos();
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
           console.log("Received videos data:", response.data);
 
           // Initialize like counts
           const initialLikeCounts = {};
-          response.data.forEach(video => {
+          response.data.forEach((video) => {
             initialLikeCounts[video._id] = video.likes || 0;
           });
           setLikeCounts(initialLikeCounts);
 
           // Initialize comments if they exist in the video data
           const initialComments = {};
-          response.data.forEach(video => {
+          response.data.forEach((video) => {
             if (video.Comments && Array.isArray(video.Comments)) {
               initialComments[video._id] = video.Comments;
             }
@@ -93,17 +85,6 @@ const ExclusiveVideos = () => {
     setPlayingVideoId(videoId);
   };
 
-  const handleHoverVideo = (videoId, isHovered) => {
-    const videoElement = document.getElementById(videoId);
-    if (videoElement) {
-      if (isHovered && playingVideoId === videoId) {
-        videoElement.play();
-      } else {
-        videoElement.pause();
-      }
-    }
-  };
-
   const handleLikeClick = async (videoId) => {
     if (!userId) {
       return;
@@ -113,14 +94,14 @@ const ExclusiveVideos = () => {
       const isLiked = likedVideos.has(videoId);
       const likeData = { longVideoId: videoId, userId };
 
-      const response = await likeLongVideo(likeData);
+      const response = await ShortlikeVideo(likeData);
       const newLikedVideos = new Set(likedVideos);
       isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
       setLikedVideos(newLikedVideos);
 
-      setLikeCounts(prevCounts => ({
+      setLikeCounts((prevCounts) => ({
         ...prevCounts,
-        [videoId]: isLiked ? prevCounts[videoId] - 1 : prevCounts[videoId] + 1
+        [videoId]: isLiked ? prevCounts[videoId] - 1 : prevCounts[videoId] + 1,
       }));
     } catch (error) {
       console.error("Error liking video:", error);
@@ -145,10 +126,10 @@ const ExclusiveVideos = () => {
     const commentData = { text: newComment, videoId, userId };
 
     try {
-      const response = await LongVideoaddComment(commentData);
-      setComments(prevComments => ({
+      const response = await ShortVideoaddComment(commentData);
+      setComments((prevComments) => ({
         ...prevComments,
-        [videoId]: [...(prevComments[videoId] || []), response.comment]
+        [videoId]: [...(prevComments[videoId] || []), response.comment],
       }));
 
       setNewComment("");
@@ -167,75 +148,57 @@ const ExclusiveVideos = () => {
   };
 
   const handleLikeComment = (commentId, videoId) => {
-    setComments(prevComments => ({
+    setComments((prevComments) => ({
       ...prevComments,
-      [videoId]: prevComments[videoId].map(comment =>
+      [videoId]: prevComments[videoId].map((comment) =>
         comment._id === commentId
           ? { ...comment, likes: (comment.likes || 0) + 1 }
           : comment
-      )
+      ),
     }));
   };
 
   return (
-    <CarouselContainer>
-      <CarouselInner>
+    <Container>
+      <Content>
         {videosData.map((video) => (
-          <div key={video._id}>
-            <CarouselItem bgImage={video.thumbnail}>
-              <ContentWrapper>
-                <VideoContainer
-                  onMouseEnter={() => handleHoverVideo(video._id, true)}
-                  onMouseLeave={() => handleHoverVideo(video._id, false)}
-                >
-                  {playingVideoId === video._id ? (
-                    <video id={video._id} controls autoPlay loop width="100%" height="100%">
-                      <source src={video.video_url} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  ) : (
-                    <>
-                      <PlayIconContainer onClick={() => handlePlayClick(video._id)}>
-                        <FaPlay size={40} color="#fff" />
-                      </PlayIconContainer>
-                      <FlexContainer>
-                        <NewsInfo>
-                          {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
-                        </NewsInfo>
-                        <NewsTitle>{video.title}</NewsTitle>
-                        <NavContainer>
-                          <NewsWrapper>
-                            <NewsTicker>
-                              <NewsItem>{video.description}</NewsItem>
-                            </NewsTicker>
-                          </NewsWrapper>
-                        </NavContainer>
-                      </FlexContainer>
-                    </>
-                  )}
-                </VideoContainer>
-              </ContentWrapper>
-            </CarouselItem>
+          <React.Fragment key={video._id}>
+            <VideoCard1>
+              <VideoThumbnail onClick={() => handlePlayClick(video._id)}>
+                {playingVideoId === video._id ? (
+                  <video id={video._id} controls autoPlay loop width="100%" height="200px" style={{ objectFit: "cover" }}>
+                    <source src={video.video_url} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <>
+                    <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "200px", objectFit: "cover" }} />
+                    <FaPlay size={40} color="#fff" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />
+                  </>
+                )}
+              </VideoThumbnail>
+              <VideoDetails>
+                <NewsMeta>
+                  <span>{new Date(video.createdAt).toLocaleDateString()}</span>
+                </NewsMeta>
+                <Title>{video.title}</Title>
+                <VideoMetacat>{/* {video.category} */}</VideoMetacat>
+              </VideoDetails>
+            </VideoCard1>
 
             <CommentSection>
               <InteractionContainer>
-                <LikeContainer>
-                  <FlexContainer2>
-                    <AiOutlineLike 
-                      size={30} 
-                      color={likedVideos.has(video._id) ? "blue" : "#000"} 
-                      onClick={() => handleLikeClick(video._id)} 
-                    />
-                    <LikeCount style={{color:"#000"}} >{likeCounts[video._id] || 0}</LikeCount>
-                    <FaRegComment 
-                      size={25} 
-                      onClick={() => toggleCommentSection(video._id)} 
-                    />
-                    <FaPaperPlane size={25}  />
-                  </FlexContainer2>
-                </LikeContainer>
-
                 <CommentContainer>
+                  <AiOutlineLike
+                    size={30}
+                    color={likedVideos.has(video._id) ? "blue" : "#000"}
+                    onClick={() => handleLikeClick(video._id)}
+                  />
+                  <LikeCount>{likeCounts[video._id] || 0}</LikeCount>
+                  <FaRegComment
+                    size={25}
+                    onClick={() => toggleCommentSection(video._id)}
+                  />
                   <CommentInput
                     type="text"
                     value={newComment}
@@ -248,14 +211,13 @@ const ExclusiveVideos = () => {
                 </CommentContainer>
               </InteractionContainer>
 
-              {/* Animate the opening and closing of the comment section */}
               <AnimatePresence>
                 {openCommentSection === video._id && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    transition={{ duration: 0.3 }}
                   >
                     {comments[video._id]?.length === 0 ? (
                       <p>No comments yet.</p>
@@ -277,12 +239,6 @@ const ExclusiveVideos = () => {
                             </UserHeader>
                             <CommentText>{comment.comment}</CommentText>
                             <Actions>
-                              <ActionIcon>
-                                <FaComment />
-                              </ActionIcon>
-                              <ActionIcon>
-                                <FaRetweet />
-                              </ActionIcon>
                               <ActionIcon onClick={() => handleLikeComment(comment._id, video._id)}>
                                 <FaHeart /> {comment.likes || 0}
                               </ActionIcon>
@@ -295,11 +251,11 @@ const ExclusiveVideos = () => {
                 )}
               </AnimatePresence>
             </CommentSection>
-          </div>
+          </React.Fragment>
         ))}
-      </CarouselInner>
-    </CarouselContainer>
+      </Content>
+    </Container>
   );
 };
 
-export default ExclusiveVideos;
+export default Exclusiveshorts;

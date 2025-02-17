@@ -123,3 +123,63 @@ export const getVideoById = async (id) => {
   }
 };
 
+
+// short videos like
+
+
+export const ShortlikeVideo = async (commentData) => {
+  try {
+    const url = `${BASE_URL}/api/comments/likeVideo`; 
+    console.log("Liking video with data:", commentData);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(commentData),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Error: ${response.status} - ${response.statusText} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log("Like response received:", data);
+    return data;
+  } catch (error) {
+    console.error("Error liking video:", error);
+    throw error;
+  }
+};
+
+// short video add commnet
+
+export const ShortVideoaddComment = async (commentData) => {
+  try {
+    const url = `${BASE_URL}api/video/addComment`;
+    console.log("Request URL:", url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(commentData), 
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log("Received comment response:", data);
+    return data;
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    throw error;
+  }
+};
+
+

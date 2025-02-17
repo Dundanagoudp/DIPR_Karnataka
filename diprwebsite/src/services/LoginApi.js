@@ -6,9 +6,9 @@ export const LoginApi = async (idToken) => {
     const response = await fetch(`${VITE_API_URL}api/users/login-on-web`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", // Set the Content-Type to JSON
+        "Content-Type": "application/json", 
       },
-      body: JSON.stringify({ idToken }), // Send the idToken in the request body
+      body: JSON.stringify({ idToken }), 
       credentials: "include", // Ensures cookies are included with the request
     });
 

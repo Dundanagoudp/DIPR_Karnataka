@@ -151,34 +151,6 @@ export const PlayIconContainer = styled.div`
   }
 `;
 
-export const CommentSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing(1)};
-  width: 100%;
-  align-items: center;
-  margin-top: ${theme.spacing(2)};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    margin-top: ${theme.spacing(1)};
-  }
-`;
-
-export const InteractionContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  gap: ${theme.spacing(2)};
-  padding: ${theme.spacing(1)} 0;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    flex-direction: row; /* Keep it in a single line on mobile */
-    align-items: center;
-    gap: ${theme.spacing(1)};
-  }
-`;
-
 export const LikeContainer = styled.div`
   display: flex;
   align-items: center;
@@ -199,66 +171,7 @@ export const FlexContainer2 = styled.div`
   }
 `;
 
-export const LikeCount = styled.span`
-  font-weight: semibold;
-  font-size: ${theme.spacing(2.5)};
-  color: ${theme.colors.black};
 
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(2)};
-  }
-`;
-
-export const CommentContainer = styled.div`
-  display: flex;
-  align-items: center;
-  position: relative; 
-  width: 50%;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    flex: 1; 
-  }
-`;
-
-export const CommentInput = styled.input`
-  flex: 1;
-  background: ${theme.colors.background};
-  border-radius: ${theme.spacing(1.875)};
-  border: ${theme.spacing(0.125)} solid ${theme.colors.info};
-  padding: ${theme.spacing(0.7)} ${theme.spacing(8)} ${theme.spacing(0.7)} ${theme.spacing(1)}; /* Extra padding for button */
-  width: 100%;
-  font-size: ${theme.spacing(1.9)};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding-right: ${theme.spacing(6)}; /* Less padding on mobile */
-  }
-`;
-
-export const CommentButton = styled.button`
-  background-color: ${theme.colors.primary};
-  color: ${theme.colors.background};
-  font-size: ${theme.spacing(1.9)};
-  padding: ${theme.spacing(0.6)} ${theme.spacing(1.5)};
-  border: none;
-  border-radius: ${theme.spacing(1)};
-  cursor: pointer;
-  transition: background-color 0.3s;
-  white-space: nowrap;
-  position: absolute; 
-  right: ${theme.spacing(1)}; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  height: 80%; 
-
-  &:hover {
-    background-color: ${theme.colors.secondary};
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(0.6)} ${theme.spacing(1)}; /* Smaller padding on mobile */
-    right: ${theme.spacing(0.5)}; /* Adjust position for mobile */
-  }
-`;
 export const NavContainer = styled.nav`
   background-color: ${theme.colors.error};
   margin: ${theme.spacing(2)} 0;
@@ -324,77 +237,6 @@ export const FlexContainer = styled.div`
   }
 `;
 
-// commnet setion
-
-export const Comment = styled.div`
-  display: flex;
-  width: 700px;
-  max-width: 90%;
-  align-items: flex-start;
-  padding: ${(props) => props.theme.spacing(2)};
-  background-color: transparent;  // Set to transparent
-  border-radius: ${(props) => props.theme.spacing(1)};
-
-  @media (max-width: ${(props) => props.theme.breakpoints.tablet}) {
-    max-width: 100%;
-    padding: ${(props) => props.theme.spacing(1)};
-  }
-
-  @media (max-width: ${(props) => props.theme.breakpoints.mobile}) {
-    max-width: 300px;
-    padding: ${(props) => props.theme.spacing(1)};
-  }
-`;
-
-export const ProfileImage = styled.img`
-  width: ${(props) => props.theme.spacing(5)};
-  height: ${(props) => props.theme.spacing(5)};
-  margin-right: ${(props) => props.theme.spacing(2)};
-  border-radius: 50%;
-`;
-
-export const CommentContent = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const UserHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-export const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${(props) => props.theme.spacing(0.5)};
-  color: ${(props) => props.theme.colors.text};
-  font-weight: 600;
-`;
-
-export const Username = styled.span`
-  font-size: ${(props) => props.theme.spacing(2)};
-`;
-
-export const VerifiedIcon = styled.span`
-  color: ${(props) => props.theme.colors.primary};
-  font-size: ${(props) => props.theme.spacing(1.75)};
-`;
-
-export const Time = styled.span`
-  font-size: ${(props) => props.theme.spacing(1.75)};
-  color: ${(props) => props.theme.colors.icons};
-  margin-left: auto;
-`;
-
-export const CommentText = styled.p`
-  margin: ${(props) => props.theme.spacing(0.5)} 0;
-  font-size: ${(props) => props.theme.spacing(1.75)};
-  color: ${(props) => props.theme.colors.text};
-`;
-
 export const NestedComment = styled.div`
   background-color: ${(props) => props.theme.colors.lightgreen};
   padding: ${(props) => props.theme.spacing(1)};
@@ -408,59 +250,214 @@ export const NestedUser = styled.span`
   color: ${(props) => props.theme.colors.primary};
 `;
 
-export const Actions = styled.div`
-  display: flex;
-  gap: ${(props) => props.theme.spacing(2)};
-  margin-top: ${(props) => props.theme.spacing(2)};
-  color: ${(props) => props.theme.colors.icons};
-`;
 
-export const ActionIcon = styled.span`
-  display: flex;
-  align-items: center;
-  gap: ${(props) => props.theme.spacing(0.5)};
-  cursor: pointer;
-  font-size: ${(props) => props.theme.spacing(1.75)};
-`;
-
-export const CommentSectionWrapper = styled.div`
-  margin-top: ${theme.spacing(1)};
-`;
-
-export const CommentInputWrapper = styled.div`
-  display: flex;
-  align-items: center;
+export const Container = styled.div`
+  margin: auto;
+  max-width: 400px;
+  margin-bottom: ${theme.spacing(4)};
+  padding: ${theme.spacing(3)};
   background: ${theme.colors.background};
-  border-radius: ${theme.spacing(1.875)};
-  margin-top: ${theme.spacing(2.5)};
-  border: ${theme.spacing(0.125)} solid ${theme.colors.info};
-  padding: ${theme.spacing(0.7)};
-  width: ${theme.spacing(30)};
-  position: relative;
+  font-family: ${theme.fonts.body};
+  border-radius: 12px;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    max-width: 90%;
+    padding: ${theme.spacing(2)};
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 100%;
+    max-width: 100%;
+    padding: ${theme.spacing(1)};
+    margin: 0;
   }
 `;
 
-export const CommentInputField = styled.input`
-  flex: 1;
-  border: none;
-  font-size: ${theme.spacing(1.75)};
-  outline: none;
-  max-width: 100%;
-  background: transparent;
-  padding-right: ${theme.spacing(4.375)};
-  padding-left: ${theme.spacing(1.25)};
+export const Content = styled.div`
+  display: grid;
+  gap: ${theme.spacing(3)};
+  margin-right: ${theme.spacing(4)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: ${theme.spacing(3)};
+    margin-right: 0;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr;
+    gap: ${theme.spacing(2)};
+    padding: 0.5rem;
+  }
 `;
 
-export const CommentButtonWrapper = styled.button`
-  position: absolute;
-  right: ${theme.spacing(1.25)};
-  top: ${theme.spacing(0.8)};
-  background: none;
-  border: none;
-  font-size: ${theme.spacing(2.375)};
-  color: ${theme.colors.icons};
+export const VideoCard1 = styled.div`
+  padding: ${theme.spacing(1)};
+  background: ${theme.colors.light};
+  border-radius: 8px;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+`;
+
+export const VideoThumbnail = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
+  margin-bottom: ${theme.spacing(1.5)};
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+`;
+
+export const VideoDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(0.5)};
+`;
+
+export const NewsMeta = styled.div`
+  display: flex;
+  margin-top: ${theme.spacing(2)};
+  font-size: ${theme.spacing(1.8)};
+  color: ${theme.colors.textLight};
+  font-family: ${theme.fonts.body};
+  gap: ${theme.spacing(1)};
+`;
+
+export const VideoMetacat = styled.span`
+  font-size: ${theme.spacing(2)};
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  color: ${theme.colors.text};
+  gap: ${theme.spacing(1)};
+`;
+
+export const Title = styled.h4`
+  font-size: ${theme.spacing(2.2)};
+  font-weight: 600;
+  color: ${theme.colors.textDark};
+  margin-bottom: ${theme.spacing(1)};
+  font-family: ${theme.fonts.body};
+  line-height: 1.4;
+`;
+
+export const CommentSection = styled.div`
+  margin-top: ${theme.spacing(0.5)};
+`;
+
+export const InteractionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(1)};
+`;
+
+export const CommentContainer = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1)};
+`;
+
+export const CommentInput = styled.input`
+  flex: 1;
+  background: ${theme.colors.background};
+  border-radius: ${theme.spacing(1.875)};
+  border: ${theme.spacing(0.125)} solid ${theme.colors.info};
+  padding: ${theme.spacing(0.7)} ${theme.spacing(8)} ${theme.spacing(0.7)} ${theme.spacing(1)}; /* Extra padding for button */
+  width: 100%;
+  font-size: ${theme.spacing(1.2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding-right: ${theme.spacing(6)}; /* Less padding on mobile */
+  }
+`;
+
+export const CommentButton = styled.button`
+  padding: ${theme.spacing(0.5)} ${theme.spacing(0.5)};
+  background: ${theme.colors.primary};
+  color: #fff;
+  padding: ${theme.spacing(0.5)} ${theme.spacing(1.5)};
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+`;
+
+export const LikeCount = styled.span`
+  font-size: ${theme.spacing(1.8)};
+  color: ${theme.colors.text};
+`;
+
+export const Comment = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1)};
+  margin-top: ${theme.spacing(1)};
+`;
+
+export const ProfileImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+`;
+
+export const CommentContent = styled.div`
+  flex: 1;
+`;
+
+export const UserHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(1)};
+`;
+
+export const Username = styled.span`
+  font-weight: bold;
+`;
+
+export const Time = styled.span`
+  font-size: ${theme.spacing(1.6)};
+  color: ${theme.colors.textLight};
+`;
+
+export const CommentText = styled.p`
+  margin: ${theme.spacing(0.5)} 0;
+`;
+
+export const Actions = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1)};
+`;
+
+export const ActionIcon = styled.div`
+  cursor: pointer;
+  color: ${theme.colors.textLight};
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${theme.colors.primary};
+  }
 `;

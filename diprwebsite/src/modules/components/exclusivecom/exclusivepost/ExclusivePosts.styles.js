@@ -210,3 +210,4 @@ export const BookmarkIconWrapper = styled.div`
     font-size: ${theme.spacing(1.5)};
   }
 `;
+
