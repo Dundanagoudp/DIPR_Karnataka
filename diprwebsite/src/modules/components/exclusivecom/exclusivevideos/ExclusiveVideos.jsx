@@ -43,7 +43,7 @@ const ExclusiveVideos = () => {
   const [playingVideoId, setPlayingVideoId] = useState(null);
   const [likedVideos, setLikedVideos] = useState(new Set());
   const [comments, setComments] = useState({});
-  const [newComment, setNewComment] = useState("");
+  const [newComments, setNewComments] = useState({}); // Separate state for each video's comment input
   const [userId, setUserId] = useState(null);
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
@@ -136,14 +136,18 @@ const ExclusiveVideos = () => {
     }
   };
 
-  // Handle comment input change
-  const handleCommentChange = (e) => {
-    setNewComment(e.target.value);
+  // Handle comment input change for a specific video
+  const handleCommentChange = (videoId, e) => {
+    setNewComments((prevComments) => ({
+      ...prevComments,
+      [videoId]: e.target.value,
+    }));
   };
 
-  // Handle adding a comment
+  // Handle adding a comment for a specific video
   const handleAddComment = async (videoId) => {
-    if (!newComment.trim()) {
+    const commentText = newComments[videoId]?.trim();
+    if (!commentText) {
       alert("Please enter a comment.");
       return;
     }
@@ -153,7 +157,7 @@ const ExclusiveVideos = () => {
       return;
     }
 
-    const commentData = { text: newComment, videoId, userId };
+    const commentData = { text: commentText, videoId, userId };
 
     try {
       const response = await LongVideoaddComment(commentData);
@@ -162,7 +166,10 @@ const ExclusiveVideos = () => {
         [videoId]: [...(prevComments[videoId] || []), response.data?.comment],
       }));
 
-      setNewComment("");
+      setNewComments((prevComments) => ({
+        ...prevComments,
+        [videoId]: "",
+      }));
       setError("");
     } catch (err) {
       setError("Failed to add comment. Please try again.");
@@ -260,8 +267,8 @@ const ExclusiveVideos = () => {
                 <CommentContainer>
                   <CommentInput
                     type="text"
-                    value={newComment}
-                    onChange={handleCommentChange}
+                    value={newComments[video._id] || ""}
+                    onChange={(e) => handleCommentChange(video._id, e)}
                     placeholder="Add a comment..."
                   />
                   <CommentButton onClick={() => handleAddComment(video._id)}>
