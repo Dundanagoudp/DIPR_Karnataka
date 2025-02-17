@@ -114,6 +114,7 @@ export const LinksList = styled.div`
   color: ${theme.colors.white};
   grid-template-columns: repeat(2, 1fr);
   gap: ${theme.spacing(2)} ${theme.spacing(1)};
+  color: ${theme.colors.white};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
