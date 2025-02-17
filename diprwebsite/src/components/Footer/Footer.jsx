@@ -40,15 +40,6 @@ const Footer = () => {
 
           <Section>
             <Title>Website Policies</Title>
-            {/* <LinksList>
-              <LinkItem><IoIosArrowDroprightCircle  /> Copyright Policy</LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle  /> Hyperlinking Policy</LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle  /> Security Policy</LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle  /> Guidelines</LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle  /> Terms & Conditions</LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle  /> Privacy Policy</LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle  /> Help</LinkItem>
-            </LinksList> */}
             <LinksList>
               <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/copyright-policy">Copyright Policy</Link></LinkItem>
               <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/hyperlinking-policy">Hyperlinking Policy</Link></LinkItem>
