@@ -4,8 +4,6 @@ import { FaFacebook, FaTwitter, FaLink } from "react-icons/fa";
 import Cookies from "js-cookie"; // Import for userId retrieval
 import {
   Container,
-  TabsContainer,
-  Tab,
   NewsCard,
   NewsImage,
   NewsContent,
@@ -18,37 +16,13 @@ import {
   NewsMeta,
   Title,
 } from "../allrecommended/LatestRecommended.styles";
-import { CategoryApi } from "../../../../services/categoryapi/CategoryApi";
 import { trackClick } from "../../../../services/newsApi/NewsApi";
 import AddComments from "../../comments/AddComments";
 import { getRecommendedNews } from "../../../../services/newsApi/NewsApi"; 
 
 const LatestNewsRecommended = () => {
-  const [activeTab, setActiveTab] = useState(null);
   const [newsData, setNewsData] = useState([]);
-  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await CategoryApi();
-        if (
-          response?.data &&
-          Array.isArray(response.data) &&
-          response.data.length > 0
-        ) {
-          setCategories(response.data);
-        } else {
-          console.warn("Empty category API response.");
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -78,7 +52,7 @@ const LatestNewsRecommended = () => {
     };
 
     fetchNews();
-  }, [activeTab]);
+  }, []);
 
   const handleReadMore = async (newsId) => {
     const userId = Cookies.get("userId"); // Retrieve userId from cookies
@@ -130,22 +104,7 @@ const LatestNewsRecommended = () => {
 
   return (
     <Container>
-      <Title>All News</Title>
-      <TabsContainer>
-        {categories.length > 0 ? (
-          categories.map((category) => (
-            <Tab
-              key={category._id}
-              active={activeTab === category._id}
-              onClick={() => setActiveTab(category._id)}
-            >
-              {category.name}
-            </Tab>
-          ))
-        ) : (
-          <Tab>No Categories Available</Tab>
-        )}
-      </TabsContainer>
+      <Title>Latest News</Title>
 
       {newsData.length > 0 ? (
         newsData.map((news) => (
@@ -205,7 +164,7 @@ const LatestNewsRecommended = () => {
           </NewsCard>
         ))
       ) : (
-        <p>No news available for the selected category.</p>
+        <p>No news available.</p>
       )}
     </Container>
   );
