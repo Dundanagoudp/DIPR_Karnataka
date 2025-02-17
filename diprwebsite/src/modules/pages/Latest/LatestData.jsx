@@ -3,7 +3,7 @@ import LatestNewsRecommended from "../../components/Latestnews/allrecommended/La
 
 export const LatestData = () => {
       return (
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" ,justifyContent:"center"}}>
                   <div>
                   <LatestNewsRecommended/>
                   </div>
