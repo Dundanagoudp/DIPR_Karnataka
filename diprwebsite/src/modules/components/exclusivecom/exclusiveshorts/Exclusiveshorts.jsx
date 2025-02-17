@@ -53,11 +53,11 @@ const Exclusiveshorts = () => {
         const response = await getVideos();
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
-          console.log("Received videos data:", response.data);
 
+          // Initialize like counts with the data from API response
           const initialLikeCounts = {};
           response.data.forEach((video) => {
-            initialLikeCounts[video._id] = video.likes || 0;
+            initialLikeCounts[video._id] = video.total_Likes || 0;
           });
           setLikeCounts(initialLikeCounts);
 
@@ -85,6 +85,7 @@ const Exclusiveshorts = () => {
 
   const handleLikeClick = async (videoId) => {
     if (!userId) {
+      setError("User is not logged in.");
       return;
     }
 
@@ -92,17 +93,20 @@ const Exclusiveshorts = () => {
       const isLiked = likedVideos.has(videoId);
       const likeData = { longVideoId: videoId, userId };
 
-      const response = await ShortlikeVideo(likeData);
+      // Send like request
+      await ShortlikeVideo(likeData);
+      
       const newLikedVideos = new Set(likedVideos);
       isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
       setLikedVideos(newLikedVideos);
 
+      // Update like count
       setLikeCounts((prevCounts) => ({
         ...prevCounts,
         [videoId]: isLiked ? prevCounts[videoId] - 1 : prevCounts[videoId] + 1,
       }));
     } catch (error) {
-      console.error("Error liking video:", error);
+      setError("Failed to like the video. Please try again.");
     }
   };
 
@@ -115,7 +119,7 @@ const Exclusiveshorts = () => {
 
   const handleAddComment = async (videoId) => {
     if (!newComment[videoId]?.trim()) {
-      alert("Please enter a comment.");
+      setError("Please enter a comment.");
       return;
     }
 
@@ -193,11 +197,7 @@ const Exclusiveshorts = () => {
             <CommentSection>
               <InteractionContainer>
                 <CommentContainer>
-                  <AiOutlineLike
-                    size={30}
-                    color={likedVideos.has(video._id) ? "blue" : "#000"}
-                    onClick={() => handleLikeClick(video._id)}
-                  />
+                  <AiOutlineLike size={30} color={likedVideos.has(video._id) ? "blue" : "#000"} onClick={() => handleLikeClick(video._id)} />
                   <LikeCount>{likeCounts[video._id] || 0}</LikeCount>
                   <FaRegComment size={25} onClick={() => toggleCommentSection(video._id)} />
                   <CommentInput
@@ -218,11 +218,14 @@ const Exclusiveshorts = () => {
                     ) : (
                       comments[video._id]?.map((comment) => (
                         <Comment key={comment._id}>
-                          <ProfileImage src={comment.user.profileImage || "https://via.placeholder.com/50"} alt={comment.user.displayName} />
+                          <ProfileImage
+                            src={comment.user?.profileImage || "https://via.placeholder.com/50"}
+                            alt={comment.user?.displayName || "Anonymous"}
+                          />
                           <CommentContent>
                             <UserHeader>
                               <UserInfo>
-                                <Username>{comment.user.displayName}</Username>
+                                <Username>{comment.user?.displayName || "Anonymous"}</Username>
                               </UserInfo>
                               <Time>{new Date(comment.createdTime).toLocaleTimeString()}</Time>
                             </UserHeader>

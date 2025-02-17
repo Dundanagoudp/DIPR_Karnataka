@@ -48,7 +48,6 @@ const ExclusiveVideos = () => {
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
   const [openCommentSection, setOpenCommentSection] = useState(null);
-  const [loadingComments, setLoadingComments] = useState(false);
 
   // Fetch userId from cookies
   useEffect(() => {
@@ -161,11 +160,15 @@ const ExclusiveVideos = () => {
 
     try {
       const response = await LongVideoaddComment(commentData);
+      const newComment = response.data?.comment;
+
+      // Update the comment section to reflect the new comment
       setComments((prevComments) => ({
         ...prevComments,
-        [videoId]: [...(prevComments[videoId] || []), response.data?.comment],
+        [videoId]: [...(prevComments[videoId] || []), newComment],
       }));
 
+      // Clear the new comment input
       setNewComments((prevComments) => ({
         ...prevComments,
         [videoId]: "",
@@ -194,7 +197,7 @@ const ExclusiveVideos = () => {
 
     try {
       const likeData = { commentId, userId };
-      const response = await likeLongVideo(likeData); // Use the same API for comment likes
+      const response = await likeLongVideo(likeData); 
 
       setComments((prevComments) => ({
         ...prevComments,
@@ -304,7 +307,7 @@ const ExclusiveVideos = () => {
                                 {new Date(comment.createdTime).toLocaleTimeString()}
                               </Time>
                             </UserHeader>
-                            <CommentText>{comment.text}</CommentText>
+                            <CommentText>{comment.comment}</CommentText>
                             <Actions>
                               <ActionIcon>
                                 <FaComment />

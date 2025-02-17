@@ -6,8 +6,7 @@ export const LatestData = () => {
             <div style={{ display: "flex" ,justifyContent:"center"}}>
                   <div>
                   <LatestNewsRecommended/>
-                  </div>
-             
+                  </div>          
             </div>
       )
 }
