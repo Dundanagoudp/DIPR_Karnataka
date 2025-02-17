@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie"; 
+import Cookies from "js-cookie";
 import { FaPlay, FaRegComment, FaPaperPlane, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
@@ -43,7 +43,7 @@ const ExclusiveVideos = () => {
   const [playingVideoId, setPlayingVideoId] = useState(null);
   const [likedVideos, setLikedVideos] = useState(new Set());
   const [comments, setComments] = useState({});
-  const [newComment, setNewComment] = useState("");
+  const [newComments, setNewComments] = useState({}); // Changed to an object
   const [userId, setUserId] = useState(null);
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
@@ -77,6 +77,9 @@ const ExclusiveVideos = () => {
               initialComments[video._id] = video.Comments;
             }
           });
+
+          // Set the comments into local storage for persistence
+          localStorage.setItem('comments', JSON.stringify(initialComments));
           setComments(initialComments);
         } else {
           setVideosData([]);
@@ -87,6 +90,14 @@ const ExclusiveVideos = () => {
     };
 
     fetchVideos();
+  }, []);
+
+  useEffect(() => {
+    // Load comments from localStorage if available
+    const savedComments = JSON.parse(localStorage.getItem('comments'));
+    if (savedComments) {
+      setComments(savedComments);
+    }
   }, []);
 
   const handlePlayClick = (videoId) => {
@@ -127,12 +138,16 @@ const ExclusiveVideos = () => {
     }
   };
 
-  const handleCommentChange = (e) => {
-    setNewComment(e.target.value);
+  const handleCommentChange = (e, videoId) => {
+    setNewComments(prevComments => ({
+      ...prevComments,
+      [videoId]: e.target.value
+    }));
   };
 
   const handleAddComment = async (videoId) => {
-    if (!newComment.trim()) {
+    const commentText = newComments[videoId]?.trim();
+    if (!commentText) {
       alert("Please enter a comment.");
       return;
     }
@@ -142,16 +157,26 @@ const ExclusiveVideos = () => {
       return;
     }
 
-    const commentData = { text: newComment, videoId, userId };
+    const commentData = { text: commentText, videoId, userId };
 
     try {
       const response = await LongVideoaddComment(commentData);
-      setComments(prevComments => ({
-        ...prevComments,
-        [videoId]: [...(prevComments[videoId] || []), response.comment]
-      }));
 
-      setNewComment("");
+      // Update local storage for persistence
+      setComments(prevComments => {
+        const updatedComments = { ...prevComments };
+        if (!updatedComments[videoId]) {
+          updatedComments[videoId] = [];
+        }
+        updatedComments[videoId].push(response.comment);
+        localStorage.setItem('comments', JSON.stringify(updatedComments));
+        return updatedComments;
+      });
+
+      setNewComments(prevComments => ({
+        ...prevComments,
+        [videoId]: ""
+      }));
       setError("");
     } catch (err) {
       setError("Failed to add comment. Please try again.");
@@ -238,8 +263,8 @@ const ExclusiveVideos = () => {
                 <CommentContainer>
                   <CommentInput
                     type="text"
-                    value={newComment}
-                    onChange={handleCommentChange}
+                    value={newComments[video._id] || ""}
+                    onChange={(e) => handleCommentChange(e, video._id)}
                     placeholder="Add a comment..."
                   />
                   <CommentButton onClick={() => handleAddComment(video._id)}>
@@ -248,7 +273,6 @@ const ExclusiveVideos = () => {
                 </CommentContainer>
               </InteractionContainer>
 
-              {/* Animate the opening and closing of the comment section */}
               <AnimatePresence>
                 {openCommentSection === video._id && (
                   <motion.div

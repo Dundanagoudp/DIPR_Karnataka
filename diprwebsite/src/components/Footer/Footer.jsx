@@ -50,13 +50,13 @@ const Footer = () => {
               <LinkItem><IoIosArrowDroprightCircle  /> Help</LinkItem>
             </LinksList> */}
             <LinksList>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/copyright-policy">Copyright Policy</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/hyperlinking-policy">Hyperlinking Policy</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/security-policy">Security Policy</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/guidelines">Guidelines</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/terms-and-conditions">Terms & Conditions</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/privacy-policy">Privacy Policy</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/help">Help</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/copyright-policy">Copyright Policy</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/hyperlinking-policy">Hyperlinking Policy</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/security-policy">Security Policy</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/guidelines">Guidelines</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/terms-and-conditions">Terms & Conditions</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/privacy-policy">Privacy Policy</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/help">Help</Link></LinkItem>
             </LinksList>
           </Section>
 

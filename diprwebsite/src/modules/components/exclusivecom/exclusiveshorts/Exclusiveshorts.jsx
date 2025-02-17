@@ -36,7 +36,7 @@ const Exclusiveshorts = () => {
   const [playingVideoId, setPlayingVideoId] = useState(null);
   const [likedVideos, setLikedVideos] = useState(new Set());
   const [comments, setComments] = useState({});
-  const [newComment, setNewComment] = useState("");
+  const [newComment, setNewComment] = useState({});
   const [userId, setUserId] = useState(null);
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
@@ -55,14 +55,12 @@ const Exclusiveshorts = () => {
           setVideosData(response.data);
           console.log("Received videos data:", response.data);
 
-          // Initialize like counts
           const initialLikeCounts = {};
           response.data.forEach((video) => {
             initialLikeCounts[video._id] = video.likes || 0;
           });
           setLikeCounts(initialLikeCounts);
 
-          // Initialize comments if they exist in the video data
           const initialComments = {};
           response.data.forEach((video) => {
             if (video.Comments && Array.isArray(video.Comments)) {
@@ -108,12 +106,15 @@ const Exclusiveshorts = () => {
     }
   };
 
-  const handleCommentChange = (e) => {
-    setNewComment(e.target.value);
+  const handleCommentChange = (e, videoId) => {
+    setNewComment((prev) => ({
+      ...prev,
+      [videoId]: e.target.value,
+    }));
   };
 
   const handleAddComment = async (videoId) => {
-    if (!newComment.trim()) {
+    if (!newComment[videoId]?.trim()) {
       alert("Please enter a comment.");
       return;
     }
@@ -123,7 +124,7 @@ const Exclusiveshorts = () => {
       return;
     }
 
-    const commentData = { text: newComment, videoId, userId };
+    const commentData = { text: newComment[videoId], videoId, userId };
 
     try {
       const response = await ShortVideoaddComment(commentData);
@@ -132,7 +133,10 @@ const Exclusiveshorts = () => {
         [videoId]: [...(prevComments[videoId] || []), response.comment],
       }));
 
-      setNewComment("");
+      setNewComment((prev) => ({
+        ...prev,
+        [videoId]: "",
+      }));
       setError("");
     } catch (err) {
       setError("Failed to add comment. Please try again.");
@@ -195,47 +199,32 @@ const Exclusiveshorts = () => {
                     onClick={() => handleLikeClick(video._id)}
                   />
                   <LikeCount>{likeCounts[video._id] || 0}</LikeCount>
-                  <FaRegComment
-                    size={25}
-                    onClick={() => toggleCommentSection(video._id)}
-                  />
+                  <FaRegComment size={25} onClick={() => toggleCommentSection(video._id)} />
                   <CommentInput
                     type="text"
-                    value={newComment}
-                    onChange={handleCommentChange}
+                    value={newComment[video._id] || ""}
+                    onChange={(e) => handleCommentChange(e, video._id)}
                     placeholder="Add a comment..."
                   />
-                  <CommentButton onClick={() => handleAddComment(video._id)}>
-                    Add Comment
-                  </CommentButton>
+                  <CommentButton onClick={() => handleAddComment(video._id)}>Add Comment</CommentButton>
                 </CommentContainer>
               </InteractionContainer>
 
               <AnimatePresence>
                 {openCommentSection === video._id && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }}>
                     {comments[video._id]?.length === 0 ? (
                       <p>No comments yet.</p>
                     ) : (
                       comments[video._id]?.map((comment) => (
                         <Comment key={comment._id}>
-                          <ProfileImage
-                            src={comment.user.profileImage || "https://via.placeholder.com/50"}
-                            alt={comment.user.displayName}
-                          />
+                          <ProfileImage src={comment.user.profileImage || "https://via.placeholder.com/50"} alt={comment.user.displayName} />
                           <CommentContent>
                             <UserHeader>
                               <UserInfo>
                                 <Username>{comment.user.displayName}</Username>
                               </UserInfo>
-                              <Time>
-                                {new Date(comment.createdTime).toLocaleTimeString()}
-                              </Time>
+                              <Time>{new Date(comment.createdTime).toLocaleTimeString()}</Time>
                             </UserHeader>
                             <CommentText>{comment.comment}</CommentText>
                             <Actions>

@@ -111,6 +111,7 @@ export const Text = styled.p`
 
 export const LinksList = styled.div`
   display: grid;
+  color: ${theme.colors.white};
   grid-template-columns: repeat(2, 1fr);
   gap: ${theme.spacing(2)} ${theme.spacing(1)};
 
