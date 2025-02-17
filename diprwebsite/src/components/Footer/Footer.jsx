@@ -1,6 +1,7 @@
 import React from "react";
 import { FaCopyright, FaLink, FaShieldAlt, FaEye, FaQuestionCircle, FaClock, FaUsers, FaCodeBranch } from "react-icons/fa";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { Link } from "react-router-dom";
 import {
   FooterContainer,
   FooterContent,
@@ -39,7 +40,7 @@ const Footer = () => {
 
           <Section>
             <Title>Website Policies</Title>
-            <LinksList>
+            {/* <LinksList>
               <LinkItem><IoIosArrowDroprightCircle  /> Copyright Policy</LinkItem>
               <LinkItem><IoIosArrowDroprightCircle  /> Hyperlinking Policy</LinkItem>
               <LinkItem><IoIosArrowDroprightCircle  /> Security Policy</LinkItem>
@@ -47,6 +48,15 @@ const Footer = () => {
               <LinkItem><IoIosArrowDroprightCircle  /> Terms & Conditions</LinkItem>
               <LinkItem><IoIosArrowDroprightCircle  /> Privacy Policy</LinkItem>
               <LinkItem><IoIosArrowDroprightCircle  /> Help</LinkItem>
+            </LinksList> */}
+            <LinksList>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/copyright-policy">Copyright Policy</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/hyperlinking-policy">Hyperlinking Policy</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/security-policy">Security Policy</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/guidelines">Guidelines</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/terms-and-conditions">Terms & Conditions</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/privacy-policy">Privacy Policy</Link></LinkItem>
+              <LinkItem><IoIosArrowDroprightCircle /> <Link to="/help">Help</Link></LinkItem>
             </LinksList>
           </Section>
 
