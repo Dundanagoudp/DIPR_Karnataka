@@ -14,6 +14,13 @@ import AboutUspage from "./modules/pages/aboutuspage/AboutUspage";
 import Exclusive from "./modules/pages/exclusivepage/Exclusive";
 import ContactUs from "./modules/pages/ContactUspage/ContactUs";
 import Test from "./test";
+import CopyrightPolicy from "./components/WebsitePolicies/CopyrightPolicy/CopyrightPolicy";
+import HyperlinkingPolicy from "./components/WebsitePolicies/HyperlinkingPolicy/HyperlinkingPolicy";
+import SecurityPolicy from "./components/WebsitePolicies/SecurityPolicy/SecurityPolicy";
+import Guidelines from "./components/WebsitePolicies/Guidelines/Guidelines";
+import TermsAndConditions from "./components/WebsitePolicies/TermsAndConditions/TermsAndConditions";
+import PrivacyPolicy from "./components/WebsitePolicies/PrivacyPolicy/PrivacyPolicy";
+import Help from "./components/WebsitePolicies/Help/Help";
 
 const App = () => {
   return (
@@ -29,6 +36,13 @@ const App = () => {
             <Route path="/aboutuspage" element={<AboutUspage />} />
             <Route path="/contactus" element={<ContactUs />} />
             <Route path="/test" element={<Test />} />
+            <Route path="/copyright-policy" element={<CopyrightPolicy />} />
+            <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
+            <Route path="/security-policy" element={<SecurityPolicy />} />
+            <Route path="/guidelines" element={<Guidelines />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/help" element={<Help />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/otp" element={<Otp />} />
