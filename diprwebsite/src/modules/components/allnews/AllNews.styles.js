@@ -26,6 +26,8 @@ export const Title = styled.h1`
   }
 `;
 
+
+
 export const TabsContainer = styled.div`
   display: flex;
   gap: ${theme.spacing(1.5)};

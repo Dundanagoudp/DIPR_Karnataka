@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
-import { 
-  CarouselContainer, 
-  CarouselItem, 
-  Overlay, 
-  ContentWrapper, 
-  TrendingCategory, 
-  NewsInfo, 
-  NewsTitle, 
-  ArrowIcon, 
-  DotContainer, 
-  Dot 
+import {
+  CarouselContainer,
+  CarouselItem,
+  Overlay,
+  ContentWrapper,
+  TrendingCategory,
+  NewsInfo,
+  NewsTitle,
+  ArrowIcon,
+  DotContainer,
+  Dot
 } from "../Trending/Trending.styles";
 import theme from "../../../theme/Theme";
 import { BannerApi } from "../../../services/categoryapi/CategoryApi";
@@ -75,7 +75,7 @@ const Trending = () => {
           </CarouselItem>
         ))
       ) : (
-        <p>Loading...</p>
+        <p>No trending news available at the moment.</p> // Display message if no news is available
       )}
 
       {/* Dots for navigation */}
