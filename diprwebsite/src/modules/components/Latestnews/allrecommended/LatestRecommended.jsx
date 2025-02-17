@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaLink } from "react-icons/fa";
-import Cookies from "js-cookie"; // Import for userId retrieval
+import Cookies from "js-cookie"; 
 import {
   Container,
   NewsCard,
@@ -55,16 +55,15 @@ const LatestNewsRecommended = () => {
   }, []);
 
   const handleReadMore = async (newsId) => {
-    const userId = Cookies.get("userId"); // Retrieve userId from cookies
+    const userId = Cookies.get("userId"); 
     if (!userId) {
       alert("User not logged in. Please log in to continue.");
       return;
     }
-
     try {
       await trackClick({ newsId, userId }); 
       console.log("Click registered successfully!");
-      navigate(`/news/${newsId}`); // Navigate after successful API call
+      navigate(`/news/${newsId}`);
     } catch (error) {
       console.error("Error registering click:", error);
       alert("Error tracking click. Please try again.");

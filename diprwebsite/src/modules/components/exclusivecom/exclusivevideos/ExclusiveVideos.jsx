@@ -34,7 +34,7 @@ import {
   Time,
   CommentText,
   Actions,
-  ActionIcon
+  ActionIcon,
 } from "../exclusivevideos/ExclusiveVideos.styles";
 import { getLongVideos, likeLongVideo, LongVideoaddComment } from "../../../../services/videoApi/videoApi";
 
@@ -43,48 +43,50 @@ const ExclusiveVideos = () => {
   const [playingVideoId, setPlayingVideoId] = useState(null);
   const [likedVideos, setLikedVideos] = useState(new Set());
   const [comments, setComments] = useState({});
-  const [newComments, setNewComments] = useState({}); // Changed to an object
+  const [newComment, setNewComment] = useState("");
   const [userId, setUserId] = useState(null);
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
   const [openCommentSection, setOpenCommentSection] = useState(null);
   const [loadingComments, setLoadingComments] = useState(false);
 
+  // Fetch userId from cookies
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
     setUserId(storedUserId);
   }, []);
 
+  // Fetch videos and initialize likes and comments
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const response = await getLongVideos();
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
-          console.log("Received videos data:", response.data);
 
-          // Initialize like counts
+          // Initialize like counts for videos
           const initialLikeCounts = {};
-          response.data.forEach(video => {
-            initialLikeCounts[video._id] = video.likes || 0;
+          response.data.forEach((video) => {
+            initialLikeCounts[video._id] = video.total_Likes || 0;
           });
           setLikeCounts(initialLikeCounts);
 
-          // Initialize comments if they exist in the video data
+          // Initialize comments and their likes
           const initialComments = {};
-          response.data.forEach(video => {
+          response.data.forEach((video) => {
             if (video.Comments && Array.isArray(video.Comments)) {
-              initialComments[video._id] = video.Comments;
+              initialComments[video._id] = video.Comments.map((comment) => ({
+                ...comment,
+                likes: comment.total_Likes || 0,
+              }));
             }
           });
-
-          // Set the comments into local storage for persistence
-          localStorage.setItem('comments', JSON.stringify(initialComments));
           setComments(initialComments);
         } else {
           setVideosData([]);
         }
       } catch (error) {
+        console.error("Error fetching videos:", error);
         setVideosData([]);
       }
     };
@@ -92,18 +94,12 @@ const ExclusiveVideos = () => {
     fetchVideos();
   }, []);
 
-  useEffect(() => {
-    // Load comments from localStorage if available
-    const savedComments = JSON.parse(localStorage.getItem('comments'));
-    if (savedComments) {
-      setComments(savedComments);
-    }
-  }, []);
-
+  // Handle video play
   const handlePlayClick = (videoId) => {
     setPlayingVideoId(videoId);
   };
 
+  // Handle video hover
   const handleHoverVideo = (videoId, isHovered) => {
     const videoElement = document.getElementById(videoId);
     if (videoElement) {
@@ -115,8 +111,10 @@ const ExclusiveVideos = () => {
     }
   };
 
+  // Handle like for a video
   const handleLikeClick = async (videoId) => {
     if (!userId) {
+      setError("User is not logged in.");
       return;
     }
 
@@ -129,25 +127,23 @@ const ExclusiveVideos = () => {
       isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
       setLikedVideos(newLikedVideos);
 
-      setLikeCounts(prevCounts => ({
+      setLikeCounts((prevCounts) => ({
         ...prevCounts,
-        [videoId]: isLiked ? prevCounts[videoId] - 1 : prevCounts[videoId] + 1
+        [videoId]: response.data?.total_Likes || prevCounts[videoId] + (isLiked ? -1 : 1),
       }));
     } catch (error) {
       console.error("Error liking video:", error);
     }
   };
 
-  const handleCommentChange = (e, videoId) => {
-    setNewComments(prevComments => ({
-      ...prevComments,
-      [videoId]: e.target.value
-    }));
+  // Handle comment input change
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
   };
 
+  // Handle adding a comment
   const handleAddComment = async (videoId) => {
-    const commentText = newComments[videoId]?.trim();
-    if (!commentText) {
+    if (!newComment.trim()) {
       alert("Please enter a comment.");
       return;
     }
@@ -157,32 +153,23 @@ const ExclusiveVideos = () => {
       return;
     }
 
-    const commentData = { text: commentText, videoId, userId };
+    const commentData = { text: newComment, videoId, userId };
 
     try {
       const response = await LongVideoaddComment(commentData);
-
-      // Update local storage for persistence
-      setComments(prevComments => {
-        const updatedComments = { ...prevComments };
-        if (!updatedComments[videoId]) {
-          updatedComments[videoId] = [];
-        }
-        updatedComments[videoId].push(response.comment);
-        localStorage.setItem('comments', JSON.stringify(updatedComments));
-        return updatedComments;
-      });
-
-      setNewComments(prevComments => ({
+      setComments((prevComments) => ({
         ...prevComments,
-        [videoId]: ""
+        [videoId]: [...(prevComments[videoId] || []), response.data?.comment],
       }));
+
+      setNewComment("");
       setError("");
     } catch (err) {
       setError("Failed to add comment. Please try again.");
     }
   };
 
+  // Toggle comment section
   const toggleCommentSection = (videoId) => {
     if (openCommentSection === videoId) {
       setOpenCommentSection(null);
@@ -191,15 +178,28 @@ const ExclusiveVideos = () => {
     }
   };
 
-  const handleLikeComment = (commentId, videoId) => {
-    setComments(prevComments => ({
-      ...prevComments,
-      [videoId]: prevComments[videoId].map(comment =>
-        comment._id === commentId
-          ? { ...comment, likes: (comment.likes || 0) + 1 }
-          : comment
-      )
-    }));
+  // Handle like for a comment
+  const handleLikeComment = async (commentId, videoId) => {
+    if (!userId) {
+      setError("User is not logged in.");
+      return;
+    }
+
+    try {
+      const likeData = { commentId, userId };
+      const response = await likeLongVideo(likeData); // Use the same API for comment likes
+
+      setComments((prevComments) => ({
+        ...prevComments,
+        [videoId]: prevComments[videoId].map((comment) =>
+          comment._id === commentId
+            ? { ...comment, likes: response.data?.total_Likes || comment.likes + 1 }
+            : comment
+        ),
+      }));
+    } catch (error) {
+      console.error("Error liking comment:", error);
+    }
   };
 
   return (
@@ -246,25 +246,22 @@ const ExclusiveVideos = () => {
               <InteractionContainer>
                 <LikeContainer>
                   <FlexContainer2>
-                    <AiOutlineLike 
-                      size={30} 
-                      color={likedVideos.has(video._id) ? "blue" : "#000"} 
-                      onClick={() => handleLikeClick(video._id)} 
+                    <AiOutlineLike
+                      size={30}
+                      color={likedVideos.has(video._id) ? "blue" : "#000"}
+                      onClick={() => handleLikeClick(video._id)}
                     />
-                    <LikeCount style={{color:"#000"}} >{likeCounts[video._id] || 0}</LikeCount>
-                    <FaRegComment 
-                      size={25} 
-                      onClick={() => toggleCommentSection(video._id)} 
-                    />
-                    <FaPaperPlane size={25}  />
+                    <LikeCount style={{ color: "#000" }}>{likeCounts[video._id] || 0}</LikeCount>
+                    <FaRegComment size={25} onClick={() => toggleCommentSection(video._id)} />
+                    <FaPaperPlane size={25} />
                   </FlexContainer2>
                 </LikeContainer>
 
                 <CommentContainer>
                   <CommentInput
                     type="text"
-                    value={newComments[video._id] || ""}
-                    onChange={(e) => handleCommentChange(e, video._id)}
+                    value={newComment}
+                    onChange={handleCommentChange}
                     placeholder="Add a comment..."
                   />
                   <CommentButton onClick={() => handleAddComment(video._id)}>
@@ -273,6 +270,7 @@ const ExclusiveVideos = () => {
                 </CommentContainer>
               </InteractionContainer>
 
+              {/* Animate the opening and closing of the comment section */}
               <AnimatePresence>
                 {openCommentSection === video._id && (
                   <motion.div
@@ -287,19 +285,19 @@ const ExclusiveVideos = () => {
                       comments[video._id]?.map((comment) => (
                         <Comment key={comment._id}>
                           <ProfileImage
-                            src={comment.user.profileImage || "https://via.placeholder.com/50"}
-                            alt={comment.user.displayName}
+                            src={comment.user?.profileImage || "https://via.placeholder.com/50"}
+                            alt={comment.user?.displayName}
                           />
                           <CommentContent>
                             <UserHeader>
                               <UserInfo>
-                                <Username>{comment.user.displayName}</Username>
+                                <Username>{comment.user?.displayName}</Username>
                               </UserInfo>
                               <Time>
                                 {new Date(comment.createdTime).toLocaleTimeString()}
                               </Time>
                             </UserHeader>
-                            <CommentText>{comment.comment}</CommentText>
+                            <CommentText>{comment.text}</CommentText>
                             <Actions>
                               <ActionIcon>
                                 <FaComment />
