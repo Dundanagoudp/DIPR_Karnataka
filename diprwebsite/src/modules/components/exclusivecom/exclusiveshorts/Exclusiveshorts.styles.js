@@ -278,7 +278,7 @@ export const Content = styled.div`
   margin-right: ${theme.spacing(4)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(2, 1fr);
+    // grid-template-columns: repeat(2, 1fr);
     gap: ${theme.spacing(3)};
     margin-right: 0;
   }
