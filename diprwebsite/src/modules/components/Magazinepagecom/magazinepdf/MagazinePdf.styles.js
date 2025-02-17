@@ -234,9 +234,6 @@ export const MagazineCard = styled.div`
   display: flex;
   flex-direction: column;
  
-  &:hover {
-    transform: translateY(-5px);
-  }
 `;
  
 export const MagazineThumbnail = styled.img`
