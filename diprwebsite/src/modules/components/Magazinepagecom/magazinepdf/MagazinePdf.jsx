@@ -226,12 +226,16 @@ const MagazinePdf = () => {
                   onClick={() => handleBookmarkClick(magazine._id)}
                   isBookmarked={bookmarkedMagazines.has(magazine._id)}
                 >
-                  <CiBookmark />
                 </BookmarkIconWrapper>
               </MagazineMetacat>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <ReadMoreButton onClick={() => handleReadMoreClick(magazine.magazinePdf)}>
                 READ PDF <ReadMoreIcon><FaAngleDoubleRight /></ReadMoreIcon>
+                
               </ReadMoreButton>
+              <CiBookmark />
+              </div>
+
             </MagazineDetails>
           </MagazineCard>
         ))}
