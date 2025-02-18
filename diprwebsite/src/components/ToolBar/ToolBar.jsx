@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// ToolBar.js
+import React, { useState, useContext } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import {
   ToolbarContainer,
@@ -8,18 +9,11 @@ import {
   FontControls,
   Select,
 } from "./ToolBar.styles";
+import { FontSizeContext } from "../../context/FontSizeProvider";
 
 const ToolBar = ({ onSearch, onLanguageChange }) => {
-  const [fontSize, setFontSize] = useState(100);
+  const { fontSize, changeFontSize } = useContext(FontSizeContext);
   const [searchText, setSearchText] = useState("");
-
-  const handleFontSizeChange = (change) => {
-    let newSize = fontSize + change;
-    if (newSize < 50) newSize = 50; 
-    if (newSize > 200) newSize = 200; 
-    setFontSize(newSize);
-    document.documentElement.style.fontSize = `${newSize}%`;
-  };
 
   return (
     <ToolbarContainer>
@@ -42,17 +36,17 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
       {/* Font Size Controls */}
       <FontControls>
         <span>Font Size <b>Aa</b></span>
-        <button onClick={() => handleFontSizeChange(-10)}> <b>-</b></button>
+        <button onClick={() => changeFontSize(-10)}><b>-</b></button>
         <b><span>{fontSize}%</span></b>
-        <button onClick={() => handleFontSizeChange(10)}> <b>+</b> </button>
-        <button onClick={() => handleFontSizeChange(100 - fontSize)}>Reset</button>
+        <button onClick={() => changeFontSize(10)}><b>+</b></button>
+        <button onClick={() => changeFontSize(100 - fontSize)}>Reset</button>
       </FontControls>
 
       {/* Language Selector */}
       <Select onChange={(e) => onLanguageChange && onLanguageChange(e.target.value)}>
         <option value="en">English</option>
-        <option value="es" disabled>Español</option>
-        <option value="fr" disabled>Français</option>
+        <option value="es" disabled>Kannada</option>
+        <option value="fr" disabled>Hindi</option>
         <option value="de" disabled>Deutsch</option>
       </Select>
     </ToolbarContainer>

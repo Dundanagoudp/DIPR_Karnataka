@@ -6,18 +6,16 @@ import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
 import ToolBar from "../components/ToolBar/ToolBar";
 
-
 const Applayout = () => {
-
   return (
     <div>
-      <Header  /> 
-      <NavBar/> 
-      <CategoryTab/>
-      <ToolBar/>
-      <Outlet />  
+      <Header />
+      <NavBar />
+      <CategoryTab />
+      <ToolBar />
+      <Outlet />
       <Footer />
-      </div>
+    </div>
   );
 };
 

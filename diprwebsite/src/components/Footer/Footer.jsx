@@ -1,5 +1,5 @@
-import React from "react";
-import { FaCopyright, FaLink, FaShieldAlt, FaEye, FaQuestionCircle, FaClock, FaUsers, FaCodeBranch } from "react-icons/fa";
+import React, { useContext } from "react";
+import { FaClock, FaUsers, FaCodeBranch } from "react-icons/fa";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
 import {
@@ -13,58 +13,81 @@ import {
   Text,
   LinksList,
   LinkItem,
-  FooterStripContainer, 
+  FooterStripContainer,
   FooterStrip,
   StripText,
-  FooterSection
-  
+  FooterSection,
 } from "./Footer.styles";
 import logo from '../../assets/logo.png';
+import { FontSizeContext } from "../../context/FontSizeProvider";
 
 const Footer = () => {
+  const { fontSize } = useContext(FontSizeContext); 
+
   return (
-    <FooterContainer>
+    <FooterContainer style={{ fontSize: `${fontSize}%` }}> 
       <FooterSection>
-        <FooterContent>
+        <FooterContent style={{ fontSize: `${fontSize}%` }}>
           <LogoSection>
             <Logo src={logo} alt="Government Logo" />
           </LogoSection>
 
-          <Section>
-            <Title>Disclaimer :</Title>
-            <Text>
+          <Section style={{ fontSize: `${fontSize}%` }}>
+            <Title style={{ fontSize: `${fontSize}%` }}>Disclaimer :</Title>
+            <Text style={{ fontSize: `${fontSize}%` }}>
               Please note that this page also provides links to the websites / web pages of Govt. Ministries/Departments/Organisations.
               The content of these websites are owned by the respective organisations and they may be contacted for any further information or suggestion.
             </Text>
           </Section>
 
-          <Section>
-            <Title>Website Policies</Title>
-            <LinksList>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/copyright-policy">Copyright Policy</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/hyperlinking-policy">Hyperlinking Policy</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/security-policy">Security Policy</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/guidelines">Guidelines</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/terms-and-conditions">Terms & Conditions</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/privacy-policy">Privacy Policy</Link></LinkItem>
-              <LinkItem><IoIosArrowDroprightCircle /> <Link style={ {color: 'inherit'}} to="/help">Help</Link></LinkItem>
-            </LinksList>
-          </Section>
+          <Section style={{ fontSize: `${fontSize}%` }}>
+  <Title style={{ fontSize: `${fontSize}%` }}>Website Policies</Title>
+  <LinksList style={{ fontSize: `${fontSize}%` }}>
+    <LinkItem style={{ fontSize: `${fontSize}%` }}>
+      <IoIosArrowDroprightCircle /> 
+      <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/copyright-policy">Copyright Policy</Link>
+    </LinkItem>
+    <LinkItem style={{ fontSize: `${fontSize}%` }}>
+      <IoIosArrowDroprightCircle /> 
+      <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/hyperlinking-policy">Hyperlinking Policy</Link>
+    </LinkItem>
+    <LinkItem style={{ fontSize: `${fontSize}%` }}>
+      <IoIosArrowDroprightCircle /> 
+      <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/security-policy">Security Policy</Link>
+    </LinkItem>
+    <LinkItem style={{ fontSize: `${fontSize}%` }}>
+      <IoIosArrowDroprightCircle /> 
+      <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/guidelines">Guidelines</Link>
+    </LinkItem>
+    <LinkItem style={{ fontSize: `${fontSize}%` }}>
+      <IoIosArrowDroprightCircle /> 
+      <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/terms-and-conditions">Terms & Conditions</Link>
+    </LinkItem>
+    <LinkItem style={{ fontSize: `${fontSize}%` }}>
+      <IoIosArrowDroprightCircle /> 
+      <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/privacy-policy">Privacy Policy</Link>
+    </LinkItem>
+    <LinkItem style={{ fontSize: `${fontSize}%` }}>
+      <IoIosArrowDroprightCircle /> 
+      <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/help">Help</Link>
+    </LinkItem>
+  </LinksList>
+</Section>
 
-          <VisitorsSection>
-            <Title>Visitors</Title>
-            <Text><FaClock /> Last Updated: 18-01-2025 11:33 AM</Text>
-            <Text><FaUsers /> Visitors Counter: 212444</Text>
-            <Text><FaCodeBranch /> Version: C64/KBN 1.3</Text>
+          <VisitorsSection style={{ fontSize: `${fontSize}%` }}>
+            <Title style={{ fontSize: `${fontSize}%` }}>Visitors</Title>
+            <Text style={{ fontSize: `${fontSize}%` }}><FaClock /> Last Updated: 18-01-2025 11:33 AM</Text>
+            <Text style={{ fontSize: `${fontSize}%` }}><FaUsers /> Visitors Counter: 212444</Text>
+            <Text style={{ fontSize: `${fontSize}%` }}><FaCodeBranch /> Version: C64/KBN 1.3</Text>
           </VisitorsSection>
         </FooterContent>
       </FooterSection>
 
-      <FooterStripContainer>
+      <FooterStripContainer style={{ fontSize: `${fontSize}%` }}>
         <FooterStrip>
           <StripText>
             Designed, Developed and Hosted by: Center for e-Governance - Web Portal, Government of Karnataka © 2025, All Rights Reserved.
-            <br/>
+            <br />
           </StripText>
         </FooterStrip>
       </FooterStripContainer>

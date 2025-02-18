@@ -23,37 +23,39 @@ import PrivacyPolicy from "./components/WebsitePolicies/PrivacyPolicy/PrivacyPol
 import Help from "./components/WebsitePolicies/Help/Help";
 import LatestData from "./modules/pages/Latest/LatestData";
 import Profile from "./components/Profile/Profile";
+import FontSizeProvider from "./context/FontSizeProvider";
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Applayout />}>
-            <Route index element={<Home />} />
-            <Route path="/news/:id" element={<LatestNews />} />
-            <Route path="/magazinepages" element={<MagaZinepages />} />
-            <Route path="/Gallery" element={<Exclusive />} />
-            <Route path="/aboutuspage" element={<AboutUspage />} />
-            <Route path="/contactus" element={<ContactUs />} />
-            <Route path="/latestdata" element={<LatestData />} />
-            {/* <Route path="/test" element={<Test />} /> */}
-            <Route  path="/copyright-policy" element={<CopyrightPolicy />} />
-            <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
-            <Route path="/security-policy" element={<SecurityPolicy />} />
-            <Route path="/guidelines" element={<Guidelines />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/otp" element={<Otp />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <FontSizeProvider> 
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Applayout />}>
+              <Route index element={<Home />} />
+              <Route path="/news/:id" element={<LatestNews />} />
+              <Route path="/magazinepages" element={<MagaZinepages />} />
+              <Route path="/Gallery" element={<Exclusive />} />
+              <Route path="/aboutuspage" element={<AboutUspage />} />
+              <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/latestdata" element={<LatestData />} />
+              <Route path="/copyright-policy" element={<CopyrightPolicy />} />
+              <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
+              <Route path="/security-policy" element={<SecurityPolicy />} />
+              <Route path="/guidelines" element={<Guidelines />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/otp" element={<Otp />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </FontSizeProvider>
   );
 };
 

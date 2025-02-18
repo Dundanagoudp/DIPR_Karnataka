@@ -9,27 +9,30 @@ export const Container = styled.div`
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
+   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
   }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
     padding: ${theme.spacing(1)};
     padding-right: ${theme.spacing(1)};
+   
   }
 `;
+
 export const Header = styled.h2`
   font-size: ${theme.spacing(3)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
-  @media (max-width: ${theme.breakpoints.tablet}) {
+   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: ${theme.spacing(3.5)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(3)};
   }
-`;
+`; 
 export const TabContainer = styled.div`
   display: flex;
   overflow-x: auto;
@@ -52,7 +55,7 @@ export const TabContainer = styled.div`
   border-bottom: ${theme.spacing(0.25)} solid ${theme.colors.info};
   margin-bottom: ${theme.spacing(2)};
 
-  @media (max-width: ${theme.breakpoints.mobile}) {
+   @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing(1)};
   }
 `;
@@ -64,22 +67,23 @@ export const Tab = styled.button`
   cursor: pointer;
   font-size: ${theme.spacing(2)};
   font-weight: bold;
-  color: ${({ active }) =>
-    active ? theme.colors.primary : theme.colors.black};
-  border-bottom: ${({ active }) =>
-    active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none"};
+  color: ${({ active }) => (active ? theme.colors.primary : theme.colors.black)};
+  border-bottom: ${({ active }) => (active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
   white-space: nowrap; /* Prevent text wrapping */
 
   &:hover {
     color: ${theme.colors.primary};
   }
-  @media (max-width: ${theme.breakpoints.mobile}) {
+      @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
     padding: ${theme.spacing(0.75)};
   }
 `;
 
-
+export const VideoTab = styled(Tab)`
+  color: ${({ active }) => (active ? theme.colors.secondary : theme.colors.black)};
+  border-bottom: ${({ active }) => (active ? `${theme.spacing(0.375)} solid ${theme.colors.secondary}` : "none")};
+`;
 
 export const Content = styled.div`
   display: flex;
@@ -93,25 +97,29 @@ export const Card = styled.div`
   padding: ${theme.spacing(1)};
   background: ${theme.colors.light};
   border-radius: ${theme.spacing(1)};
-  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)}
-    rgba(0, 0, 0, 0.1);
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);
 `;
 
 export const VideoCard = styled(Card)`
   background: ${theme.colors.lightGray};
-  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)}
-    rgba(0, 0, 0, 0.2);
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.2);
 `;
 
 export const Image = styled.img`
-  width: ${theme.spacing(12)};
-  height: ${theme.spacing(12)};
+  width: ${theme.spacing(10)};
+  height: ${theme.spacing(8)};
   object-fit: cover;
-  border-radius: ${theme.spacing(1.5)};
+  border-radius: ${theme.spacing(1)};
   margin-right: ${theme.spacing(2)};
 `;
 
-
+export const VideoThumbnail = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: ${theme.spacing(1)};
+  margin-right: ${theme.spacing(2)};
+`;
 
 export const Details = styled.div`
   display: flex;
@@ -135,6 +143,12 @@ export const Meta = styled.span`
   color: ${theme.colors.icons};
 `;
 
+export const Meta1 = styled.span`
+  font-size: ${theme.spacing(1.8)};
+  font-weight: bold;
+  color: ${theme.colors.icons};
+`;
+
 export const TrendingBadge = styled.span`
   font-size: ${theme.spacing(1.25)};
   color: ${theme.colors.background};
@@ -144,54 +158,92 @@ export const TrendingBadge = styled.span`
   font-weight: bold;
 `;
 
+export const VideoCard1 = styled.div`
+  align-items: center;
+  padding: ${theme.spacing(2)};
+  background: ${theme.colors.light};
+  border-radius: ${theme.spacing(1)};
+  cursor: pointer;
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(0.625)} rgba(0, 0, 0, 0.1);
+`;
 
+export const VideoDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(3)};
+`;
+
+export const VideoMeta = styled.span`
+  font-size: ${theme.spacing(2)};
+  font-weight: bold;
+  margin-top: ${theme.spacing(1)};
+  color: ${theme.colors.icons};
+`;
+
+export const VideoMetacat = styled.span`
+  font-size: ${theme.spacing(2.4)};
+  font-weight: bold;
+  color: ${theme.colors.icons};
+`;
 
 export const VideoTitle = styled.h2`
   font-size: ${theme.spacing(3.5)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
   font-weight: bold;
-`; 
+`;
 
 // Media Queries for Responsive Design
+const breakpoints = {
+  small: "480px",
+  medium: "768px",
+  large: "1024px",
+};
+
 export const ResponsiveContainer = styled(Container)`
-  @media (max-width: ${theme.breakpoints.desktop}) {
+  @media (max-width: ${breakpoints.large}) {
     max-width: 90%;
   }
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
+  @media (max-width: ${breakpoints.medium}) {
     max-width: 95%;
   }
 
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${breakpoints.small}) {
     max-width: 100%;
     padding: ${theme.spacing(1)};
   }
 `;
 
 export const ResponsiveTabContainer = styled(TabContainer)`
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${breakpoints.small}) {
     padding-bottom: ${theme.spacing(1)};
   }
 `;
 
 export const ResponsiveTab = styled(Tab)`
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${breakpoints.small}) {
     font-size: ${theme.spacing(1.5)};
     padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
   }
 `;
 
+export const ResponsiveVideoTab = styled(VideoTab)`
+  @media (max-width: ${breakpoints.small}) {
+    font-size: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+  }
+`;
 
 export const ResponsiveCard = styled(Card)`
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${breakpoints.small}) {
     flex-direction: column;
     align-items: flex-start;
   }
 `;
 
 export const ResponsiveImage = styled(Image)`
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${breakpoints.small}) {
     width: 100%;
     height: auto;
     margin-right: 0;
@@ -199,24 +251,35 @@ export const ResponsiveImage = styled(Image)`
   }
 `;
 
-
+export const ResponsiveVideoThumbnail = styled(VideoThumbnail)`
+  @media (max-width: ${breakpoints.small}) {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: ${theme.spacing(1)};
+  }
+`;
 
 export const ResponsiveTitle = styled(Title)`
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${breakpoints.small}) {
     font-size: ${theme.spacing(1.5)};
   }
 `;
 
 export const ResponsiveMeta = styled(Meta)`
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${breakpoints.small}) {
     font-size: ${theme.spacing(1.2)};
   }
 `;
 
-
+export const ResponsiveMeta1 = styled(Meta1)`
+  @media (max-width: ${breakpoints.small}) {
+    font-size: ${theme.spacing(1.2)};
+  }
+`;
 
 export const ResponsiveVideoTitle = styled(VideoTitle)`
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${breakpoints.small}) {
     font-size: ${theme.spacing(2)};
   }
 `;

@@ -30,7 +30,7 @@ const CategoryTab = () => {
   const handleTabClick = (path) => {
     setActiveTab(path);
     if (window.innerWidth <= 480) {
-      setIsMenuOpen(false); // Keep the menu open for mobile until the tab is clicked
+      setIsMenuOpen(false); 
     }
   };
  
@@ -49,7 +49,7 @@ const CategoryTab = () => {
   }, []);
  
   return (
-    <TabContainer>
+    <TabContainer >
       <HamburgerMenu onClick={toggleMenu}>
         {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
       </HamburgerMenu>

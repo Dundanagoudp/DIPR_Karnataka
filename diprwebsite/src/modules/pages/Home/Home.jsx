@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Trending from "../../components/Trending/Trending";
 import AllNews from "../../components/allnews/AllNews";
 import MagaZines from "../../components/magazine/MagaZine";
@@ -12,6 +12,7 @@ import Loader from "../../../components/loder/Loder";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
+
 
   // Simulate a loading delay with useEffect
   useEffect(() => {
@@ -29,7 +30,7 @@ const Home = () => {
       ) : (
         <>
           <Trending />
-          <ContentWrapper>
+          <ContentWrapper >
             <NewsSection>
               <AllNews />
             </NewsSection>
