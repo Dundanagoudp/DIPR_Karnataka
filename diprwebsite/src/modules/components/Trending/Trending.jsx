@@ -75,7 +75,7 @@ const Trending = () => {
           </CarouselItem>
         ))
       ) : (
-        <p>No trending news available at the moment.</p> // Display message if no news is available
+        <p>No trending news available at the moment.</p> 
       )}
 
       {/* Dots for navigation */}
@@ -85,7 +85,7 @@ const Trending = () => {
         ))}
       </DotContainer>
     </CarouselContainer>
-  );
+  );33
 };
 
 export default Trending;
