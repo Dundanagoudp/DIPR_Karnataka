@@ -17,11 +17,13 @@ export const ToolbarContainer = styled.div`
 
 export const SearchContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: center !important;
   background: ${theme.colors.light};
   padding: ${theme.spacing(0.75)};
   border-radius: 8px;
-  width: 1125px;
+  width: 800px;
+  margin-left: 100px;
+  // margin-right: 100px;
   border: 1px solid ${theme.colors.border};
 
     @media (max-width: ${theme.breakpoints.desktop}) {  
