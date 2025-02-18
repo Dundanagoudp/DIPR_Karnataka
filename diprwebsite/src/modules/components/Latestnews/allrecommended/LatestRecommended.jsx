@@ -103,7 +103,7 @@ const LatestNewsRecommended = () => {
 
   return (
     <Container>
-      <Title>Latest News</Title>
+      <Title>Articles</Title>
 
       {newsData.length > 0 ? (
         newsData.map((news) => (

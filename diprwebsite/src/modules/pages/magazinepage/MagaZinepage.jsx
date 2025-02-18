@@ -5,7 +5,6 @@ import MagazineDownloadPdf from "../../components/Magazinepagecom/downloadpdf/Do
 import { FlexContainer, MagzineDataContainer } from "../magazinepage/MagaZinepage.styles";
 import MagazinePdf from "../../components/Magazinepagecom/magazinepdf/MagazinePdf";
 import Loader from "../../../components/loder/Loder";
-import ToolBar from "../../../components/ToolBar/ToolBar";
 
 const MagaZinepages = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +23,6 @@ const MagaZinepages = () => {
 
   return (
     <div>
-      <ToolBar/>
       <MagazineDownloadPdf />
       <MagazinePdf />
       {/* <FlexContainer>

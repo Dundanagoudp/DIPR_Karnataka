@@ -10,13 +10,13 @@ import {
 } from "./ToolBar.styles";
 
 const ToolBar = ({ onSearch, onLanguageChange }) => {
-  const [fontSize, setFontSize] = useState(80);
+  const [fontSize, setFontSize] = useState(100);
   const [searchText, setSearchText] = useState("");
 
   const handleFontSizeChange = (change) => {
     let newSize = fontSize + change;
-    if (newSize < 50) newSize = 50; // Min font size
-    if (newSize > 200) newSize = 200; // Max font size
+    if (newSize < 50) newSize = 50; 
+    if (newSize > 200) newSize = 200; 
     setFontSize(newSize);
     document.documentElement.style.fontSize = `${newSize}%`;
   };
@@ -45,7 +45,7 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
         <button onClick={() => handleFontSizeChange(-10)}> <b>-</b></button>
         <b><span>{fontSize}%</span></b>
         <button onClick={() => handleFontSizeChange(10)}> <b>+</b> </button>
-        <button onClick={() => handleFontSizeChange(80 - fontSize)}>Reset</button>
+        <button onClick={() => handleFontSizeChange(100 - fontSize)}>Reset</button>
       </FontControls>
 
       {/* Language Selector */}

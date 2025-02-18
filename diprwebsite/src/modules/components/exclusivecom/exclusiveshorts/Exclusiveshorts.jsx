@@ -142,6 +142,7 @@ const Exclusiveshorts = () => {
         [videoId]: "",
       }));
       setError("");
+      window.location.reload();
     } catch (err) {
       setError("Failed to add comment. Please try again.");
     }

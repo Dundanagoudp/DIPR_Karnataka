@@ -174,6 +174,9 @@ const ExclusiveVideos = () => {
         [videoId]: "",
       }));
       setError("");
+
+      // Reload the page to reflect the new comment
+      window.location.reload();
     } catch (err) {
       setError("Failed to add comment. Please try again.");
     }
@@ -194,7 +197,7 @@ const ExclusiveVideos = () => {
       setError("User is not logged in.");
       return;
     }
-
+    
     try {
       const likeData = { commentId, userId };
       const response = await likeLongVideo(likeData); 
