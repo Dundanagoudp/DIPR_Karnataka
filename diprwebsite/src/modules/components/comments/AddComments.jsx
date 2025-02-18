@@ -8,7 +8,6 @@ const AddComments = ({ newsId }) => {
   const [userId, setUserId] = useState(null);
   const [error, setError] = useState("");
 
-
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
     console.log("Retrieved User ID from Cookies:", storedUserId);
@@ -36,7 +35,6 @@ const AddComments = ({ newsId }) => {
 
     // API expects `text`, `newsId`, and `userId`
     const commentData = { text, newsId, userId };
-
     try {
       const response = await addComment(commentData);
       console.log("Comment added successfully:", response);
@@ -45,7 +43,6 @@ const AddComments = ({ newsId }) => {
       window.location.reload();
     } catch (err) {
       console.error("Error adding comment:", err);
-
       setError("Failed to add comment. Please try again.");
     }
   };

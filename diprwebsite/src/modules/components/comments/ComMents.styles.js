@@ -112,7 +112,7 @@ export const CommentInputWrapper = styled.div`
   background: ${theme.colors.background};
   border-radius: ${theme.spacing(1.875)};
   margin-top: ${theme.spacing(2.5)};
-  border: ${theme.spacing(0.125)} solid ${theme.colors.info};
+  border: ${theme.spacing(5)} solid ${theme.colors.info};
   padding: ${theme.spacing(0.7)};
   width: ${theme.spacing(30)};
   position: relative;

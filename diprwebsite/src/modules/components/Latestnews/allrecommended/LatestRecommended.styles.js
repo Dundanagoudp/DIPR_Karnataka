@@ -2,9 +2,9 @@ import styled from "styled-components";
 import theme from "../../../../theme/Theme";
 
 export const Container = styled.div`
-  max-width: 1000px;
+  max-width: 1200px;
   padding: 0 ${theme.spacing(2)};
-  margin-top: ${theme.spacing(5)};
+  margin-top: ${theme.spacing(2)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: 0 ${theme.spacing(1)};
