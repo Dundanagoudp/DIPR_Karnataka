@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import NavBar from "../components/navbar/NavBar";
 import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
+import ToolBar from "../components/ToolBar/ToolBar";
 
 
 const Applayout = () => {
@@ -13,6 +14,7 @@ const Applayout = () => {
       <Header  /> 
       <NavBar/> 
       <CategoryTab/>
+      <ToolBar/>
       <Outlet />  
       <Footer />
       </div>

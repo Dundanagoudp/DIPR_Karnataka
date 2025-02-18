@@ -46,7 +46,7 @@ const fallbackNews = {
 
 const LatestCat = () => {
   const { id } = useParams(); // Get the news ID from the URL
-  const [news, setNews] = useState(null);
+  const [news, setNews] = useState(fallbackNews); // Default to fallback data
   const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
   const userId = Cookies.get("userId"); // Fetch userId from cookies
@@ -134,10 +134,6 @@ const LatestCat = () => {
       }
     }
   }, [news, userId]);
-
-  if (loading) {
-    return <Container>Loading...</Container>;
-  }
 
   return (
     <Container>

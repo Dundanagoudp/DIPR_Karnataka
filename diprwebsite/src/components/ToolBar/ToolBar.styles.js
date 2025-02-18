@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import theme from "../../theme/Theme"; // Importing the theme
+import theme from "../../theme/Theme";
 
 export const ToolbarContainer = styled.div`
   display: flex;
@@ -8,38 +8,44 @@ export const ToolbarContainer = styled.div`
   padding: ${theme.spacing(1)} ${theme.spacing(2)};
   border-radius: 8px;
   gap: ${theme.spacing(2)};
+  max-width: 100%;
+  margin: 0 auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;
     gap: ${theme.spacing(1)};
+    padding: ${theme.spacing(1)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(2)};
   }
 `;
 
 export const SearchContainer = styled.div`
   display: flex;
-  align-items: center !important;
+  align-items: center;
   background: ${theme.colors.light};
   padding: ${theme.spacing(0.75)};
+  margin-left: ${theme.spacing(13)};
   border-radius: 8px;
-  width: 800px;
-  margin-left: 100px;
-  // margin-right: 100px;
-  border: 1px solid ${theme.colors.border};
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid ${theme.colors.info};
 
-    @media (max-width: ${theme.breakpoints.desktop}) {  
-    width: 225px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    max-width: 100%;
     margin-left: 0;
   }
 
-  @media (max-width: ${theme.breakpoints.tablet}) {         
-    width: 325px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 100%;
     margin-left: 0;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(0.5)};
   }
 `;
 
@@ -47,6 +53,11 @@ export const SearchIcon = styled.div`
   color: ${theme.colors.textgray};
   font-size: 18px;
   margin-right: ${theme.spacing(1)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 16px;
+    margin-right: ${theme.spacing(0.5)};
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -60,6 +71,10 @@ export const SearchInput = styled.input`
   &::placeholder {
     color: ${theme.colors.textgray};
   }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 12px;
+  }
 `;
 
 export const FontControls = styled.div`
@@ -69,7 +84,8 @@ export const FontControls = styled.div`
   background: ${theme.colors.bggrey};
   padding: ${theme.spacing(1)};
   border-radius: 8px;
-  width: 310px;
+  width: 100%;
+  max-width: 310px;
 
   span {
     font-size: 14px;
@@ -90,6 +106,12 @@ export const FontControls = styled.div`
     }
   }
 
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     span {
       font-size: 12px;
@@ -97,6 +119,7 @@ export const FontControls = styled.div`
 
     button {
       padding: ${theme.spacing(0.25)} ${theme.spacing(0.75)};
+      font-size: 12px;
     }
   }
 `;
@@ -107,7 +130,8 @@ export const Select = styled.select`
   border: 1px solid ${theme.colors.info};
   font-size: 14px;
   cursor: pointer;
-  width: 380px;
+  width: 100%;
+  max-width: 380px;
   font-family: ${theme.fonts.body};
   background: ${theme.colors.light};
   color: ${theme.colors.text};
@@ -115,6 +139,10 @@ export const Select = styled.select`
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    max-width: 100%;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
