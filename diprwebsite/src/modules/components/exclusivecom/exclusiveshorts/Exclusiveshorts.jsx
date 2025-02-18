@@ -10,7 +10,6 @@ import {
   VideoThumbnail,
   VideoDetails,
   NewsMeta,
-  VideoMetacat,
   Title,
   CommentContainer,
   CommentInput,
@@ -36,7 +35,7 @@ const Exclusiveshorts = () => {
   const [playingVideoId, setPlayingVideoId] = useState(null);
   const [likedVideos, setLikedVideos] = useState(new Set());
   const [comments, setComments] = useState({});
-  const [newComment, setNewComment] = useState({});
+  const [newComments, setNewComments] = useState({});
   const [userId, setUserId] = useState(null);
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
@@ -91,11 +90,11 @@ const Exclusiveshorts = () => {
 
     try {
       const isLiked = likedVideos.has(videoId);
-      const likeData = { longVideoId: videoId, userId };
+      const likeData = { videoId: videoId, userId };
 
       // Send like request
       await ShortlikeVideo(likeData);
-      
+
       const newLikedVideos = new Set(likedVideos);
       isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
       setLikedVideos(newLikedVideos);
@@ -111,14 +110,15 @@ const Exclusiveshorts = () => {
   };
 
   const handleCommentChange = (e, videoId) => {
-    setNewComment((prev) => ({
+    setNewComments((prev) => ({
       ...prev,
       [videoId]: e.target.value,
     }));
   };
 
   const handleAddComment = async (videoId) => {
-    if (!newComment[videoId]?.trim()) {
+    const commentText = newComments[videoId]?.trim();
+    if (!commentText) {
       setError("Please enter a comment.");
       return;
     }
@@ -128,7 +128,7 @@ const Exclusiveshorts = () => {
       return;
     }
 
-    const commentData = { text: newComment[videoId], videoId, userId };
+    const commentData = { text: commentText, videoId, userId };
 
     try {
       const response = await ShortVideoaddComment(commentData);
@@ -137,7 +137,7 @@ const Exclusiveshorts = () => {
         [videoId]: [...(prevComments[videoId] || []), response.comment],
       }));
 
-      setNewComment((prev) => ({
+      setNewComments((prev) => ({
         ...prev,
         [videoId]: "",
       }));
@@ -148,14 +148,10 @@ const Exclusiveshorts = () => {
   };
 
   const toggleCommentSection = (videoId) => {
-    if (openCommentSection === videoId) {
-      setOpenCommentSection(null);
-    } else {
-      setOpenCommentSection(videoId);
-    }
+    setOpenCommentSection((prev) => (prev === videoId ? null : videoId));
   };
 
-  const handleLikeComment = (commentId, videoId) => {
+  const handleLikeComment = async (commentId, videoId) => {
     setComments((prevComments) => ({
       ...prevComments,
       [videoId]: prevComments[videoId].map((comment) =>
@@ -190,7 +186,6 @@ const Exclusiveshorts = () => {
                   <span>{new Date(video.createdAt).toLocaleDateString()}</span>
                 </NewsMeta>
                 <Title>{video.title}</Title>
-                <VideoMetacat>{/* {video.category} */}</VideoMetacat>
               </VideoDetails>
             </VideoCard1>
 
@@ -202,7 +197,7 @@ const Exclusiveshorts = () => {
                   <FaRegComment size={25} onClick={() => toggleCommentSection(video._id)} />
                   <CommentInput
                     type="text"
-                    value={newComment[video._id] || ""}
+                    value={newComments[video._id] || ""}
                     onChange={(e) => handleCommentChange(e, video._id)}
                     placeholder="Add a comment..."
                   />
@@ -218,10 +213,7 @@ const Exclusiveshorts = () => {
                     ) : (
                       comments[video._id]?.map((comment) => (
                         <Comment key={comment._id}>
-                          <ProfileImage
-                            src={comment.user?.profileImage || "https://via.placeholder.com/50"}
-                            alt={comment.user?.displayName || "Anonymous"}
-                          />
+                          <ProfileImage src={comment.user?.profileImage || "https://via.placeholder.com/50"} alt={comment.user?.displayName || "Anonymous"} />
                           <CommentContent>
                             <UserHeader>
                               <UserInfo>

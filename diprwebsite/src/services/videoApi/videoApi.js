@@ -126,17 +126,17 @@ export const getVideoById = async (id) => {
 
 // short videos like
 
-export const ShortlikeVideo = async (commentData) => {
+export const ShortlikeVideo = async (likeData) => {
   try {
     const url = `${BASE_URL}api/comments/likeVideo`; 
-    console.log("Liking video with data:", commentData);
+    console.log("Liking video with data:", likeData);
 
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(commentData),
+      body: JSON.stringify(likeData),
     });
 
     if (!response.ok) {
@@ -152,7 +152,6 @@ export const ShortlikeVideo = async (commentData) => {
     throw error;
   }
 };
-
 
 // short video add commnet
 
@@ -181,5 +180,4 @@ export const ShortVideoaddComment = async (commentData) => {
     throw error;
   }
 };
-
 
