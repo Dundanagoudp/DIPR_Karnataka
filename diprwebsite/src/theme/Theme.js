@@ -20,6 +20,7 @@ const theme = {
         Footerstrip:"#1A4492",
         margin:"#C5CEDA",
         icons:"#787878",
+        bggrey:"#F3F3F3",
         trcloure:"hsla(0, 0.00%, 100.00%, 0.20)",    
       },
 
