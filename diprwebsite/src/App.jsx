@@ -22,6 +22,7 @@ import TermsAndConditions from "./components/WebsitePolicies/TermsAndConditions/
 import PrivacyPolicy from "./components/WebsitePolicies/PrivacyPolicy/PrivacyPolicy";
 import Help from "./components/WebsitePolicies/Help/Help";
 import LatestData from "./modules/pages/Latest/LatestData";
+import Profile from "./components/Profile/Profile";
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/help" element={<Help />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/otp" element={<Otp />} />
