@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ExclusiveVideos from "../../components/exclusivecom/exclusivevideos/ExclusiveVideos";
 import ExclusivePosts from "../../components/exclusivecom/exclusivepost/ExclusivePosts";
 import RelatedPosts from "../../components/exclusivecom/relatedposts/RelatedPosts";
@@ -10,8 +10,26 @@ import {
   SecondFlexContainer,
 } from "../exclusivepage/Exclusive.styles";
 import Exclusiveshorts from "../../components/exclusivecom/exclusiveshorts/Exclusiveshorts";
+import Loader from "../../../components/loder/Loder"; // Import the Loader component
 
 const Exclusive = () => {
+  const [isLoading, setIsLoading] = useState(true); // State to manage loading
+
+  useEffect(() => {
+    // Simulate a 3-second loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Set loading to false after 3 seconds
+    }, 3000);
+
+    // Cleanup the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Display the Loader while isLoading is true
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div>
       <FlexContainer>
@@ -22,6 +40,7 @@ const Exclusive = () => {
           <Exclusiveshorts />
         </div>
       </FlexContainer>
+      {/* Uncomment these sections if you want to include them */}
       {/* <RelatedPostsContainer>
         <RelatedPosts />
       </RelatedPostsContainer> */}

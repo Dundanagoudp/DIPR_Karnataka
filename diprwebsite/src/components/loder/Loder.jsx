@@ -5,7 +5,7 @@ import { LoaderContainer } from "./Loder.styles";
 const Loader = () => {
   return (
     <LoaderContainer>
-      <MoonLoader color="#36d7b7" size={50} />
+      <MoonLoader color="#1E88E5" size={40} />
     </LoaderContainer>
   );
 };
