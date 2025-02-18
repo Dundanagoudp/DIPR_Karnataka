@@ -40,6 +40,8 @@ export const NewsCardWrapper = styled.div`
 export const NewsImageWrapper = styled.div`
   img {
     width: 100%;
+    border-radius: ${theme.spacing(1)};
+    hight: auto;
     object-fit: cover;
   
     @media (max-width: ${theme.breakpoints.tablet}) {

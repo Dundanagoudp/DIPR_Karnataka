@@ -10,13 +10,6 @@ import {
   Title,
   Meta,
   Header,
-  VideoThumbnail,
-  VideoTab,
-  VideoCard1,
-  VideoDetails,
-  VideoMeta,
-  VideoMetacat,
-  Meta1,
 } from "../magazine/MagaZine.styles";
 
 import { getMagazines } from "../../../services/magazineApi/magazineService";
