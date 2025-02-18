@@ -105,66 +105,60 @@ const LatestNewsRecommended = () => {
     <Container>
       <Title>Articles</Title>
 
-      {newsData.length > 0 ? (
-        newsData.map((news) => (
-          <NewsCard key={news._id}>
-            <NewsImage
-              src={news.newsImage || "https://via.placeholder.com/300"}
-              alt={news.title || "News Image"}
-            />
-            <NewsContent>
-              <NewsHeader>
-                {news.author || "Unknown Author"} •{" "}
-                {news.category?.name || "General"}
-              </NewsHeader>
-              <NewsTitle>{news.title || "Untitled News"}</NewsTitle>
+      {newsData.map((news) => (
+        <NewsCard key={news._id}>
+          <NewsImage
+            src={news.newsImage || "https://via.placeholder.com/300"}
+            alt={news.title || "News Image"}
+          />
+          <NewsContent>
+            <NewsHeader>
+              {news.author || "Unknown Author"} •{" "}
+              {news.category?.name || "General"}
+            </NewsHeader>
+            <NewsTitle>{news.title || "Untitled News"}</NewsTitle>
 
-              <ShareIcons>
-                <FaFacebook
-                  onClick={() => shareOnFacebook(news.url)}
-                  style={{ cursor: "pointer" }}
-                />
-                <FaTwitter
-                  onClick={() => shareOnTwitter(news.url)}
-                  style={{ cursor: "pointer" }}
-                />
-                <FaLink
-                  onClick={() => copyLink(news.url)}
-                  style={{ cursor: "pointer" }}
-                />
-              </ShareIcons>
+            <ShareIcons>
+              <FaFacebook
+                onClick={() => shareOnFacebook(news.url)}
+                style={{ cursor: "pointer" }}
+              />
+              <FaTwitter
+                onClick={() => shareOnTwitter(news.url)}
+                style={{ cursor: "pointer" }}
+              />
+              <FaLink
+                onClick={() => copyLink(news.url)}
+                style={{ cursor: "pointer" }}
+              />
+            </ShareIcons>
 
-              <NewsText
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 5,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {news.description || "No description available."}
-              </NewsText>
+            <NewsText
+              style={{
+                display: "-webkit-box",
+                WebkitLineClamp: 5,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }}
+            >
+              {news.description || "No description available."}
+            </NewsText>
 
-              {/* Read More Button - Registers Click & Navigates */}
-              <ReadMore onClick={() => handleReadMore(news._id)}>
-                Read more
-              </ReadMore>
+            <ReadMore onClick={() => handleReadMore(news._id)}>
+              Read more
+            </ReadMore>
 
-              {/* Add comment section */}
-              <AddComments newsId={news._id} />
+            <AddComments newsId={news._id} />
 
-              <NewsMeta>
-                {news.isTrending && <TrendingTag>Trending</TrendingTag>}
-                <span>
-                  {formatDate(news.createdTime)} • {news.readTime || "N/A"}
-                </span>
-              </NewsMeta>
-            </NewsContent>
-          </NewsCard>
-        ))
-      ) : (
-        <p>No news available.</p>
-      )}
+            <NewsMeta>
+              {news.isTrending && <TrendingTag>Trending</TrendingTag>}
+              <span>
+                {formatDate(news.createdTime)} • {news.readTime || "N/A"}
+              </span>
+            </NewsMeta>
+          </NewsContent>
+        </NewsCard>
+      ))}
     </Container>
   );
 };

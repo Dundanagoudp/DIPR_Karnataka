@@ -19,21 +19,18 @@ const Trending = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [trendingNews, setTrendingNews] = useState([]);
 
-  // Fetch API Data
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await BannerApi();
-        console.log("Fetched Banner Data:", data);
-        
         const formattedData = data.map((item) => ({
           id: item._id,
-          category: "Trending",  
-          date: new Date(item.createdTime).toLocaleDateString(), 
-          readTime: "5 min read", 
+          category: "Trending",
+          date: new Date(item.createdTime).toLocaleDateString(),
+          readTime: "5 min read",
           title: item.title,
           image: item.bannerImage,
-          link: `/post/${item._id}` 
+          link: `/post/${item._id}`
         }));
 
         setTrendingNews(formattedData);
@@ -45,7 +42,6 @@ const Trending = () => {
     fetchData();
   }, []);
 
-  // Auto-Slide Effect
   useEffect(() => {
     if (trendingNews.length === 0) return;
 
@@ -58,34 +54,29 @@ const Trending = () => {
 
   return (
     <CarouselContainer>
-      {trendingNews.length > 0 ? (
-        trendingNews.map((news, index) => (
-          <CarouselItem key={news.id} active={index === currentIndex} bgImage={news.image}>
-            <Overlay />
-            <ContentWrapper>
-              <div style={{ display: "flex", alignItems: "center", gap: "1%" }}>
-                <TrendingCategory>{news.category}</TrendingCategory>
-                <NewsInfo>• {news.date} • {news.readTime}</NewsInfo>
-              </div>
-              <NewsTitle>{news.title}</NewsTitle>
-            </ContentWrapper>
-            <ArrowIcon onClick={() => window.location.href = news.link}>
-              <FiArrowUpRight size={28} color={theme.colors.background} />
-            </ArrowIcon>
-          </CarouselItem>
-        ))
-      ) : (
-        <p>No trending news available at the moment.</p> 
-      )}
+      {trendingNews.map((news, index) => (
+        <CarouselItem key={news.id} active={index === currentIndex} bgImage={news.image}>
+          <Overlay />
+          <ContentWrapper>
+            <div style={{ display: "flex", alignItems: "center", gap: "1%" }}>
+              <TrendingCategory>{news.category}</TrendingCategory>
+              <NewsInfo>• {news.date} • {news.readTime}</NewsInfo>
+            </div>
+            <NewsTitle>{news.title}</NewsTitle>
+          </ContentWrapper>
+          <ArrowIcon onClick={() => window.location.href = news.link}>
+            <FiArrowUpRight size={28} color={theme.colors.background} />
+          </ArrowIcon>
+        </CarouselItem>
+      ))}
 
-      {/* Dots for navigation */}
       <DotContainer>
         {trendingNews.map((_, index) => (
           <Dot key={index} active={index === currentIndex} onClick={() => setCurrentIndex(index)} />
         ))}
       </DotContainer>
     </CarouselContainer>
-  );33
+  );
 };
 
 export default Trending;
