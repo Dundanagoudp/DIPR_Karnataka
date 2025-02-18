@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";  
 import { FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
+import { RiLogoutCircleRFill } from "react-icons/ri";
 import { 
   ProfileContainer, 
   ProfileHeader, 
@@ -74,15 +75,28 @@ const Profile = () => {
           </ToggleSwitch>
         </LightModeToggle>
 
-        <LogoutButton>
-          <Link to="/logout">Log Out</Link>
-        </LogoutButton>
+        
       </TopSection>
+     
 
       <ProfileHeader>
+        <div style={{display: "flex", alignItems: "center" , gap: "1rem"}}>
         <img src={ProfileImage} alt="Profile" />
+        <div style={{}}>
         <h2>User Name</h2>
         <p>{userInfo.email}</p>
+        </div>
+        </div>
+        
+        
+        <LogoutButton>
+        <div >
+          <RiLogoutCircleRFill />
+          </div>
+          <div>
+          <Link to="/logout">Log Out</Link>
+          </div>
+        </LogoutButton>
       </ProfileHeader>
       
       <FormContainer onSubmit={handleSubmit}>

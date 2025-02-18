@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import {  FaBars, FaTimes } from "react-icons/fa";
 import {
   TabContainer,
   TabsWrapper,
@@ -8,6 +8,7 @@ import {
   ProfileIcon,
   HamburgerMenu,
 } from "../categorytab/CategoryTab.styles";
+import ProfileImage from "../../assets/Profile.png";
  
 const tabs = [
   { name: "All", path: "/" },
@@ -65,9 +66,7 @@ const CategoryTab = () => {
         ))}
       </TabsWrapper>
             <Link to="/profile" style={{ marginLeft: "auto" , marginRight: "4%" }}>
-        <ProfileIcon>
-          <FaUserCircle size={24} />
-        </ProfileIcon>
+            <ProfileIcon src={ProfileImage} alt="User Profile" />
       </Link>
     </TabContainer>
   );
