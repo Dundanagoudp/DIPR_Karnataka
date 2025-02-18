@@ -28,10 +28,10 @@ export const SearchContainer = styled.div`
   align-items: center;
   background: ${theme.colors.light};
   padding: ${theme.spacing(0.75)};
-  margin-left: ${theme.spacing(13)};
+  // margin-left: ${theme.spacing(13)};
   border-radius: 8px;
   width: 100%;
-  max-width: 520px;
+  // max-width: 520px;
   border: 1px solid ${theme.colors.info};
 
   @media (max-width: ${theme.breakpoints.desktop}) {
