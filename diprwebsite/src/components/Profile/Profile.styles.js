@@ -4,32 +4,27 @@ import theme from "../../theme/Theme";
 export const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   padding: ${theme.spacing(4)};
   background-color: ${(props) => (props.lightMode ? "#fff" : "#2d2d2d")};
   color: ${(props) => (props.lightMode ? "#000" : "#fff")};
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
 `;
 
 export const TopSection = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 100%;  
   align-items: center;
   margin-bottom: ${theme.spacing(3)};
 `;
 
 export const ProfileHeader = styled.div`
-  text-align: center;
   margin-bottom: ${theme.spacing(3)};
-  
+  display: flex;
+  align-items: center;
   img {
-    width: 120px;
-    height: 120px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    margin-bottom: ${theme.spacing(2)};
   }
 
   h2 {
@@ -38,8 +33,28 @@ export const ProfileHeader = styled.div`
   }
 
   p {
+  margin-top: -20px;
     font-size: 16px;
 
+  }
+`;
+
+export const LogoutButton = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${theme.colors.primary};
+  cursor: pointer;
+  margin-left: auto;
+  display: flex;
+  gap: ${theme.spacing(1)};
+
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -53,7 +68,9 @@ export const SocialIcons = styled.div`
       font-size: 24px;
       color: ${theme.colors.light};
       cursor: pointer;
-
+      background-color: ${(props) => (props.lightMode ? "#fff" : "#2d2d2d")};
+      padding: ${theme.spacing(0.5)};
+      border-radius: 5px;
       &:hover {
         color: ${theme.colors.primary};
       }
@@ -72,6 +89,7 @@ export const FormContainer = styled.form`
 export const FormLabel = styled.label`
   font-size: 16px;
   font-weight: bold;
+
 `;
 
 export const FormInput = styled.input`
@@ -79,8 +97,6 @@ export const FormInput = styled.input`
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid ${theme.colors.light};
-  background-color: transparent;
-  color: ${(props) => (props.lightMode ? "#000" : "#fff")};
 `;
 
 export const UpdateButton = styled.button`
@@ -149,18 +165,4 @@ export const ToggleSwitch = styled.label`
   }
 `;
 
-export const LogoutButton = styled.div`
-  font-size: 16px;
-  font-weight: bold;
-  color: ${theme.colors.primary};
-  cursor: pointer;
 
-  a {
-    text-decoration: none;
-    color: inherit;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;

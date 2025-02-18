@@ -101,14 +101,27 @@ export const TabItem = styled.div`
     }`}
 `;
 
-export const ProfileIcon = styled(FaUserCircle)`
-  font-size: 30px;
-  color: ${theme.colors.background};
-  // margin-left: auto;
-  // margin-right: 4%;
+// export const ProfileIcon = styled(FaUserCircle)`
+//   font-size: 30px;
+//   color: ${theme.colors.background};
+//   // margin-left: auto;
+//   // margin-right: 4%;
+//   cursor: pointer;
+
+//   &:hover {
+//     color: ${theme.colors.light};
+//   }
+// `;
+
+export const ProfileIcon = styled.img`
+  width: 40px; /* Adjust size as needed */
+  height: 40px;
+  border-radius: 50%; /* Makes it circular */
+  object-fit: cover;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
 
   &:hover {
-    color: ${theme.colors.light};
+    transform: scale(1.1);
   }
 `;
