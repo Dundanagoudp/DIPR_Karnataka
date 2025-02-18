@@ -1,5 +1,4 @@
-// ToolBar.js
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import {
   ToolbarContainer,
@@ -8,18 +7,76 @@ import {
   SearchIcon,
   FontControls,
   Select,
+  SuggestionsContainer,
+  SuggestionItem,
 } from "./ToolBar.styles";
 import { FontSizeContext } from "../../context/FontSizeProvider";
+import { SearchMagazineApi } from "../../services/searchapi/SearchApi";
 
 const ToolBar = ({ onSearch, onLanguageChange }) => {
   const { fontSize, changeFontSize } = useContext(FontSizeContext);
   const [searchText, setSearchText] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+
+  // Debounce function to delay API calls
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func.apply(null, args);
+      }, delay);
+    };
+  };
+
+  // Function to handle search input changes
+  const handleSearch = async (query) => {
+    if (!query.trim()) {
+      // If the query is empty, reset the search results and suggestions
+      onSearch && onSearch([]);
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      const response = await SearchMagazineApi(query); // Call the API
+      console.log("Search Results:", response.data); // Log the results
+      setSuggestions(response.data); // Set suggestions
+      onSearch && onSearch(response.data); // Pass the results to the parent component
+    } catch (error) {
+      console.error("Search Error:", error); // Log any errors
+      onSearch && onSearch([]); // Reset search results in case of error
+      setSuggestions([]); // Reset suggestions in case of error
+    }
+  };
+
+  // Debounced version of handleSearch
+  const debouncedSearch = debounce(handleSearch, 300);
+
+  // Update debouncedSearch whenever searchText changes
+  useEffect(() => {
+    debouncedSearch(searchText);
+  }, [searchText, debouncedSearch]);
+
+  // Function to handle suggestion click
+  const handleSuggestionClick = (suggestion) => {
+    setSearchText(suggestion.title); // Set the search text to the clicked suggestion
+    setSuggestions([]); // Clear suggestions
+    onSearch && onSearch([suggestion]); // Pass the clicked suggestion to the parent component
+  };
+
+  // Function to handle search icon click
+  const handleSearchIconClick = () => {
+    debouncedSearch(searchText);
+  };
 
   return (
     <ToolbarContainer>
       {/* Search Input */}
       <SearchContainer>
-        <SearchIcon>
+        <SearchIcon onClick={handleSearchIconClick}>
           <AiOutlineSearch />
         </SearchIcon>
         <SearchInput
@@ -27,10 +84,19 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
           placeholder="Search for News"
           value={searchText}
           onChange={(e) => {
-            setSearchText(e.target.value);
-            onSearch && onSearch(e.target.value);
+            const query = e.target.value;
+            setSearchText(query);
           }}
         />
+        {suggestions.length > 0 && (
+          <SuggestionsContainer>
+            {suggestions.map((suggestion, index) => (
+              <SuggestionItem key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                {suggestion.title}
+              </SuggestionItem>
+            ))}
+          </SuggestionsContainer>
+        )}
       </SearchContainer>
 
       {/* Font Size Controls */}

@@ -28,20 +28,17 @@ export const SearchContainer = styled.div`
   align-items: center;
   background: ${theme.colors.light};
   padding: ${theme.spacing(0.75)};
-  // margin-left: ${theme.spacing(13)};
   border-radius: 8px;
   width: 100%;
-  // max-width: 520px;
   border: 1px solid ${theme.colors.info};
+  position: relative;
 
   @media (max-width: ${theme.breakpoints.desktop}) {
     max-width: 100%;
-    margin-left: 0;
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 100%;
-    margin-left: 0;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
@@ -53,6 +50,7 @@ export const SearchIcon = styled.div`
   color: ${theme.colors.textgray};
   font-size: 18px;
   margin-right: ${theme.spacing(1)};
+  cursor: pointer;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 16px;
@@ -70,6 +68,34 @@ export const SearchInput = styled.input`
 
   &::placeholder {
     color: ${theme.colors.textgray};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 12px;
+  }
+`;
+
+export const SuggestionsContainer = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: ${theme.colors.white};
+  border: 1px solid ${theme.colors.info};
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: ${theme.spacing(0.5)};
+`;
+
+export const SuggestionItem = styled.div`
+  padding: ${theme.spacing(1)};
+  font-size: 14px;
+  color: ${theme.colors.text};
+  cursor: pointer;
+
+  &:hover {
+    background: ${theme.colors.light};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
