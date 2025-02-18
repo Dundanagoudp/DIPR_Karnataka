@@ -44,14 +44,14 @@ const Exclusive = () => {
       {/* <RelatedPostsContainer>
         <RelatedPosts />
       </RelatedPostsContainer> */}
-      <SecondFlexContainer>
+      {/* <SecondFlexContainer> */}
         {/* <div>
           <ExclusiveNews />
         </div> */}
         {/* <div>
           <ExclusiveAllNews />
         </div> */}
-      </SecondFlexContainer>
+      {/* </SecondFlexContainer> */}
     </div>
   );
 };

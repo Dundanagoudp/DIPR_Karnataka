@@ -266,7 +266,7 @@ const ExclusiveVideos = () => {
                     />
                     <LikeCount style={{ color: "#000" }}>{likeCounts[video._id] || 0}</LikeCount>
                     <FaRegComment size={25} onClick={() => toggleCommentSection(video._id)} />
-                    <FaPaperPlane size={25} />
+                    {/* <FaPaperPlane size={25} /> */}
                   </FlexContainer2>
                 </LikeContainer>
 

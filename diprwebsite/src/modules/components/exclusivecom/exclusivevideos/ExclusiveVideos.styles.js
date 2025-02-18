@@ -11,7 +11,7 @@ export const CarouselContainer = styled.div`
   max-width: 1200px;
   height: auto;
   overflow: hidden;
-  margin: ${theme.spacing(2)} auto;
+  margin: ${theme.spacing(1)} auto;
   display: flex;
   flex-direction: column;
   align-items: center;
