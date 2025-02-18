@@ -7,7 +7,7 @@ export const PdfCarouselContainer = styled.div`
   overflow: hidden;
   position: relative;
   border-radius: ${theme.spacing(1)};
-  margin: ${theme.spacing(2)} auto;
+  margin: ${theme.spacing(1)} auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 90%;

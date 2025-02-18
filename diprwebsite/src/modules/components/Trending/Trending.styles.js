@@ -7,7 +7,7 @@ export const CarouselContainer = styled.div`
   overflow: hidden;
   position: relative;
   border-radius: ${theme.spacing(1)};
-  margin: ${theme.spacing(2)} auto;
+  margin:  auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 90%;

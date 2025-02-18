@@ -4,7 +4,8 @@ import theme from "../../../../theme/Theme";
  
 export const ContactFormContainer = styled.div`
   font-family: ${theme.fonts.body};
-  margin: ${theme.spacing(3)};
+  margin: auto;
+  max-width: 600px;
   padding: ${theme.spacing(4)};
   background-color: ${theme.colors.background};
   border-radius: 8px;

@@ -4,7 +4,7 @@ import theme from "../../../../theme/Theme";
 export const Container = styled.div`
   max-width: ${theme.spacing(150)};
   margin: 0 auto;
-  padding: ${theme.spacing(4)};
+  padding: ${theme.spacing(0.5)};
   background-color: ${theme.colors.background};
   color: ${theme.colors.text};
 `;
