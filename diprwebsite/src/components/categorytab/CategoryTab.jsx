@@ -64,9 +64,11 @@ const CategoryTab = () => {
           </Link>
         ))}
       </TabsWrapper>
-      <ProfileIcon>
-        <FaUserCircle size={24} />
-      </ProfileIcon>
+            <Link to="/profile" style={{ marginLeft: "auto" , marginRight: "4%" }}>
+        <ProfileIcon>
+          <FaUserCircle size={24} />
+        </ProfileIcon>
+      </Link>
     </TabContainer>
   );
 };
