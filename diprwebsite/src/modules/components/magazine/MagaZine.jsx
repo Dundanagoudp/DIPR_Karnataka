@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Container,
   TabContainer,
@@ -13,6 +13,7 @@ import {
 } from "../magazine/MagaZine.styles";
  
 import { getMagazines } from "../../../services/magazineApi/magazineService";
+import { FontSizeContext } from "../../../context/FontSizeProvider";
  
 const fallbackMagazines = [
   {
@@ -29,6 +30,8 @@ const fallbackMagazines = [
 const MagaZines = () => {
   const [activeTab, setActiveTab] = useState("Topics");
   const [magazines, setMagazines] = useState([]);
+    const { fontSize } = useContext(FontSizeContext);
+
  
   useEffect(() => {
     const fetchMagazines = async () => {
@@ -55,8 +58,8 @@ const MagaZines = () => {
   }, []);
  
   return (
-    <Container>
-      <Header>Magazine</Header>
+    <Container style={{ fontSize: `${fontSize}%` }}>
+      <Header style={{ fontSize: `${fontSize}%` }}>Magazine</Header>
       <TabContainer>
         <Tab
           active={activeTab === "Topics"}
@@ -73,11 +76,11 @@ const MagaZines = () => {
                 <Image src={magazine.magazineThumbnail} alt={magazine.title} />
                 <Details>
                   {/* <Meta1>{new Date(magazine.createdTime).toDateString()}</Meta1> */}
-                  <Title>{magazine.title}</Title>
-                  <p>
+                  <Title style={{ fontSize: `${fontSize}%` }}>{magazine.title}</Title>
+                  <p style={{ fontSize: `${fontSize}%` }}>
                     {magazine.description.split(" ").slice(0, 10).join(" ")}...
                   </p>
-                  <a
+                  <a style={{ fontSize: `${fontSize}%` }}
                     href={magazine.magazinePdf}
                     target="_blank"
                     rel="noopener noreferrer"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaLink } from "react-icons/fa";
 import Cookies from "js-cookie";
@@ -24,12 +24,14 @@ import {
 } from "../../../services/categoryapi/CategoryApi";
 import { trackClick } from "../../../services/newsApi/NewsApi";
 import AddComments from "../comments/AddComments";
+import { FontSizeContext } from "../../../context/FontSizeProvider";
 
 const AllNews = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [newsData, setNewsData] = useState([]);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+  const { fontSize } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -113,13 +115,14 @@ const AllNews = () => {
 
   return (
     <Container>
-      <Title>All News</Title>
-      <TabsContainer>
+      <Title style={{ fontSize: `${fontSize}%` }}>All News</Title>
+      <TabsContainer style={{ fontSize: `${fontSize}%` }}>
         {categories.map((category) => (
           <Tab
             key={category._id}
             active={activeTab === category._id}
             onClick={() => setActiveTab(category._id)}
+            style={{ fontSize: `${fontSize}%` }}
           >
             {category.name}
           </Tab>
@@ -127,13 +130,13 @@ const AllNews = () => {
       </TabsContainer>
 
       {newsData.map((news) => (
-        <NewsCard key={news._id}>
+        <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
           <NewsImage
             src={news.newsImage || "https://via.placeholder.com/300"}
             alt={news.title || "News Image"}
           />
-          <NewsContent>
-            <NewsHeader>
+          <NewsContent style={{ fontSize: `${fontSize}%` }}>
+            <NewsHeader style={{ fontSize: `${fontSize}%` }}>
               {news.author || "Unknown Author"} • {news.category?.name || "General"}
             </NewsHeader>
             <NewsTitle>{news.title || "Untitled News"}</NewsTitle>
@@ -159,18 +162,20 @@ const AllNews = () => {
                 WebkitLineClamp: 5,
                 WebkitBoxOrient: "vertical",
                 overflow: "hidden",
+                fontSize: `${fontSize}%`
               }}
+              
             >
               {news.description || "No description available."}
             </NewsText>
 
-            <ReadMore onClick={() => handleReadMore(news._id)}>Read more</ReadMore>
+            <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>Read more</ReadMore>
 
-            <AddComments newsId={news._id} />
+            <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} />
 
-            <NewsMeta>
+            <NewsMeta style={{ fontSize: `${fontSize}%` }}>
               {news.isTrending && <TrendingTag>Trending</TrendingTag>}
-              <span>
+              <span style={{ fontSize: `${fontSize}%` }}>
                 {formatDate(news.createdTime)} • {news.readTime || "N/A"}
               </span>
             </NewsMeta>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaLink } from "react-icons/fa";
 import Cookies from "js-cookie"; 
@@ -19,10 +19,13 @@ import {
 import { trackClick } from "../../../../services/newsApi/NewsApi";
 import AddComments from "../../comments/AddComments";
 import { getRecommendedNews } from "../../../../services/newsApi/NewsApi"; 
+import { FontSizeContext } from "../../../../context/FontSizeProvider";
 
 const LatestNewsRecommended = () => {
   const [newsData, setNewsData] = useState([]);
   const navigate = useNavigate();
+    const { fontSize } = useContext(FontSizeContext);
+  
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -102,7 +105,7 @@ const LatestNewsRecommended = () => {
   };
 
   return (
-    <Container>
+    <Container style={{ fontSize: `${fontSize}%` }}>
       <Title>Articles</Title>
 
       {newsData.map((news) => (
@@ -111,12 +114,12 @@ const LatestNewsRecommended = () => {
             src={news.newsImage || "https://via.placeholder.com/300"}
             alt={news.title || "News Image"}
           />
-          <NewsContent>
-            <NewsHeader>
+          <NewsContent style={{ fontSize: `${fontSize}%` }}>
+            <NewsHeader style={{ fontSize: `${fontSize}%` }}>
               {news.author || "Unknown Author"} •{" "}
               {news.category?.name || "General"}
             </NewsHeader>
-            <NewsTitle>{news.title || "Untitled News"}</NewsTitle>
+            <NewsTitle >{news.title || "Untitled News"}</NewsTitle>
 
             <ShareIcons>
               <FaFacebook
@@ -139,20 +142,21 @@ const LatestNewsRecommended = () => {
                 WebkitLineClamp: 5,
                 WebkitBoxOrient: "vertical",
                 overflow: "hidden",
+                fontSize: `${fontSize}%`
               }}
             >
               {news.description || "No description available."}
             </NewsText>
 
-            <ReadMore onClick={() => handleReadMore(news._id)}>
+            <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>
               Read more
             </ReadMore>
 
-            <AddComments newsId={news._id} />
+            <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} />
 
-            <NewsMeta>
+            <NewsMeta style={{ fontSize: `${fontSize}%` }}>
               {news.isTrending && <TrendingTag>Trending</TrendingTag>}
-              <span>
+              <span style={{ fontSize: `${fontSize}%` }}>
                 {formatDate(news.createdTime)} • {news.readTime || "N/A"}
               </span>
             </NewsMeta>

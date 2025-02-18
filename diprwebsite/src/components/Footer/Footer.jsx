@@ -85,7 +85,7 @@ const Footer = () => {
 
       <FooterStripContainer style={{ fontSize: `${fontSize}%` }}>
         <FooterStrip>
-          <StripText>
+          <StripText style={{ fontSize: `${fontSize}%` }}>
             Designed, Developed and Hosted by: Center for e-Governance - Web Portal, Government of Karnataka © 2025, All Rights Reserved.
             <br />
           </StripText>

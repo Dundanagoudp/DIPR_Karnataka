@@ -12,6 +12,7 @@ import Loader from "../../../components/loder/Loder";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
+  
 
   // Simulate a loading delay with useEffect
   useEffect(() => {

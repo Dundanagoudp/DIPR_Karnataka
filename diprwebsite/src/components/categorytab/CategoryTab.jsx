@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {  FaBars, FaTimes } from "react-icons/fa";
 import {
@@ -9,6 +9,7 @@ import {
   HamburgerMenu,
 } from "../categorytab/CategoryTab.styles";
 import ProfileImage from "../../assets/Profile.png";
+import { FontSizeContext } from "../../context/FontSizeProvider";
  
 const tabs = [
   { name: "All", path: "/" },
@@ -23,6 +24,8 @@ const CategoryTab = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { fontSize } = useContext(FontSizeContext);
+  
  
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
  
@@ -49,19 +52,19 @@ const CategoryTab = () => {
   }, []);
  
   return (
-    <TabContainer >
+    <TabContainer style={{ fontSize: `${fontSize}%` }} >
       <HamburgerMenu onClick={toggleMenu}>
         {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
       </HamburgerMenu>
-      <TabsWrapper isMenuOpen={isMenuOpen}>
+      <TabsWrapper style={{ fontSize: `${fontSize}%` }} isMenuOpen={isMenuOpen}>
         {tabs.map(({ name, path }) => (
-          <Link
+          <Link 
             key={name}
             to={path}
             onClick={() => handleTabClick(path)}
             style={{ textDecoration: "none" }}
           >
-            <TabItem active={activeTab === path}>{name}</TabItem>
+            <TabItem style={{ fontSize: `${fontSize}%` }} active={activeTab === path}>{name}</TabItem>
           </Link>
         ))}
       </TabsWrapper>

@@ -118,7 +118,7 @@ export const NewsContent = styled.div`
 `;
 
 export const NewsHeader = styled.div`
-  font-size: ${theme.spacing(2.8)};
+  font-size: ${theme.spacing(5)};
   color: ${theme.colors.icons};
   font-weight: bold;
   font-family: ${theme.fonts.accent};
