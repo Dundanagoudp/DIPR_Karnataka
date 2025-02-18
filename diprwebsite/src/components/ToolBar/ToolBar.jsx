@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import {
   ToolbarContainer,
   SearchContainer,
@@ -17,6 +18,7 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
   const { fontSize, changeFontSize } = useContext(FontSizeContext);
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Debounce function to delay API calls
   const debounce = (func, delay) => {
@@ -64,7 +66,14 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
   const handleSuggestionClick = (suggestion) => {
     setSearchText(suggestion.title); // Set the search text to the clicked suggestion
     setSuggestions([]); // Clear suggestions
-    onSearch && onSearch([suggestion]); // Pass the clicked suggestion to the parent component
+
+    // If there is only one suggestion, open the PDF directly
+    if (suggestions.length === 1) {
+      window.open(suggestion.magazinePdf, "_blank"); // Open PDF in a new tab
+    } else {
+      onSearch && onSearch([suggestion]); // Pass the clicked suggestion to the parent component
+      navigate(`/magazine/${suggestion._id}`); // Navigate to the magazine detail page
+    }
   };
 
   // Function to handle search icon click
@@ -120,3 +129,6 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
 };
 
 export default ToolBar;
+
+
+
