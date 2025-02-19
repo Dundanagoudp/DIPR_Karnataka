@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import {
@@ -17,11 +17,13 @@ import {
 } from "../comments/ComMents.styles";
 import { getNewsByid } from "../../../services/newsApi/NewsApi";
 import { likeComment } from "../../../services/categoryapi/CategoryApi";
+import { FontSizeContext } from "../../../context/FontSizeProvider";
 
 const ComMents = () => {
   const { id: newsId } = useParams(); 
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { fontSize } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -59,7 +61,7 @@ const ComMents = () => {
   };
 
   return (
-    <CommentSection>
+    <CommentSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
       {loading ? (
         <p>Loading comments...</p>
       ) : comments.length === 0 ? (
@@ -71,25 +73,25 @@ const ComMents = () => {
               src="https://via.placeholder.com/50"
               alt={comment.user.displayName}
             />
-            <CommentContent>
+            <CommentContent style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               <UserHeader>
                 <UserInfo>
-                  <Username>{comment.user.displayName}</Username>
+                  <Username style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.user.displayName}</Username>
                   {comment.user.verified && <VerifiedIcon>✔</VerifiedIcon>}
                 </UserInfo>
-                <Time>
+                <Time style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                   {new Date(comment.createdTime).toLocaleTimeString()}
                 </Time>
               </UserHeader>
-              <CommentText>{comment.comment}</CommentText>
+              <CommentText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.comment}</CommentText>
               <Actions>
-                <ActionIcon>
+                <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                   <FaComment />
                 </ActionIcon>
-                <ActionIcon>
+                <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                   <FaRetweet />
                 </ActionIcon>
-                <ActionIcon onClick={() => handleLikeComment(comment._id)}>
+                <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleLikeComment(comment._id)}>
                   <FaHeart />
                 </ActionIcon>
               </Actions>

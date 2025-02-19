@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import { addComment } from "../../../services/newsApi/NewsApi";
+import { MdOutlineComment } from "react-icons/md";
+import { CommentInputWrapper, CommentInputField, CommentButtonWrapper, ErrorText } from "../comments/ComMents.styles"; 
+import { FontSizeContext } from "../../../context/FontSizeProvider";
 
 const AddComments = ({ newsId }) => {
-  // Accept newsId as prop
   const [text, setText] = useState("");
   const [userId, setUserId] = useState(null);
   const [error, setError] = useState("");
+    const { fontSize  } = useContext(FontSizeContext);
+
 
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
-    console.log("Retrieved User ID from Cookies:", storedUserId);
     setUserId(storedUserId);
   }, []);
 
-  // Handle comment submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,12 +35,10 @@ const AddComments = ({ newsId }) => {
       return;
     }
 
-    // API expects `text`, `newsId`, and `userId`
     const commentData = { text, newsId, userId };
     try {
       const response = await addComment(commentData);
-      console.log("Comment added successfully:", response);
-      setText(""); // Clear the input field after submission
+      setText("");
       setError("");
       window.location.reload();
     } catch (err) {
@@ -49,18 +49,18 @@ const AddComments = ({ newsId }) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
+      <CommentInputWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+        <CommentInputField style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
           type="text"
-          placeholder="Add a comment..."
+          placeholder="Add your comments"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button type="submit" disabled={!userId}>
-          Submit
-        </button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        <CommentButtonWrapper  onClick={handleSubmit} disabled={!text.trim()}>
+          <MdOutlineComment style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} />
+        </CommentButtonWrapper>
+      </CommentInputWrapper >
+      {error && <ErrorText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{error}</ErrorText>}
     </div>
   );
 };

@@ -23,7 +23,6 @@ const theme = {
         bggrey:"#F3F3F3",
         trcloure:"hsla(0, 0.00%, 100.00%, 0.20)",    
       },
-
       fonts: {
         body: "'poppins', sans-serif",
         heading: "'poppins', sans-serif",

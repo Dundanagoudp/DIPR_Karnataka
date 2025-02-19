@@ -147,7 +147,7 @@ const LatestCat = () => {
           />
         </NewsImageWrapper>
 
-        <NewsContentWrapper>
+        <NewsContentWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
           <NewsHeaderWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             {news.author || "Unknown Author"} •{" "}
             {news.category?.name || "General"}
@@ -157,12 +157,12 @@ const LatestCat = () => {
             {news.title || "Untitled News"}
             <IconWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               {news.likedBy.includes(userId) ? (
-                <FaHeart
+                <FaHeart 
                   onClick={handleLikeNews}
                   style={{ cursor: "pointer", color: "red" }}
                 />
               ) : (
-                <FaRegHeart
+                <FaRegHeart 
                   onClick={handleLikeNews}
                   style={{ cursor: "pointer" }}
                 />
@@ -185,7 +185,7 @@ const LatestCat = () => {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 style={{ overflow: "hidden" }}
               >
-                <ComMents comments={news.comments || []} />
+                <ComMents style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} comments={news.comments || []} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -195,9 +195,9 @@ const LatestCat = () => {
 
           <NewsMetaWrapper>
             {news.isTrending && (
-              <TrendingTagWrapper>Trending</TrendingTagWrapper>
+              <TrendingTagWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Trending</TrendingTagWrapper>
             )}
-            <span>
+            <span style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               {formatDate(news.createdTime)} • {news.readTime || "N/A"}
             </span>
           </NewsMetaWrapper>

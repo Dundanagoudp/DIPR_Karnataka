@@ -106,13 +106,14 @@ export const CommentSectionWrapper = styled.div`
   margin-top: ${theme.spacing(1)};
 `;
 
+// commenets section 
+
 export const CommentInputWrapper = styled.div`
   display: flex;
   align-items: center;
   background: ${theme.colors.background};
   border-radius: ${theme.spacing(1.875)};
   margin-top: ${theme.spacing(2.5)};
-  border: ${theme.spacing(5)} solid ${theme.colors.info};
   padding: ${theme.spacing(0.7)};
   width: ${theme.spacing(30)};
   position: relative;
@@ -127,10 +128,9 @@ export const CommentInputField = styled.input`
   border: none;
   font-size: ${theme.spacing(1.75)};
   outline: none;
-  max-width: 100%;
   background: transparent;
-  padding-right: ${theme.spacing(4.375)};
   padding-left: ${theme.spacing(1.25)};
+  padding-right: ${theme.spacing(4.375)};
 `;
 
 export const CommentButtonWrapper = styled.button`
@@ -142,4 +142,10 @@ export const CommentButtonWrapper = styled.button`
   font-size: ${theme.spacing(2.375)};
   color: ${theme.colors.icons};
   cursor: pointer;
+`;
+
+export const ErrorText = styled.p`
+  color: red;
+  font-size: ${theme.spacing(1.5)};
+  margin-top: ${theme.spacing(1)};
 `;
