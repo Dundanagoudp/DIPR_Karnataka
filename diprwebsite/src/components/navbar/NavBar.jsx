@@ -37,9 +37,9 @@ const NavBar = () => {
   return (
     <NavContainer style={{ fontSize: `${fontSize}%` }}>
       <NewsWrapper>
-        <NewsTicker>
+        <NewsTicker style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
           {headlines.map((headline, index) => (
-            <NewsItem key={index}>{headline}</NewsItem>
+            <NewsItem style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} key={index}>{headline}</NewsItem>
           ))}
         </NewsTicker>
       </NewsWrapper>

@@ -16,12 +16,12 @@ import { FontSizeContext } from '../../context/FontSizeProvider';
 const Header = () => {
   const { fontSize } = useContext(FontSizeContext);
   return (
-    <HeaderContainer style={{ fontSize: `${fontSize}%` }}>
-      <LogoSection style={{ fontSize: `${fontSize}%` }}>
+    <HeaderContainer >
+      <LogoSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         <Logo src={logo} alt="Government of Karnataka Logo" />
-        <TitleSection style={{ fontSize: `${fontSize}%` }}>
-          <Title style={{ fontSize: `${fontSize}%` }}>Department of Information and Public Relations</Title>
-          <Subtitle style={{ fontSize: `${fontSize}%` }}>Government of Karnataka</Subtitle>
+        <TitleSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+          <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Department of Information and Public Relations</Title>
+          <Subtitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Government of Karnataka</Subtitle>
         </TitleSection>
       </LogoSection>
       <CMSection>

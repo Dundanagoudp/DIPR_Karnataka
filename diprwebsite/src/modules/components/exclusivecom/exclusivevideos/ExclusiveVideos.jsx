@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import { FaPlay, FaRegComment, FaPaperPlane, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
@@ -37,6 +37,7 @@ import {
   ActionIcon,
 } from "../exclusivevideos/ExclusiveVideos.styles";
 import { getLongVideos, likeLongVideo, LongVideoaddComment } from "../../../../services/videoApi/videoApi";
+import { FontSizeContext } from "../../../../context/FontSizeProvider";
 
 const ExclusiveVideos = () => {
   const [videosData, setVideosData] = useState([]);
@@ -48,6 +49,7 @@ const ExclusiveVideos = () => {
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
   const [openCommentSection, setOpenCommentSection] = useState(null);
+  const { fontSize  } = useContext(FontSizeContext);
 
   // Fetch userId from cookies
   useEffect(() => {
@@ -217,7 +219,7 @@ const ExclusiveVideos = () => {
 
   return (
     <CarouselContainer>
-      <CarouselInner>
+      <CarouselInner style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         {videosData.map((video) => (
           <div key={video._id}>
             <CarouselItem bgImage={video.thumbnail}>
@@ -237,14 +239,14 @@ const ExclusiveVideos = () => {
                         <FaPlay size={40} color="#fff" />
                       </PlayIconContainer>
                       <FlexContainer>
-                        <NewsInfo>
+                        <NewsInfo style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                           {new Date(video.createdAt).toLocaleDateString()} • 5 min watch
                         </NewsInfo>
-                        <NewsTitle>{video.title}</NewsTitle>
+                        <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{video.title}</NewsTitle>
                         <NavContainer>
                           <NewsWrapper>
                             <NewsTicker>
-                              <NewsItem>{video.description}</NewsItem>
+                              <NewsItem style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{video.description}</NewsItem>
                             </NewsTicker>
                           </NewsWrapper>
                         </NavContainer>
@@ -259,7 +261,7 @@ const ExclusiveVideos = () => {
               <InteractionContainer>
                 <LikeContainer>
                   <FlexContainer2>
-                    <AiOutlineLike
+                    <AiOutlineLike style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
                       size={30}
                       color={likedVideos.has(video._id) ? "blue" : "#000"}
                       onClick={() => handleLikeClick(video._id)}
@@ -271,13 +273,13 @@ const ExclusiveVideos = () => {
                 </LikeContainer>
 
                 <CommentContainer>
-                  <CommentInput
+                  <CommentInput style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
                     type="text"
                     value={newComments[video._id] || ""}
                     onChange={(e) => handleCommentChange(video._id, e)}
                     placeholder="Add a comment..."
                   />
-                  <CommentButton onClick={() => handleAddComment(video._id)}>
+                  <CommentButton style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleAddComment(video._id)}>
                     Add Comment
                   </CommentButton>
                 </CommentContainer>
@@ -296,7 +298,7 @@ const ExclusiveVideos = () => {
                       <p>No comments yet.</p>
                     ) : (
                       comments[video._id]?.map((comment) => (
-                        <Comment key={comment._id}>
+                        <Comment style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} key={comment._id}>
                           <ProfileImage
                             src={comment.user?.profileImage || "https://via.placeholder.com/50"}
                             alt={comment.user?.displayName}
@@ -304,21 +306,21 @@ const ExclusiveVideos = () => {
                           <CommentContent>
                             <UserHeader>
                               <UserInfo>
-                                <Username>{comment.user?.displayName}</Username>
+                                <Username style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.user?.displayName}</Username>
                               </UserInfo>
-                              <Time>
+                              <Time style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                                 {new Date(comment.createdTime).toLocaleTimeString()}
                               </Time>
                             </UserHeader>
-                            <CommentText>{comment.comment}</CommentText>
-                            <Actions>
-                              <ActionIcon>
+                            <CommentText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.comment}</CommentText>
+                            <Actions >
+                              <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                                 <FaComment />
                               </ActionIcon>
-                              <ActionIcon>
+                              <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                                 <FaRetweet />
-                              </ActionIcon>
-                              <ActionIcon onClick={() => handleLikeComment(comment._id, video._id)}>
+                              </ActionIcon >
+                              <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleLikeComment(comment._id, video._id)}>
                                 <FaHeart /> {comment.likes || 0}
                               </ActionIcon>
                             </Actions>

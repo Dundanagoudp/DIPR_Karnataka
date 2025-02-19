@@ -31,7 +31,7 @@ const AllNews = () => {
   const [newsData, setNewsData] = useState([]);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-  const { fontSize = 100 } = useContext(FontSizeContext);
+  const { fontSize  } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
