@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaLink } from "react-icons/fa";
-import Cookies from "js-cookie"; 
+import Cookies from "js-cookie";
 import {
   Container,
   NewsCard,
@@ -18,30 +18,28 @@ import {
 } from "../allrecommended/LatestRecommended.styles";
 import { trackClick } from "../../../../services/newsApi/NewsApi";
 import AddComments from "../../comments/AddComments";
-import { getRecommendedNews } from "../../../../services/newsApi/NewsApi"; 
+import { getRecommendedNews } from "../../../../services/newsApi/NewsApi";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
+import Loader from "../../../../components/apiloders/ApiLoders";
 
 const LatestNewsRecommended = () => {
   const [newsData, setNewsData] = useState([]);
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
-    const { fontSize } = useContext(FontSizeContext);
-  
+  const { fontSize } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchNews = async () => {
-      const userId = Cookies.get("userId"); 
+      const userId = Cookies.get("userId");
       if (!userId) {
         alert("User not logged in. Please log in to continue.");
+        setLoading(false); 
         return;
       }
 
       try {
-        const response = await getRecommendedNews(userId); 
-        if (
-          response?.data &&
-          Array.isArray(response.data) &&
-          response.data.length > 0
-        ) {
+        const response = await getRecommendedNews(userId);
+        if (response?.data && Array.isArray(response.data) && response.data.length > 0) {
           console.log("Received news data:", response.data);
           setNewsData(response.data);
         } else {
@@ -51,6 +49,8 @@ const LatestNewsRecommended = () => {
       } catch (error) {
         console.error("Error fetching news:", error);
         setNewsData([]);
+      } finally {
+        setLoading(false); 
       }
     };
 
@@ -58,13 +58,13 @@ const LatestNewsRecommended = () => {
   }, []);
 
   const handleReadMore = async (newsId) => {
-    const userId = Cookies.get("userId"); 
+    const userId = Cookies.get("userId");
     if (!userId) {
       alert("User not logged in. Please log in to continue.");
       return;
     }
     try {
-      await trackClick({ newsId, userId }); 
+      await trackClick({ newsId, userId });
       console.log("Click registered successfully!");
       navigate(`/news/${newsId}`);
     } catch (error) {
@@ -103,6 +103,11 @@ const LatestNewsRecommended = () => {
           day: "numeric",
         });
   };
+
+  // If loading, display the Loader component
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
