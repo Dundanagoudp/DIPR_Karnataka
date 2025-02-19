@@ -195,57 +195,51 @@ export const VideoTitle = styled.h2`
   font-weight: bold;
 `;
 
-// Media Queries for Responsive Design
-const breakpoints = {
-  small: "480px",
-  medium: "768px",
-  large: "1024px",
-};
-
+// Responsive Components
 export const ResponsiveContainer = styled(Container)`
-  @media (max-width: ${breakpoints.large}) {
+  @media (max-width: ${theme.breakpoints.desktop}) {
     max-width: 90%;
   }
 
-  @media (max-width: ${breakpoints.medium}) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 95%;
   }
 
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
     padding: ${theme.spacing(1)};
   }
 `;
 
 export const ResponsiveTabContainer = styled(TabContainer)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     padding-bottom: ${theme.spacing(1)};
   }
 `;
 
 export const ResponsiveTab = styled(Tab)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
     padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
   }
 `;
 
 export const ResponsiveVideoTab = styled(VideoTab)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
     padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
   }
 `;
 
 export const ResponsiveCard = styled(Card)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     flex-direction: column;
     align-items: flex-start;
   }
 `;
 
 export const ResponsiveImage = styled(Image)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     width: 100%;
     height: auto;
     margin-right: 0;
@@ -254,7 +248,7 @@ export const ResponsiveImage = styled(Image)`
 `;
 
 export const ResponsiveVideoThumbnail = styled(VideoThumbnail)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     width: 100%;
     height: auto;
     margin-right: 0;
@@ -263,25 +257,25 @@ export const ResponsiveVideoThumbnail = styled(VideoThumbnail)`
 `;
 
 export const ResponsiveTitle = styled(Title)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
   }
 `;
 
 export const ResponsiveMeta = styled(Meta)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.2)};
   }
 `;
 
 export const ResponsiveMeta1 = styled(Meta1)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.2)};
   }
 `;
 
 export const ResponsiveVideoTitle = styled(VideoTitle)`
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
   }
 `;
