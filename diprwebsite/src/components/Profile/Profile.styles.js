@@ -21,6 +21,7 @@ export const ProfileHeader = styled.div`
   margin-bottom: ${theme.spacing(3)};
   display: flex;
   align-items: center;
+  justify-content: center;
   img {
     width: 60px;
     height: 60px;
@@ -36,25 +37,6 @@ export const ProfileHeader = styled.div`
   margin-top: -20px;
     font-size: 16px;
 
-  }
-`;
-
-export const LogoutButton = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  color: ${theme.colors.primary};
-  cursor: pointer;
-  margin-left: auto;
-  display: flex;
-  gap: ${theme.spacing(1)};
-
-  a {
-    text-decoration: none;
-    color: inherit;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 `;
 
@@ -81,6 +63,7 @@ export const SocialIcons = styled.div`
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
   gap: ${theme.spacing(2)};
   width: 100%;
   max-width: 400px;

@@ -12,7 +12,6 @@ import {
   UpdateButton, 
   LightModeToggle, 
   TopSection, 
-  LogoutButton, 
   ToggleSwitch 
 } from "./Profile.styles";
 import ProfileImage from "../../assets/Profile.png"; 
@@ -87,16 +86,6 @@ const Profile = () => {
         <p>{userInfo.email}</p>
         </div>
         </div>
-        
-        
-        <LogoutButton>
-        <div >
-          <RiLogoutCircleRFill />
-          </div>
-          <div>
-          <Link to="/logout">Log Out</Link>
-          </div>
-        </LogoutButton>
       </ProfileHeader>
       
       <FormContainer onSubmit={handleSubmit}>
