@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Container,
   Content,
@@ -19,6 +19,7 @@ import {
 } from "../../../services/categoryapi/CategoryApi";
 import { CiBookmark } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { FontSizeContext } from "../../../context/FontSizeProvider";
 
 const LatestTab = () => {
   const [videosData, setVideosData] = useState([]);
@@ -26,6 +27,7 @@ const LatestTab = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+  const { fontSize  } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -79,11 +81,11 @@ const LatestTab = () => {
   };
 
   return (
-    <Container>
-      <TabsContainer>
+    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+      <TabsContainer style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         {categories.length > 0 ? (
           categories.map((category) => (
-            <Tab
+            <Tab style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
               key={category._id}
               active={activeTab === category._id}
               onClick={() => setActiveTab(category._id)}
@@ -95,27 +97,27 @@ const LatestTab = () => {
           <Tab>No Categories Available</Tab>
         )}
       </TabsContainer>
-      <Content>
+      <Content style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         {videosData.length > 0 ? (
           videosData.map((video) => (
-            <VideoCard1
+            <VideoCard1 
               key={video._id}
               onClick={() => handlePostClick(video._id)}
             >
-              <VideoThumbnail
+              <VideoThumbnail 
                 src={video.newsImage || videoThumbnail}
                 alt={video.title || "News Image"}
               />
-              <VideoDetails>
-                <NewsMeta>
+              <VideoDetails >
+                <NewsMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                   {video.isTrending && <span>Trending</span>}
-                  <span>
+                  <span style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                     {video.author || "Unknown Author"} •{" "}
                     {video.category?.name || "General"}
                   </span>
                 </NewsMeta>
-                <Title>{video.title || "Untitled News"}</Title>
-                <VideoMetacat>
+                <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{video.title || "Untitled News"}</Title>
+                <VideoMetacat style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                   {video.category?.name}
                   <BookmarkIconWrapper
                     onClick={(e) => {

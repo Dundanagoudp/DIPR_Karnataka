@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import {
@@ -27,6 +27,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getNewsByid, likeNews } from "../../../services/newsApi/NewsApi";
 import ComMents from "../comments/ComMents";
 import AddComments from "../comments/AddComments";
+import { FontSizeContext } from "../../../context/FontSizeProvider";
 
 const fallbackNews = {
   _id: "fallback1",
@@ -45,11 +46,12 @@ const fallbackNews = {
 };
 
 const LatestCat = () => {
-  const { id } = useParams(); // Get the news ID from the URL
-  const [news, setNews] = useState(fallbackNews); // Default to fallback data
+  const { id } = useParams(); 
+  const [news, setNews] = useState(fallbackNews); 
   const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
-  const userId = Cookies.get("userId"); // Fetch userId from cookies
+  const userId = Cookies.get("userId"); 
+  const { fontSize } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -91,8 +93,8 @@ const LatestCat = () => {
         // Toggle like status in the frontend
         setNews((prevNews) => {
           const newLikedBy = prevNews.likedBy.includes(userId)
-            ? prevNews.likedBy.filter((id) => id !== userId) // Remove like
-            : [...prevNews.likedBy, userId]; // Add like
+            ? prevNews.likedBy.filter((id) => id !== userId) 
+            : [...prevNews.likedBy, userId]; 
 
           // Store the updated likedBy in localStorage
           localStorage.setItem(
@@ -136,9 +138,9 @@ const LatestCat = () => {
   }, [news, userId]);
 
   return (
-    <Container>
+    <Container >
       <NewsCardWrapper key={news._id}>
-        <NewsImageWrapper>
+        <NewsImageWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
           <img
             src={news.newsImage || "https://via.placeholder.com/300"}
             alt={news.title || "News Image"}
@@ -146,14 +148,14 @@ const LatestCat = () => {
         </NewsImageWrapper>
 
         <NewsContentWrapper>
-          <NewsHeaderWrapper>
+          <NewsHeaderWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             {news.author || "Unknown Author"} •{" "}
             {news.category?.name || "General"}
           </NewsHeaderWrapper>
 
-          <NewsTitleWrapper>
+          <NewsTitleWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             {news.title || "Untitled News"}
-            <IconWrapper>
+            <IconWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               {news.likedBy.includes(userId) ? (
                 <FaHeart
                   onClick={handleLikeNews}
@@ -174,7 +176,7 @@ const LatestCat = () => {
           </NewsTitleWrapper>
 
           {/* Animated Comments Section */}
-          <AnimatePresence>
+          <AnimatePresence style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             {showComments && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -215,7 +217,7 @@ const LatestCat = () => {
             />
           </ShareIconsWrapper>
 
-          <NewsTextWrapper>
+          <NewsTextWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             {news.description?.split(" ").slice(0, 50).join(" ") + "..."}
           </NewsTextWrapper>
         </NewsContentWrapper>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Container,
   Content,
@@ -14,6 +14,7 @@ import {
 import videoThumbnail from "../../../assets/v1.png";
 import { CiBookmark } from "react-icons/ci";
 import { getRecommendedNews } from "../../../services/newsApi/NewsApi"; 
+import { FontSizeContext } from "../../../context/FontSizeProvider";
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -24,6 +25,8 @@ const getCookie = (name) => {
 const RecomMended = () => {
   const [videosData, setVideosData] = useState([]);
   const [bookmarkedVideos, setBookmarkedVideos] = useState(new Set());
+    const { fontSize } = useContext(FontSizeContext);
+  
 
   useEffect(() => {
     const userId = getCookie("userId"); 
@@ -80,24 +83,24 @@ const RecomMended = () => {
   };
 
   return (
-    <Container>
-      <Header>Recommended for you</Header>
+    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+      <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Recommended for you</Header>
       <Content>
         {videosData.map((video) => (
           <VideoCard1 key={video._id}>
-            <VideoThumbnail
+            <VideoThumbnail 
               src={video.newsImage || videoThumbnail}
               alt={video.title}
             />
             <VideoDetails>
-              <NewsMeta>
+              <NewsMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                 {video.isTrending && <span>Trending</span>}
-                <span>
+                <span style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                   {formatDate(video.publishedAt)} • {video.readTime || "N/A"}
                 </span>
               </NewsMeta>
-              <Title>{video.title}</Title>
-              <VideoMetacat>
+              <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{video.title}</Title>
+              <VideoMetacat style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                 {video.category.name}
                 <BookmarkIconWrapper
                   onClick={() => handleBookmarkClick(video._id)}

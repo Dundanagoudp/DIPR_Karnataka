@@ -31,7 +31,7 @@ const AllNews = () => {
   const [newsData, setNewsData] = useState([]);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-  const { fontSize } = useContext(FontSizeContext);
+  const { fontSize = 100 } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -115,7 +115,7 @@ const AllNews = () => {
 
   return (
     <Container>
-      <Title style={{ fontSize: `${fontSize}%` }}>All News</Title>
+      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} >All News</Title>
       <TabsContainer style={{ fontSize: `${fontSize}%` }}>
         {categories.map((category) => (
           <Tab
@@ -139,7 +139,7 @@ const AllNews = () => {
             <NewsHeader style={{ fontSize: `${fontSize}%` }}>
               {news.author || "Unknown Author"} • {news.category?.name || "General"}
             </NewsHeader>
-            <NewsTitle>{news.title || "Untitled News"}</NewsTitle>
+            <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{news.title || "Untitled News"}</NewsTitle>
 
             <ShareIcons>
               <FaFacebook

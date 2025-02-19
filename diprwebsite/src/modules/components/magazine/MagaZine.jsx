@@ -59,7 +59,7 @@ const MagaZines = () => {
  
   return (
     <Container style={{ fontSize: `${fontSize}%` }}>
-      <Header style={{ fontSize: `${fontSize}%` }}>Magazine</Header>
+      <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} >Magazine</Header>
       <TabContainer>
         <Tab
           active={activeTab === "Topics"}

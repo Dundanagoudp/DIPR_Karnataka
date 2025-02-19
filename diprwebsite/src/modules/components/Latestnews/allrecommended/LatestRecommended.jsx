@@ -105,8 +105,8 @@ const LatestNewsRecommended = () => {
   };
 
   return (
-    <Container style={{ fontSize: `${fontSize}%` }}>
-      <Title>Articles</Title>
+    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Articles</Title>
 
       {newsData.map((news) => (
         <NewsCard key={news._id}>
@@ -119,7 +119,7 @@ const LatestNewsRecommended = () => {
               {news.author || "Unknown Author"} •{" "}
               {news.category?.name || "General"}
             </NewsHeader>
-            <NewsTitle >{news.title || "Untitled News"}</NewsTitle>
+            <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} >{news.title || "Untitled News"}</NewsTitle>
 
             <ShareIcons>
               <FaFacebook
