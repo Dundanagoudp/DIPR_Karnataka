@@ -195,9 +195,9 @@ const Exclusiveshorts = () => {
             <CommentSection>
               <InteractionContainer>
                 <CommentContainer>
-                  <AiOutlineLike size={30} color={likedVideos.has(video._id) ? "blue" : "#000"} onClick={() => handleLikeClick(video._id)} />
+                  <AiOutlineLike style={{fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer"}} size={30} color={likedVideos.has(video._id) ? "blue" : "#000"} onClick={() => handleLikeClick(video._id)} />
                   <LikeCount style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{likeCounts[video._id] || 0}</LikeCount>
-                  <FaRegComment style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} size={25} onClick={() => toggleCommentSection(video._id)} />
+                  <FaRegComment style={{fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer"}} size={25} onClick={() => toggleCommentSection(video._id)} />
                   <CommentInput style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
                     type="text"
                     value={newComments[video._id] || ""}

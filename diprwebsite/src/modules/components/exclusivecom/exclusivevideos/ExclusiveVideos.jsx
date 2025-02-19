@@ -261,13 +261,13 @@ const ExclusiveVideos = () => {
               <InteractionContainer>
                 <LikeContainer>
                   <FlexContainer2>
-                    <AiOutlineLike style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+                    <AiOutlineLike style={{fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer"}}
                       size={30}
                       color={likedVideos.has(video._id) ? "blue" : "#000"}
                       onClick={() => handleLikeClick(video._id)}
                     />
                     <LikeCount style={{ color: "#000" }}>{likeCounts[video._id] || 0}</LikeCount>
-                    <FaRegComment size={25} onClick={() => toggleCommentSection(video._id)} />
+                    <FaRegComment style={{cursor: "pointer"}} size={25} onClick={() => toggleCommentSection(video._id)} />
                     {/* <FaPaperPlane size={25} /> */}
                   </FlexContainer2>
                 </LikeContainer>

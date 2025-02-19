@@ -18,6 +18,7 @@ import {
 import { getNewsByid } from "../../../services/newsApi/NewsApi";
 import { likeComment } from "../../../services/categoryapi/CategoryApi";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
+import { ClipLoader } from "react-spinners";
 
 const ComMents = () => {
   const { id: newsId } = useParams(); 
@@ -63,7 +64,9 @@ const ComMents = () => {
   return (
     <CommentSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
       {loading ? (
-        <p>Loading comments...</p>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50px" }}>
+          <ClipLoader color="#1E88E5" />
+        </div>
       ) : comments.length === 0 ? (
         <p>No comments yet.</p>
       ) : (

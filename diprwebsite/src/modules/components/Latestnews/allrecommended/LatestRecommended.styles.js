@@ -201,6 +201,8 @@ export const ReadMore = styled.a`
   font-weight: bold;
   display: inline-block;
   margin-top: ${theme.spacing(0.5)};
+  cursor: pointer; 
+  
   &:hover {
     text-decoration: underline;
   }
@@ -209,6 +211,7 @@ export const ReadMore = styled.a`
     font-size: ${theme.spacing(1.5)};
   }
 `;
+
 
 export const NewsText = styled.p`
   font-size: ${theme.spacing(2)};
