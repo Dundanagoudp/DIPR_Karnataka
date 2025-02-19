@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { 
   PdfCarouselContainer, 
@@ -14,6 +14,7 @@ import {
   PdfDownloadButton
 } from "../downloadpdf/DownloadPdf.styles"; 
 import { BannerApi } from "../../../../services/categoryapi/CategoryApi";
+import { FontSizeContext } from "../../../../context/FontSizeProvider";
 
 const fallbackNews = [
   {
@@ -38,7 +39,8 @@ const fallbackNews = [
 
 const MagazineDownloadPdf = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [trendingNews, setTrendingNews] = useState(fallbackNews); // Start with fallback data
+  const [trendingNews, setTrendingNews] = useState(fallbackNews);
+  const { fontSize } = useContext(FontSizeContext);
 
   // Fetch API Data
   useEffect(() => {
@@ -100,14 +102,14 @@ const MagazineDownloadPdf = () => {
   };
 
   return (
-    <PdfCarouselContainer>
+    <PdfCarouselContainer style={{ fontSize: `${fontSize}%` }}>
       {trendingNews.map((news, index) => (
         <PdfCarouselItem key={news.id} active={index === currentIndex} bgImage={news.image}>
           <PdfOverlay />
           <PdfContentWrapper>
-            <div style={{ display: "flex", alignItems: "center", gap: "1%" }}>
-              <PdfTrendingCategory>{news.category}</PdfTrendingCategory>
-              <PdfNewsInfo>• {news.date} • {news.readTime}</PdfNewsInfo>
+            <div style={{ display: "flex", alignItems: "center", gap: "1%",fontSize: `${fontSize}%` }}>
+              <PdfTrendingCategory style={{ fontSize: `${fontSize}%` }}>{news.category}</PdfTrendingCategory>
+              <PdfNewsInfo style={{ fontSize: `${fontSize}%` }}>• {news.date} • {news.readTime}</PdfNewsInfo>
             </div>
             <PdfNewsTitle>{news.title}</PdfNewsTitle>
           </PdfContentWrapper>

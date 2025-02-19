@@ -18,7 +18,7 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
   const { fontSize, changeFontSize } = useContext(FontSizeContext);
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   // Debounce function to delay API calls
   const debounce = (func, delay) => {
@@ -36,21 +36,20 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
   // Function to handle search input changes
   const handleSearch = async (query) => {
     if (!query.trim()) {
-      // If the query is empty, reset the search results and suggestions
       onSearch && onSearch([]);
       setSuggestions([]);
       return;
     }
 
     try {
-      const response = await SearchMagazineApi(query); // Call the API
-      console.log("Search Results:", response.data); // Log the results
-      setSuggestions(response.data); // Set suggestions
-      onSearch && onSearch(response.data); // Pass the results to the parent component
+      const response = await SearchMagazineApi(query); 
+      console.log("Search Results:", response.data); 
+      setSuggestions(response.data); 
+      onSearch && onSearch(response.data); 
     } catch (error) {
-      console.error("Search Error:", error); // Log any errors
-      onSearch && onSearch([]); // Reset search results in case of error
-      setSuggestions([]); // Reset suggestions in case of error
+      console.error("Search Error:", error); 
+      onSearch && onSearch([]); 
+      setSuggestions([]);
     }
   };
 
@@ -64,15 +63,15 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
 
   // Function to handle suggestion click
   const handleSuggestionClick = (suggestion) => {
-    setSearchText(suggestion.title); // Set the search text to the clicked suggestion
-    setSuggestions([]); // Clear suggestions
+    setSearchText(suggestion.title); 
+    setSuggestions([]); 
 
     // If there is only one suggestion, open the PDF directly
     if (suggestions.length === 1) {
-      window.open(suggestion.magazinePdf, "_blank"); // Open PDF in a new tab
+      window.open(suggestion.magazinePdf, "_blank"); 
     } else {
-      onSearch && onSearch([suggestion]); // Pass the clicked suggestion to the parent component
-      navigate(`/magazine/${suggestion._id}`); // Navigate to the magazine detail page
+      onSearch && onSearch([suggestion]); 
+      navigate(`/magazine/${suggestion._id}`); 
     }
   };
 
@@ -111,9 +110,9 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
       {/* Font Size Controls */}
       <FontControls>
         <span>Font Size <b>Aa</b></span>
-        <button onClick={() => changeFontSize(-10)}><b>-</b></button>
+        <button onClick={() => changeFontSize(-5)}><b>-</b></button>
         <b><span>{fontSize}%</span></b>
-        <button onClick={() => changeFontSize(10)}><b>+</b></button>
+        <button onClick={() => changeFontSize(5)}><b>+</b></button>
         <button onClick={() => changeFontSize(100 - fontSize)}>Reset</button>
       </FontControls>
 

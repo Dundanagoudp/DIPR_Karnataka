@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   NavContainer,
@@ -7,9 +7,12 @@ import {
   NewsWrapper
 } from "../navbar/NavBar.styles";
 import { NewsApi } from "../../services/categoryapi/CategoryApi";
+import { FontSizeContext } from "../../context/FontSizeProvider";
 
 const NavBar = () => {
   const [headlines, setHeadlines] = useState([]);
+      const { fontSize } = useContext(FontSizeContext);
+
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -32,7 +35,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <NavContainer>
+    <NavContainer style={{ fontSize: `${fontSize}%` }}>
       <NewsWrapper>
         <NewsTicker>
           {headlines.map((headline, index) => (

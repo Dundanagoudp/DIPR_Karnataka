@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 import {
   CarouselContainer,
@@ -14,10 +14,13 @@ import {
 } from "../Trending/Trending.styles";
 import theme from "../../../theme/Theme";
 import { BannerApi } from "../../../services/categoryapi/CategoryApi";
+import { FontSizeContext } from "../../../context/FontSizeProvider";
 
 const Trending = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [trendingNews, setTrendingNews] = useState([]);
+      const { fontSize } = useContext(FontSizeContext);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,14 +56,14 @@ const Trending = () => {
   }, [trendingNews]);
 
   return (
-    <CarouselContainer>
+    <CarouselContainer style={{ fontSize: `${fontSize}%` }}>
       {trendingNews.map((news, index) => (
-        <CarouselItem key={news.id} active={index === currentIndex} bgImage={news.image}>
+        <CarouselItem style={{ fontSize: `${fontSize}%` }} key={news.id} active={index === currentIndex} bgImage={news.image}>
           <Overlay />
           <ContentWrapper>
-            <div style={{ display: "flex", alignItems: "center", gap: "1%" }}>
-              <TrendingCategory>{news.category}</TrendingCategory>
-              <NewsInfo>• {news.date} • {news.readTime}</NewsInfo>
+            <div style={{ display: "flex", alignItems: "center", gap: "1%", fontSize: `${fontSize}%` }}>
+              <TrendingCategory style={{ fontSize: `${fontSize}%` }}>{news.category}</TrendingCategory>
+              <NewsInfo style={{ fontSize: `${fontSize}%` }}>• {news.date} • {news.readTime}</NewsInfo>
             </div>
             <NewsTitle>{news.title}</NewsTitle>
           </ContentWrapper>

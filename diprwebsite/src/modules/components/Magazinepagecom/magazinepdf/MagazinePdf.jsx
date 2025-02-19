@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import {
@@ -16,6 +16,7 @@ import {
   ReadMoreIcon,
 } from "../magazinepdf/MagazinePdf.styles";
 import { getMagazines } from "../../../../services/magazineApi/magazineService";
+import { FontSizeContext } from "../../../../context/FontSizeProvider";
  
 // Fallback data
 const fallbackMagazines = [
@@ -34,6 +35,8 @@ const fallbackMagazines = [
 const MagazinePdf = () => {
   const [magazinesData, setMagazinesData] = useState([]);
   const [bookmarkedMagazines, setBookmarkedMagazines] = useState(new Set());
+      const { fontSize } = useContext(FontSizeContext);
+  
  
   useEffect(() => {
     const fetchMagazines = async () => {
@@ -81,9 +84,9 @@ const MagazinePdf = () => {
   };
  
   return (
-    <Container>
+    <Container style={{ fontSize: `${fontSize}%` }}>
       <Header>Magazine</Header>
-      <Content>
+      <Content style={{ fontSize: `${fontSize}%` }}>
         {magazinesData.map((magazine) => (
           <MagazineCard key={magazine._id}>
             <MagazineThumbnail
@@ -93,13 +96,13 @@ const MagazinePdf = () => {
             <MagazineDetails>
            
               
-              <Title>{magazine.title}</Title>
+              <Title style={{ fontSize: `${fontSize}%` }}>{magazine.title}</Title>
              
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center',fontSize: `${fontSize}%` }}>
 
-              <NewsMeta>
+              <NewsMeta style={{ fontSize: `${fontSize}%` }}>
                 {magazine.isTrending && <span>Trending</span>}
-                <span>
+                <span style={{ fontSize: `${fontSize}%` }}>
                   {formatDate(magazine.createdTime)} • {magazine.readTime || "N/A"}
                 </span>
               </NewsMeta>
@@ -118,7 +121,7 @@ const MagazinePdf = () => {
               {/* <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               
               </div> */}
-              <ReadMoreButton onClick={() => handleReadMoreClick(magazine.magazinePdf)}>
+              <ReadMoreButton style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMoreClick(magazine.magazinePdf)}>
                 READ PDF <ReadMoreIcon><FaAngleDoubleRight /></ReadMoreIcon>
                 
               </ReadMoreButton>
