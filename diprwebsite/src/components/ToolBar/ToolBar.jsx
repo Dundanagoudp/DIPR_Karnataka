@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion"; 
 import {
   ToolbarContainer,
   SearchContainer,
@@ -18,7 +19,7 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
   const { fontSize, changeFontSize } = useContext(FontSizeContext);
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // Debounce function to delay API calls
   const debounce = (func, delay) => {
@@ -40,15 +41,14 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
       setSuggestions([]);
       return;
     }
-
     try {
-      const response = await SearchMagazineApi(query); 
-      console.log("Search Results:", response.data); 
-      setSuggestions(response.data); 
-      onSearch && onSearch(response.data); 
+      const response = await SearchMagazineApi(query);
+      console.log("Search Results:", response.data);
+      setSuggestions(response.data);
+      onSearch && onSearch(response.data);
     } catch (error) {
-      console.error("Search Error:", error); 
-      onSearch && onSearch([]); 
+      console.error("Search Error:", error);
+      onSearch && onSearch([]);
       setSuggestions([]);
     }
   };
@@ -63,15 +63,15 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
 
   // Function to handle suggestion click
   const handleSuggestionClick = (suggestion) => {
-    setSearchText(suggestion.title); 
-    setSuggestions([]); 
+    setSearchText(suggestion.title);
+    setSuggestions([]);
 
     // If there is only one suggestion, open the PDF directly
     if (suggestions.length === 1) {
-      window.open(suggestion.magazinePdf, "_blank"); 
+      window.open(suggestion.magazinePdf, "_blank");
     } else {
-      onSearch && onSearch([suggestion]); 
-      navigate(`/magazine/${suggestion._id}`); 
+      onSearch && onSearch([suggestion]);
+      navigate(`/magazine/${suggestion._id}`);
     }
   };
 
@@ -96,15 +96,28 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
             setSearchText(query);
           }}
         />
-        {suggestions.length > 0 && (
-          <SuggestionsContainer>
-            {suggestions.map((suggestion, index) => (
-              <SuggestionItem key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                {suggestion.title}
-              </SuggestionItem>
-            ))}
-          </SuggestionsContainer>
-        )}
+        <AnimatePresence>
+          {suggestions.length > 0 && (
+            <SuggestionsContainer
+              as={motion.div}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              {suggestions.map((suggestion, index) => (
+                <SuggestionItem
+                  as={motion.div}
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  transition={{ duration: 0.1 }}
+                >
+                  {suggestion.title}
+                </SuggestionItem>
+              ))}
+            </SuggestionsContainer>
+          )}
+        </AnimatePresence>
       </SearchContainer>
 
       {/* Font Size Controls */}
@@ -128,6 +141,3 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
 };
 
 export default ToolBar;
-
-
-

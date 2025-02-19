@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import {
   HeaderContainer,
   LogoSection,
@@ -16,12 +17,18 @@ import { FontSizeContext } from '../../context/FontSizeProvider';
 const Header = () => {
   const { fontSize } = useContext(FontSizeContext);
   return (
-    <HeaderContainer >
+    <HeaderContainer>
       <LogoSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-        <Logo src={logo} alt="Government of Karnataka Logo" />
+        <Link to="/">
+          <Logo src={logo} alt="Government of Karnataka Logo" />
+        </Link>
         <TitleSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-          <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Department of Information and Public Relations</Title>
-          <Subtitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Government of Karnataka</Subtitle>
+          <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+            Department of Information and Public Relations
+          </Title>
+          <Subtitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+            Government of Karnataka
+          </Subtitle>
         </TitleSection>
       </LogoSection>
       <CMSection>
