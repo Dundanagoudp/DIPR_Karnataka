@@ -202,6 +202,8 @@ export const ReadMore = styled.a`
   font-weight: bold;
   display: inline-block;
   margin-top: ${theme.spacing(0.5)};
+  cursor: pointer; /* Add this line to make it clickable */
+  
   &:hover {
     text-decoration: underline;
   }
