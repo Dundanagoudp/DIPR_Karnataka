@@ -41,13 +41,15 @@ const Exclusiveshorts = () => {
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
   const [openCommentSection, setOpenCommentSection] = useState(null);
-  const { fontSize  } = useContext(FontSizeContext);
+  const { fontSize } = useContext(FontSizeContext);
 
+  // Fetch userId from cookies
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
     setUserId(storedUserId);
   }, []);
 
+  // Fetch video data
   useEffect(() => {
     const fetchVideos = async () => {
       try {
@@ -58,7 +60,7 @@ const Exclusiveshorts = () => {
           // Initialize like counts with the data from API response
           const initialLikeCounts = {};
           response.data.forEach((video) => {
-            initialLikeCounts[video._id] = video.total_Likes || 0;
+            initialLikeCounts[video._id] = Math.max(video.total_Likes || 0, 0); // Ensure no negative like counts
           });
           setLikeCounts(initialLikeCounts);
 
@@ -80,10 +82,12 @@ const Exclusiveshorts = () => {
     fetchVideos();
   }, []);
 
+  // Handle video play
   const handlePlayClick = (videoId) => {
     setPlayingVideoId(videoId);
   };
 
+  // Handle like button click
   const handleLikeClick = async (videoId) => {
     if (!userId) {
       setError("User is not logged in.");
@@ -101,16 +105,17 @@ const Exclusiveshorts = () => {
       isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
       setLikedVideos(newLikedVideos);
 
-      // Update like count
+      // Update like count ensuring it doesn't go below 0
       setLikeCounts((prevCounts) => ({
         ...prevCounts,
-        [videoId]: isLiked ? prevCounts[videoId] - 1 : prevCounts[videoId] + 1,
+        [videoId]: isLiked ? Math.max(prevCounts[videoId] - 1, 0) : prevCounts[videoId] + 1,
       }));
     } catch (error) {
       setError("Failed to like the video. Please try again.");
     }
   };
 
+  // Handle comment input change
   const handleCommentChange = (e, videoId) => {
     setNewComments((prev) => ({
       ...prev,
@@ -118,6 +123,7 @@ const Exclusiveshorts = () => {
     }));
   };
 
+  // Handle adding a comment
   const handleAddComment = async (videoId) => {
     const commentText = newComments[videoId]?.trim();
     if (!commentText) {
@@ -150,10 +156,12 @@ const Exclusiveshorts = () => {
     }
   };
 
+  // Toggle comment section visibility
   const toggleCommentSection = (videoId) => {
     setOpenCommentSection((prev) => (prev === videoId ? null : videoId));
   };
 
+  // Handle like for a comment
   const handleLikeComment = async (commentId, videoId) => {
     setComments((prevComments) => ({
       ...prevComments,
@@ -166,7 +174,7 @@ const Exclusiveshorts = () => {
   };
 
   return (
-    <Container >
+    <Container>
       <Content>
         {videosData.map((video) => (
           <React.Fragment key={video._id}>
@@ -186,7 +194,7 @@ const Exclusiveshorts = () => {
               </VideoThumbnail>
               <VideoDetails>
                 <NewsMeta>
-                  <span style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{new  Date(video.createdAt).toLocaleDateString()}</span>
+                  <span style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{new Date(video.createdAt).toLocaleDateString()}</span>
                 </NewsMeta>
                 <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{video.title}</Title>
               </VideoDetails>
@@ -195,16 +203,30 @@ const Exclusiveshorts = () => {
             <CommentSection>
               <InteractionContainer>
                 <CommentContainer>
-                  <AiOutlineLike style={{fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer"}} size={30} color={likedVideos.has(video._id) ? "blue" : "#000"} onClick={() => handleLikeClick(video._id)} />
-                  <LikeCount style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{likeCounts[video._id] || 0}</LikeCount>
-                  <FaRegComment style={{fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer"}} size={25} onClick={() => toggleCommentSection(video._id)} />
-                  <CommentInput style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+                  <AiOutlineLike
+                    style={{ fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer" }}
+                    size={30}
+                    color={likedVideos.has(video._id) ? "blue" : "#000"}
+                    onClick={() => handleLikeClick(video._id)}
+                  />
+                  <LikeCount style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                    {likeCounts[video._id] || 0}
+                  </LikeCount>
+                  <FaRegComment
+                    style={{ fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer" }}
+                    size={25}
+                    onClick={() => toggleCommentSection(video._id)}
+                  />
+                  <CommentInput
+                    style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
                     type="text"
                     value={newComments[video._id] || ""}
                     onChange={(e) => handleCommentChange(e, video._id)}
                     placeholder="Add a comment..."
                   />
-                  <CommentButton style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleAddComment(video._id)}>Add Comment</CommentButton>
+                  <CommentButton style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleAddComment(video._id)}>
+                    Add Comment
+                  </CommentButton>
                 </CommentContainer>
               </InteractionContainer>
 
@@ -215,12 +237,12 @@ const Exclusiveshorts = () => {
                       <p>No comments yet.</p>
                     ) : (
                       comments[video._id]?.map((comment) => (
-                        <Comment  key={comment._id}>
+                        <Comment key={comment._id}>
                           <ProfileImage src={comment.user?.profileImage || "https://via.placeholder.com/50"} alt={comment.user?.displayName || "Anonymous"} />
-                          <CommentContent >
+                          <CommentContent>
                             <UserHeader>
                               <UserInfo style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                                <Username >{comment.user?.displayName || "Anonymous"}</Username>
+                                <Username>{comment.user?.displayName || "Anonymous"}</Username>
                               </UserInfo>
                               <Time style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{new Date(comment.createdTime).toLocaleTimeString()}</Time>
                             </UserHeader>
