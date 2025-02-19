@@ -6,6 +6,7 @@ export const FooterContainer = styled.footer`
   color: ${theme.colors.white};
   font-family: ${theme.fonts.body};
   padding: ${theme.spacing(0)} 0;
+  overflow: hidden;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1)} 0;
@@ -18,11 +19,17 @@ export const FooterSection = styled.div`
   align-items: center;
   margin-bottom: ${theme.spacing(1)};
   padding: ${theme.spacing(2)};
+  width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;
     align-items: flex-start;
     gap: ${theme.spacing(2)};
+  }
+
+  @media (max-width: 1024px) and (min-width: 770px) {
+    padding: ${theme.spacing(2)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
@@ -36,6 +43,8 @@ export const FooterContent = styled.div`
   align-items: stretch;
   max-width: 100%;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;
@@ -60,6 +69,10 @@ export const Section = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: 0 ${theme.spacing(1)};
   }
+
+  @media (max-width: 1024px) and (min-width: 770px) {
+    padding: 0 ${theme.spacing(3)};
+  }
 `;
 
 export const LastSection = styled(Section)`
@@ -78,6 +91,10 @@ export const Title = styled.h3`
     font-size: ${theme.spacing(1.75)};
     padding: ${theme.spacing(1)};
   }
+
+  @media (max-width: 1024px) and (min-width: 770px) {
+    font-size: ${theme.spacing(2)};
+  }
 `;
 
 export const LogoSection = styled.div`
@@ -94,6 +111,10 @@ export const Logo = styled.img`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: ${theme.spacing(20)};
+  }
+
+  @media (max-width: 1024px) and (min-width: 770px) {
+    max-width: ${theme.spacing(25)};
   }
 `;
 
@@ -118,6 +139,11 @@ export const LinksList = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 1024px) and (min-width: 770px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: ${theme.spacing(2)};
   }
 `;
 
