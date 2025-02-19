@@ -132,9 +132,9 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
       {/* Language Selector */}
       <Select onChange={(e) => onLanguageChange && onLanguageChange(e.target.value)}>
         <option value="en">English</option>
-        <option value="es" disabled>Kannada</option>
-        <option value="fr" disabled>Hindi</option>
-        <option value="de" disabled>Deutsch</option>
+        <option value="es">Kannada</option>
+        <option value="fr">Hindi</option>
+        <option value="de">French</option>
       </Select>
     </ToolbarContainer>
   );
