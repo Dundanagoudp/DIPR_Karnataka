@@ -43,6 +43,9 @@ const Exclusiveshorts = () => {
   const [openCommentSection, setOpenCommentSection] = useState(null);
   const { fontSize } = useContext(FontSizeContext);
 
+  const [debouncingLike, setDebouncingLike] = useState(false);
+
+
   // Fetch userId from cookies
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
@@ -86,35 +89,71 @@ const Exclusiveshorts = () => {
   const handlePlayClick = (videoId) => {
     setPlayingVideoId(videoId);
   };
-
+  //&&&&&&&&&&&&&& old code start 
   // Handle like button click
+  // const handleLikeClick = async (videoId) => {
+  //   if (!userId) {
+  //     setError("User is not logged in.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const isLiked = likedVideos.has(videoId);
+  //     const likeData = { videoId: videoId, userId };
+
+  //     // Send like request
+  //     await ShortlikeVideo(likeData);
+
+  //     const newLikedVideos = new Set(likedVideos);
+  //     isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
+  //     setLikedVideos(newLikedVideos);
+
+  //     // Update like count ensuring it doesn't go below 0
+  //     setLikeCounts((prevCounts) => ({
+  //       ...prevCounts,
+  //       [videoId]: isLiked ? Math.max(prevCounts[videoId] - 1, 0) : prevCounts[videoId] + 1,
+  //     }));
+  //   } catch (error) {
+  //     setError("Failed to like the video. Please try again.");
+  //   }
+  // };
+  //&&&&&&&&&&&&&& old code end
+  //&&&&&&&&&&&&&& new code start 
   const handleLikeClick = async (videoId) => {
     if (!userId) {
       setError("User is not logged in.");
       return;
     }
-
-    try {
-      const isLiked = likedVideos.has(videoId);
-      const likeData = { videoId: videoId, userId };
-
-      // Send like request
-      await ShortlikeVideo(likeData);
-
-      const newLikedVideos = new Set(likedVideos);
-      isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
-      setLikedVideos(newLikedVideos);
-
-      // Update like count ensuring it doesn't go below 0
-      setLikeCounts((prevCounts) => ({
-        ...prevCounts,
-        [videoId]: isLiked ? Math.max(prevCounts[videoId] - 1, 0) : prevCounts[videoId] + 1,
-      }));
-    } catch (error) {
-      setError("Failed to like the video. Please try again.");
-    }
+  
+    if (debouncingLike) return; // Prevent further clicks during debounce
+  
+    setDebouncingLike(true); // Start debouncing
+  
+    setTimeout(async () => {
+      try {
+        const isLiked = likedVideos.has(videoId);
+        const likeData = { videoId: videoId, userId };
+  
+        // Send like request
+        await ShortlikeVideo(likeData);
+  
+        const newLikedVideos = new Set(likedVideos);
+        isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
+        setLikedVideos(newLikedVideos);
+  
+        // Update like count ensuring it doesn't go below 0
+        setLikeCounts((prevCounts) => ({
+          ...prevCounts,
+          [videoId]: isLiked ? Math.max(prevCounts[videoId] - 1, 0) : prevCounts[videoId] + 1,
+        }));
+      } catch (error) {
+        setError("Failed to like the video. Please try again.");
+      } finally {
+        setDebouncingLike(false); // Reset debouncing state after the action is done
+      }
+    }, 500); // 500ms debounce
   };
-
+//&&&&&&&&&&&&&& new code end
   // Handle comment input change
   const handleCommentChange = (e, videoId) => {
     setNewComments((prev) => ({
