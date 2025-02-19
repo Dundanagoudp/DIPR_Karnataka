@@ -9,15 +9,13 @@ export const Container = styled.div`
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
 
-   @media (max-width: ${theme.breakpoints.tablet}) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
     padding: ${theme.spacing(1)};
-    padding-right: ${theme.spacing(1)};
-   
   }
 `;
 
@@ -25,14 +23,17 @@ export const Header = styled.h2`
   font-size: ${theme.spacing(3)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
-   @media (max-width: ${theme.breakpoints.tablet}) {
+  margin-bottom: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: ${theme.spacing(3.5)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(3)};
   }
-`; 
+`;
+
 export const TabContainer = styled.div`
   display: flex;
   overflow-x: auto;
@@ -55,7 +56,7 @@ export const TabContainer = styled.div`
   border-bottom: ${theme.spacing(0.25)} solid ${theme.colors.info};
   margin-bottom: ${theme.spacing(2)};
 
-   @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing(1)};
   }
 `;
@@ -74,7 +75,8 @@ export const Tab = styled.button`
   &:hover {
     color: ${theme.colors.primary};
   }
-      @media (max-width: ${theme.breakpoints.mobile}) {
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
     padding: ${theme.spacing(0.75)};
   }
@@ -106,8 +108,8 @@ export const VideoCard = styled(Card)`
 `;
 
 export const Image = styled.img`
-  width: ${theme.spacing(10)};
-  height: ${theme.spacing(8)};
+  width: ${theme.spacing(15)};
+  height: ${theme.spacing(12)};
   object-fit: cover;
   border-radius: ${theme.spacing(1)};
   margin-right: ${theme.spacing(2)};

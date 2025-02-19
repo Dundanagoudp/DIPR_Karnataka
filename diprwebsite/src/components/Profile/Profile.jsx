@@ -17,7 +17,7 @@ import {
 import ProfileImage from "../../assets/Profile.png"; 
 
 const Profile = () => {
-  const [lightMode, setLightMode] = useState(true); // ✅ Default: Light mode ON
+  const [lightMode, setLightMode] = useState(true); 
 
   useEffect(() => {
     const savedMode = localStorage.getItem("lightMode");
@@ -29,7 +29,7 @@ const Profile = () => {
   const toggleLightMode = () => {
     setLightMode((prevMode) => {
       const newMode = !prevMode;
-      localStorage.setItem("lightMode", JSON.stringify(newMode)); // ✅ Save mode in localStorage
+      localStorage.setItem("lightMode", JSON.stringify(newMode)); 
       return newMode;
     });
   };
@@ -74,7 +74,6 @@ const Profile = () => {
           </ToggleSwitch>
         </LightModeToggle>
 
-        
       </TopSection>
      
 
