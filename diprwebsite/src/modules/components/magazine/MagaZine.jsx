@@ -80,7 +80,7 @@ const MagaZines = () => {
                   <p style={{ fontSize: `${fontSize}%` }}>
                     {magazine.description.split(" ").slice(0, 10).join(" ")}...
                   </p>
-                  <a style={{ fontSize: `${fontSize}%` }}
+                  <a style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
                     href={magazine.magazinePdf}
                     target="_blank"
                     rel="noopener noreferrer"

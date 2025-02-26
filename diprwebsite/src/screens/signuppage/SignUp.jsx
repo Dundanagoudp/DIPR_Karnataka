@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   SignupContainer,
   LeftSection,
@@ -7,15 +8,19 @@ import {
   Input,
   Button,
   LinkText,
-} from "../signup/Signup.styles";
+} from "../signuppage/Signup.styles";
 import Logowithtitle from "../../components/Logowithtitle/Logowithtitle";
+import { SignupApi } from "../../services/SignupApi";
+import { FaMobileAlt } from "react-icons/fa";
+import Cookies from "js-cookie"; 
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    city: "Bangalore",
+    city: "",
   });
 
   const [errors, setErrors] = useState({
@@ -56,6 +61,45 @@ const Signup = () => {
       !errors.lastName &&
       !errors.email
     );
+  };
+
+  const handleSignup = async () => {
+    if (!isFormValid()) return;
+
+    const userData = {
+      displayName: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      profileImage: "yoyoyhoneySingh", // Replace with actual profile image logic
+    };
+
+    try {
+      const response = await SignupApi(userData);
+      console.log("Signup API Response:", response);
+
+      if (response.success) {
+        // Store session token and user ID in cookies
+        Cookies.set("sessionToken", response.token, {
+          expires: 7, 
+          secure: true, 
+        });
+        Cookies.set("userId", response.userId, {
+          expires: 7,
+          secure: true,
+        });
+
+        console.log("Cookies set successfully:", {
+          sessionToken: Cookies.get("sessionToken"),
+          userId: Cookies.get("userId"),
+        });
+
+        // Navigate to the dashboard
+        navigate("/");
+      } else {
+        console.error("Signup failed:", response.message);
+      }
+    } catch (err) {
+      console.error("Signup API Error:", err);
+    }
   };
 
   return (
@@ -108,7 +152,12 @@ const Signup = () => {
           />
           {errors.city && <p>{errors.city}</p>}
 
-          <Button disabled={!isFormValid()}>Sign Up</Button>
+          <Button disabled={!isFormValid()} onClick={handleSignup}>
+            Sign Up
+          </Button>
+          <Button onClick={() => navigate("/signupnumber")}>
+            <FaMobileAlt style={{ marginRight: "10px", alignItems: "center" }} /> Sign Up with Phone
+          </Button>
 
           <p>
             Do you have an account? <LinkText>Login now</LinkText>

@@ -59,11 +59,13 @@ const Exclusiveshorts = () => {
         const response = await getVideos();
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
+          console.log("Received video data:", response.data);
+          
 
           // Initialize like counts with the data from API response
           const initialLikeCounts = {};
           response.data.forEach((video) => {
-            initialLikeCounts[video._id] = Math.max(video.total_Likes || 0, 0); // Ensure no negative like counts
+            initialLikeCounts[video._id] = Math.max(video.total_Likes || 0, 0); 
           });
           setLikeCounts(initialLikeCounts);
 
@@ -112,6 +114,8 @@ const Exclusiveshorts = () => {
         const newLikedVideos = new Set(likedVideos);
         isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
         setLikedVideos(newLikedVideos);
+        console.log("likedVideos:", likedVideos);
+        
   
         // Update like count ensuring it doesn't go below 0
         setLikeCounts((prevCounts) => ({

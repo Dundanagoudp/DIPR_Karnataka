@@ -5,7 +5,7 @@ import GlobalStyle from "./theme/GlobalStyle";
 import theme from "./theme/Theme";
 import Login from "./screens/Login/Login";
 import Otp from "./screens/otp/Otp";
-import Signup from "./screens/SignUp/SignUp";
+import Signup from "./screens/signuppage/SignUp";
 import Applayout from "./Applayout/Applayout";
 import Home from "./modules/pages/Home/Home";
 import LatestNews from "./modules/pages/Latestnews/LatestNews";
@@ -24,6 +24,7 @@ import Help from "./components/WebsitePolicies/Help/Help";
 import LatestData from "./modules/pages/Latest/LatestData";
 import Profile from "./components/Profile/Profile";
 import FontSizeProvider from "./context/FontSizeProvider";
+import Signupnumber from "./screens/signuppage/SignUpNumber";
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/otp" element={<Otp />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/signupnumber" element={<Signupnumber/>}/>
           </Routes>
         </Router>
       </ThemeProvider>

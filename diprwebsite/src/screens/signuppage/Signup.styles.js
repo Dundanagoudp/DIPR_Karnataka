@@ -153,7 +153,7 @@ export const Button = styled.button`
   border-radius: ${theme.spacing(1)};
   font-size: 1rem;
   cursor: pointer;
-  margin-top: ${theme.spacing(12)};
+  margin-top: ${theme.spacing(3)};
   transition: background 0.3s ease;
 
   &:hover {
@@ -175,3 +175,9 @@ export const LinkText = styled.span`
     text-decoration: underline;
   }
 `;
+
+// export const ButtonGroup = styled.div`
+//   // display: flex;
+//   // gap: 10px;
+//   // margin-top: 20px;
+// `;
