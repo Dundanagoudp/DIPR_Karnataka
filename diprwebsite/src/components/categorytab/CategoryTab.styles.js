@@ -99,7 +99,10 @@ export const TabItem = styled.div`
       background-color: ${theme.colors.primary};
       border-radius: 0 0 50px 50px;
     }`}
+    
 `;
+
+
 
 export const ProfileIcon = styled.img`
   width: 40px; /* Adjust size as needed */

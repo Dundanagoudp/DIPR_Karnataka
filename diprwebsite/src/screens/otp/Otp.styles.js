@@ -14,7 +14,6 @@ export const OtpContainer = styled.div`
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
-    // padding: ${theme.spacing(4)};
     margin-right: 0;
   }
 `;
@@ -60,7 +59,6 @@ export const OtpSubheader = styled.h5`
 
 export const RightSection = styled.div`
   flex: 1;
-
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -85,13 +83,11 @@ export const OtpBox = styled.div`
   width: 100%;
   margin-right: ${theme.spacing(25)};
 
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     background: ${theme.colors.background};
     padding: ${theme.spacing(2)};
     max-width: 100%;
     margin-right: 0;
-
 
     h2 {
       font-size: 1.8rem;
@@ -100,7 +96,6 @@ export const OtpBox = styled.div`
     h5 {
       font-size: 0.9rem;
     }
-     
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1024px) {
@@ -157,8 +152,6 @@ export const OtpInputs = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: ${theme.spacing(2)};
-  display: flex;
-  align-items: center;
   width: 100%;
   gap: ${theme.spacing(1)};
 
@@ -168,15 +161,13 @@ export const OtpInputs = styled.div`
 `;
 
 export const OtpInput = styled.input`
-  width: 10%;
+  width: 15%;
   height: 5vh;
   text-align: center;
   font-size: 1.2rem;
   background: transparent;
   border: none;
   border-bottom: 1px solid ${theme.colors.margin};
-  flex: 1;
-  font-size: 1rem;
   outline: none !important;
 
   &::placeholder {
@@ -188,7 +179,7 @@ export const OtpInput = styled.input`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 8%;
+    width: 12%;
     height: 4vh;
     font-size: 1rem;
   }
