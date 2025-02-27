@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { FaPlay, FaRegComment, FaPaperPlane, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   CarouselContainer,
   CarouselItem,
@@ -49,11 +50,9 @@ const ExclusiveVideos = () => {
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
   const [openCommentSection, setOpenCommentSection] = useState(null);
-  const { fontSize  } = useContext(FontSizeContext);
-
-
+  const { fontSize } = useContext(FontSizeContext);
   const [debouncingLike, setDebouncingLike] = useState(false);
-
+  const navigate = useNavigate();
 
   // Fetch userId from cookies
   useEffect(() => {
@@ -118,24 +117,24 @@ const ExclusiveVideos = () => {
 
   const handleLikeClick = async (videoId) => {
     if (!userId) {
-      setError("User is not logged in.");
+      navigate("/login"); // Redirect to login page
       return;
     }
-  
+
     if (debouncingLike) return; // Prevent further clicks during debounce
-  
+
     setDebouncingLike(true); // Start debouncing
-  
+
     setTimeout(async () => {
       try {
         const isLiked = likedVideos.has(videoId);
         const likeData = { longVideoId: videoId, userId };
-  
+
         const response = await likeLongVideo(likeData);
         const newLikedVideos = new Set(likedVideos);
         isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
         setLikedVideos(newLikedVideos);
-  
+
         setLikeCounts((prevCounts) => ({
           ...prevCounts,
           [videoId]: response.data?.total_Likes || prevCounts[videoId] + (isLiked ? -1 : 1),
@@ -145,9 +144,8 @@ const ExclusiveVideos = () => {
       } finally {
         setDebouncingLike(false); // Reset debouncing state after the action is done
       }
-    }, 500); 
+    }, 500);
   };
-  
 
   // Handle comment input change for a specific video
   const handleCommentChange = (videoId, e) => {
@@ -159,14 +157,14 @@ const ExclusiveVideos = () => {
 
   // Handle adding a comment for a specific video
   const handleAddComment = async (videoId) => {
-    const commentText = newComments[videoId]?.trim();
-    if (!commentText) {
-      alert("Please enter a comment.");
+    if (!userId) {
+      navigate("/login"); // Redirect to login page
       return;
     }
 
-    if (!userId) {
-      setError("User is not logged in.");
+    const commentText = newComments[videoId]?.trim();
+    if (!commentText) {
+      alert("Please enter a comment.");
       return;
     }
 
@@ -208,13 +206,13 @@ const ExclusiveVideos = () => {
   // Handle like for a comment
   const handleLikeComment = async (commentId, videoId) => {
     if (!userId) {
-      setError("User is not logged in.");
+      navigate("/login"); // Redirect to login page
       return;
     }
-    
+
     try {
       const likeData = { commentId, userId };
-      const response = await likeLongVideo(likeData); 
+      const response = await likeLongVideo(likeData);
 
       setComments((prevComments) => ({
         ...prevComments,

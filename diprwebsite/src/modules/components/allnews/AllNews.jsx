@@ -31,7 +31,7 @@ const AllNews = () => {
   const [newsData, setNewsData] = useState([]);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-  const { fontSize  } = useContext(FontSizeContext);
+  const { fontSize } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -69,7 +69,7 @@ const AllNews = () => {
   const handleReadMore = async (newsId) => {
     const userId = Cookies.get("userId");
     if (!userId) {
-      alert("User not logged in. Please log in to continue.");
+      navigate("/login");
       return;
     }
 
@@ -115,7 +115,7 @@ const AllNews = () => {
 
   return (
     <Container>
-      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} >All News</Title>
+      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>All News</Title>
       <TabsContainer style={{ fontSize: `${fontSize}%` }}>
         {categories.map((category) => (
           <Tab
@@ -162,14 +162,15 @@ const AllNews = () => {
                 WebkitLineClamp: 5,
                 WebkitBoxOrient: "vertical",
                 overflow: "hidden",
-                fontSize: `${fontSize}%`
+                fontSize: `${fontSize}%`,
               }}
-              
             >
               {news.description || "No description available."}
             </NewsText>
 
-            <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>Read more</ReadMore>
+            <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>
+              Read more
+            </ReadMore>
 
             <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} />
 

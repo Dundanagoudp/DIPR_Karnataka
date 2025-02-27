@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
 import { addComment } from "../../../services/newsApi/NewsApi";
 import { MdOutlineComment } from "react-icons/md";
 import { CommentInputWrapper, CommentInputField, CommentButtonWrapper, ErrorText } from "../comments/ComMents.styles"; 
@@ -9,8 +10,8 @@ const AddComments = ({ newsId }) => {
   const [text, setText] = useState("");
   const [userId, setUserId] = useState(null);
   const [error, setError] = useState("");
-    const { fontSize  } = useContext(FontSizeContext);
-
+  const { fontSize } = useContext(FontSizeContext);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
@@ -26,7 +27,7 @@ const AddComments = ({ newsId }) => {
     }
 
     if (!userId) {
-      setError("User is not logged in.");
+      navigate("/login"); 
       return;
     }
 
@@ -56,10 +57,10 @@ const AddComments = ({ newsId }) => {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <CommentButtonWrapper  onClick={handleSubmit} disabled={!text.trim()}>
+        <CommentButtonWrapper onClick={handleSubmit} disabled={!text.trim()}>
           <MdOutlineComment style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} />
         </CommentButtonWrapper>
-      </CommentInputWrapper >
+      </CommentInputWrapper>
       {error && <ErrorText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{error}</ErrorText>}
     </div>
   );

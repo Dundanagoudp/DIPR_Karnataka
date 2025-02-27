@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
-import { FaPlay, FaRegComment, FaHeart } from "react-icons/fa";
+import { FaPlay, FaRegComment, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import {
   Container,
   Content,
@@ -42,9 +43,8 @@ const Exclusiveshorts = () => {
   const [error, setError] = useState("");
   const [openCommentSection, setOpenCommentSection] = useState(null);
   const { fontSize } = useContext(FontSizeContext);
-
   const [debouncingLike, setDebouncingLike] = useState(false);
-
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Fetch userId from cookies
   useEffect(() => {
@@ -60,12 +60,11 @@ const Exclusiveshorts = () => {
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
           console.log("Received video data:", response.data);
-          
 
           // Initialize like counts with the data from API response
           const initialLikeCounts = {};
           response.data.forEach((video) => {
-            initialLikeCounts[video._id] = Math.max(video.total_Likes || 0, 0); 
+            initialLikeCounts[video._id] = Math.max(video.total_Likes || 0, 0);
           });
           setLikeCounts(initialLikeCounts);
 
@@ -91,32 +90,31 @@ const Exclusiveshorts = () => {
   const handlePlayClick = (videoId) => {
     setPlayingVideoId(videoId);
   };
-  
-  //&&&&&&&&&&&&&& new code start 
+
+  // Handle like click
   const handleLikeClick = async (videoId) => {
     if (!userId) {
-      setError("User is not logged in.");
+      navigate("/login"); // Redirect to login page if user is not logged in
       return;
     }
-  
-    if (debouncingLike) return; 
-  
-    setDebouncingLike(true); 
-  
+
+    if (debouncingLike) return;
+
+    setDebouncingLike(true);
+
     setTimeout(async () => {
       try {
         const isLiked = likedVideos.has(videoId);
         const likeData = { videoId: videoId, userId };
-  
+
         // Send like request
         await ShortlikeVideo(likeData);
-  
+
         const newLikedVideos = new Set(likedVideos);
         isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
         setLikedVideos(newLikedVideos);
         console.log("likedVideos:", likedVideos);
-        
-  
+
         // Update like count ensuring it doesn't go below 0
         setLikeCounts((prevCounts) => ({
           ...prevCounts,
@@ -125,7 +123,7 @@ const Exclusiveshorts = () => {
       } catch (error) {
         setError("Failed to like the video. Please try again.");
       } finally {
-        setDebouncingLike(false); 
+        setDebouncingLike(false);
       }
     }, 500); // 500ms debounce
   };
@@ -140,14 +138,14 @@ const Exclusiveshorts = () => {
 
   // Handle adding a comment
   const handleAddComment = async (videoId) => {
-    const commentText = newComments[videoId]?.trim();
-    if (!commentText) {
-      setError("Please enter a comment.");
+    if (!userId) {
+      navigate("/login"); // Redirect to login page if user is not logged in
       return;
     }
 
-    if (!userId) {
-      setError("User is not logged in.");
+    const commentText = newComments[videoId]?.trim();
+    if (!commentText) {
+      setError("Please enter a comment.");
       return;
     }
 
@@ -178,6 +176,11 @@ const Exclusiveshorts = () => {
 
   // Handle like for a comment
   const handleLikeComment = async (commentId, videoId) => {
+    if (!userId) {
+      navigate("/login"); // Redirect to login page if user is not logged in
+      return;
+    }
+
     setComments((prevComments) => ({
       ...prevComments,
       [videoId]: prevComments[videoId].map((comment) =>
@@ -263,9 +266,17 @@ const Exclusiveshorts = () => {
                             </UserHeader>
                             <CommentText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.comment}</CommentText>
                             <Actions>
-                              <ActionIcon onClick={() => handleLikeComment(comment._id, video._id)}>
-                                <FaHeart /> {comment.likes || 0}
-                              </ActionIcon>
+                             <Actions >
+                                                     <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                                                             <FaComment />
+                                                           </ActionIcon>
+                                                           <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                                                             <FaRetweet />
+                                                           </ActionIcon >
+                                                           <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleLikeComment(comment._id, video._id)}>
+                                                             <FaHeart /> {comment.likes || 0}
+                                                           </ActionIcon>
+                                                         </Actions>
                             </Actions>
                           </CommentContent>
                         </Comment>
