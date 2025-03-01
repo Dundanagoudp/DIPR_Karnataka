@@ -32,7 +32,9 @@ const LatestNewsRecommended = () => {
     const fetchNews = async () => {
       const userId = Cookies.get("userId");
       if (!userId) {
-        alert("User not logged in. Please log in to continue.");
+        alert("User not logged in. Redirecting to login page...");
+        Cookies.set("redirectUrl", window.location.pathname);
+        navigate("/login"); 
         setLoading(false); 
         return;
       }
@@ -55,12 +57,14 @@ const LatestNewsRecommended = () => {
     };
 
     fetchNews();
-  }, []);
+  }, [navigate]);
 
   const handleReadMore = async (newsId) => {
     const userId = Cookies.get("userId");
     if (!userId) {
-      alert("User not logged in. Please log in to continue.");
+      alert("User not logged in. Redirecting to login page...");
+      Cookies.set("redirectUrl", window.location.pathname);
+      navigate("/login"); 
       return;
     }
     try {

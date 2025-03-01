@@ -69,6 +69,7 @@ const AllNews = () => {
   const handleReadMore = async (newsId) => {
     const userId = Cookies.get("userId");
     if (!userId) {
+      Cookies.set("redirectUrl", window.location.pathname);
       navigate("/login");
       return;
     }
@@ -80,6 +81,16 @@ const AllNews = () => {
       console.error("Error registering click:", error);
       alert("Error tracking click. Please try again.");
     }
+  };
+
+  const handleAddComment = (newsId) => {
+    const userId = Cookies.get("userId");
+    if (!userId) {
+      Cookies.set("redirectUrl", window.location.pathname);
+      navigate("/login");
+      return;
+    }
+    // Logic to add comment can be handled within the AddComments component
   };
 
   const shareOnFacebook = (url) => {
@@ -172,7 +183,7 @@ const AllNews = () => {
               Read more
             </ReadMore>
 
-            <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} />
+            <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
 
             <NewsMeta style={{ fontSize: `${fontSize}%` }}>
               {news.isTrending && <TrendingTag>Trending</TrendingTag>}

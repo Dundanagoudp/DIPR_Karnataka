@@ -6,7 +6,7 @@ import {
   signInWithPhoneNumber,
 } from "../../config/firebaseConfig";
 import { LoginApi } from "../../services/LoginApi";
-import Cookies from "js-cookie"; // For storing session
+import Cookies from "js-cookie";
 import {
   LoginContainer,
   RightSection,
@@ -109,7 +109,7 @@ const Login = () => {
     setLoading(true);
     try {
       const result = await confirmationResult.confirm(otpValue);
-      const idToken = await result.user.getIdToken(); // Firebase ID Token
+      const idToken = await result.user.getIdToken();
 
       // Send only idToken to backend for session management
       const loginResponse = await LoginApi(idToken);
@@ -130,7 +130,15 @@ const Login = () => {
         console.log("User ID stored in cookies:", Cookies.get("userId")); // Debugging
 
         alert("Login successful!");
-        navigate("/"); // Redirect to homepage or dashboard
+
+        // Check for stored redirect URL
+        const redirectUrl = Cookies.get("redirectUrl");
+        if (redirectUrl) {
+          Cookies.remove("redirectUrl"); // Clear the stored URL
+          navigate(redirectUrl); // Redirect to the stored URL (e.g., /Gallery)
+        } else {
+          navigate("/"); // Default redirect if no URL is stored
+        }
       } else {
         setError("Login failed. Please try again.");
       }

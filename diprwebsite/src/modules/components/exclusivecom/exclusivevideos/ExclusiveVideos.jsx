@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
-import { FaPlay, FaRegComment, FaPaperPlane, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
+import { FaPlay, FaRegComment, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -45,7 +45,7 @@ const ExclusiveVideos = () => {
   const [playingVideoId, setPlayingVideoId] = useState(null);
   const [likedVideos, setLikedVideos] = useState(new Set());
   const [comments, setComments] = useState({});
-  const [newComments, setNewComments] = useState({}); // Separate state for each video's comment input
+  const [newComments, setNewComments] = useState({});
   const [userId, setUserId] = useState(null);
   const [likeCounts, setLikeCounts] = useState({});
   const [error, setError] = useState("");
@@ -115,8 +115,11 @@ const ExclusiveVideos = () => {
     }
   };
 
+  // Handle like click
   const handleLikeClick = async (videoId) => {
     if (!userId) {
+      // Store the current URL (/Gallery) in a cookie
+      Cookies.set("redirectUrl", window.location.pathname);
       navigate("/login"); // Redirect to login page
       return;
     }
@@ -158,6 +161,8 @@ const ExclusiveVideos = () => {
   // Handle adding a comment for a specific video
   const handleAddComment = async (videoId) => {
     if (!userId) {
+      // Store the current URL (/Gallery) in a cookie
+      Cookies.set("redirectUrl", window.location.pathname);
       navigate("/login"); // Redirect to login page
       return;
     }
@@ -196,6 +201,13 @@ const ExclusiveVideos = () => {
 
   // Toggle comment section
   const toggleCommentSection = (videoId) => {
+    if (!userId) {
+      // Store the current URL (/Gallery) in a cookie
+      Cookies.set("redirectUrl", window.location.pathname);
+      navigate("/login"); // Redirect to login page
+      return;
+    }
+
     if (openCommentSection === videoId) {
       setOpenCommentSection(null);
     } else {
@@ -206,6 +218,8 @@ const ExclusiveVideos = () => {
   // Handle like for a comment
   const handleLikeComment = async (commentId, videoId) => {
     if (!userId) {
+      // Store the current URL (/Gallery) in a cookie
+      Cookies.set("redirectUrl", window.location.pathname);
       navigate("/login"); // Redirect to login page
       return;
     }
@@ -278,7 +292,6 @@ const ExclusiveVideos = () => {
                     />
                     <LikeCount style={{ color: "#000" }}>{likeCounts[video._id] || 0}</LikeCount>
                     <FaRegComment style={{cursor: "pointer"}} size={25} onClick={() => toggleCommentSection(video._id)} />
-                    {/* <FaPaperPlane size={25} /> */}
                   </FlexContainer2>
                 </LikeContainer>
 

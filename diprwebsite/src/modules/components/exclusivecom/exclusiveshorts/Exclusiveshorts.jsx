@@ -94,6 +94,7 @@ const Exclusiveshorts = () => {
   // Handle like click
   const handleLikeClick = async (videoId) => {
     if (!userId) {
+      Cookies.set("redirectUrl", window.location.pathname);
       navigate("/login"); // Redirect to login page if user is not logged in
       return;
     }
@@ -139,6 +140,7 @@ const Exclusiveshorts = () => {
   // Handle adding a comment
   const handleAddComment = async (videoId) => {
     if (!userId) {
+      Cookies.set("redirectUrl", window.location.pathname);
       navigate("/login"); // Redirect to login page if user is not logged in
       return;
     }
@@ -177,6 +179,7 @@ const Exclusiveshorts = () => {
   // Handle like for a comment
   const handleLikeComment = async (commentId, videoId) => {
     if (!userId) {
+      Cookies.set("redirectUrl", window.location.pathname);
       navigate("/login"); // Redirect to login page if user is not logged in
       return;
     }

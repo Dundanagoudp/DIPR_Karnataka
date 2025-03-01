@@ -160,7 +160,7 @@ const Signup = () => {
           </Button>
 
           <p>
-            Do you have an account? <LinkText>Login now</LinkText>
+            Do you have an account? <LinkText onClick={() => navigate("/login")}>Login now</LinkText>
           </p>
         </SignupBox>
       </RightSection>
