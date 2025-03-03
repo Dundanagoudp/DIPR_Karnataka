@@ -25,10 +25,12 @@ import LatestData from "./modules/pages/Latest/LatestData";
 import Profile from "./components/Profile/Profile";
 import FontSizeProvider from "./context/FontSizeProvider";
 import Signupnumber from "./screens/signuppage/SignUpNumber";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const App = () => {
   return (
-    <FontSizeProvider> 
+    <FontSizeProvider>
+      <LanguageProvider> 
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Router>
@@ -57,6 +59,7 @@ const App = () => {
           </Routes>
         </Router>
       </ThemeProvider>
+      </LanguageProvider>
     </FontSizeProvider>
   );
 };

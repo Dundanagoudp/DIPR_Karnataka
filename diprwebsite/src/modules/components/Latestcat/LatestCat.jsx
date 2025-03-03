@@ -28,6 +28,7 @@ import { getNewsByid, likeNews } from "../../../services/newsApi/NewsApi";
 import ComMents from "../comments/ComMents";
 import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
+import { LanguageContext } from "../../../context/LanguageContext"; // Import LanguageContext
 
 const fallbackNews = {
   _id: "fallback1",
@@ -43,15 +44,26 @@ const fallbackNews = {
   url: "https://example.com",
   likedBy: [],
   comments: [],
+  hindi: {
+    title: "फॉलबैक समाचार: एआई क्रांति",
+    description:
+      "यह प्लेसहोल्डर सामग्री है क्योंकि समाचार डेटा प्राप्त नहीं किया जा सका।",
+  },
+  kannada: {
+    title: "ಫಾಲ್ಬ್ಯಾಕ್ ಸುದ್ದಿ: AI ಕ್ರಾಂತಿ",
+    description:
+      "ಸುದ್ದಿ ಡೇಟಾ ಪಡೆಯಲಾಗದ ಕಾರಣ ಇದು ಪ್ಲೇಸ್ಹೋಲ್ಡರ್ ವಿಷಯವಾಗಿದೆ.",
+  },
 };
 
 const LatestCat = () => {
-  const { id } = useParams(); 
-  const [news, setNews] = useState(fallbackNews); 
+  const { id } = useParams();
+  const [news, setNews] = useState(fallbackNews);
   const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
-  const userId = Cookies.get("userId"); 
+  const userId = Cookies.get("userId");
   const { fontSize } = useContext(FontSizeContext);
+  const { language } = useContext(LanguageContext); // Get current language from context
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -93,8 +105,8 @@ const LatestCat = () => {
         // Toggle like status in the frontend
         setNews((prevNews) => {
           const newLikedBy = prevNews.likedBy.includes(userId)
-            ? prevNews.likedBy.filter((id) => id !== userId) 
-            : [...prevNews.likedBy, userId]; 
+            ? prevNews.likedBy.filter((id) => id !== userId)
+            : [...prevNews.likedBy, userId];
 
           // Store the updated likedBy in localStorage
           localStorage.setItem(
@@ -137,13 +149,44 @@ const LatestCat = () => {
     }
   }, [news, userId]);
 
+  // Function to get the correct language content
+  const getLocalizedContent = (news, field) => {
+    if (language === "English") {
+      return news[field] || "No content available";
+    } else if (language === "Hindi") {
+      return news.hindi?.[field] || news[field] || "No content available";
+    } else if (language === "Kannada") {
+      return news.kannada?.[field] || news[field] || "No content available";
+    }
+    return news[field] || "No content available";
+  };
+
+  const shareOnFacebook = (url) => {
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      "_blank"
+    );
+  };
+
+  const shareOnTwitter = (url) => {
+    window.open(
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`,
+      "_blank"
+    );
+  };
+
+  const copyLink = (url) => {
+    navigator.clipboard.writeText(url);
+    alert("Link copied to clipboard!");
+  };
+
   return (
-    <Container >
+    <Container>
       <NewsCardWrapper key={news._id}>
         <NewsImageWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
           <img
             src={news.newsImage || "https://via.placeholder.com/300"}
-            alt={news.title || "News Image"}
+            alt={getLocalizedContent(news, "title")}
           />
         </NewsImageWrapper>
 
@@ -154,15 +197,15 @@ const LatestCat = () => {
           </NewsHeaderWrapper>
 
           <NewsTitleWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            {news.title || "Untitled News"}
+            {getLocalizedContent(news, "title")}
             <IconWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               {news.likedBy.includes(userId) ? (
-                <FaHeart 
+                <FaHeart
                   onClick={handleLikeNews}
                   style={{ cursor: "pointer", color: "red" }}
                 />
               ) : (
-                <FaRegHeart 
+                <FaRegHeart
                   onClick={handleLikeNews}
                   style={{ cursor: "pointer" }}
                 />
@@ -218,7 +261,7 @@ const LatestCat = () => {
           </ShareIconsWrapper>
 
           <NewsTextWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            {news.description?.split(" ").slice(0, 50).join(" ") + "..."}
+            {getLocalizedContent(news, "description")?.split(" ").slice(0, 50).join(" ") + "..."}
           </NewsTextWrapper>
         </NewsContentWrapper>
       </NewsCardWrapper>

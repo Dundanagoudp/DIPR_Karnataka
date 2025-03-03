@@ -18,13 +18,11 @@ import {
   NewsMeta,
   Title,
 } from "../allnews/AllNews.styles";
-import {
-  CategoryApi,
-  NewsApi,
-} from "../../../services/categoryapi/CategoryApi";
+import { CategoryApi, NewsApi } from "../../../services/categoryapi/CategoryApi";
 import { trackClick } from "../../../services/newsApi/NewsApi";
 import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
+import { LanguageContext } from "../../../context/LanguageContext"; // Import LanguageContext
 
 const AllNews = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -32,6 +30,7 @@ const AllNews = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const { fontSize } = useContext(FontSizeContext);
+  const { language } = useContext(LanguageContext); // Get current language from context
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -124,6 +123,18 @@ const AllNews = () => {
         });
   };
 
+  // Function to get the correct language content
+  const getLocalizedContent = (news, field) => {
+    if (language === "English") {
+      return news[field] || "No content available";
+    } else if (language === "Hindi") {
+      return news.hindi?.[field] || news[field] || "No content available";
+    } else if (language === "Kannada") {
+      return news.kannada?.[field] || news[field] || "No content available";
+    }
+    return news[field] || "No content available";
+  };
+
   return (
     <Container>
       <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>All News</Title>
@@ -144,13 +155,15 @@ const AllNews = () => {
         <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
           <NewsImage
             src={news.newsImage || "https://via.placeholder.com/300"}
-            alt={news.title || "News Image"}
+            alt={getLocalizedContent(news, "title")}
           />
           <NewsContent style={{ fontSize: `${fontSize}%` }}>
             <NewsHeader style={{ fontSize: `${fontSize}%` }}>
               {news.author || "Unknown Author"} • {news.category?.name || "General"}
             </NewsHeader>
-            <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{news.title || "Untitled News"}</NewsTitle>
+            <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              {getLocalizedContent(news, "title")}
+            </NewsTitle>
 
             <ShareIcons>
               <FaFacebook
@@ -176,7 +189,7 @@ const AllNews = () => {
                 fontSize: `${fontSize}%`,
               }}
             >
-              {news.description || "No description available."}
+              {getLocalizedContent(news, "description")}
             </NewsText>
 
             <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>

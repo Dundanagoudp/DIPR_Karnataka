@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion"; 
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ToolbarContainer,
   SearchContainer,
@@ -14,9 +14,10 @@ import {
 } from "./ToolBar.styles";
 import { FontSizeContext } from "../../context/FontSizeProvider";
 import { SearchMagazineApi } from "../../services/searchapi/SearchApi";
-
-const ToolBar = ({ onSearch, onLanguageChange }) => {
+import { LanguageContext } from "../../context/LanguageContext";
+const ToolBar = ({ onSearch }) => {
   const { fontSize, changeFontSize } = useContext(FontSizeContext);
+  const { language, setLanguage } = useContext(LanguageContext);
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
@@ -80,6 +81,11 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
     debouncedSearch(searchText);
   };
 
+  // Function to handle language change
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value); // Update language in context
+  };
+
   return (
     <ToolbarContainer>
       {/* Search Input */}
@@ -130,11 +136,10 @@ const ToolBar = ({ onSearch, onLanguageChange }) => {
       </FontControls>
 
       {/* Language Selector */}
-      <Select onChange={(e) => onLanguageChange && onLanguageChange(e.target.value)}>
-        <option value="en">English</option>
-        <option value="es">Kannada</option>
-        <option value="fr">Hindi</option>
-        <option value="de">French</option>
+      <Select onChange={handleLanguageChange}>
+      <option value="Kannada">Kannada</option>
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
       </Select>
     </ToolbarContainer>
   );

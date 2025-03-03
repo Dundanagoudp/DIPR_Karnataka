@@ -13,8 +13,9 @@ import {
 } from "../Recommended/RecomMended.styles";
 import videoThumbnail from "../../../assets/v1.png";
 import { CiBookmark } from "react-icons/ci";
-import { getRecommendedNews } from "../../../services/newsApi/NewsApi"; 
+import { getRecommendedNews } from "../../../services/newsApi/NewsApi";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
+import { LanguageContext } from "../../../context/LanguageContext"; // Import LanguageContext
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -25,11 +26,11 @@ const getCookie = (name) => {
 const RecomMended = () => {
   const [videosData, setVideosData] = useState([]);
   const [bookmarkedVideos, setBookmarkedVideos] = useState(new Set());
-    const { fontSize } = useContext(FontSizeContext);
-  
+  const { fontSize } = useContext(FontSizeContext);
+  const { language } = useContext(LanguageContext); // Get current language from context
 
   useEffect(() => {
-    const userId = getCookie("userId"); 
+    const userId = getCookie("userId");
 
     if (userId) {
       const fetchVideos = async () => {
@@ -46,11 +47,11 @@ const RecomMended = () => {
             setVideosData(result.data);
           } else {
             console.warn("No video data found, using fallback data.");
-            setVideosData(fallbackVideosData); // Ensure fallback data is defined elsewhere
+            setVideosData(fallbackVideosData);
           }
         } catch (error) {
           console.error("Error fetching videos:", error);
-          setVideosData(fallbackVideosData); // Ensure fallback data is defined elsewhere
+          setVideosData(fallbackVideosData);
         }
       };
 
@@ -58,7 +59,19 @@ const RecomMended = () => {
     } else {
       console.error("No userId found in cookies.");
     }
-  }, []);
+  }, [language]); // Re-fetch videos when language changes
+
+  // Function to get the correct language content
+  const getLocalizedContent = (video, field) => {
+    if (language === "English") {
+      return video[field] || "No content available";
+    } else if (language === "Hindi") {
+      return video.hindi?.[field] || video[field] || "No content available";
+    } else if (language === "Kannada") {
+      return video.kannada?.[field] || video[field] || "No content available";
+    }
+    return video[field] || "No content available";
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return "Unknown Date";
@@ -84,13 +97,15 @@ const RecomMended = () => {
 
   return (
     <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-      <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Recommended for you</Header>
+      <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+        Recommended for you
+      </Header>
       <Content>
         {videosData.map((video) => (
           <VideoCard1 key={video._id}>
-            <VideoThumbnail 
+            <VideoThumbnail
               src={video.newsImage || videoThumbnail}
-              alt={video.title}
+              alt={getLocalizedContent(video, "title")}
             />
             <VideoDetails>
               <NewsMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
@@ -99,7 +114,9 @@ const RecomMended = () => {
                   {formatDate(video.publishedAt)} • {video.readTime || "N/A"}
                 </span>
               </NewsMeta>
-              <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{video.title}</Title>
+              <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                {getLocalizedContent(video, "title")}
+              </Title>
               <VideoMetacat style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                 {video.category.name}
                 <BookmarkIconWrapper
