@@ -11,8 +11,10 @@ export const NavContainer = styled.nav`
   padding: ${theme.spacing(0.5)} 0;
   overflow: hidden;
   white-space: nowrap;
-  position: relative;
+  position: fixed;
+  bottom: 0;
   width: 100%;
+  z-index: 1000; /* Ensure it stays on top of other content */
 `;
 
 export const NewsWrapper = styled.div`

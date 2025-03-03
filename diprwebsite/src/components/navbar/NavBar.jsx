@@ -11,8 +11,7 @@ import { FontSizeContext } from "../../context/FontSizeProvider";
 
 const NavBar = () => {
   const [headlines, setHeadlines] = useState([]);
-      const { fontSize } = useContext(FontSizeContext);
-
+  const { fontSize } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchNews = async () => {
