@@ -64,7 +64,7 @@ export const ContentWrapper = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    bottom: ${theme.spacing(0.5)};
+    bottom: ${theme.spacing(3.5)};
     left: ${theme.spacing(0.5)};
     right: ${theme.spacing(0.5)};
   }
@@ -155,9 +155,9 @@ export const ArrowIcon = styled.button`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    bottom: ${theme.spacing(3)};
+    bottom: ${theme.spacing(3.5)};
     right: ${theme.spacing(3)};
-    padding: ${theme.spacing(1)};
+    padding: ${theme.spacing(3)};
   }
 `;
 

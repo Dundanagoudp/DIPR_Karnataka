@@ -8,13 +8,20 @@ const scrollAnimation = keyframes`
 
 export const NavContainer = styled.nav`
   background-color: ${theme.colors.error}; 
-  padding: ${theme.spacing(0.5)} 0;
+  padding: ${theme.spacing(0.8)} 0;
   overflow: hidden;
   white-space: nowrap;
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 1000; /* Ensure it stays on top of other content */
+  z-index: 1000; 
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(0.5)} 0;
+  }
+    @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(0.5)} 0;
+  }
 `;
 
 export const NewsWrapper = styled.div`
@@ -34,6 +41,17 @@ export const NewsItem = styled.span`
   color: ${theme.colors.background};
   font-family: ${theme.fonts.heading};
   font-weight: bold;
+  
   padding: 0 ${theme.spacing(2)};
   white-space: nowrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 0 ${theme.spacing(1)};
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 0 ${theme.spacing(1)};
+  }
+
+
 `;
