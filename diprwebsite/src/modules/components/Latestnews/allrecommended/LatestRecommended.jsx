@@ -20,13 +20,15 @@ import { trackClick } from "../../../../services/newsApi/NewsApi";
 import AddComments from "../../comments/AddComments";
 import { getRecommendedNews } from "../../../../services/newsApi/NewsApi";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
+import { LanguageContext } from "../../../../context/LanguageContext"; 
 import Loader from "../../../../components/apiloders/ApiLoders";
 
 const LatestNewsRecommended = () => {
   const [newsData, setNewsData] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { fontSize } = useContext(FontSizeContext);
+  const { language } = useContext(LanguageContext); 
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -34,8 +36,8 @@ const LatestNewsRecommended = () => {
       if (!userId) {
         alert("User not logged in. Redirecting to login page...");
         Cookies.set("redirectUrl", window.location.pathname);
-        navigate("/login"); 
-        setLoading(false); 
+        navigate("/login");
+        setLoading(false);
         return;
       }
 
@@ -52,7 +54,7 @@ const LatestNewsRecommended = () => {
         console.error("Error fetching news:", error);
         setNewsData([]);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -64,7 +66,7 @@ const LatestNewsRecommended = () => {
     if (!userId) {
       alert("User not logged in. Redirecting to login page...");
       Cookies.set("redirectUrl", window.location.pathname);
-      navigate("/login"); 
+      navigate("/login");
       return;
     }
     try {
@@ -108,6 +110,17 @@ const LatestNewsRecommended = () => {
         });
   };
 
+  const getLocalizedContent = (news, field) => {
+    if (language === "English") {
+      return news[field] || "No content available";
+    } else if (language === "Hindi") {
+      return news.hindi?.[field] || news[field] || "No content available";
+    } else if (language === "Kannada") {
+      return news.kannada?.[field] || news[field] || "No content available";
+    }
+    return news[field] || "No content available";
+  };
+
   // If loading, display the Loader component
   if (loading) {
     return <Loader />;
@@ -121,14 +134,16 @@ const LatestNewsRecommended = () => {
         <NewsCard key={news._id}>
           <NewsImage
             src={news.newsImage || "https://via.placeholder.com/300"}
-            alt={news.title || "News Image"}
+            alt={getLocalizedContent(news, "title")}
           />
           <NewsContent style={{ fontSize: `${fontSize}%` }}>
             <NewsHeader style={{ fontSize: `${fontSize}%` }}>
               {news.author || "Unknown Author"} •{" "}
               {news.category?.name || "General"}
             </NewsHeader>
-            <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} >{news.title || "Untitled News"}</NewsTitle>
+            <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              {getLocalizedContent(news, "title")}
+            </NewsTitle>
 
             <ShareIcons>
               <FaFacebook
@@ -151,10 +166,10 @@ const LatestNewsRecommended = () => {
                 WebkitLineClamp: 5,
                 WebkitBoxOrient: "vertical",
                 overflow: "hidden",
-                fontSize: `${fontSize}%`
+                fontSize: `${fontSize}%`,
               }}
             >
-              {news.description || "No description available."}
+              {getLocalizedContent(news, "description")}
             </NewsText>
 
             <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>

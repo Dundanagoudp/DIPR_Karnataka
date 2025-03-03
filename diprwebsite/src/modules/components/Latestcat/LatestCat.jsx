@@ -28,7 +28,7 @@ import { getNewsByid, likeNews } from "../../../services/newsApi/NewsApi";
 import ComMents from "../comments/ComMents";
 import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
-import { LanguageContext } from "../../../context/LanguageContext"; // Import LanguageContext
+import { LanguageContext } from "../../../context/LanguageContext"; 
 
 const fallbackNews = {
   _id: "fallback1",

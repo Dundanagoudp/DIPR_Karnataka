@@ -68,7 +68,7 @@ const LatestTab = () => {
   }, [activeTab]);
 
   const handlePostClick = (postId) => {
-    navigate(`/news/${postId}`); // Navigate to news detail page with ID
+    navigate(`/news/${postId}`); 
   };
 
   const handleBookmarkClick = (videoId) => {
