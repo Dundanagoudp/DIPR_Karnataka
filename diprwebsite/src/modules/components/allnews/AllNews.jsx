@@ -36,7 +36,7 @@ const AllNews = () => {
     const fetchCategories = async () => {
       try {
         const response = await CategoryApi();
-        if (response?.data && Array.isArray(response.data) && response.data.length > 0) {
+        if (response?.data && Array.isArray(response.data)) {
           setCategories(response.data);
         }
       } catch (error) {
@@ -51,7 +51,7 @@ const AllNews = () => {
     const fetchNews = async () => {
       try {
         const response = await NewsApi(activeTab);
-        if (response?.data && Array.isArray(response.data) && response.data.length > 0) {
+        if (response?.data && Array.isArray(response.data)) { // Fixed syntax here
           setNewsData(response.data);
         } else {
           setNewsData([]);
@@ -124,16 +124,28 @@ const AllNews = () => {
   };
 
   // Function to get the correct language content
-  const getLocalizedContent = (news, field) => {
+  const getLocalizedContent = (item, field) => {
     if (language === "English") {
-      return news[field] || "No content available";
+      return item[field] || "No content available";
     } else if (language === "Hindi") {
-      return news.hindi?.[field] || news[field] || "No content available";
+      return item.hindi?.[field] || item[field] || "No content available";
     } else if (language === "Kannada") {
-      return news.kannada?.[field] || news[field] || "No content available";
+      return item.kannada?.[field] || item[field] || "No content available";
     }
-    return news[field] || "No content available";
+    return item[field] || "No content available";
   };
+
+  const getLocalizedCategoryName = (category) => {
+    if (language === "English") {
+      return category.name || "No content available";
+    } else if (language === "Hindi") {
+      return category.hindi || category.name || "No content available";
+    } else if (language === "Kannada") {
+      return category.kannada || category.name || "No content available";
+    }
+    return category.name || "No content available";
+  };
+
 
   return (
     <Container>
@@ -146,10 +158,11 @@ const AllNews = () => {
             onClick={() => setActiveTab(category._id)}
             style={{ fontSize: `${fontSize}%` }}
           >
-            {category.name}
+            {getLocalizedCategoryName(category)}
           </Tab>
         ))}
       </TabsContainer>
+
 
       {newsData.map((news) => (
         <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
@@ -159,7 +172,7 @@ const AllNews = () => {
           />
           <NewsContent style={{ fontSize: `${fontSize}%` }}>
             <NewsHeader style={{ fontSize: `${fontSize}%` }}>
-              {news.author || "Unknown Author"} • {news.category?.name || "General"}
+              {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
             </NewsHeader>
             <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               {getLocalizedContent(news, "title")}
