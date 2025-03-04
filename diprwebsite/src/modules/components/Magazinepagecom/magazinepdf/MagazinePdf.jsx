@@ -17,7 +17,8 @@ import {
 } from "../magazinepdf/MagazinePdf.styles";
 import { getMagazines } from "../../../../services/magazineApi/magazineService";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
- 
+import { LanguageContext } from "../../../../context/LanguageContext"; // Import LanguageContext
+
 // Fallback data
 const fallbackMagazines = [
   {
@@ -31,13 +32,13 @@ const fallbackMagazines = [
     magazinePdf: "#",
   },
 ];
- 
+
 const MagazinePdf = () => {
   const [magazinesData, setMagazinesData] = useState([]);
   const [bookmarkedMagazines, setBookmarkedMagazines] = useState(new Set());
-      const { fontSize } = useContext(FontSizeContext);
-  
- 
+  const { fontSize } = useContext(FontSizeContext);
+  const { language } = useContext(LanguageContext); 
+
   useEffect(() => {
     const fetchMagazines = async () => {
       try {
@@ -53,10 +54,10 @@ const MagazinePdf = () => {
         setMagazinesData(fallbackMagazines);
       }
     };
- 
+
     fetchMagazines();
   }, []);
- 
+
   const formatDate = (dateString) => {
     if (!dateString) return "Unknown Date";
     const date = new Date(dateString);
@@ -68,7 +69,7 @@ const MagazinePdf = () => {
           day: "numeric",
         });
   };
- 
+
   const handleBookmarkClick = (magazineId) => {
     const newBookmarkedMagazines = new Set(bookmarkedMagazines);
     if (newBookmarkedMagazines.has(magazineId)) {
@@ -78,37 +79,47 @@ const MagazinePdf = () => {
     }
     setBookmarkedMagazines(newBookmarkedMagazines);
   };
- 
+
   const handleReadMoreClick = (pdfUrl) => {
     window.open(pdfUrl, "_blank"); // Open PDF in a new tab
   };
- 
+
+  // Function to get the correct language content
+  const getLocalizedContent = (item, field) => {
+    if (language === "English") {
+      return item[field] || "No content available";
+    } else if (language === "Hindi") {
+      return item.hindi?.[field] || item[field] || "No content available";
+    } else if (language === "Kannada") {
+      return item.kannada?.[field] || item[field] || "No content available";
+    }
+    return item[field] || "No content available";
+  };
+
   return (
     <Container style={{ fontSize: `${fontSize}%` }}>
-      <Header>Magazine</Header>
+      <Header style={{ fontSize: `${fontSize}%` }}>Magazine</Header>
       <Content style={{ fontSize: `${fontSize}%` }}>
         {magazinesData.map((magazine) => (
           <MagazineCard key={magazine._id}>
             <MagazineThumbnail
               src={magazine.magazineThumbnail || "https://via.placeholder.com/300"}
-              alt={magazine.title}
+              alt={getLocalizedContent(magazine, "title")}
             />
             <MagazineDetails>
-           
-              
-              <Title style={{ fontSize: `${fontSize}%` }}>{magazine.title}</Title>
-             
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center',fontSize: `${fontSize}%` }}>
+              <Title style={{ fontSize: `${fontSize}%` }}>
+                {getLocalizedContent(magazine, "title")}
+              </Title>
 
-              <NewsMeta style={{ fontSize: `${fontSize}%` }}>
-                {magazine.isTrending && <span>Trending</span>}
-                <span style={{ fontSize: `${fontSize}%` }}>
-                  {formatDate(magazine.createdTime)} • {magazine.readTime || "N/A"}
-                </span>
-              </NewsMeta>
-              <CiBookmark />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: `${fontSize}%` }}>
+                <NewsMeta style={{ fontSize: `${fontSize}%` }}>
+                  {magazine.isTrending && <span>Trending</span>}
+                  <span style={{ fontSize: `${fontSize}%` }}>
+                    {formatDate(magazine.createdTime)} • {magazine.readTime || "N/A"}
+                  </span>
+                </NewsMeta>
+                <CiBookmark />
               </div>
-
 
               <MagazineMetacat>
                 <BookmarkIconWrapper
@@ -117,15 +128,10 @@ const MagazinePdf = () => {
                 >
                 </BookmarkIconWrapper>
               </MagazineMetacat>
-             
-              {/* <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-              
-              </div> */}
+
               <ReadMoreButton style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMoreClick(magazine.magazinePdf)}>
                 READ PDF <ReadMoreIcon><FaAngleDoubleRight /></ReadMoreIcon>
-                
               </ReadMoreButton>
-
             </MagazineDetails>
           </MagazineCard>
         ))}
@@ -133,6 +139,5 @@ const MagazinePdf = () => {
     </Container>
   );
 };
- 
+
 export default MagazinePdf;
- 

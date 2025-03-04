@@ -11,10 +11,10 @@ import {
   Meta,
   Header,
 } from "../magazine/MagaZine.styles";
- 
 import { getMagazines } from "../../../services/magazineApi/magazineService";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
- 
+import { LanguageContext } from "../../../context/LanguageContext"; // Import LanguageContext
+
 const fallbackMagazines = [
   {
     id: "fallback-1aaaa",
@@ -26,18 +26,18 @@ const fallbackMagazines = [
     createdTime: "2025-01-01T00:00:00.000Z",
   },
 ];
- 
+
 const MagaZines = () => {
   const [activeTab, setActiveTab] = useState("Topics");
   const [magazines, setMagazines] = useState([]);
-    const { fontSize } = useContext(FontSizeContext);
+  const { fontSize } = useContext(FontSizeContext);
+  const { language } = useContext(LanguageContext); // Get current language from context
 
- 
   useEffect(() => {
     const fetchMagazines = async () => {
       try {
         const result = await getMagazines();
- 
+
         if (
           result.success &&
           Array.isArray(result.data) &&
@@ -53,13 +53,27 @@ const MagaZines = () => {
         setMagazines(fallbackMagazines);
       }
     };
- 
+
     fetchMagazines();
   }, []);
- 
+
+  // Function to get the correct language content
+  const getLocalizedContent = (magazine, field) => {
+    if (language === "English") {
+      return magazine.english?.[field] || magazine[field] || "No content available";
+    } else if (language === "Hindi") {
+      return magazine.hindi?.[field] || magazine[field] || "No content available";
+    } else if (language === "Kannada") {
+      return magazine.kannada?.[field] || magazine[field] || "No content available";
+    }
+    return magazine[field] || "No content available";
+  };
+
   return (
     <Container style={{ fontSize: `${fontSize}%` }}>
-      <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} >Magazine</Header>
+      <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+        Magazine
+      </Header>
       <TabContainer>
         <Tab
           active={activeTab === "Topics"}
@@ -68,19 +82,24 @@ const MagaZines = () => {
           New Edition
         </Tab>
       </TabContainer>
- 
+
       <Content>
         {activeTab === "Topics"
           ? magazines.map((magazine) => (
               <Card key={magazine._id}>
-                <Image src={magazine.magazineThumbnail} alt={magazine.title} />
+                <Image src={magazine.magazineThumbnail} alt={getLocalizedContent(magazine, "title")} />
                 <Details>
-                  {/* <Meta1>{new Date(magazine.createdTime).toDateString()}</Meta1> */}
-                  <Title style={{ fontSize: `${fontSize}%` }}>{magazine.title}</Title>
+                  <Title style={{ fontSize: `${fontSize}%` }}>
+                    {getLocalizedContent(magazine, "title")}
+                  </Title>
                   <p style={{ fontSize: `${fontSize}%` }}>
-                    {magazine.description.split(" ").slice(0, 10).join(" ")}...
+                    {getLocalizedContent(magazine, "description")
+                      .split(" ")
+                      .slice(0, 10)
+                      .join(" ")}...
                   </p>
-                  <a style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+                  <a
+                    style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
                     href={magazine.magazinePdf}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -95,5 +114,5 @@ const MagaZines = () => {
     </Container>
   );
 };
- 
+
 export default MagaZines;
