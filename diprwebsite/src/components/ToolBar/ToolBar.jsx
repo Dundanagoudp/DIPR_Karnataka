@@ -15,12 +15,35 @@ import {
 import { FontSizeContext } from "../../context/FontSizeProvider";
 import { SearchMagazineApi } from "../../services/searchapi/SearchApi";
 import { LanguageContext } from "../../context/LanguageContext";
+
+// Translation object for English, Hindi, and Kannada
+const translations = {
+  English: {
+    searchPlaceholder: "Search for News",
+    fontSizeLabel: "Font Size",
+    resetLabel: "Reset",
+  },
+  Hindi: {
+    searchPlaceholder: "समाचार खोजें",
+    fontSizeLabel: "फ़ॉन्ट आकार",
+    resetLabel: "रीसेट",
+  },
+  Kannada: {
+    searchPlaceholder: "ಸುದ್ದಿ ಹುಡುಕಿ",
+    fontSizeLabel: "ಫಾಂಟ್ ಗಾತ್ರ",
+    resetLabel: "ಮರುಹೊಂದಿಸಿ",
+  },
+};
+
 const ToolBar = ({ onSearch }) => {
   const { fontSize, changeFontSize } = useContext(FontSizeContext);
   const { language, setLanguage } = useContext(LanguageContext);
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
+
+  // Get translations for the current language
+  const t = translations[language] || translations.English;
 
   // Debounce function to delay API calls
   const debounce = (func, delay) => {
@@ -54,7 +77,6 @@ const ToolBar = ({ onSearch }) => {
     }
   };
 
-  // Debounced version of handleSearch
   const debouncedSearch = debounce(handleSearch, 300);
 
   // Update debouncedSearch whenever searchText changes
@@ -83,7 +105,7 @@ const ToolBar = ({ onSearch }) => {
 
   // Function to handle language change
   const handleLanguageChange = (e) => {
-    setLanguage(e.target.value); // Update language in context
+    setLanguage(e.target.value); t
   };
 
   return (
@@ -95,7 +117,7 @@ const ToolBar = ({ onSearch }) => {
         </SearchIcon>
         <SearchInput
           type="text"
-          placeholder="Search for News"
+          placeholder={t.searchPlaceholder}
           value={searchText}
           onChange={(e) => {
             const query = e.target.value;
@@ -128,18 +150,18 @@ const ToolBar = ({ onSearch }) => {
 
       {/* Font Size Controls */}
       <FontControls>
-        <span>Font Size <b>Aa</b></span>
+        <span>{t.fontSizeLabel} <b>Aa</b></span>
         <button onClick={() => changeFontSize(-5)}><b>-</b></button>
         <b><span>{fontSize}%</span></b>
         <button onClick={() => changeFontSize(5)}><b>+</b></button>
-        <button onClick={() => changeFontSize(100 - fontSize)}>Reset</button>
+        <button onClick={() => changeFontSize(100 - fontSize)}>{t.resetLabel}</button>
       </FontControls>
 
       {/* Language Selector */}
-      <Select onChange={handleLanguageChange}>
-      <option value="Kannada">Kannada</option>
+      <Select onChange={handleLanguageChange} value={language}>
         <option value="English">English</option>
         <option value="Hindi">Hindi</option>
+        <option value="Kannada">Kannada</option>
       </Select>
     </ToolbarContainer>
   );

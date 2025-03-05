@@ -31,14 +31,14 @@ const AboutUspage = () => {
   return (
     <PageContainer>
       <AboutUsText />
-      <ContentContainer>
+     {/* <ContentContainer>
         <RecommendedContainer>
           <AboutUsRecommendeds />
         </RecommendedContainer>
         <AllNewsContainer>
           <AboutusAllnews />
-        </AllNewsContainer>
-      </ContentContainer>
+        </AllNewsContainer> 
+      </ContentContainer> */}
     </PageContainer>
   );
 };
