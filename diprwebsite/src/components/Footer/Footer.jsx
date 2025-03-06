@@ -96,10 +96,18 @@ const Footer = () => {
 
   const fetchVisitorData = async () => {
     try {
-      // Register the visitor first
-      await RegisterVisitorApi();
+      // Check if the visitor has already been counted in this session
+      const isVisited = sessionStorage.getItem("isVisited");
 
-      // Then fetch the total number of visitors
+      if (!isVisited) {
+        // Register the visitor only if they haven't been counted yet
+        await RegisterVisitorApi();
+
+        // Mark the visitor as counted in this session
+        sessionStorage.setItem("isVisited", "true");
+      }
+
+      // Fetch the total number of visitors
       const totalVisitorsResponse = await GetTotalVisitorApi();
       setVisitorData({
         lastUpdated: new Date().toLocaleString(),
@@ -113,7 +121,7 @@ const Footer = () => {
   // Use useEffect to call the fetchVisitorData function only once on component mount
   useEffect(() => {
     fetchVisitorData();
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
 
   return (
     <FooterContainer style={{ fontSize: `${fontSize}%` }}>
