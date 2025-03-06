@@ -92,6 +92,8 @@ const Footer = () => {
     totalVisitors: 0,
   });
 
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
+
   const t = translations[language] || translations.English;
 
   const fetchVisitorData = async () => {
@@ -118,6 +120,14 @@ const Footer = () => {
   // Use useEffect to call the fetchVisitorData function only once on component mount
   useEffect(() => {
     fetchVisitorData();
+
+    // Update the time every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date().toLocaleString());
+    }, 1000);
+
+    // Clear the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -169,7 +179,7 @@ const Footer = () => {
 
           <VisitorsSection style={{ fontSize: `${fontSize}%` }}>
             <Title style={{ fontSize: `${fontSize}%` }}>{t.visitorsTitle}</Title>
-            <Text style={{ fontSize: `${fontSize}%` }}><FaClock /> {visitorData.lastUpdated}</Text>
+            <Text style={{ fontSize: `${fontSize}%` }}><FaClock /> {currentTime}</Text>
             <Text style={{ fontSize: `${fontSize}%` }}><FaUsers /> Visitors Counter: {visitorData.totalVisitors}</Text>
             <Text style={{ fontSize: `${fontSize}%` }}><FaCodeBranch /> {t.version}</Text>
           </VisitorsSection>
