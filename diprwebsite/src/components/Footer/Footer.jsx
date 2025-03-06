@@ -100,10 +100,7 @@ const Footer = () => {
       const isVisited = sessionStorage.getItem("isVisited");
 
       if (!isVisited) {
-        // Register the visitor only if they haven't been counted yet
         await RegisterVisitorApi();
-
-        // Mark the visitor as counted in this session
         sessionStorage.setItem("isVisited", "true");
       }
 

@@ -38,8 +38,8 @@ const App = () => {
     const handleBeforeUnload = async () => {
       if (userId) {
         try {
-          const response = await endSession(userId, "web"); // Call the endSession API
-          console.log("Session End API Response:", response); // Log the response
+          const response = await endSession(userId, "web"); 
+          console.log("Session End API Response:", response); 
           if (response.success) {
             console.log("Session ended successfully.");
           } else {
@@ -51,14 +51,13 @@ const App = () => {
       }
     };
 
-    // Attach the beforeunload event listener
     window.addEventListener("beforeunload", handleBeforeUnload);
 
     // Cleanup the event listener when the component unmounts
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
 
   return (
     <FontSizeProvider>
