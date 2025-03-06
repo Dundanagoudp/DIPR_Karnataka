@@ -5,7 +5,7 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "../../config/firebaseConfig";
-import { LoginApi } from "../../services/LoginApi";
+import { LoginApi, startSession } from "../../services/LoginApi";
 import Cookies from "js-cookie";
 import {
   LoginContainer,
@@ -111,7 +111,7 @@ const Login = () => {
       const result = await confirmationResult.confirm(otpValue);
       const idToken = await result.user.getIdToken();
 
-      // Send only idToken to backend for session management
+      // Step 1: Login the user
       const loginResponse = await LoginApi(idToken);
 
       console.log("Login API Response:", loginResponse); // Debugging step
@@ -128,6 +128,10 @@ const Login = () => {
         });
 
         console.log("User ID stored in cookies:", Cookies.get("userId")); // Debugging
+
+        // Step 2: Start a session after successful login
+        const sessionResponse = await startSession(loginResponse.userId, "web");
+        console.log("Session Start API Response:", sessionResponse); // Log session response
 
         alert("Login successful!");
 

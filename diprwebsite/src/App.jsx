@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./theme/GlobalStyle";
@@ -26,39 +26,71 @@ import Profile from "./components/Profile/Profile";
 import FontSizeProvider from "./context/FontSizeProvider";
 import Signupnumber from "./screens/signuppage/SignUpNumber";
 import { LanguageProvider } from "./context/LanguageContext";
+import Cookies from "js-cookie";
+import { endSession } from "./services/LoginApi"; 
 
 const App = () => {
+  useEffect(() => {
+    // Get the userId from cookies
+    const userId = Cookies.get("userId");
+
+    // Function to call the endSession API
+    const handleBeforeUnload = async () => {
+      if (userId) {
+        try {
+          const response = await endSession(userId, "web"); // Call the endSession API
+          console.log("Session End API Response:", response); // Log the response
+          if (response.success) {
+            console.log("Session ended successfully.");
+          } else {
+            console.error("Failed to end session:", response.message);
+          }
+        } catch (err) {
+          console.error("Error ending session:", err);
+        }
+      }
+    };
+
+    // Attach the beforeunload event listener
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []); // Empty dependency array ensures this runs only once
+
   return (
     <FontSizeProvider>
-      <LanguageProvider> 
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Router>
-          <Routes>
-            <Route path="/" element={<Applayout />}>
-              <Route index element={<Home />} />
-              <Route path="/news/:id" element={<LatestNews />} />
-              <Route path="/magazinepages" element={<MagaZinepages />} />
-              <Route path="/Gallery" element={<Exclusive />} />
-              <Route path="/aboutuspage" element={<AboutUspage />} />
-              <Route path="/contactus" element={<ContactUs />} />
-              <Route path="/latestdata" element={<LatestData />} />
-              <Route path="/copyright-policy" element={<CopyrightPolicy />} />
-              <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
-              <Route path="/security-policy" element={<SecurityPolicy />} />
-              <Route path="/guidelines" element={<Guidelines />} />
-              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/help" element={<Help />} />
-              <Route path="/profile" element={<Profile />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/otp" element={<Otp />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/signupnumber" element={<Signupnumber/>}/>
-          </Routes>
-        </Router>
-      </ThemeProvider>
+      <LanguageProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Applayout />}>
+                <Route index element={<Home />} />
+                <Route path="/news/:id" element={<LatestNews />} />
+                <Route path="/magazinepages" element={<MagaZinepages />} />
+                <Route path="/Gallery" element={<Exclusive />} />
+                <Route path="/aboutuspage" element={<AboutUspage />} />
+                <Route path="/contactus" element={<ContactUs />} />
+                <Route path="/latestdata" element={<LatestData />} />
+                <Route path="/copyright-policy" element={<CopyrightPolicy />} />
+                <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
+                <Route path="/security-policy" element={<SecurityPolicy />} />
+                <Route path="/guidelines" element={<Guidelines />} />
+                <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+              <Route path="/login" element={<Login />} />
+              <Route path="/otp" element={<Otp />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/signupnumber" element={<Signupnumber />} />
+            </Routes>
+          </Router>
+        </ThemeProvider>
       </LanguageProvider>
     </FontSizeProvider>
   );

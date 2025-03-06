@@ -9,7 +9,7 @@ export const LoginApi = async (idToken) => {
         "Content-Type": "application/json", 
       },
       body: JSON.stringify({ idToken }), 
-      credentials: "include", // Ensures cookies are included with the request
+      credentials: "include", 
     });
 
     const data = await response.json();
@@ -21,8 +21,59 @@ export const LoginApi = async (idToken) => {
       throw new Error(data.message || "Something went wrong with the login.");
     }
 
-    return data; // Return the response data if successful
+    return data; 
   } catch (err) {
-    throw err; // Handle any errors that occur during the request
+    throw err; 
+  }
+};
+
+
+// start a session
+export const startSession = async (userId, platform = "web") => {
+  try {
+    const response = await fetch(`${VITE_API_URL}sessions/start`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, platform }),
+      credentials: "include", 
+    });
+
+    const data = await response.json();
+    console.log("Session Start API Response:", data);
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong with starting the session.");
+    }
+
+    return data; 
+  } catch (err) {
+    throw err; 
+  }
+};
+
+// end-sessions
+export const endSession = async (userId, platform = "web") => {
+  try {
+    const response = await fetch(`${VITE_API_URL}sessions/end`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, platform }), 
+      credentials: "include", 
+    });
+
+    const data = await response.json();
+    console.log("Session End API Response:", data);
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong with ending the session.");
+    }
+
+    return data; 
+  } catch (err) {
+    throw err; 
   }
 };
