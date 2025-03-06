@@ -33,7 +33,7 @@ const App = () => {
   useEffect(() => {
     // Get the userId from cookies
     const userId = Cookies.get("userId");
-
+    
     // Function to call the endSession API
     const handleBeforeUnload = async () => {
       if (userId) {

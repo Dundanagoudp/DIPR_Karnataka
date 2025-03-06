@@ -48,7 +48,7 @@ export const GetTotalVisitorApi = async () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // Include cookies if needed
+          credentials: "include", 
         });
     
         // Check if the response is OK
@@ -63,6 +63,6 @@ export const GetTotalVisitorApi = async () => {
         return data;
       } catch (err) {
         console.error("Total Visitors API Error:", err);
-        throw err; // Re-throw the error for handling in the calling function
+        throw err; 
       }
     };

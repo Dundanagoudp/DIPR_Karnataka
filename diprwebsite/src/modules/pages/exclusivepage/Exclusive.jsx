@@ -10,7 +10,7 @@ import {
   SecondFlexContainer,
 } from "../exclusivepage/Exclusive.styles";
 import Exclusiveshorts from "../../components/exclusivecom/exclusiveshorts/Exclusiveshorts";
-import Loader from "../../../components/loder/Loder"; // Import the Loader component
+import Loader from "../../../components/loder/Loder"; 
 
 const Exclusive = () => {
   const [isLoading, setIsLoading] = useState(true); // State to manage loading

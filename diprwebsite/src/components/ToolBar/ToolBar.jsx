@@ -30,7 +30,7 @@ const translations = {
   },
   Kannada: {
     searchPlaceholder: "ಸುದ್ದಿ ಹುಡುಕಿ",
-    fontSizeLabel: "ಫಾಂಟ್ ಗಾತ್ರ",
+    fontSizeLabel: "ಫಾಂಟ್ ",
     resetLabel: "ಮರುಹೊಂದಿಸಿ",
   },
 };

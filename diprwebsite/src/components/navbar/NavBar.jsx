@@ -8,12 +8,12 @@ import {
 } from "../navbar/NavBar.styles";
 import { NewsApi } from "../../services/categoryapi/CategoryApi";
 import { FontSizeContext } from "../../context/FontSizeProvider";
-import { LanguageContext } from "../../context/LanguageContext"; // Import LanguageContext
+import { LanguageContext } from "../../context/LanguageContext"; 
 
 const NavBar = () => {
   const [headlines, setHeadlines] = useState([]);
   const { fontSize } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext); // Get current language from context
+  const { language } = useContext(LanguageContext); 
 
   useEffect(() => {
     const fetchNews = async () => {

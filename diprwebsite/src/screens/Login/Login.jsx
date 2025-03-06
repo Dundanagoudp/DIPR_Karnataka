@@ -22,7 +22,7 @@ import {
   OtpInput,
 } from "../Login/Login.styles";
 import Logowithtitle from "../../components/Logowithtitle/Logowithtitle";
-import Loader from "../../components/apiloders/ApiLoders"; // Corrected import name
+import Loader from "../../components/apiloders/ApiLoders";
 
 const Login = () => {
   const [phone, setPhone] = useState("");
@@ -31,7 +31,7 @@ const Login = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [confirmationResult, setConfirmationResult] = useState(null);
-  const [showLoader, setShowLoader] = useState(true); // State to control loader visibility
+  const [showLoader, setShowLoader] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {

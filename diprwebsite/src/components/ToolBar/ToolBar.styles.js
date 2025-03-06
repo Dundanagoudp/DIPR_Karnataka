@@ -176,3 +176,4 @@ export const Select = styled.select`
     padding: ${theme.spacing(0.5)};
   }
 `;
+

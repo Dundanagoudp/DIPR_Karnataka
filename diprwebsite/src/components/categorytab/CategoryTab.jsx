@@ -10,7 +10,7 @@ import {
 } from "../categorytab/CategoryTab.styles";
 import ProfileImage from "../../assets/Profile.png";
 import { FontSizeContext } from "../../context/FontSizeProvider";
-import { LanguageContext } from "../../context/LanguageContext"; // Import LanguageContext
+import { LanguageContext } from "../../context/LanguageContext"; 
 
 // Define tab names in multiple languages
 const tabs = [
