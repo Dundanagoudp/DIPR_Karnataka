@@ -44,19 +44,20 @@ export const NewsSection = styled.div`
 
 export const MagazineSection = styled.div`
   flex: 1;
-  margin-right: ${theme.spacing(12)};
+  // margin-right: ${theme.spacing(12)};
+  margin-left: ${theme.spacing(3)};
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
-    margin-right: 7%;
+    // margin-right: 7%;
     margin-left: 0;
 
-    padding: ${theme.spacing(2)};
+    // padding: ${theme.spacing(2)};
   }
     
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    margin-left: 0;
-    margin-right: 0;
-    padding: ${theme.spacing(3)};
-  }
+  // @media (max-width: ${theme.breakpoints.mobile}) {
+  //   margin-left: 0;
+  //   margin-right: 0;
+  //   padding: ${theme.spacing(3)};
+  // }
 `;

@@ -18,7 +18,7 @@ import {
   StripText,
   FooterSection,
 } from "./Footer.styles";
-import logo from '../../assets/logo.png';
+import logo2 from '../../assets/logo2.png';
 import { FontSizeContext } from "../../context/FontSizeProvider";
 import { LanguageContext } from "../../context/LanguageContext";
 import { GetTotalVisitorApi, RegisterVisitorApi } from "../../services/viewsapi/ViewsApi";
@@ -27,7 +27,7 @@ const translations = {
   English: {
     disclaimerTitle: "Disclaimer :",
     disclaimerText:
-      "Please note that this page also provides links to the websites / web pages of Govt. Ministries/Departments/Organisations. The content of these websites are owned by the respective organisations and they may be contacted for any further information or suggestion.",
+      "This website is managed by the Karnataka State Government's Directorate of Information and Public Relations (DIPR). Please note that this page provides links to the websites/web pages of various Government Ministries, Departments, and Organizations of Karnataka. The content of these websites is owned by the respective organizations, and they may be contacted for any further information or suggestions.",
     websitePoliciesTitle: "Website Policies",
     copyrightPolicy: "Copyright Policy",
     hyperlinkingPolicy: "Hyperlinking Policy",
@@ -41,12 +41,12 @@ const translations = {
     visitorsCounter: "Visitors Counter: 212444",
     version: "Version: C64/KBN 1.3",
     footerStripText:
-      "Designed, Developed and Hosted by: Center for e-Governance - Web Portal, Government of Karnataka © 2025, All Rights Reserved.",
+      "Designed, Developed and Hosted by: Digi9 - Web Portal, Government of Karnataka © 2025, All Rights Reserved.",
   },
   Hindi: {
     disclaimerTitle: "अस्वीकरण :",
     disclaimerText:
-      "कृपया ध्यान दें कि इस पृष्ठ पर सरकारी मंत्रालयों/विभागों/संगठनों की वेबसाइटों/वेब पृष्ठों के लिंक भी प्रदान किए गए हैं। इन वेबसाइटों की सामग्री संबंधित संगठनों के स्वामित्व में है और किसी भी अतिरिक्त जानकारी या सुझाव के लिए उनसे संपर्क किया जा सकता है।",
+      "यह वेबसाइट कर्नाटक राज्य सरकार के सूचना और जनसंपर्क निदेशालय (डीआईपीआर) द्वारा प्रबंधित की जाती है। कृपया ध्यान दें कि यह पृष्ठ कर्नाटक के विभिन्न सरकारी मंत्रालयों, विभागों और संगठनों की वेबसाइटों/वेब पृष्ठों के लिंक प्रदान करता है। इन वेबसाइटों की सामग्री संबंधित संगठनों के स्वामित्व में है, और किसी भी अतिरिक्त जानकारी या सुझाव के लिए उनसे संपर्क किया जा सकता है।",
     websitePoliciesTitle: "वेबसाइट नीतियां",
     copyrightPolicy: "कॉपीराइट नीति",
     hyperlinkingPolicy: "हाइपरलिंकिंग नीति",
@@ -65,7 +65,7 @@ const translations = {
   Kannada: {
     disclaimerTitle: "ದೂರವಾಣಿ :",
     disclaimerText:
-      "ದಯವಿಟ್ಟು ಗಮನಿಸಿ: ಈ ಪುಟವು ಸರ್ಕಾರಿ ಸಚಿವಾಲಯಗಳು/ವಿಭಾಗಗಳು/ಸಂಸ್ಥೆಗಳ ವೆಬ್ಸೈಟ್/ವೆಬ್ ಪುಟಗಳಿಗೆ ಲಿಂಕ್‌ಗಳನ್ನು ಒದಗಿಸುತ್ತದೆ. ಈ ವೆಬ್ಸೈಟ್‌ಗಳ ವಿಷಯವು ಸಂಬಂಧಿತ ಸಂಸ್ಥೆಗಳ ಸ್ವಾಮ್ಯದಲ್ಲಿದೆ ಮತ್ತು ಯಾವುದೇ ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಅಥವಾ ಸಲಹೆಗಾಗಿ ಅವರನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು.",
+      "ಈ ವೆಬ್‌ಸೈಟ್ ಅನ್ನು ಕರ್ನಾಟಕ ರಾಜ್ಯ ಸರ್ಕಾರದ ಮಾಹಿತಿ ಮತ್ತು ಜನಸಂಪರ್ಕ ನಿರ್ದೇಶನಾಲಯ (ಡಿಐಪಿಆರ್) ನಿರ್ವಹಿಸುತ್ತದೆ. ದಯವಿಟ್ಟು ಗಮನಿಸಿ: ಈ ಪುಟವು ಕರ್ನಾಟಕದ ವಿವಿಧ ಸರ್ಕಾರಿ ಸಚಿವಾಲಯಗಳು, ವಿಭಾಗಗಳು ಮತ್ತು ಸಂಸ್ಥೆಗಳ ವೆಬ್‌ಸೈಟ್/ವೆಬ್ ಪುಟಗಳಿಗೆ ಲಿಂಕ್‌ಗಳನ್ನು ಒದಗಿಸುತ್ತದೆ. ಈ ವೆಬ್‌ಸೈಟ್‌ಗಳ ವಿಷಯವು ಸಂಬಂಧಿತ ಸಂಸ್ಥೆಗಳ ಸ್ವಾಮ್ಯದಲ್ಲಿದೆ ಮತ್ತು ಯಾವುದೇ ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಅಥವಾ ಸಲಹೆಗಾಗಿ ಅವರನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು.",
     websitePoliciesTitle: "ವೆಬ್‌ಸೈಟ್ ನೀತಿಗಳು",
     copyrightPolicy: "ಕೃತಿಸ್ವಾಮ್ಯ ನೀತಿ",
     hyperlinkingPolicy: "ಹೈಪರ್‌ಲಿಂಕಿಂಗ್ ನೀತಿ",
@@ -117,7 +117,6 @@ const Footer = () => {
     }
   };
 
-  // Use useEffect to call the fetchVisitorData function only once on component mount
   useEffect(() => {
     fetchVisitorData();
 
@@ -135,7 +134,7 @@ const Footer = () => {
       <FooterSection>
         <FooterContent style={{ fontSize: `${fontSize}%` }}>
           <LogoSection>
-            <Logo src={logo} alt="Government Logo" />
+            <Logo src={logo2} alt="Government Logo" />
           </LogoSection>
 
           <Section style={{ fontSize: `${fontSize}%` }}>

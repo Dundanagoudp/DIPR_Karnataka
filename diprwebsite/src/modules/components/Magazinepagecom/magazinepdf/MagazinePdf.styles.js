@@ -122,4 +122,46 @@ export const ReadMoreButton = styled.button`
 export const ReadMoreIcon = styled.span`
   font-size: ${theme.spacing(1.8)};
 `;
+export const TabsContainer = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1.5)};
+  margin-bottom: ${theme.spacing(2)};
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  scrollbar-color: transparent;
 
+  &::-webkit-scrollbar {
+    height: ${theme.spacing(0.5)};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${theme.colors.primary};
+    border-radius: ${theme.spacing(0.2)};
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(1)};
+  }
+`;
+
+export const Tab = styled.button`
+  background: none;
+  border: none;
+  font-size: ${theme.spacing(2)};
+  cursor: pointer;
+  color: ${(props) => (props.active ? theme.colors.primary : theme.colors.black)};
+  border-bottom: ${(props) => (props.active ? `${theme.spacing(0.375)} solid ${theme.colors.primary}` : "none")};
+  padding: ${theme.spacing(1)};
+  font-weight: bold;
+  font-family: ${theme.fonts.body};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.75)};
+    padding: ${theme.spacing(0.75)};
+  }
+`;

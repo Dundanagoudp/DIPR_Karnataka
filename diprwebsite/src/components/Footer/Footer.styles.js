@@ -55,7 +55,7 @@ export const FooterContent = styled.div`
 export const Section = styled.div`
   flex: 2;
   padding: 0 ${theme.spacing(5)};
-  text-align: left;
+  text-align: justify;
   border-right: 1px solid ${theme.colors.white};
   display: flex;
   flex-direction: column;

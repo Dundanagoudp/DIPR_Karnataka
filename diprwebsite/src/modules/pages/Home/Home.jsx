@@ -9,6 +9,8 @@ import {
   MagazineSection,
 } from "../../pages/Home/Home.styles";
 import Loader from "../../../components/loder/Loder";
+import Magzines from "../../components/magzinesdata/magzinenews";
+import AllNewsData from "../../components/allnewssection2/AllNewsData";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,10 +34,12 @@ const Home = () => {
           <Trending />
           <ContentWrapper>
             <NewsSection>
-              <AllNews />
+              {/* <AllNews /> */}
+              <Magzines/>
             </NewsSection>
             <MagazineSection>
-              <MagaZines />
+              {/* <MagaZines /> */}
+              <AllNewsData/>
             </MagazineSection>
           </ContentWrapper>
         </>

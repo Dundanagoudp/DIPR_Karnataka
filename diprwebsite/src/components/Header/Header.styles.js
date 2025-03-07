@@ -29,7 +29,7 @@ export const LogoSection = styled.div`
 `;
 
 export const Logo = styled.img`
-  max-width: ${theme.spacing(10)};
+  max-width: ${theme.spacing(9)};
   height: auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {

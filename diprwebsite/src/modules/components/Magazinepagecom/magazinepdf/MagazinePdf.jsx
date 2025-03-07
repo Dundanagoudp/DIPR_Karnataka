@@ -14,10 +14,12 @@ import {
   BookmarkIconWrapper,
   ReadMoreButton,
   ReadMoreIcon,
+  TabsContainer,
+  Tab,
 } from "../magazinepdf/MagazinePdf.styles";
-import { getMagazines } from "../../../../services/magazineApi/magazineService";
+import { getMagazines, MarchMagazines } from "../../../../services/magazineApi/magazineService"; // Import both APIs
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
-import { LanguageContext } from "../../../../context/LanguageContext"; // Import LanguageContext
+import { LanguageContext } from "../../../../context/LanguageContext";
 
 // Fallback data
 const fallbackMagazines = [
@@ -34,29 +36,45 @@ const fallbackMagazines = [
 ];
 
 const MagazinePdf = () => {
-  const [magazinesData, setMagazinesData] = useState([]);
+  const [activeTab, setActiveTab] = useState("Topics"); // State to manage active tab
+  const [magazinesData, setMagazinesData] = useState([]); // State for "Topics" data
+  const [marchMagazinesData, setMarchMagazinesData] = useState([]); // State for "March of Karnataka" data
   const [bookmarkedMagazines, setBookmarkedMagazines] = useState(new Set());
   const { fontSize } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext); 
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchMagazines = async () => {
       try {
-        const result = await getMagazines();
-        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
-          setMagazinesData(result.data);
-        } else {
-          console.warn("No magazine data found, using fallback data.");
-          setMagazinesData(fallbackMagazines);
+        if (activeTab === "Topics") {
+          const result = await getMagazines();
+          if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+            setMagazinesData(result.data);
+          } else {
+            console.warn("No magazine data found, using fallback data.");
+            setMagazinesData(fallbackMagazines);
+          }
+        } else if (activeTab === "March of Karnataka") {
+          const result = await MarchMagazines();
+          if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+            setMarchMagazinesData(result.data);
+          } else {
+            console.warn("No March of Karnataka data found.");
+            setMarchMagazinesData([]); // Set to empty array if no data
+          }
         }
       } catch (error) {
         console.error("Error fetching magazines:", error);
-        setMagazinesData(fallbackMagazines);
+        if (activeTab === "Topics") {
+          setMagazinesData(fallbackMagazines);
+        } else {
+          setMarchMagazinesData([]); // Set to empty array if error
+        }
       }
     };
 
     fetchMagazines();
-  }, []);
+  }, [activeTab]); // Fetch data when the active tab changes
 
   const formatDate = (dateString) => {
     if (!dateString) return "Unknown Date";
@@ -96,45 +114,65 @@ const MagazinePdf = () => {
     return item[field] || "No content available";
   };
 
+  // Render magazines based on the active tab
+  const renderMagazines = (magazines) => {
+    return magazines.map((magazine) => (
+      <MagazineCard key={magazine._id}>
+        <MagazineThumbnail
+          src={magazine.magazineThumbnail || "https://via.placeholder.com/300"}
+          alt={getLocalizedContent(magazine, "title")}
+        />
+        <MagazineDetails>
+          <Title style={{ fontSize: `${fontSize}%` }}>
+            {getLocalizedContent(magazine, "title")}
+          </Title>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: `${fontSize}%` }}>
+            <NewsMeta style={{ fontSize: `${fontSize}%` }}>
+              {magazine.isTrending && <span>Trending</span>}
+              <span style={{ fontSize: `${fontSize}%` }}>
+                {formatDate(magazine.createdTime)} • {magazine.readTime || "N/A"}
+              </span>
+            </NewsMeta>
+            <CiBookmark />
+          </div>
+
+          <MagazineMetacat>
+            <BookmarkIconWrapper
+              onClick={() => handleBookmarkClick(magazine._id)}
+              isBookmarked={bookmarkedMagazines.has(magazine._id)}
+            >
+            </BookmarkIconWrapper>
+          </MagazineMetacat>
+
+          <ReadMoreButton style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMoreClick(magazine.magazinePdf)}>
+            READ PDF <ReadMoreIcon><FaAngleDoubleRight /></ReadMoreIcon>
+          </ReadMoreButton>
+        </MagazineDetails>
+      </MagazineCard>
+    ));
+  };
+
   return (
     <Container style={{ fontSize: `${fontSize}%` }}>
       <Header style={{ fontSize: `${fontSize}%` }}>Magazine</Header>
+      <TabsContainer>
+        <Tab
+          active={activeTab === "Topics"}
+          onClick={() => setActiveTab("Topics")}
+        >
+          Varthajanapada
+        </Tab>
+        <Tab
+          active={activeTab === "March of Karnataka"}
+          onClick={() => setActiveTab("March of Karnataka")}
+        >
+          March of Karnataka
+        </Tab>
+      </TabsContainer>
       <Content style={{ fontSize: `${fontSize}%` }}>
-        {magazinesData.map((magazine) => (
-          <MagazineCard key={magazine._id}>
-            <MagazineThumbnail
-              src={magazine.magazineThumbnail || "https://via.placeholder.com/300"}
-              alt={getLocalizedContent(magazine, "title")}
-            />
-            <MagazineDetails>
-              <Title style={{ fontSize: `${fontSize}%` }}>
-                {getLocalizedContent(magazine, "title")}
-              </Title>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: `${fontSize}%` }}>
-                <NewsMeta style={{ fontSize: `${fontSize}%` }}>
-                  {magazine.isTrending && <span>Trending</span>}
-                  <span style={{ fontSize: `${fontSize}%` }}>
-                    {formatDate(magazine.createdTime)} • {magazine.readTime || "N/A"}
-                  </span>
-                </NewsMeta>
-                <CiBookmark />
-              </div>
-
-              <MagazineMetacat>
-                <BookmarkIconWrapper
-                  onClick={() => handleBookmarkClick(magazine._id)}
-                  isBookmarked={bookmarkedMagazines.has(magazine._id)}
-                >
-                </BookmarkIconWrapper>
-              </MagazineMetacat>
-
-              <ReadMoreButton style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMoreClick(magazine.magazinePdf)}>
-                READ PDF <ReadMoreIcon><FaAngleDoubleRight /></ReadMoreIcon>
-              </ReadMoreButton>
-            </MagazineDetails>
-          </MagazineCard>
-        ))}
+        {activeTab === "Topics" && renderMagazines(magazinesData)}
+        {activeTab === "March of Karnataka" && renderMagazines(marchMagazinesData)}
       </Content>
     </Container>
   );

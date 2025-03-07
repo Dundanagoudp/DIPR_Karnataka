@@ -16,9 +16,9 @@ import { LanguageContext } from "../../context/LanguageContext";
 const tabs = [
   { 
     name: { 
-      English: "All", 
-      Hindi: "सभी", 
-      Kannada: "ಎಲ್ಲಾ" 
+      English: "Home", 
+      Hindi: "होम", 
+      Kannada: "ಹೋಮ್" 
     }, 
     path: "/" 
   },

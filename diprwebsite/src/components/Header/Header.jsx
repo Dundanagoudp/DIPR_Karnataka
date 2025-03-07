@@ -10,7 +10,7 @@ import {
   CMSection,
   CMImage,
 } from './Header.styles';
-import logo from '../../assets/logo.png';
+import logo2 from '../../assets/logo2.png';
 import cm from '../../assets/cm.png';
 import { FontSizeContext } from '../../context/FontSizeProvider';
 
@@ -20,9 +20,12 @@ const Header = () => {
     <HeaderContainer>
       <LogoSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         <Link to="/">
-          <Logo src={logo} alt="Government of Karnataka Logo" />
+          <Logo src={logo2} alt="Government of Karnataka Logo" />
         </Link>
         <TitleSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+        <Subtitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+          Karnataka Varthe
+          </Subtitle>
           <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             Department of Information and Public Relations
           </Title>
