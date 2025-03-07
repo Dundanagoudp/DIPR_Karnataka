@@ -49,12 +49,12 @@ const Magzines = () => {
           }
         } else if (activeTab === "March of Karnataka") {
           const result = await MarchMagazines();
-          console.log("March of Karnataka API response:", result); // Debugging log
+          console.log("March of Karnataka API response:", result); 
           if (result.success && Array.isArray(result.data) && result.data.length > 0) {
             setMarchMagazines(result.data);
           } else {
             console.warn("No March of Karnataka data found.");
-            setMarchMagazines([]); // Set to empty array instead of fallback data
+            setMarchMagazines([]); 
           }
         }
       } catch (error) {
@@ -62,7 +62,7 @@ const Magzines = () => {
         if (activeTab === "Topics") {
           setMagazines(fallbackMagazines);
         } else {
-          setMarchMagazines([]); // Set to empty array instead of fallback data
+          setMarchMagazines([]); 
         }
       }
     };

@@ -27,7 +27,7 @@ const translations = {
   English: {
     disclaimerTitle: "Disclaimer :",
     disclaimerText:
-      "This website is managed by the Karnataka State Government's Directorate of Information and Public Relations (DIPR). Please note that this page provides links to the websites/web pages of various Government Ministries, Departments, and Organizations of Karnataka. The content of these websites is owned by the respective organizations, and they may be contacted for any further information or suggestions.",
+      "This website is managed by the Karnataka State Government's Directorate of Information and Public Relations (DIPR). Please note that this page provides links to the websites/web pages of various Government Ministries, Departments, and Organizations of Karnataka. ",
     websitePoliciesTitle: "Website Policies",
     copyrightPolicy: "Copyright Policy",
     hyperlinkingPolicy: "Hyperlinking Policy",
@@ -46,7 +46,7 @@ const translations = {
   Hindi: {
     disclaimerTitle: "अस्वीकरण :",
     disclaimerText:
-      "यह वेबसाइट कर्नाटक राज्य सरकार के सूचना और जनसंपर्क निदेशालय (डीआईपीआर) द्वारा प्रबंधित की जाती है। कृपया ध्यान दें कि यह पृष्ठ कर्नाटक के विभिन्न सरकारी मंत्रालयों, विभागों और संगठनों की वेबसाइटों/वेब पृष्ठों के लिंक प्रदान करता है। इन वेबसाइटों की सामग्री संबंधित संगठनों के स्वामित्व में है, और किसी भी अतिरिक्त जानकारी या सुझाव के लिए उनसे संपर्क किया जा सकता है।",
+      "यह वेबसाइट कर्नाटक राज्य सरकार के सूचना और जनसंपर्क निदेशालय (डीआईपीआर) द्वारा प्रबंधित की जाती है। कृपया ध्यान दें कि यह पृष्ठ कर्नाटक के विभिन्न सरकारी मंत्रालयों, विभागों और संगठनों की वेबसाइटों/वेब पृष्ठों के लिंक प्रदान करता है। इन वेबसाइटों की सामग्री संबंधित संगठनों के स्वामित्व में है, ",
     websitePoliciesTitle: "वेबसाइट नीतियां",
     copyrightPolicy: "कॉपीराइट नीति",
     hyperlinkingPolicy: "हाइपरलिंकिंग नीति",
@@ -65,7 +65,7 @@ const translations = {
   Kannada: {
     disclaimerTitle: "ದೂರವಾಣಿ :",
     disclaimerText:
-      "ಈ ವೆಬ್‌ಸೈಟ್ ಅನ್ನು ಕರ್ನಾಟಕ ರಾಜ್ಯ ಸರ್ಕಾರದ ಮಾಹಿತಿ ಮತ್ತು ಜನಸಂಪರ್ಕ ನಿರ್ದೇಶನಾಲಯ (ಡಿಐಪಿಆರ್) ನಿರ್ವಹಿಸುತ್ತದೆ. ದಯವಿಟ್ಟು ಗಮನಿಸಿ: ಈ ಪುಟವು ಕರ್ನಾಟಕದ ವಿವಿಧ ಸರ್ಕಾರಿ ಸಚಿವಾಲಯಗಳು, ವಿಭಾಗಗಳು ಮತ್ತು ಸಂಸ್ಥೆಗಳ ವೆಬ್‌ಸೈಟ್/ವೆಬ್ ಪುಟಗಳಿಗೆ ಲಿಂಕ್‌ಗಳನ್ನು ಒದಗಿಸುತ್ತದೆ. ಈ ವೆಬ್‌ಸೈಟ್‌ಗಳ ವಿಷಯವು ಸಂಬಂಧಿತ ಸಂಸ್ಥೆಗಳ ಸ್ವಾಮ್ಯದಲ್ಲಿದೆ ಮತ್ತು ಯಾವುದೇ ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಅಥವಾ ಸಲಹೆಗಾಗಿ ಅವರನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು.",
+      "ಈ ವೆಬ್‌ಸೈಟ್ ಅನ್ನು ಕರ್ನಾಟಕ ರಾಜ್ಯ ಸರ್ಕಾರದ ಮಾಹಿತಿ ಮತ್ತು ಜನಸಂಪರ್ಕ ನಿರ್ದೇಶನಾಲಯ (ಡಿಐಪಿಆರ್) ನಿರ್ವಹಿಸುತ್ತದೆ. ದಯವಿಟ್ಟು ಗಮನಿಸಿ: ಈ ಪುಟವು ಕರ್ನಾಟಕದ ವಿವಿಧ ಸರ್ಕಾರಿ ಸಚಿವಾಲಯಗಳು, ವಿಭಾಗಗಳು ಮತ್ತು ಸಂಸ್ಥೆಗಳ ವೆಬ್‌ಸೈಟ್/ವೆಬ್ ಪುಟಗಳಿಗೆ ಲಿಂಕ್‌ಗಳನ್ನು ಒದಗಿಸುತ್ತದೆ. ",
     websitePoliciesTitle: "ವೆಬ್‌ಸೈಟ್ ನೀತಿಗಳು",
     copyrightPolicy: "ಕೃತಿಸ್ವಾಮ್ಯ ನೀತಿ",
     hyperlinkingPolicy: "ಹೈಪರ್‌ಲಿಂಕಿಂಗ್ ನೀತಿ",
