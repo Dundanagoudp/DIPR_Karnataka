@@ -84,16 +84,16 @@ export const NewsCard = styled.div`
 
 export const NewsImage = styled.img`
   width: 100%;
-  height: 200px; /* Fixed height for all images */
+  height: 250px; 
   object-fit: cover;
   border-radius: ${theme.spacing(1)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    height: 150px; /* Adjust height for tablet */
+    height: 200px; 
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    height: 120px; /* Adjust height for mobile */
+    height: 200px; 
   }
 `;
 

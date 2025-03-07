@@ -38,7 +38,7 @@ export const NewsCard = styled.div`
   border-radius: ${theme.spacing(1.25)};
   overflow: hidden;
   box-shadow: 0 ${theme.spacing(0.5)} ${theme.spacing(1)} rgba(0, 0, 0, 0.1);
-  aspect-ratio: 1 / 1.5;
+  aspect-ratio: 1 / 1.4;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     aspect-ratio: 1 / 1.2;
@@ -73,8 +73,10 @@ export const NewsContent = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(1.5)};
-    
+    padding: ${theme.spacing(0.9)}; 
+    justify-content: center; 
+    align-items: left; 
+    text-align: left; 
   }
 `;
 
