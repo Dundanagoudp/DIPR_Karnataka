@@ -12,7 +12,7 @@ import {
   NewsText,
   ReadMore,
   NewsMeta,
-} from "../magzinesdata/MagzineNews.styles"; 
+} from "../magzinesdata/MagzineNews.styles"; // Import your styled components
 import { getMagazines, MarchMagazines } from "../../../services/magazineApi/magazineService"; // Import both APIs
 import { FontSizeContext } from "../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../context/LanguageContext";
@@ -49,12 +49,12 @@ const Magzines = () => {
           }
         } else if (activeTab === "March of Karnataka") {
           const result = await MarchMagazines();
-          console.log("March of Karnataka API response:", result); 
+          console.log("March of Karnataka API response:", result); // Debugging log
           if (result.success && Array.isArray(result.data) && result.data.length > 0) {
             setMarchMagazines(result.data);
           } else {
             console.warn("No March of Karnataka data found.");
-            setMarchMagazines([]); 
+            setMarchMagazines([]); // Set to empty array instead of fallback data
           }
         }
       } catch (error) {
@@ -62,7 +62,7 @@ const Magzines = () => {
         if (activeTab === "Topics") {
           setMagazines(fallbackMagazines);
         } else {
-          setMarchMagazines([]); 
+          setMarchMagazines([]); // Set to empty array instead of fallback data
         }
       }
     };
@@ -74,22 +74,11 @@ const Magzines = () => {
     if (language === "English") {
       return magazine.english?.[field] || magazine[field] || "No content available";
     } else if (language === "Hindi") {
-      return magazine.hindi?.[field] || magazine[field] || "कोई सामग्री उपलब्ध नहीं है";
+      return magazine.hindi?.[field] || magazine[field] || "No content available";
     } else if (language === "Kannada") {
-      return magazine.kannada?.[field] || magazine[field] || "ಯಾವುದೇ ವಿಷಯ ಲಭ್ಯವಿಲ್ಲ";
+      return magazine.kannada?.[field] || magazine[field] || "No content available";
     }
     return magazine[field] || "No content available";
-  };
-
-  const getLocalizedTabName = (tabName) => {
-    if (language === "English") {
-      return tabName;
-    } else if (language === "Hindi") {
-      return tabName === "Topics" ? "वार्ताजनपद" : "कर्नाटक का मार्च";
-    } else if (language === "Kannada") {
-      return tabName === "Topics" ? "ವಾರ್ತಾಜನಪದ" : "ಕರ್ನಾಟಕದ ಮಾರ್ಚ್";
-    }
-    return tabName;
   };
 
   const renderMagazines = (magazines) => {
@@ -120,7 +109,7 @@ const Magzines = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {language === "English" ? "Read more" : language === "Hindi" ? "और पढ़ें" : "ಇನ್ನಷ್ಟು ಓದಿ"}
+            Read more
           </ReadMore>
         </NewsContent>
       </NewsCard>
@@ -130,20 +119,20 @@ const Magzines = () => {
   return (
     <Container style={{ fontSize: `${fontSize}%` }}>
       <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-        {language === "English" ? "Magazine" : language === "Hindi" ? "पत्रिका" : "ಮ್ಯಾಗಜೀನ್"}
+        Magazine
       </Title>
       <TabsContainer>
         <Tab
           active={activeTab === "Topics"}
           onClick={() => setActiveTab("Topics")}
         >
-          {getLocalizedTabName("Topics")}
+          Varthajanapada
         </Tab>
         <Tab
           active={activeTab === "March of Karnataka"}
           onClick={() => setActiveTab("March of Karnataka")}
         >
-          {getLocalizedTabName("March of Karnataka")}
+          March of Karnataka
         </Tab>
       </TabsContainer>
 
