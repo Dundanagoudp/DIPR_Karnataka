@@ -8,7 +8,7 @@ import ToolBar from "../components/ToolBar/ToolBar";
 
 const Applayout = () => {
   return (
-    <div style={{ paddingBottom: '25px' }}> 
+    <div style={{ paddingBottom: '30px' }}> 
     <Header />
       <CategoryTab />
       <ToolBar />
