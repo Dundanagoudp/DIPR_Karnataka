@@ -74,11 +74,22 @@ const Magzines = () => {
     if (language === "English") {
       return magazine.english?.[field] || magazine[field] || "No content available";
     } else if (language === "Hindi") {
-      return magazine.hindi?.[field] || magazine[field] || "No content available";
+      return magazine.hindi?.[field] || magazine[field] || "कोई सामग्री उपलब्ध नहीं है";
     } else if (language === "Kannada") {
-      return magazine.kannada?.[field] || magazine[field] || "No content available";
+      return magazine.kannada?.[field] || magazine[field] || "ಯಾವುದೇ ವಿಷಯ ಲಭ್ಯವಿಲ್ಲ";
     }
     return magazine[field] || "No content available";
+  };
+
+  const getLocalizedTabName = (tabName) => {
+    if (language === "English") {
+      return tabName;
+    } else if (language === "Hindi") {
+      return tabName === "Topics" ? "वार्ताजनपद" : "कर्नाटक का मार्च";
+    } else if (language === "Kannada") {
+      return tabName === "Topics" ? "ವಾರ್ತಾಜನಪದ" : "ಕರ್ನಾಟಕದ ಮಾರ್ಚ್";
+    }
+    return tabName;
   };
 
   const renderMagazines = (magazines) => {
@@ -109,7 +120,7 @@ const Magzines = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {language === "English" ? "Read more" : language === "Hindi" ? "और पढ़ें" : "ಇನ್ನಷ್ಟು ಓದಿ"}
           </ReadMore>
         </NewsContent>
       </NewsCard>
@@ -119,20 +130,20 @@ const Magzines = () => {
   return (
     <Container style={{ fontSize: `${fontSize}%` }}>
       <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-        Magazine
+        {language === "English" ? "Magazine" : language === "Hindi" ? "पत्रिका" : "ಮ್ಯಾಗಜೀನ್"}
       </Title>
       <TabsContainer>
         <Tab
           active={activeTab === "Topics"}
           onClick={() => setActiveTab("Topics")}
         >
-          Varthajanapada
+          {getLocalizedTabName("Topics")}
         </Tab>
         <Tab
           active={activeTab === "March of Karnataka"}
           onClick={() => setActiveTab("March of Karnataka")}
         >
-          March of Karnataka
+          {getLocalizedTabName("March of Karnataka")}
         </Tab>
       </TabsContainer>
 
