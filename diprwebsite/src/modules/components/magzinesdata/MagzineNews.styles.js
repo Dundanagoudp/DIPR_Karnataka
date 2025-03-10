@@ -3,11 +3,13 @@ import theme from '../../../theme/Theme';
 
 export const Title = styled.h1`
   font-size: ${theme.spacing(3)};
-  margin-bottom: ${theme.spacing(2.5)};
+  margin-left: ${theme.spacing(2.5)};
+  margin-bottom: ${theme.spacing(0.5)};
   text-align: left;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: ${theme.spacing(2.5)};
+    margin-left: ${theme.spacing(3)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {

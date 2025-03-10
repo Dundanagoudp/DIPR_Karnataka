@@ -62,7 +62,7 @@ const Magzines = () => {
         if (activeTab === "Topics") {
           setMagazines(fallbackMagazines);
         } else {
-          setMarchMagazines([]); // Set to empty array instead of fallback data
+          setMarchMagazines([]); 
         }
       }
     };
@@ -117,10 +117,17 @@ const Magzines = () => {
   };
 
   return (
-    <Container style={{ fontSize: `${fontSize}%` }}>
-      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+    <>
+    <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%`, } : undefined}>
         Magazine
       </Title>
+<Container style={{ fontSize: `${fontSize}%`}}>
+      {/* Title Section */}
+      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%`, } : undefined}>
+        {/* Magazine */}
+      </Title>
+
+      {/* Tabs Section */}
       <TabsContainer>
         <Tab
           active={activeTab === "Topics"}
@@ -136,9 +143,13 @@ const Magzines = () => {
         </Tab>
       </TabsContainer>
 
+      {/* Content Section */}
       {activeTab === "Topics" && renderMagazines(magazines)}
       {activeTab === "March of Karnataka" && renderMagazines(marchMagazines)}
     </Container>
+
+    </>
+  
   );
 };
 
