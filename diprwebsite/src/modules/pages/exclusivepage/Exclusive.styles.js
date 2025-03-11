@@ -30,7 +30,7 @@ export const FlexContainer = styled.div`
   }
 
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   margin-left: 100px;
   margin-right: 40px;
   padding: 20px;
