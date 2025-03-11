@@ -22,7 +22,6 @@ export const Container = styled.div`
   padding: ${theme.spacing(2.5)};
   margin: 0 auto;
   display: grid;
-  margin-top: ${theme.spacing(-4.5)};
   grid-template-columns: repeat(2, 1fr); 
   gap: ${theme.spacing(2)};
 
