@@ -171,6 +171,7 @@ export const FlexContainer2 = styled.div`
   }
 `;
 
+
 export const NavContainer = styled.nav`
   background-color: ${theme.colors.error};
   margin: ${theme.spacing(2)} 0;
@@ -219,6 +220,8 @@ export const FlexContainer = styled.div`
   margin-top: 200px;
   position: relative;
   bottom: ${theme.spacing(2)};
+  // left: ${theme.spacing(2)};
+  // right: ${theme.spacing(2)};
   z-index: 3; 
   padding: ${theme.spacing(2)};
   border-radius: ${theme.spacing(1)};
@@ -229,6 +232,7 @@ export const FlexContainer = styled.div`
     bottom: ${theme.spacing(1)};
     left: ${theme.spacing(1)};
     right: ${theme.spacing(1)};
+    // padding: ${theme.spacing(2)};
     padding-right: ${theme.spacing(4)};
   }
 `;
@@ -245,6 +249,7 @@ export const NestedUser = styled.span`
   font-weight: 600;
   color: ${(props) => props.theme.colors.primary};
 `;
+
 
 export const Container = styled.div`
   margin: auto;
@@ -273,6 +278,7 @@ export const Content = styled.div`
   margin-right: ${theme.spacing(4)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
+    // grid-template-columns: repeat(2, 1fr);
     gap: ${theme.spacing(3)};
     margin-right: 0;
   }
@@ -298,26 +304,14 @@ export const VideoThumbnail = styled.div`
   width: 100%;
   height: auto;
   border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
   margin-bottom: ${theme.spacing(1.5)};
   overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Black overlay */
-    z-index: 1;
-  }
 
   img {
     width: 100%;
     height: auto;
     object-fit: cover;
-    position: relative;
-    z-index: 0;
   }
 
   svg {
@@ -328,7 +322,6 @@ export const VideoThumbnail = styled.div`
     color: #fff;
     opacity: 0.8;
     transition: opacity 0.2s ease;
-    z-index: 2;
 
     &:hover {
       opacity: 1;
@@ -389,12 +382,12 @@ export const CommentInput = styled.input`
   background: ${theme.colors.background};
   border-radius: ${theme.spacing(1.875)};
   border: ${theme.spacing(0.125)} solid ${theme.colors.info};
-  padding: ${theme.spacing(0.7)} ${theme.spacing(8)} ${theme.spacing(0.7)} ${theme.spacing(1)};
+  padding: ${theme.spacing(0.7)} ${theme.spacing(8)} ${theme.spacing(0.7)} ${theme.spacing(1)}; /* Extra padding for button */
   width: 100%;
   font-size: ${theme.spacing(1.2)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding-right: ${theme.spacing(6)};
+    padding-right: ${theme.spacing(6)}; /* Less padding on mobile */
   }
 `;
 
