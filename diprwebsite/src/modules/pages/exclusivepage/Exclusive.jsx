@@ -13,7 +13,7 @@ import Exclusiveshorts from "../../components/exclusivecom/exclusiveshorts/Exclu
 import Loader from "../../../components/loder/Loder"; 
 
 const Exclusive = () => {
-  const [isLoading, setIsLoading] = useState(true); // State to manage loading
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
     // Simulate a 3-second loading time
