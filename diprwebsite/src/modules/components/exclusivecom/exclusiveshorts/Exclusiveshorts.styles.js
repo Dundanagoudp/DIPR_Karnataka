@@ -304,14 +304,28 @@ export const VideoThumbnail = styled.div`
   width: 100%;
   height: auto;
   border-radius: 8px;
-    background: rgba(0, 0, 0, 0.5);
   margin-bottom: ${theme.spacing(1.5)};
   overflow: hidden;
+
+  /* Black Overlay */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1; /* Ensure it sits above the image */
+    pointer-events: none; /* Allow clicks to pass through the overlay */
+  }
 
   img {
     width: 100%;
     height: auto;
     object-fit: cover;
+    position: relative;
+    z-index: 0; /* Ensure the image is below the overlay */
   }
 
   svg {
@@ -322,12 +336,14 @@ export const VideoThumbnail = styled.div`
     color: #fff;
     opacity: 0.8;
     transition: opacity 0.2s ease;
+    z-index: 2; /* Ensure the icon is above the overlay */
 
     &:hover {
       opacity: 1;
     }
   }
 `;
+
 
 export const VideoDetails = styled.div`
   display: flex;
