@@ -9,7 +9,6 @@ import Loader from "../../../components/loder/Loder";
 const MagaZinepages = () => {
   const [isLoading, setIsLoading] = useState(true);
   
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);

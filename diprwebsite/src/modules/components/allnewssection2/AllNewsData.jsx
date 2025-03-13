@@ -22,7 +22,7 @@ import { CategoryApi, NewsApi } from "../../../services/categoryapi/CategoryApi"
 import { trackClick } from "../../../services/newsApi/NewsApi";
 import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
-import { LanguageContext } from "../../../context/LanguageContext"; 
+import { LanguageContext } from "../../../context/LanguageContext";
 
 const AllNewsData = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -30,7 +30,7 @@ const AllNewsData = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const { fontSize } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext); 
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -43,7 +43,6 @@ const AllNewsData = () => {
         console.error("Error fetching categories:", error);
       }
     };
-
     fetchCategories();
   }, []);
 
@@ -51,7 +50,7 @@ const AllNewsData = () => {
     const fetchNews = async () => {
       try {
         const response = await NewsApi(activeTab);
-        if (response?.data && Array.isArray(response.data)) { // Fixed syntax here
+        if (response?.data && Array.isArray(response.data)) {
           setNewsData(response.data);
         } else {
           setNewsData([]);
@@ -61,7 +60,6 @@ const AllNewsData = () => {
         setNewsData([]);
       }
     };
-
     fetchNews();
   }, [activeTab]);
 
@@ -72,7 +70,6 @@ const AllNewsData = () => {
       navigate("/login");
       return;
     }
-
     try {
       await trackClick({ newsId, userId });
       navigate(`/news/${newsId}`);
@@ -89,21 +86,14 @@ const AllNewsData = () => {
       navigate("/login");
       return;
     }
-    // Logic to add comment can be handled within the AddComments component
   };
 
   const shareOnFacebook = (url) => {
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-      "_blank"
-    );
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank");
   };
 
   const shareOnTwitter = (url) => {
-    window.open(
-      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`,
-      "_blank"
-    );
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, "_blank");
   };
 
   const copyLink = (url) => {
@@ -116,36 +106,22 @@ const AllNewsData = () => {
     const date = new Date(dateString);
     return isNaN(date.getTime())
       ? "Invalid Date"
-      : date.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
+      : date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
   };
 
-  // Function to get the correct language content
   const getLocalizedContent = (item, field) => {
-    if (language === "English") {
-      return item[field] || "No content available";
-    } else if (language === "Hindi") {
-      return item.hindi?.[field] || item[field] || "No content available";
-    } else if (language === "Kannada") {
-      return item.kannada?.[field] || item[field] || "No content available";
-    }
+    if (language === "English") return item[field] || "No content available";
+    if (language === "Hindi") return item.hindi?.[field] || item[field] || "No content available";
+    if (language === "Kannada") return item.kannada?.[field] || item[field] || "No content available";
     return item[field] || "No content available";
   };
 
   const getLocalizedCategoryName = (category) => {
-    if (language === "English") {
-      return category.name || "No content available";
-    } else if (language === "Hindi") {
-      return category.hindi || category.name || "No content available";
-    } else if (language === "Kannada") {
-      return category.kannada || category.name || "No content available";
-    }
+    if (language === "English") return category.name || "No content available";
+    if (language === "Hindi") return category.hindi || category.name || "No content available";
+    if (language === "Kannada") return category.kannada || category.name || "No content available";
     return category.name || "No content available";
   };
-
 
   return (
     <Container>
@@ -163,13 +139,9 @@ const AllNewsData = () => {
         ))}
       </TabsContainer>
 
-
       {newsData.map((news) => (
         <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
-          <NewsImage
-            src={news.newsImage || "https://via.placeholder.com/300"}
-            alt={getLocalizedContent(news, "title")}
-          />
+          <NewsImage src={news.newsImage || "https://via.placeholder.com/300"} alt={getLocalizedContent(news, "title")} />
           <NewsContent style={{ fontSize: `${fontSize}%` }}>
             <NewsHeader style={{ fontSize: `${fontSize}%` }}>
               {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
@@ -177,22 +149,11 @@ const AllNewsData = () => {
             <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               {getLocalizedContent(news, "title")}
             </NewsTitle>
-
             <ShareIcons>
-              <FaFacebook
-                onClick={() => shareOnFacebook(news.url)}
-                style={{ cursor: "pointer" }}
-              />
-              <FaTwitter
-                onClick={() => shareOnTwitter(news.url)}
-                style={{ cursor: "pointer" }}
-              />
-              <FaLink
-                onClick={() => copyLink(news.url)}
-                style={{ cursor: "pointer" }}
-              />
+              <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
+              <FaTwitter onClick={() => shareOnTwitter(news.url)} style={{ cursor: "pointer" }} />
+              <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} />
             </ShareIcons>
-
             <NewsText
               style={{
                 display: "-webkit-box",
@@ -204,13 +165,10 @@ const AllNewsData = () => {
             >
               {getLocalizedContent(news, "description")}
             </NewsText>
-
             <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>
               Read more
             </ReadMore>
-
             <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
-
             <NewsMeta style={{ fontSize: `${fontSize}%` }}>
               {news.isTrending && <TrendingTag>Trending</TrendingTag>}
               <span style={{ fontSize: `${fontSize}%` }}>
