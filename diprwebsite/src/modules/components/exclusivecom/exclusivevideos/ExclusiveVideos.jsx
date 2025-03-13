@@ -54,30 +54,21 @@ const ExclusiveVideos = () => {
   const [debouncingLike, setDebouncingLike] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch userId from cookies
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
     setUserId(storedUserId);
   }, []);
 
-  // Fetch videos and initialize likes and comments
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const response = await getLongVideos();
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
-
-          // Initialize like counts for videos
           const initialLikeCounts = {};
-          response.data.forEach((video) => {
-            initialLikeCounts[video._id] = video.total_Likes || 0;
-          });
-          setLikeCounts(initialLikeCounts);
-
-          // Initialize comments and their likes
           const initialComments = {};
           response.data.forEach((video) => {
+            initialLikeCounts[video._id] = video.total_Likes || 0;
             if (video.Comments && Array.isArray(video.Comments)) {
               initialComments[video._id] = video.Comments.map((comment) => ({
                 ...comment,
@@ -85,12 +76,12 @@ const ExclusiveVideos = () => {
               }));
             }
           });
+          setLikeCounts(initialLikeCounts);
           setComments(initialComments);
         } else {
           setVideosData([]);
         }
       } catch (error) {
-        console.error("Error fetching videos:", error);
         setVideosData([]);
       }
     };
@@ -98,46 +89,36 @@ const ExclusiveVideos = () => {
     fetchVideos();
   }, []);
 
-  // Handle video play
   const handlePlayClick = (videoId) => {
     setPlayingVideoId(videoId);
   };
 
-  // Handle video hover
   const handleHoverVideo = (videoId, isHovered) => {
     const videoElement = document.getElementById(videoId);
     if (videoElement) {
-      if (isHovered && playingVideoId === videoId) {
-        videoElement.play();
-      } else {
-        videoElement.pause();
-      }
+      isHovered && playingVideoId === videoId ? videoElement.play() : videoElement.pause();
     }
   };
 
-  // Handle like click
   const handleLikeClick = async (videoId) => {
     if (!userId) {
-      // Store the current URL (/Gallery) in a cookie
       Cookies.set("redirectUrl", window.location.pathname);
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
       return;
     }
 
-    if (debouncingLike) return; // Prevent further clicks during debounce
+    if (debouncingLike) return;
 
-    setDebouncingLike(true); // Start debouncing
+    setDebouncingLike(true);
 
     setTimeout(async () => {
       try {
         const isLiked = likedVideos.has(videoId);
         const likeData = { longVideoId: videoId, userId };
-
         const response = await likeLongVideo(likeData);
         const newLikedVideos = new Set(likedVideos);
         isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
         setLikedVideos(newLikedVideos);
-
         setLikeCounts((prevCounts) => ({
           ...prevCounts,
           [videoId]: response.data?.total_Likes || prevCounts[videoId] + (isLiked ? -1 : 1),
@@ -145,12 +126,11 @@ const ExclusiveVideos = () => {
       } catch (error) {
         console.error("Error liking video:", error);
       } finally {
-        setDebouncingLike(false); // Reset debouncing state after the action is done
+        setDebouncingLike(false);
       }
     }, 500);
   };
 
-  // Handle comment input change for a specific video
   const handleCommentChange = (videoId, e) => {
     setNewComments((prevComments) => ({
       ...prevComments,
@@ -158,12 +138,10 @@ const ExclusiveVideos = () => {
     }));
   };
 
-  // Handle adding a comment for a specific video
   const handleAddComment = async (videoId) => {
     if (!userId) {
-      // Store the current URL (/Gallery) in a cookie
       Cookies.set("redirectUrl", window.location.pathname);
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
       return;
     }
 
@@ -178,56 +156,41 @@ const ExclusiveVideos = () => {
     try {
       const response = await LongVideoaddComment(commentData);
       const newComment = response.data?.comment;
-
-      // Update the comment section to reflect the new comment
       setComments((prevComments) => ({
         ...prevComments,
         [videoId]: [...(prevComments[videoId] || []), newComment],
       }));
-
-      // Clear the new comment input
       setNewComments((prevComments) => ({
         ...prevComments,
         [videoId]: "",
       }));
       setError("");
-
-      // Reload the page to reflect the new comment
       window.location.reload();
     } catch (err) {
       setError("Failed to add comment. Please try again.");
     }
   };
 
-  // Toggle comment section
   const toggleCommentSection = (videoId) => {
     if (!userId) {
-      // Store the current URL (/Gallery) in a cookie
       Cookies.set("redirectUrl", window.location.pathname);
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
       return;
     }
 
-    if (openCommentSection === videoId) {
-      setOpenCommentSection(null);
-    } else {
-      setOpenCommentSection(videoId);
-    }
+    setOpenCommentSection(openCommentSection === videoId ? null : videoId);
   };
 
-  // Handle like for a comment
   const handleLikeComment = async (commentId, videoId) => {
     if (!userId) {
-      // Store the current URL (/Gallery) in a cookie
       Cookies.set("redirectUrl", window.location.pathname);
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
       return;
     }
 
     try {
       const likeData = { commentId, userId };
       const response = await likeLongVideo(likeData);
-
       setComments((prevComments) => ({
         ...prevComments,
         [videoId]: prevComments[videoId].map((comment) =>
@@ -285,30 +248,34 @@ const ExclusiveVideos = () => {
               <InteractionContainer>
                 <LikeContainer>
                   <FlexContainer2>
-                    <AiOutlineLike style={{fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer"}}
+                    <AiOutlineLike
+                      style={{ fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer" }}
                       size={30}
                       color={likedVideos.has(video._id) ? "blue" : "#000"}
                       onClick={() => handleLikeClick(video._id)}
                     />
                     <LikeCount style={{ color: "#000" }}>{likeCounts[video._id] || 0}</LikeCount>
-                    <FaRegComment style={{cursor: "pointer"}} size={25} onClick={() => toggleCommentSection(video._id)} />
+                    <FaRegComment style={{ cursor: "pointer" }} size={25} onClick={() => toggleCommentSection(video._id)} />
                   </FlexContainer2>
                 </LikeContainer>
 
                 <CommentContainer>
-                  <CommentInput style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+                  <CommentInput
+                    style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
                     type="text"
                     value={newComments[video._id] || ""}
                     onChange={(e) => handleCommentChange(video._id, e)}
                     placeholder="Add a comment..."
                   />
-                  <CommentButton style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleAddComment(video._id)}>
+                  <CommentButton
+                    style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+                    onClick={() => handleAddComment(video._id)}
+                  >
                     Add Comment
                   </CommentButton>
                 </CommentContainer>
               </InteractionContainer>
 
-              {/* Animate the opening and closing of the comment section */}
               <AnimatePresence>
                 {openCommentSection === video._id && (
                   <motion.div
@@ -336,14 +303,17 @@ const ExclusiveVideos = () => {
                               </Time>
                             </UserHeader>
                             <CommentText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.comment}</CommentText>
-                            <Actions >
+                            <Actions>
                               <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                                 <FaComment />
                               </ActionIcon>
                               <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                                 <FaRetweet />
-                              </ActionIcon >
-                              <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleLikeComment(comment._id, video._id)}>
+                              </ActionIcon>
+                              <ActionIcon
+                                style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+                                onClick={() => handleLikeComment(comment._id, video._id)}
+                              >
                                 <FaHeart /> {comment.likes || 0}
                               </ActionIcon>
                             </Actions>

@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { FaPlay, FaRegComment, FaHeart, FaComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Content,
@@ -44,36 +44,28 @@ const Exclusiveshorts = () => {
   const [openCommentSection, setOpenCommentSection] = useState(null);
   const { fontSize } = useContext(FontSizeContext);
   const [debouncingLike, setDebouncingLike] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
-  // Fetch userId from cookies
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
     setUserId(storedUserId);
   }, []);
 
-  // Fetch video data
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const response = await getVideos();
         if (response.success && Array.isArray(response.data)) {
           setVideosData(response.data);
-          console.log("Received video data:", response.data);
-
-          // Initialize like counts with the data from API response
           const initialLikeCounts = {};
-          response.data.forEach((video) => {
-            initialLikeCounts[video._id] = Math.max(video.total_Likes || 0, 0);
-          });
-          setLikeCounts(initialLikeCounts);
-
           const initialComments = {};
           response.data.forEach((video) => {
+            initialLikeCounts[video._id] = Math.max(video.total_Likes || 0, 0);
             if (video.Comments && Array.isArray(video.Comments)) {
               initialComments[video._id] = video.Comments;
             }
           });
+          setLikeCounts(initialLikeCounts);
           setComments(initialComments);
         } else {
           setVideosData([]);
@@ -82,41 +74,26 @@ const Exclusiveshorts = () => {
         setVideosData([]);
       }
     };
-
     fetchVideos();
   }, []);
 
-  // Handle video play
-  const handlePlayClick = (videoId) => {
-    setPlayingVideoId(videoId);
-  };
+  const handlePlayClick = (videoId) => setPlayingVideoId(videoId);
 
-  // Handle like click
   const handleLikeClick = async (videoId) => {
     if (!userId) {
       Cookies.set("redirectUrl", window.location.pathname);
-      navigate("/login"); // Redirect to login page if user is not logged in
+      navigate("/login");
       return;
     }
-
     if (debouncingLike) return;
-
     setDebouncingLike(true);
-
     setTimeout(async () => {
       try {
         const isLiked = likedVideos.has(videoId);
-        const likeData = { videoId: videoId, userId };
-
-        // Send like request
-        await ShortlikeVideo(likeData);
-
+        await ShortlikeVideo({ videoId, userId });
         const newLikedVideos = new Set(likedVideos);
         isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId);
         setLikedVideos(newLikedVideos);
-        console.log("likedVideos:", likedVideos);
-
-        // Update like count ensuring it doesn't go below 0
         setLikeCounts((prevCounts) => ({
           ...prevCounts,
           [videoId]: isLiked ? Math.max(prevCounts[videoId] - 1, 0) : prevCounts[videoId] + 1,
@@ -126,44 +103,31 @@ const Exclusiveshorts = () => {
       } finally {
         setDebouncingLike(false);
       }
-    }, 500); // 500ms debounce
+    }, 500);
   };
 
-  // Handle comment input change
   const handleCommentChange = (e, videoId) => {
-    setNewComments((prev) => ({
-      ...prev,
-      [videoId]: e.target.value,
-    }));
+    setNewComments((prev) => ({ ...prev, [videoId]: e.target.value }));
   };
 
-  // Handle adding a comment
   const handleAddComment = async (videoId) => {
     if (!userId) {
       Cookies.set("redirectUrl", window.location.pathname);
-      navigate("/login"); // Redirect to login page if user is not logged in
+      navigate("/login");
       return;
     }
-
     const commentText = newComments[videoId]?.trim();
     if (!commentText) {
       setError("Please enter a comment.");
       return;
     }
-
-    const commentData = { text: commentText, videoId, userId };
-
     try {
-      const response = await ShortVideoaddComment(commentData);
+      const response = await ShortVideoaddComment({ text: commentText, videoId, userId });
       setComments((prevComments) => ({
         ...prevComments,
         [videoId]: [...(prevComments[videoId] || []), response.comment],
       }));
-
-      setNewComments((prev) => ({
-        ...prev,
-        [videoId]: "",
-      }));
+      setNewComments((prev) => ({ ...prev, [videoId]: "" }));
       setError("");
       window.location.reload();
     } catch (err) {
@@ -171,25 +135,20 @@ const Exclusiveshorts = () => {
     }
   };
 
-  // Toggle comment section visibility
   const toggleCommentSection = (videoId) => {
     setOpenCommentSection((prev) => (prev === videoId ? null : videoId));
   };
 
-  // Handle like for a comment
   const handleLikeComment = async (commentId, videoId) => {
     if (!userId) {
       Cookies.set("redirectUrl", window.location.pathname);
-      navigate("/login"); // Redirect to login page if user is not logged in
+      navigate("/login");
       return;
     }
-
     setComments((prevComments) => ({
       ...prevComments,
       [videoId]: prevComments[videoId].map((comment) =>
-        comment._id === commentId
-          ? { ...comment, likes: (comment.likes || 0) + 1 }
-          : comment
+        comment._id === commentId ? { ...comment, likes: (comment.likes || 0) + 1 } : comment
       ),
     }));
   };
@@ -230,9 +189,7 @@ const Exclusiveshorts = () => {
                     color={likedVideos.has(video._id) ? "blue" : "#000"}
                     onClick={() => handleLikeClick(video._id)}
                   />
-                  <LikeCount style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    {likeCounts[video._id] || 0}
-                  </LikeCount>
+                  <LikeCount style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{likeCounts[video._id] || 0}</LikeCount>
                   <FaRegComment
                     style={{ fontSize: fontSize !== 100 ? `${fontSize}%` : undefined, cursor: "pointer" }}
                     size={25}
@@ -269,17 +226,15 @@ const Exclusiveshorts = () => {
                             </UserHeader>
                             <CommentText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.comment}</CommentText>
                             <Actions>
-                             <Actions >
-                                                     <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                                                             <FaComment />
-                                                           </ActionIcon>
-                                                           <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                                                             <FaRetweet />
-                                                           </ActionIcon >
-                                                           <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleLikeComment(comment._id, video._id)}>
-                                                             <FaHeart /> {comment.likes || 0}
-                                                           </ActionIcon>
-                                                         </Actions>
+                              <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                                <FaComment />
+                              </ActionIcon>
+                              <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                                <FaRetweet />
+                              </ActionIcon>
+                              <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleLikeComment(comment._id, video._id)}>
+                                <FaHeart /> {comment.likes || 0}
+                              </ActionIcon>
                             </Actions>
                           </CommentContent>
                         </Comment>
