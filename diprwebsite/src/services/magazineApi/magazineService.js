@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const getMagazines = async () => {
   try {
-    const response = await fetch(`${BASE_URL}api/magazine2`, {
+    const response = await fetch(`${BASE_URL}api/magazine`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const getMagazines = async () => {
 
 export const MarchMagazines = async () => {
   try {
-    const response = await fetch(`${BASE_URL}api/magazine1`, {
+    const response = await fetch(`${BASE_URL}api/magazine2`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
