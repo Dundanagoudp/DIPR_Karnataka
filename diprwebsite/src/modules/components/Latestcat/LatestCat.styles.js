@@ -182,6 +182,7 @@ export const NewsTextWrapper = styled.p`
     font-size: ${theme.spacing(1.75)};
     column-count: 1; /* Switch to single column on smaller screens */
   }
+    
 `;
 
 export const IconWrapper = styled.div`
