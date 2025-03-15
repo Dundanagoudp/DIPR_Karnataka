@@ -78,7 +78,7 @@ export const Content = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(1, 1fr); 
     gap: ${theme.spacing(2)};
     margin-right: 0;
     padding: 0.5rem;
@@ -183,4 +183,12 @@ export const BookmarkIconWrapper = styled.div`
   &:hover {
     color: ${theme.colors.primary};
   }
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
 `;

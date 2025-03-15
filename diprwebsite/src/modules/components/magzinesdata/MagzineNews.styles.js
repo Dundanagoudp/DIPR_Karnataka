@@ -203,3 +203,41 @@ export const NewsMeta = styled.div`
     font-size: ${theme.spacing(1.5)};
   }
 `;
+
+// new pagintaion
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #ddd;
+  // position: sticky;
+  bottom: 0;
+  z-index: 100;
+`;
+
+export const ViewAllButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: 2px solid #007bff;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  outline: none;
+  min-width: 140px;
+
+  &:hover {
+    background-color: #fff;
+    color: #007bff;
+  }
+`;

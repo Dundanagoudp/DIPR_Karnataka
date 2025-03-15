@@ -8,14 +8,20 @@ import {
   NewsImage,
   NewsContent,
   NewsHeader,
-  NewsTitle,
   NewsText,
   ReadMore,
   NewsMeta,
-} from "../magzinesdata/MagzineNews.styles";
-import { getMagazines, MarchMagazines } from "../../../services/magazineApi/magazineService";
+  PaginationWrapper, // New wrapper for pagination
+  ViewAllButton,
+} from "../magzinesdata/MagzineNews.styles"; // Updated imports
+import {
+  getMagazines,
+  MarchMagazines,
+} from "../../../services/magazineApi/magazineService";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../context/LanguageContext";
+import { useNavigate } from "react-router-dom";
+import { Pagination } from "@mui/material";
 
 const fallbackMagazines = [
   {
@@ -33,8 +39,14 @@ const Magzines = () => {
   const [activeTab, setActiveTab] = useState("Topics");
   const [magazines, setMagazines] = useState([]);
   const [marchMagazines, setMarchMagazines] = useState([]);
+
+  const [topicsPage, setTopicsPage] = useState(1);
+  const [marchPage, setMarchPage] = useState(1);
+  const itemsPerPage = 8;
+
   const { fontSize } = useContext(FontSizeContext);
   const { language } = useContext(LanguageContext);
+  const navigate = useNavigate();
 
   const fetchMagazines = useCallback(async () => {
     try {
@@ -64,19 +76,24 @@ const Magzines = () => {
 
   useEffect(() => {
     fetchMagazines();
+    setTopicsPage(1);
+    setMarchPage(1);
   }, [fetchMagazines]);
 
   const getLocalizedContent = useCallback(
     (magazine, field) => {
-      const localizedField = magazine[language.toLowerCase()]?.[field] || magazine[field] || "No content available";
-      return localizedField;
+      return (
+        magazine[language.toLowerCase()]?.[field] ||
+        magazine[field] ||
+        "No content available"
+      );
     },
     [language]
   );
 
   const renderMagazines = useCallback(
-    (magazines) => {
-      return magazines.map((magazine) => (
+    (magazinesArray) => {
+      return magazinesArray.map((magazine) => (
         <NewsCard key={magazine.id || magazine._id}>
           <NewsImage
             src={magazine.magazineThumbnail || "https://via.placeholder.com/300"}
@@ -85,21 +102,26 @@ const Magzines = () => {
           />
           <NewsContent>
             <NewsHeader>{getLocalizedContent(magazine, "title")}</NewsHeader>
-            <NewsTitle>{getLocalizedContent(magazine, "title")}</NewsTitle>
             <NewsText>
               {getLocalizedContent(magazine, "description")
                 .split(" ")
                 .slice(0, 1)
-                .join(" ")}...
+                .join(" ")}
+              ...
             </NewsText>
             <NewsMeta>
-              <span>{new Date(magazine.createdTime).toLocaleDateString()}</span>
+              <span>
+                {new Date(magazine.createdTime).toLocaleDateString()}
+              </span>
             </NewsMeta>
             <ReadMore
               href={magazine.magazinePdf || "#"}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Read more about ${getLocalizedContent(magazine, "title")}`}
+              aria-label={`Read more about ${getLocalizedContent(
+                magazine,
+                "title"
+              )}`}
             >
               Read more
             </ReadMore>
@@ -109,6 +131,14 @@ const Magzines = () => {
     },
     [getLocalizedContent]
   );
+
+  const topicsIndexOfLast = topicsPage * itemsPerPage;
+  const topicsIndexOfFirst = topicsIndexOfLast - itemsPerPage;
+  const topicsCurrentItems = magazines.slice(topicsIndexOfFirst, topicsIndexOfLast);
+
+  const marchIndexOfLast = marchPage * itemsPerPage;
+  const marchIndexOfFirst = marchIndexOfLast - itemsPerPage;
+  const marchCurrentItems = marchMagazines.slice(marchIndexOfFirst, marchIndexOfLast);
 
   return (
     <>
@@ -133,9 +163,33 @@ const Magzines = () => {
           </Tab>
         </TabsContainer>
 
-        {activeTab === "Topics" && renderMagazines(magazines)}
-        {activeTab === "March of Karnataka" && renderMagazines(marchMagazines)}
+        {/* Render news cards */}
+        {activeTab === "Topics" && renderMagazines(topicsCurrentItems)}
+        {activeTab === "March of Karnataka" && renderMagazines(marchCurrentItems)}
       </Container>
+
+      {/* Fixed Pagination and View All Button */}
+      <PaginationWrapper>
+        <Pagination
+          count={
+            activeTab === "Topics"
+              ? Math.ceil(magazines.length / itemsPerPage)
+              : Math.ceil(marchMagazines.length / itemsPerPage)
+          }
+          page={activeTab === "Topics" ? topicsPage : marchPage}
+          onChange={(event, value) =>
+            activeTab === "Topics" ? setTopicsPage(value) : setMarchPage(value)
+          }
+          variant="outlined"
+          shape="rounded"
+        />
+        <ViewAllButton
+          variant="contained"
+          onClick={() => navigate("/magazinepages")}
+        >
+          View All
+        </ViewAllButton>
+      </PaginationWrapper>
     </>
   );
 };

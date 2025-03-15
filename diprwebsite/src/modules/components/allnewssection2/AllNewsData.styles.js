@@ -211,3 +211,16 @@ export const NewsText = styled.p`
     font-size: ${theme.spacing(1.75)};
   }
 `;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color:${theme.colors.background};
+  border-top: 1px solid #ddd;
+  bottom: 0;
+  z-index: 100;
+`;

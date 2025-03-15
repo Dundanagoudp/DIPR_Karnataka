@@ -17,17 +17,21 @@ import {
   TrendingTag,
   NewsMeta,
   Title,
-} from "../allnewssection2/AllNewsData.styles";
+  PaginationWrapper, // New wrapper for pagination
+} from "../allnewssection2/AllNewsData.styles"; // Updated imports
 import { CategoryApi, NewsApi } from "../../../services/categoryapi/CategoryApi";
 import { trackClick } from "../../../services/newsApi/NewsApi";
 import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../context/LanguageContext";
+import { Pagination } from "@mui/material"; 
 
 const AllNewsData = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [newsData, setNewsData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const itemsPerPage = 3; 
   const navigate = useNavigate();
   const { fontSize } = useContext(FontSizeContext);
   const { language } = useContext(LanguageContext);
@@ -62,6 +66,15 @@ const AllNewsData = () => {
     };
     fetchNews();
   }, [activeTab]);
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   const handleReadMore = async (newsId) => {
     const userId = Cookies.get("userId");
@@ -124,61 +137,76 @@ const AllNewsData = () => {
   };
 
   return (
-    <Container>
-      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>All News</Title>
-      <TabsContainer style={{ fontSize: `${fontSize}%` }}>
-        {categories.map((category) => (
-          <Tab
-            key={category._id}
-            active={activeTab === category._id}
-            onClick={() => setActiveTab(category._id)}
-            style={{ fontSize: `${fontSize}%` }}
-          >
-            {getLocalizedCategoryName(category)}
-          </Tab>
-        ))}
-      </TabsContainer>
-
-      {newsData.map((news) => (
-        <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
-          <NewsImage src={news.newsImage || "https://via.placeholder.com/300"} alt={getLocalizedContent(news, "title")} />
-          <NewsContent style={{ fontSize: `${fontSize}%` }}>
-            <NewsHeader style={{ fontSize: `${fontSize}%` }}>
-              {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
-            </NewsHeader>
-            <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-              {getLocalizedContent(news, "title")}
-            </NewsTitle>
-            <ShareIcons>
-              <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
-              <FaTwitter onClick={() => shareOnTwitter(news.url)} style={{ cursor: "pointer" }} />
-              <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} />
-            </ShareIcons>
-            <NewsText
-              style={{
-                display: "-webkit-box",
-                WebkitLineClamp: 1,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-                fontSize: `${fontSize}%`,
-              }}
+    <>
+      <Container>
+        <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>All News</Title>
+        <TabsContainer style={{ fontSize: `${fontSize}%` }}>
+          {categories.map((category) => (
+            <Tab
+              key={category._id}
+              active={activeTab === category._id}
+              onClick={() => setActiveTab(category._id)}
+              style={{ fontSize: `${fontSize}%` }}
             >
-              {getLocalizedContent(news, "description")}
-            </NewsText>
-            <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>
-              Read more
-            </ReadMore>
-            <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
-            <NewsMeta style={{ fontSize: `${fontSize}%` }}>
-              {news.isTrending && <TrendingTag>Trending</TrendingTag>}
-              <span style={{ fontSize: `${fontSize}%` }}>
-                {formatDate(news.createdTime)} • {news.readTime || "N/A"}
-              </span>
-            </NewsMeta>
-          </NewsContent>
-        </NewsCard>
-      ))}
-    </Container>
+              {getLocalizedCategoryName(category)}
+            </Tab>
+          ))}
+        </TabsContainer>
+
+        {/* Render only 5 articles per page */}
+        {currentItems.map((news) => (
+          <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
+            <NewsImage src={news.newsImage || "https://via.placeholder.com/300"} alt={getLocalizedContent(news, "title")} />
+            <NewsContent style={{ fontSize: `${fontSize}%` }}>
+              <NewsHeader style={{ fontSize: `${fontSize}%` }}>
+                {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
+              </NewsHeader>
+              <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                {getLocalizedContent(news, "title")}
+              </NewsTitle>
+              <ShareIcons>
+                <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
+                <FaTwitter onClick={() => shareOnTwitter(news.url)} style={{ cursor: "pointer" }} />
+                <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} />
+              </ShareIcons>
+              <NewsText
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  fontSize: `${fontSize}%`,
+                }}
+              >
+                {getLocalizedContent(news, "description")}
+              </NewsText>
+              <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>
+                Read more
+              </ReadMore>
+              <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
+              <NewsMeta style={{ fontSize: `${fontSize}%` }}>
+                {news.isTrending && <TrendingTag>Trending</TrendingTag>}
+                <span style={{ fontSize: `${fontSize}%` }}>
+                  {formatDate(news.createdTime)} • {news.readTime || "N/A"}
+                </span>
+              </NewsMeta>
+            </NewsContent>
+          </NewsCard>
+        ))}
+      </Container>
+
+      {/* Fixed Pagination and View All Button */}
+      <PaginationWrapper>
+        <Pagination
+          count={Math.ceil(newsData.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          variant="outlined"
+          shape="rounded"
+        />
+       
+      </PaginationWrapper>
+    </>
   );
 };
 

@@ -11,22 +11,27 @@ import {
   BookmarkIconWrapper,
   TabsContainer,
   Tab,
+  PaginationWrapper, // New wrapper for pagination
 } from "../Latesttab/LatestTab.styles";
 import videoThumbnail from "../../../assets/v1.png";
 import { NewsApi, CategoryApi } from "../../../services/categoryapi/CategoryApi";
 import { CiBookmark } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
-import { LanguageContext } from "../../../context/LanguageContext"; // Import LanguageContext
+import { LanguageContext } from "../../../context/LanguageContext";
+import { Pagination } from "@mui/material"; // Import MUI Pagination
 
 const LatestTab = () => {
   const [videosData, setVideosData] = useState([]);
   const [bookmarkedVideos, setBookmarkedVideos] = useState(new Set());
   const [activeTab, setActiveTab] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // Pagination state
+  const itemsPerPageDesktop = 8; // Max 8 videos per page on desktop
+  const itemsPerPageMobile = 5; // Max 5 videos per page on mobile/tablet
   const navigate = useNavigate();
   const { fontSize } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext); // Get current language from context
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -68,7 +73,7 @@ const LatestTab = () => {
   }, [activeTab]);
 
   const handlePostClick = (postId) => {
-    navigate(`/news/${postId}`); 
+    navigate(`/news/${postId}`);
   };
 
   const handleBookmarkClick = (videoId) => {
@@ -83,7 +88,6 @@ const LatestTab = () => {
     });
   };
 
-  // Function to get the correct language content
   const getLocalizedContent = (video, field) => {
     if (language === "English") {
       return video[field] || "No content available";
@@ -93,6 +97,17 @@ const LatestTab = () => {
       return video.kannada?.[field] || video[field] || "No content available";
     }
     return video[field] || "No content available";
+  };
+
+  // Pagination logic
+  const isMobile = window.innerWidth <= 768; // Check for mobile/tablet view
+  const itemsPerPage = isMobile ? itemsPerPageMobile : itemsPerPageDesktop;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = videosData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   return (
@@ -114,8 +129,8 @@ const LatestTab = () => {
         )}
       </TabsContainer>
       <Content style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-        {videosData.length > 0 ? (
-          videosData.map((video) => (
+        {currentItems.length > 0 ? (
+          currentItems.map((video) => (
             <VideoCard1
               key={video._id}
               onClick={() => handlePostClick(video._id)}
@@ -154,6 +169,17 @@ const LatestTab = () => {
           <p>No Post available.</p>
         )}
       </Content>
+
+      {/* Pagination */}
+      <PaginationWrapper>
+        <Pagination
+          count={Math.ceil(videosData.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          variant="outlined"
+          shape="rounded"
+        />
+      </PaginationWrapper>
     </Container>
   );
 };

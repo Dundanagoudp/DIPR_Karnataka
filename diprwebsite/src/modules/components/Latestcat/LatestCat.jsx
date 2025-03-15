@@ -261,7 +261,7 @@ const LatestCat = () => {
           </ShareIconsWrapper>
 
           <NewsTextWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            {getLocalizedContent(news, "description")?.split(" ").slice(0, 50).join(" ") + "..."}
+          {getLocalizedContent(news, "description")}
           </NewsTextWrapper>
         </NewsContentWrapper>
       </NewsCardWrapper>
