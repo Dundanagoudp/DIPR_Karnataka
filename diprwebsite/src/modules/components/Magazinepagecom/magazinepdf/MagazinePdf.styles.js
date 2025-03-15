@@ -165,3 +165,10 @@ export const Tab = styled.button`
     padding: ${theme.spacing(0.75)};
   }
 `;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: left;
+  margin-top: 20px;
+  padding: 20px;
+`;

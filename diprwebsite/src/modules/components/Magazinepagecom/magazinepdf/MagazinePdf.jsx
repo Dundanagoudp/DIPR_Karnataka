@@ -16,10 +16,12 @@ import {
   ReadMoreIcon,
   TabsContainer,
   Tab,
+  PaginationWrapper, // New wrapper for pagination
 } from "../magazinepdf/MagazinePdf.styles";
 import { getMagazines, MarchMagazines } from "../../../../services/magazineApi/magazineService";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../../context/LanguageContext";
+import { Pagination } from "@mui/material"; // Import MUI Pagination
 
 const fallbackMagazines = [
   {
@@ -39,6 +41,9 @@ const MagazinePdf = () => {
   const [magazinesData, setMagazinesData] = useState([]);
   const [marchMagazinesData, setMarchMagazinesData] = useState([]);
   const [bookmarkedMagazines, setBookmarkedMagazines] = useState(new Set());
+  const [currentPage, setCurrentPage] = useState(1); // Pagination state
+  const itemsPerPageDesktop = 8;
+  const itemsPerPageMobile = 6;
   const { fontSize } = useContext(FontSizeContext);
   const { language } = useContext(LanguageContext);
 
@@ -95,6 +100,19 @@ const MagazinePdf = () => {
     return item[field] || "No content available";
   };
 
+  // Pagination logic
+  const isMobile = window.innerWidth <= 768; // Check for mobile/tablet view
+  const itemsPerPage = isMobile ? itemsPerPageMobile : itemsPerPageDesktop;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentMagazines = activeTab === "Topics" 
+    ? magazinesData.slice(indexOfFirstItem, indexOfLastItem)
+    : marchMagazinesData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
   const renderMagazines = (magazines) => {
     return magazines.map((magazine) => (
       <MagazineCard key={magazine._id}>
@@ -137,9 +155,23 @@ const MagazinePdf = () => {
         </Tab>
       </TabsContainer>
       <Content style={{ fontSize: `${fontSize}%` }}>
-        {activeTab === "Topics" && renderMagazines(magazinesData)}
-        {activeTab === "March of Karnataka" && renderMagazines(marchMagazinesData)}
+        {renderMagazines(currentMagazines)}
       </Content>
+
+      {/* Pagination */}
+      <PaginationWrapper>
+        <Pagination
+          count={Math.ceil(
+            activeTab === "Topics" 
+              ? magazinesData.length / itemsPerPage 
+              : marchMagazinesData.length / itemsPerPage
+          )}
+          page={currentPage}
+          onChange={handlePageChange}
+          variant="outlined"
+          shape="rounded"
+        />
+      </PaginationWrapper>
     </Container>
   );
 };
