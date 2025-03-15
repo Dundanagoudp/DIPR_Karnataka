@@ -105,7 +105,7 @@ const Magzines = () => {
             <NewsText>
               {getLocalizedContent(magazine, "description")
                 .split(" ")
-                .slice(0, 1)
+                .slice(0, 10)
                 .join(" ")}
               ...
             </NewsText>
