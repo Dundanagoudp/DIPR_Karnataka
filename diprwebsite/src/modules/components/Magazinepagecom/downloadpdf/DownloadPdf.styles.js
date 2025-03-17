@@ -3,25 +3,26 @@ import theme from "../../../../theme/Theme";
 
 export const PdfCarouselContainer = styled.div`
   width: 85%;
-  height: ${theme.spacing(56.25)}; // 450px = 56.25 * 8px
+  height: 450px;
   overflow: hidden;
   position: relative;
   border-radius: ${theme.spacing(1)};
-  margin: ${theme.spacing(1)} auto;
+  margin:  auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 90%;
-    height: ${theme.spacing(40)}; // 320px = 40 * 8px
+    height: 320px;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     width: 95%;
-    height: ${theme.spacing(30)}; // 240px = 30 * 8px
+    height: 240px;
   }
 `;
 
+
 export const PdfCarouselItem = styled.div`
-  flex: 1 0 100%;
+   flex: 1 0 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -64,7 +65,7 @@ export const PdfContentWrapper = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    bottom: ${theme.spacing(0.5)};
+    bottom: ${theme.spacing(3.5)};
     left: ${theme.spacing(0.5)};
     right: ${theme.spacing(0.5)};
   }
@@ -86,7 +87,7 @@ export const PdfTrendingCategory = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.2)};
+    font-size: ${theme.spacing(1.1)};
     padding: ${theme.spacing(0.2)} ${theme.spacing(0.8)};
   }
 `;
@@ -100,12 +101,12 @@ export const PdfNewsInfo = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.3)};
+    font-size: ${theme.spacing(1.1)};
   }
 `;
 
 export const PdfNewsTitle = styled.h2`
-  color: ${theme.colors.background};
+   color: ${theme.colors.background};
   font-size: ${theme.spacing(3.8)};
   font-weight: semibold;
   margin-top: ${theme.spacing(2)};
@@ -118,20 +119,19 @@ export const PdfNewsTitle = styled.h2`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(2.5)};
+    font-size: ${theme.spacing(2.2)};
     margin-top: ${theme.spacing(1)};
-    margin-bottom: ${theme.spacing(2)};
+    margin-bottom: ${theme.spacing(6)};
   }
 `;
 
 export const PdfArrowIcon = styled.button`
-  position: absolute;
+   position: absolute;
   bottom: ${theme.spacing(5)};
   right: ${theme.spacing(6)};
   padding: ${theme.spacing(2)};
   border-radius: 50%;
   display: flex;
-  color: ${theme.colors.background};
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -140,9 +140,9 @@ export const PdfArrowIcon = styled.button`
   transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: translateY(-${theme.spacing(1)});
+    transform: translateY(-8px);
     background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0px ${theme.spacing(1)} ${theme.spacing(2)} rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
   }
 
   &:focus {
@@ -156,15 +156,15 @@ export const PdfArrowIcon = styled.button`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    bottom: ${theme.spacing(3)};
+    bottom: ${theme.spacing(3.5)};
     right: ${theme.spacing(3)};
-    padding: ${theme.spacing(1)};
+    padding: ${theme.spacing(3)};
   }
 `;
 
 export const PdfDotContainer = styled.div`
-  position: absolute;
-  top: ${theme.spacing(1.25)}; // 10px = 1.25 * 8px
+   position: absolute;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -222,8 +222,8 @@ export const PdfDownloadButton = styled.button`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    bottom: ${theme.spacing(3)};
-    right: ${theme.spacing(4)};
+    bottom: ${theme.spacing(5)};
+    right: ${theme.spacing(4.8)};
     font-size: ${theme.spacing(1.25)};
     padding: ${theme.spacing(0.8)} ${theme.spacing(1.2)};
   }
