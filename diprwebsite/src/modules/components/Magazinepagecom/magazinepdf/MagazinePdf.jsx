@@ -16,32 +16,25 @@ import {
   ReadMoreIcon,
   TabsContainer,
   Tab,
-  PaginationWrapper, // New wrapper for pagination
+  PaginationWrapper,
+  SkeletonCard,
+  SkeletonThumbnail,
+  SkeletonTitle,
+  SkeletonMeta,
+  SkeletonButton
 } from "../magazinepdf/MagazinePdf.styles";
 import { getMagazines, MarchMagazines } from "../../../../services/magazineApi/magazineService";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../../context/LanguageContext";
-import { Pagination } from "@mui/material"; // Import MUI Pagination
-
-const fallbackMagazines = [
-  {
-    _id: "fallback-1",
-    title: "Fallback Magazine Title",
-    magazineThumbnail: "https://via.placeholder.com/300",
-    createdTime: "2025-01-01T00:00:00.000Z",
-    readTime: "5 min",
-    category: { name: "Technology" },
-    isTrending: true,
-    magazinePdf: "#",
-  },
-];
+import { Pagination } from "@mui/material";
 
 const MagazinePdf = () => {
   const [activeTab, setActiveTab] = useState("Topics");
   const [magazinesData, setMagazinesData] = useState([]);
   const [marchMagazinesData, setMarchMagazinesData] = useState([]);
   const [bookmarkedMagazines, setBookmarkedMagazines] = useState(new Set());
-  const [currentPage, setCurrentPage] = useState(1); // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const itemsPerPageDesktop = 8;
   const itemsPerPageMobile = 6;
   const { fontSize } = useContext(FontSizeContext);
@@ -49,20 +42,23 @@ const MagazinePdf = () => {
 
   useEffect(() => {
     const fetchMagazines = async () => {
+      setLoading(true);
       try {
         const result = activeTab === "Topics" ? await getMagazines() : await MarchMagazines();
-        const data = result.success && Array.isArray(result.data) && result.data.length > 0 ? result.data : [];
+        const data = result.success && Array.isArray(result.data) ? result.data : [];
         if (activeTab === "Topics") {
-          setMagazinesData(data.length ? data : fallbackMagazines);
+          setMagazinesData(data);
         } else {
           setMarchMagazinesData(data);
         }
       } catch (error) {
         if (activeTab === "Topics") {
-          setMagazinesData(fallbackMagazines);
+          setMagazinesData([]);
         } else {
           setMarchMagazinesData([]);
         }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -101,7 +97,7 @@ const MagazinePdf = () => {
   };
 
   // Pagination logic
-  const isMobile = window.innerWidth <= 768; // Check for mobile/tablet view
+  const isMobile = window.innerWidth <= 768;
   const itemsPerPage = isMobile ? itemsPerPageMobile : itemsPerPageDesktop;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -113,11 +109,26 @@ const MagazinePdf = () => {
     setCurrentPage(value);
   };
 
+  const renderSkeleton = () => {
+    const skeletonCount = isMobile ? itemsPerPageMobile : itemsPerPageDesktop;
+    return Array.from({ length: skeletonCount }).map((_, index) => (
+      <SkeletonCard key={index}>
+        <SkeletonThumbnail />
+        <MagazineDetails>
+          <SkeletonTitle />
+          <SkeletonMeta />
+          <SkeletonMeta style={{ width: "60%" }} />
+          <SkeletonButton />
+        </MagazineDetails>
+      </SkeletonCard>
+    ));
+  };
+
   const renderMagazines = (magazines) => {
     return magazines.map((magazine) => (
       <MagazineCard key={magazine._id}>
         <MagazineThumbnail
-          src={magazine.magazineThumbnail || "https://via.placeholder.com/300"}
+          src={magazine.magazineThumbnail}
           alt={getLocalizedContent(magazine, "title")}
         />
         <MagazineDetails>
@@ -155,23 +166,24 @@ const MagazinePdf = () => {
         </Tab>
       </TabsContainer>
       <Content style={{ fontSize: `${fontSize}%` }}>
-        {renderMagazines(currentMagazines)}
+        {loading ? renderSkeleton() : renderMagazines(currentMagazines)}
       </Content>
 
-      {/* Pagination */}
-      <PaginationWrapper>
-        <Pagination
-          count={Math.ceil(
-            activeTab === "Topics" 
-              ? magazinesData.length / itemsPerPage 
-              : marchMagazinesData.length / itemsPerPage
-          )}
-          page={currentPage}
-          onChange={handlePageChange}
-          variant="outlined"
-          shape="rounded"
-        />
-      </PaginationWrapper>
+      {!loading && (
+        <PaginationWrapper>
+          <Pagination
+            count={Math.ceil(
+              activeTab === "Topics" 
+                ? magazinesData.length / itemsPerPage 
+                : marchMagazinesData.length / itemsPerPage
+            )}
+            page={currentPage}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+          />
+        </PaginationWrapper>
+      )}
     </Container>
   );
 };

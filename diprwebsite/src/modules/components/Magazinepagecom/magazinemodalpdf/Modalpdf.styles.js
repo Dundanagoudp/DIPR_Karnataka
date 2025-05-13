@@ -109,23 +109,48 @@ export const BookmarkIconWrapper = styled.div`
   }
 `;
 
-export const ReadMoreButton = styled.button`
-  background: ${theme.colors.primary};
+// export const ReadMoreButton = styled.button`
+//   background: ${theme.colors.primary};
+//   color: ${theme.colors.white};
+//   border: none;
+//   padding: ${theme.spacing(1)};
+//   border-radius: 20px;
+//   font-size: ${theme.spacing(1.5)};
+//   display: flex;
+//   align-items: center;
+//   gap: ${theme.spacing(0.5)};
+//   cursor: pointer;
+//   margin-top: ${theme.spacing(1)};
+
+//   &:hover {
+//     background: ${theme.colors.primaryDark};
+//   }
+// `;
+
+
+export const ReadMore = styled.a`
+  display: inline-block;
+  margin-top: ${theme.spacing(1.875)};
+  width: fit-content;
+  padding: ${theme.spacing(0.625)} ${theme.spacing(1.25)};
+  background-color: ${theme.colors.button};
   color: ${theme.colors.white};
+  text-decoration: none;
+  border-radius: ${theme.spacing(0.625)};
+  font-size: ${theme.spacing(1.75)};
   border: none;
-  padding: ${theme.spacing(1)};
-  border-radius: 20px;
-  font-size: ${theme.spacing(1.5)};
-  display: flex;
-  align-items: center;
-  gap: ${theme.spacing(0.5)};
   cursor: pointer;
-  margin-top: ${theme.spacing(1)};
 
   &:hover {
-    background: ${theme.colors.primaryDark};
+    text-decoration: underline;
   }
-`;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.8)};
+    margin-top: ${theme.spacing(1.25)};
+  }
+`
+
 
 export const ReadMoreIcon = styled.span`
   font-size: ${theme.spacing(1.8)};

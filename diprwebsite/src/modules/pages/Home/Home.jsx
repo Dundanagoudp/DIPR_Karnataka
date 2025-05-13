@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Trending from "../../components/Trending/Trending";
-import AllNews from "../../components/allnews/AllNews";
-import MagaZines from "../../components/magazine/MagaZine";
+// import AllNews from "../../components/allnews/AllNews";
+// import MagaZines from "../../components/magazine/MagaZine";
+// import Magzines from "../../components/magzinesdata/MagzineNews";
+// import Magzines from "../../components/magzinesdata/magzinenews";
 import {
   HomeContainer,
   ContentWrapper,
@@ -9,9 +11,9 @@ import {
   MagazineSection,
 } from "../../pages/Home/Home.styles";
 import Loader from "../../../components/loder/Loder";
-import Magzines from "../../components/magzinesdata/MagzineNews";
-// import Magzines from "../../components/magzinesdata/magzinenews";
 import AllNewsData from "../../components/allnewssection2/AllNewsData";
+import Videos from "../../components/homevideosection/videos";
+import Magzines2 from "../../components/magzinemodal/MagzinewithModal";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,12 +38,14 @@ const Home = () => {
           <ContentWrapper>
             <NewsSection>
               {/* <AllNews /> */}
-              <Magzines/>
+              {/* <Magzines/> */}
+              <Magzines2/>
             </NewsSection>
             <MagazineSection>
               {/* <MagaZines /> */}
               <AllNewsData/>
             </MagazineSection>
+            <Videos/>
           </ContentWrapper>
         </>
       )}

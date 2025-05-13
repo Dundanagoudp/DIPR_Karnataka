@@ -1,5 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import theme from "../../../theme/Theme";
+
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`;
 
 export const CarouselContainer = styled.div`
   width: 85%;
@@ -7,7 +16,7 @@ export const CarouselContainer = styled.div`
   overflow: hidden;
   position: relative;
   border-radius: ${theme.spacing(1)};
-  margin:  auto;
+  margin: auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 90%;
@@ -189,4 +198,75 @@ export const Dot = styled.div`
   &:hover {
     background: ${theme.colors.primary};
   }
+`;
+
+// Shimmer effect components
+export const ShimmerContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #f6f7f8;
+  overflow: hidden;
+  border-radius: ${theme.spacing(1)};
+`;
+
+export const ShimmerContent = styled.div`
+  position: absolute;
+  bottom: ${theme.spacing(2)};
+  left: ${theme.spacing(2)};
+  right: ${theme.spacing(2)};
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(1)};
+`;
+
+export const ShimmerCategory = styled.div`
+  width: 100px;
+  height: 25px;
+  background: #e1e1e1;
+  border-radius: ${theme.spacing(0.5)};
+  animation: ${shimmer} 1.5s infinite linear;
+  background: linear-gradient(to right, #e1e1e1 8%, #f5f5f5 18%, #e1e1e1 33%);
+  background-size: 800px 104px;
+`;
+
+export const ShimmerText = styled.div`
+  width: 60%;
+  height: 16px;
+  background: #e1e1e1;
+  border-radius: ${theme.spacing(0.5)};
+  animation: ${shimmer} 1.5s infinite linear;
+  background: linear-gradient(to right, #e1e1e1 8%, #f5f5f5 18%, #e1e1e1 33%);
+  background-size: 800px 104px;
+`;
+
+export const ShimmerTitle = styled.div`
+  width: 100%;
+  height: 30px;
+  background: #e1e1e1;
+  border-radius: ${theme.spacing(0.5)};
+  animation: ${shimmer} 1.5s infinite linear;
+  background: linear-gradient(to right, #e1e1e1 8%, #f5f5f5 18%, #e1e1e1 33%);
+  background-size: 800px 104px;
+  margin-top: ${theme.spacing(1)};
+`;
+
+export const ShimmerDotContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: ${theme.spacing(1)};
+`;
+
+export const ShimmerDot = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e1e1e1;
+  animation: ${shimmer} 1.5s infinite linear;
+  background: linear-gradient(to right, #e1e1e1 8%, #f5f5f5 18%, #e1e1e1 33%);
+  background-size: 800px 104px;
 `;

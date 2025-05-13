@@ -11,38 +11,26 @@ import {
   PdfDotContainer,
   PdfDot,
   PdfDownloadButton,
+  SkeletonOverlay,
+  SkeletonCategory,
+  SkeletonInfo,
+  SkeletonTitle,
+  SkeletonButton,
+  SkeletonDotContainer,
+  SkeletonDot
 } from "../downloadpdf/DownloadPdf.styles";
 import { BannerApi } from "../../../../services/categoryapi/CategoryApi";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
 
-const fallbackNews = [
-  {
-    id: "1",
-    category: "Trending",
-    date: "02/05/2025",
-    readTime: "5 min read",
-    title: "Breaking: AI is Changing the World",
-    image: "https://via.placeholder.com/800x400",
-    link: "/post/1",
-  },
-  {
-    id: "2",
-    category: "Technology",
-    date: "02/04/2025",
-    readTime: "4 min read",
-    title: "New Tech Trends in 2025",
-    image: "https://via.placeholder.com/800x400",
-    link: "/post/2",
-  },
-];
-
 const MagazineDownloadPdf = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [trendingNews, setTrendingNews] = useState(fallbackNews);
+  const [trendingNews, setTrendingNews] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { fontSize } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const data = await BannerApi();
         const formattedData = data.map((item) => ({
@@ -54,21 +42,23 @@ const MagazineDownloadPdf = () => {
           image: item.bannerImage,
           link: `/post/${item._id}`,
         }));
-        setTrendingNews(formattedData.length ? formattedData : fallbackNews);
+        setTrendingNews(formattedData);
       } catch (error) {
-        setTrendingNews(fallbackNews);
+        console.error("Error fetching banner data:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
 
   useEffect(() => {
-    if (trendingNews.length === 0) return;
+    if (trendingNews.length === 0 || loading) return;
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % trendingNews.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [trendingNews]);
+  }, [trendingNews, loading]);
 
   const handleDownload = async (id) => {
     try {
@@ -87,6 +77,32 @@ const MagazineDownloadPdf = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <PdfCarouselContainer style={{ fontSize: `${fontSize}%` }}>
+        <PdfCarouselItem style={{ background: "#f0f0f0" }}>
+          <SkeletonOverlay />
+          <PdfContentWrapper>
+            <div style={{ display: "flex", alignItems: "center", gap: "1%", fontSize: `${fontSize}%` }}>
+              <SkeletonCategory />
+              <SkeletonInfo />
+            </div>
+            <SkeletonTitle />
+            <SkeletonTitle style={{ width: "60%" }} />
+          </PdfContentWrapper>
+          <SkeletonButton>
+            <MdOutlineFileDownload size={20} />
+          </SkeletonButton>
+          <SkeletonDotContainer>
+            <SkeletonDot />
+            <SkeletonDot />
+            <SkeletonDot />
+          </SkeletonDotContainer>
+        </PdfCarouselItem>
+      </PdfCarouselContainer>
+    );
+  }
+
   return (
     <PdfCarouselContainer style={{ fontSize: `${fontSize}%` }}>
       {trendingNews.map((news, index) => (
@@ -100,7 +116,7 @@ const MagazineDownloadPdf = () => {
             <PdfNewsTitle>{news.title}</PdfNewsTitle>
           </PdfContentWrapper>
           <PdfDownloadButton onClick={() => handleDownload(news.id)}>
-            Download Pdf. <MdOutlineFileDownload size={20} />
+            Download Pdf <MdOutlineFileDownload size={20} />
           </PdfDownloadButton>
         </PdfCarouselItem>
       ))}

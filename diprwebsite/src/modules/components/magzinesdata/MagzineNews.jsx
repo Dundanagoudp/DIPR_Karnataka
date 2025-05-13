@@ -11,9 +11,14 @@ import {
   NewsText,
   ReadMore,
   NewsMeta,
-  PaginationWrapper, // New wrapper for pagination
+  PaginationWrapper,
   ViewAllButton,
-} from "../magzinesdata/MagzineNews.styles"; // Updated imports
+  SkeletonCard,
+  SkeletonImage,
+  SkeletonContent,
+  SkeletonText,
+  SkeletonButton
+} from "../magzinesdata/MagzineNews.styles";
 import {
   getMagazines,
   MarchMagazines,
@@ -23,22 +28,12 @@ import { LanguageContext } from "../../../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
 
-const fallbackMagazines = [
-  {
-    id: "fallback-1aaaa",
-    title: "Fallback Magazine Title",
-    description:
-      "This is a placeholder magazine description with limited words for testing purposes, ensuring concise content display.",
-    magazineThumbnail: "https://via.placeholder.com/300",
-    magazinePdf: "#",
-    createdTime: "2025-01-01T00:00:00.000Z",
-  },
-];
-
 const Magzines = () => {
   const [activeTab, setActiveTab] = useState("Topics");
   const [magazines, setMagazines] = useState([]);
   const [marchMagazines, setMarchMagazines] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [topicsPage, setTopicsPage] = useState(1);
   const [marchPage, setMarchPage] = useState(1);
@@ -49,28 +44,30 @@ const Magzines = () => {
   const navigate = useNavigate();
 
   const fetchMagazines = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     try {
       if (activeTab === "Topics") {
         const result = await getMagazines();
-        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+        if (result.success && Array.isArray(result.data)) {
           setMagazines(result.data);
         } else {
-          setMagazines(fallbackMagazines);
+          setMagazines([]);
         }
       } else if (activeTab === "March of Karnataka") {
         const result = await MarchMagazines();
-        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+        if (result.success && Array.isArray(result.data)) {
           setMarchMagazines(result.data);
         } else {
           setMarchMagazines([]);
         }
       }
     } catch (error) {
-      if (activeTab === "Topics") {
-        setMagazines(fallbackMagazines);
-      } else {
-        setMarchMagazines([]);
-      }
+      setError("Failed to fetch magazines. Please try again later.");
+      setMagazines([]);
+      setMarchMagazines([]);
+    } finally {
+      setLoading(false);
     }
   }, [activeTab]);
 
@@ -91,31 +88,62 @@ const Magzines = () => {
     [language]
   );
 
+const renderSkeleton = () => {
+  return Array(itemsPerPage).fill(0).map((_, index) => (
+    <SkeletonCard key={`skeleton-${index}`}>
+      <SkeletonImage />
+      <SkeletonContent>
+        <SkeletonText width="80%" />
+        <SkeletonText width="60%" />
+        <SkeletonText width="40%" />
+        <SkeletonButton />
+      </SkeletonContent>
+    </SkeletonCard>
+  ));
+};
+
   const renderMagazines = useCallback(
     (magazinesArray) => {
+      if (loading) return renderSkeleton();
+      if (error) return <div style={{ 
+        gridColumn: '1 / -1', 
+        textAlign: 'center',
+        fontSize: `${fontSize}%`,
+        color: 'red'
+      }}>{error}</div>;
+      if (magazinesArray.length === 0) return <div style={{ 
+        gridColumn: '1 / -1', 
+        textAlign: 'center',
+        fontSize: `${fontSize}%`
+      }}>No magazines found</div>;
+
       return magazinesArray.map((magazine) => (
         <NewsCard key={magazine.id || magazine._id}>
-          <NewsImage
-            src={magazine.magazineThumbnail || "https://via.placeholder.com/300"}
+          <NewsImage 
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+            src={magazine.magazineThumbnail}
             alt={getLocalizedContent(magazine, "title")}
             aria-label={getLocalizedContent(magazine, "title")}
           />
           <NewsContent>
-            <NewsHeader>{getLocalizedContent(magazine, "title")}</NewsHeader>
-            <NewsText>
+            <NewsHeader style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              {getLocalizedContent(magazine, "title")}
+            </NewsHeader>
+            <NewsText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               {getLocalizedContent(magazine, "description")
                 .split(" ")
                 .slice(0, 10)
                 .join(" ")}
               ...
             </NewsText>
-            <NewsMeta>
+            <NewsMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               <span>
                 {new Date(magazine.createdTime).toLocaleDateString()}
               </span>
             </NewsMeta>
             <ReadMore
-              href={magazine.magazinePdf || "#"}
+              style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+              href={magazine.magazinePdf}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Read more about ${getLocalizedContent(
@@ -129,7 +157,7 @@ const Magzines = () => {
         </NewsCard>
       ));
     },
-    [getLocalizedContent]
+    [getLocalizedContent, loading, error, fontSize]
   );
 
   const topicsIndexOfLast = topicsPage * itemsPerPage;
@@ -147,7 +175,8 @@ const Magzines = () => {
       </Title>
       <Container style={{ fontSize: `${fontSize}%` }}>
         <TabsContainer>
-          <Tab
+          <Tab 
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
             active={activeTab === "Topics"}
             onClick={() => setActiveTab("Topics")}
             aria-selected={activeTab === "Topics"}
@@ -155,6 +184,7 @@ const Magzines = () => {
             Varthajanapada
           </Tab>
           <Tab
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
             active={activeTab === "March of Karnataka"}
             onClick={() => setActiveTab("March of Karnataka")}
             aria-selected={activeTab === "March of Karnataka"}
@@ -163,13 +193,13 @@ const Magzines = () => {
           </Tab>
         </TabsContainer>
 
-        {/* Render news cards */}
+        {/* Render news cards or skeleton */}
         {activeTab === "Topics" && renderMagazines(topicsCurrentItems)}
         {activeTab === "March of Karnataka" && renderMagazines(marchCurrentItems)}
       </Container>
 
       {/* Fixed Pagination and View All Button */}
-      <PaginationWrapper>
+      <PaginationWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         <Pagination
           count={
             activeTab === "Topics"
@@ -184,6 +214,7 @@ const Magzines = () => {
           shape="rounded"
         />
         <ViewAllButton
+          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
           variant="contained"
           onClick={() => navigate("/magazinepages")}
         >

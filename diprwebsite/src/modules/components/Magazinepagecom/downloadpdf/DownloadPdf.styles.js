@@ -1,5 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import theme from "../../../../theme/Theme";
+
+const shimmer = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
 
 export const PdfCarouselContainer = styled.div`
   width: 85%;
@@ -7,7 +16,7 @@ export const PdfCarouselContainer = styled.div`
   overflow: hidden;
   position: relative;
   border-radius: ${theme.spacing(1)};
-  margin:  auto;
+  margin: auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 90%;
@@ -20,9 +29,8 @@ export const PdfCarouselContainer = styled.div`
   }
 `;
 
-
 export const PdfCarouselItem = styled.div`
-   flex: 1 0 100%;
+  flex: 1 0 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -106,7 +114,7 @@ export const PdfNewsInfo = styled.div`
 `;
 
 export const PdfNewsTitle = styled.h2`
-   color: ${theme.colors.background};
+  color: ${theme.colors.background};
   font-size: ${theme.spacing(3.8)};
   font-weight: semibold;
   margin-top: ${theme.spacing(2)};
@@ -125,45 +133,8 @@ export const PdfNewsTitle = styled.h2`
   }
 `;
 
-export const PdfArrowIcon = styled.button`
-   position: absolute;
-  bottom: ${theme.spacing(5)};
-  right: ${theme.spacing(6)};
-  padding: ${theme.spacing(2)};
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-8px);
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    bottom: ${theme.spacing(4)};
-    right: ${theme.spacing(4)};
-    padding: ${theme.spacing(1.5)};
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    bottom: ${theme.spacing(3.5)};
-    right: ${theme.spacing(3)};
-    padding: ${theme.spacing(3)};
-  }
-`;
-
 export const PdfDotContainer = styled.div`
-   position: absolute;
+  position: absolute;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
@@ -180,8 +151,8 @@ export const PdfDotContainer = styled.div`
 `;
 
 export const PdfDot = styled.div`
-  width: ${theme.spacing(1.25)}; // 10px = 1.25 * 8px
-  height: ${theme.spacing(1.25)}; // 10px = 1.25 * 8px
+  width: ${theme.spacing(1.25)};
+  height: ${theme.spacing(1.25)};
   border-radius: 50%;
   background: ${({ active }) => (active ? theme.colors.primary : "#888")};
   transition: background 0.3s ease;
@@ -227,4 +198,137 @@ export const PdfDownloadButton = styled.button`
     font-size: ${theme.spacing(1.25)};
     padding: ${theme.spacing(0.8)} ${theme.spacing(1.2)};
   }
+`;
+
+// Skeleton Loading Styles
+export const SkeletonOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: ${theme.spacing(1)};
+`;
+
+export const SkeletonCategory = styled.div`
+  background: #e0e0e0;
+  background: linear-gradient(90deg, #e0e0e0 8%, #f5f5f5 18%, #e0e0e0 33%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: ${theme.spacing(0.5)};
+  width: 80px;
+  height: 24px;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 70px;
+    height: 20px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 60px;
+    height: 18px;
+  }
+`;
+
+export const SkeletonInfo = styled.div`
+  background: #e0e0e0;
+  background: linear-gradient(90deg, #e0e0e0 8%, #f5f5f5 18%, #e0e0e0 33%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: ${theme.spacing(0.5)};
+  width: 150px;
+  height: 16px;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 120px;
+    height: 14px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100px;
+    height: 12px;
+  }
+`;
+
+export const SkeletonTitle = styled.div`
+  background: #e0e0e0;
+  background: linear-gradient(90deg, #e0e0e0 8%, #f5f5f5 18%, #e0e0e0 33%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: ${theme.spacing(0.5)};
+  width: 80%;
+  height: 40px;
+  margin-top: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(4)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 32px;
+    margin-top: ${theme.spacing(1.5)};
+    margin-bottom: ${theme.spacing(3)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 24px;
+    margin-top: ${theme.spacing(1)};
+    margin-bottom: ${theme.spacing(6)};
+  }
+`;
+
+export const SkeletonButton = styled.div`
+  background: #e0e0e0;
+  background: linear-gradient(90deg, #e0e0e0 8%, #f5f5f5 18%, #e0e0e0 33%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${theme.spacing(0.625)}; 
+  border-radius: ${theme.spacing(1)};
+  position: absolute;
+  bottom: ${theme.spacing(6)}; 
+  right: ${theme.spacing(8.125)}; 
+  width: 150px;
+  height: 40px;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    bottom: ${theme.spacing(4)};
+    right: ${theme.spacing(6)};
+    width: 130px;
+    height: 36px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    bottom: ${theme.spacing(5)};
+    right: ${theme.spacing(4.8)};
+    width: 110px;
+    height: 32px;
+  }
+`;
+
+export const SkeletonDotContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: ${theme.spacing(1)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    top: ${theme.spacing(1)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    top: ${theme.spacing(0.8)};
+  }
+`;
+
+export const SkeletonDot = styled.div`
+  width: ${theme.spacing(1.25)};
+  height: ${theme.spacing(1.25)};
+  border-radius: 50%;
+  background: #e0e0e0;
+  background: linear-gradient(90deg, #e0e0e0 8%, #f5f5f5 18%, #e0e0e0 33%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite linear;
 `;

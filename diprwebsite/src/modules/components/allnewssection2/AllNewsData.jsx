@@ -17,21 +17,28 @@ import {
   TrendingTag,
   NewsMeta,
   Title,
-  PaginationWrapper, // New wrapper for pagination
-} from "../allnewssection2/AllNewsData.styles"; // Updated imports
+  PaginationWrapper,
+  SkeletonContainer,
+  SkeletonImage,
+  SkeletonText,
+  SkeletonTitle,
+  SkeletonTab
+} from "../allnewssection2/AllNewsData.styles";
 import { CategoryApi, NewsApi } from "../../../services/categoryapi/CategoryApi";
 import { trackClick } from "../../../services/newsApi/NewsApi";
 import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../context/LanguageContext";
-import { Pagination } from "@mui/material"; 
+import { Pagination } from "@mui/material";
 
 const AllNewsData = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [newsData, setNewsData] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); 
-  const itemsPerPage = 3; 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const itemsPerPage = 3;
   const navigate = useNavigate();
   const { fontSize } = useContext(FontSizeContext);
   const { language } = useContext(LanguageContext);
@@ -39,12 +46,15 @@ const AllNewsData = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setCategoriesLoading(true);
         const response = await CategoryApi();
         if (response?.data && Array.isArray(response.data)) {
           setCategories(response.data);
         }
       } catch (error) {
         console.error("Error fetching categories:", error);
+      } finally {
+        setCategoriesLoading(false);
       }
     };
     fetchCategories();
@@ -53,6 +63,7 @@ const AllNewsData = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
+        setLoading(true);
         const response = await NewsApi(activeTab);
         if (response?.data && Array.isArray(response.data)) {
           setNewsData(response.data);
@@ -62,6 +73,8 @@ const AllNewsData = () => {
       } catch (error) {
         console.error("Error fetching news:", error);
         setNewsData([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchNews();
@@ -123,6 +136,7 @@ const AllNewsData = () => {
   };
 
   const getLocalizedContent = (item, field) => {
+    if (!item) return "Loading...";
     if (language === "English") return item[field] || "No content available";
     if (language === "Hindi") return item.hindi?.[field] || item[field] || "No content available";
     if (language === "Kannada") return item.kannada?.[field] || item[field] || "No content available";
@@ -130,82 +144,116 @@ const AllNewsData = () => {
   };
 
   const getLocalizedCategoryName = (category) => {
+    if (!category) return "Loading...";
     if (language === "English") return category.name || "No content available";
     if (language === "Hindi") return category.hindi || category.name || "No content available";
     if (language === "Kannada") return category.kannada || category.name || "No content available";
     return category.name || "No content available";
   };
 
+  // Skeleton loader for news cards
+  const renderSkeletonCards = () => {
+    return Array(itemsPerPage).fill(0).map((_, index) => (
+      <NewsCard key={`skeleton-${index}`} style={{ fontSize: `${fontSize}%` }}>
+        <SkeletonContainer>
+          <SkeletonImage />
+          <NewsContent style={{ fontSize: `${fontSize}%` }}>
+            <SkeletonText width="40%" />
+            <SkeletonTitle width="80%" />
+            <SkeletonText width="60%" />
+            <SkeletonText width="30%" />
+            <SkeletonText width="50%" />
+          </NewsContent>
+        </SkeletonContainer>
+      </NewsCard>
+    ));
+  };
+
+  // Skeleton loader for tabs
+  const renderSkeletonTabs = () => {
+    return Array(5).fill(0).map((_, index) => (
+      <SkeletonTab key={`skeleton-tab-${index}`} style={{ fontSize: `${fontSize}%` }} />
+    ));
+  };
+
   return (
     <>
       <Container>
         <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>All News</Title>
+        
         <TabsContainer style={{ fontSize: `${fontSize}%` }}>
-          {categories.map((category) => (
-            <Tab
-              key={category._id}
-              active={activeTab === category._id}
-              onClick={() => setActiveTab(category._id)}
-              style={{ fontSize: `${fontSize}%` }}
-            >
-              {getLocalizedCategoryName(category)}
-            </Tab>
-          ))}
+          {categoriesLoading ? (
+            renderSkeletonTabs()
+          ) : (
+            categories.map((category) => (
+              <Tab
+                key={category._id}
+                active={activeTab === category._id}
+                onClick={() => setActiveTab(category._id)}
+                style={{ fontSize: `${fontSize}%` }}
+              >
+                {getLocalizedCategoryName(category)}
+              </Tab>
+            ))
+          )}
         </TabsContainer>
 
-        {/* Render only 5 articles per page */}
-        {currentItems.map((news) => (
-          <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
-            <NewsImage src={news.newsImage || "https://via.placeholder.com/300"} alt={getLocalizedContent(news, "title")} />
-            <NewsContent style={{ fontSize: `${fontSize}%` }}>
-              <NewsHeader style={{ fontSize: `${fontSize}%` }}>
-                {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
-              </NewsHeader>
-              <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                {getLocalizedContent(news, "title")}
-              </NewsTitle>
-              <ShareIcons>
-                <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
-                <FaTwitter onClick={() => shareOnTwitter(news.url)} style={{ cursor: "pointer" }} />
-                <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} />
-              </ShareIcons>
-              <NewsText
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 1,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                  fontSize: `${fontSize}%`,
-                }}
-              >
-                {getLocalizedContent(news, "description")}
-              </NewsText>
-              <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>
-                Read more
-              </ReadMore>
-              <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
-              <NewsMeta style={{ fontSize: `${fontSize}%` }}>
-                {news.isTrending && <TrendingTag>Trending</TrendingTag>}
-                <span style={{ fontSize: `${fontSize}%` }}>
-                  {formatDate(news.createdTime)} • {news.readTime || "N/A"}
-                </span>
-              </NewsMeta>
-            </NewsContent>
-          </NewsCard>
-        ))}
+        {loading ? (
+          renderSkeletonCards()
+        ) : (
+          currentItems.map((news) => (
+            <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
+              <NewsImage src={news.newsImage || "https://via.placeholder.com/300"} alt={getLocalizedContent(news, "title")} />
+              <NewsContent style={{ fontSize: `${fontSize}%` }}>
+                <NewsHeader style={{ fontSize: `${fontSize}%` }}>
+                  {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
+                </NewsHeader>
+                <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                  {getLocalizedContent(news, "title")}
+                </NewsTitle>
+                <ShareIcons>
+                  <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
+                  <FaTwitter onClick={() => shareOnTwitter(news.url)} style={{ cursor: "pointer" }} />
+                  <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} />
+                </ShareIcons>
+                <NewsText
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 1,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    fontSize: `${fontSize}%`,
+                  }}
+                >
+                  {getLocalizedContent(news, "description")}
+                </NewsText>
+                <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>
+                  Read more
+                </ReadMore>
+                <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
+                <NewsMeta style={{ fontSize: `${fontSize}%` }}>
+                  {news.isTrending && <TrendingTag>Trending</TrendingTag>}
+                  <span style={{ fontSize: `${fontSize}%` }}>
+                    {formatDate(news.createdTime)} • {news.readTime || "N/A"}
+                  </span>
+                </NewsMeta>
+              </NewsContent>
+            </NewsCard>
+          ))
+        )}
       </Container>
 
-      {/* Fixed Pagination and View All Button */}
-      <PaginationWrapper>
-        <Pagination
-          count={Math.ceil(newsData.length / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          variant="outlined"
-          shape="rounded"
-        />
-       
-      </PaginationWrapper>
+      {!loading && newsData.length > 0 && (
+        <PaginationWrapper>
+          <Pagination
+            count={Math.ceil(newsData.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+          />
+        </PaginationWrapper>
+      )}
     </>
   );
 };

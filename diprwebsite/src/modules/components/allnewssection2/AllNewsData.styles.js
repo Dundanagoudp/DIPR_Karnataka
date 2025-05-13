@@ -1,5 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import theme from "../../../theme/Theme";
+
+// Shimmer animation
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`;
 
 export const Container = styled.div`
   max-width: ${theme.spacing(70)};
@@ -31,20 +41,20 @@ export const TabsContainer = styled.div`
   margin-bottom: ${theme.spacing(2)};
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: thin; 
+  scrollbar-width: thin;
   scrollbar-color: transparent;
 
   &::-webkit-scrollbar {
-    height: ${theme.spacing(0.5)}; 
+    height: ${theme.spacing(0.5)};
   }
 
   &::-webkit-scrollbar-thumb {
-    background: ${theme.colors.primary}; /* Scrollbar color */
+    background: ${theme.colors.primary};
     border-radius: ${theme.spacing(0.2)};
   }
 
   &::-webkit-scrollbar-track {
-    background: transparent; 
+    background: transparent;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
@@ -84,16 +94,16 @@ export const NewsCard = styled.div`
 
 export const NewsImage = styled.img`
   width: 100%;
-  height: 250px; 
+  height: 250px;
   object-fit: cover;
   border-radius: ${theme.spacing(1)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    height: 200px; 
+    height: 200px;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    height: 200px; 
+    height: 200px;
   }
 `;
 
@@ -168,21 +178,6 @@ export const TrendingTag = styled.span`
   }
 `;
 
-export const OutlineDots = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-left: ${theme.spacing(55)};
-  margin-top: ${theme.spacing(0.5)};
-  font-size: ${theme.spacing(3)};
-  color: ${theme.colors.black};
-  font-family: ${theme.fonts.body};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding-left: ${theme.spacing(2)};
-    font-size: ${theme.spacing(2)};
-  }
-`;
-
 export const ReadMore = styled.a`
   color: ${theme.colors.primary};
   font-size: ${theme.spacing(1.75)};
@@ -190,7 +185,7 @@ export const ReadMore = styled.a`
   font-weight: bold;
   display: inline-block;
   margin-top: ${theme.spacing(0.5)};
-  cursor: pointer; /* Add this line to make it clickable */
+  cursor: pointer;
   
   &:hover {
     text-decoration: underline;
@@ -219,8 +214,100 @@ export const PaginationWrapper = styled.div`
   gap: 20px;
   margin-top: 20px;
   padding: 20px;
-  background-color:${theme.colors.background};
+  background-color: ${theme.colors.background};
   border-top: 1px solid #ddd;
   bottom: 0;
   z-index: 100;
+`;
+
+// Skeleton styles
+export const SkeletonContainer = styled.div`
+  width: 100%;
+`;
+
+export const SkeletonTabs = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1.5)};
+  margin-bottom: ${theme.spacing(2)};
+`;
+
+export const SkeletonTab = styled.div`
+  width: 80px;
+  height: 30px;
+  background: #eee;
+  background: linear-gradient(90deg, #eee 8%, #ddd 18%, #eee 33%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: 4px;
+`;
+
+export const SkeletonCard = styled.div`
+  background: ${theme.colors.light};
+  border-radius: ${theme.spacing(1)};
+  overflow: hidden;
+  padding: ${theme.spacing(2)};
+  box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(1.25)} rgba(0, 0, 0, 0.1);
+  margin-bottom: ${theme.spacing(2)};
+`;
+
+export const SkeletonImage = styled.div`
+  width: 100%;
+  height: 250px;
+  background: #eee;
+  background: linear-gradient(90deg, #eee 8%, #ddd 18%, #eee 33%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: ${theme.spacing(1)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 200px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 200px;
+  }
+`;
+
+export const SkeletonContent = styled.div`
+  padding: ${theme.spacing(2)};
+`;
+
+export const SkeletonHeader = styled.div`
+  width: 60%;
+  height: 16px;
+  background: #eee;
+  background: linear-gradient(90deg, #eee 8%, #ddd 18%, #eee 33%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  margin-bottom: ${theme.spacing(1.5)};
+`;
+
+export const SkeletonTitle = styled.div`
+  width: 80%;
+  height: 24px;
+  background: #eee;
+  background: linear-gradient(90deg, #eee 8%, #ddd 18%, #eee 33%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  margin-bottom: ${theme.spacing(2)};
+`;
+
+export const SkeletonText = styled.div`
+  width: 100%;
+  height: 16px;
+  background: #eee;
+  background: linear-gradient(90deg, #eee 8%, #ddd 18%, #eee 33%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  margin-bottom: ${theme.spacing(1)};
+`;
+
+export const SkeletonMeta = styled.div`
+  width: 40%;
+  height: 14px;
+  background: #eee;
+  background: linear-gradient(90deg, #eee 8%, #ddd 18%, #eee 33%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  margin-top: ${theme.spacing(2)};
 `;

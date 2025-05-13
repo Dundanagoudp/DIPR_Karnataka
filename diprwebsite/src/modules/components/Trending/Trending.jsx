@@ -10,7 +10,14 @@ import {
   NewsTitle,
   ArrowIcon,
   DotContainer,
-  Dot
+  Dot,
+  ShimmerContainer,
+  ShimmerContent,
+  ShimmerCategory,
+  ShimmerText,
+  ShimmerTitle,
+  ShimmerDotContainer,
+  ShimmerDot
 } from "../Trending/Trending.styles";
 import theme from "../../../theme/Theme";
 import { BannerApi } from "../../../services/categoryapi/CategoryApi";
@@ -19,12 +26,13 @@ import { FontSizeContext } from "../../../context/FontSizeProvider";
 const Trending = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [trendingNews, setTrendingNews] = useState([]);
-      const { fontSize } = useContext(FontSizeContext);
-
+  const [loading, setLoading] = useState(true);
+  const { fontSize } = useContext(FontSizeContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const data = await BannerApi();
         const formattedData = data.map((item) => ({
           id: item._id,
@@ -39,6 +47,8 @@ const Trending = () => {
         setTrendingNews(formattedData);
       } catch (error) {
         console.error("Error fetching banner data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -46,14 +56,34 @@ const Trending = () => {
   }, []);
 
   useEffect(() => {
-    if (trendingNews.length === 0) return;
+    if (trendingNews.length === 0 || loading) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % trendingNews.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [trendingNews]);
+  }, [trendingNews, loading]);
+
+  if (loading) {
+    return (
+      <CarouselContainer style={{ fontSize: `${fontSize}%` }}>
+        <ShimmerContainer>
+          <ShimmerContent>
+            <ShimmerCategory />
+            <ShimmerText />
+            <ShimmerTitle />
+            <ShimmerTitle style={{ width: "80%" }} />
+          </ShimmerContent>
+          <ShimmerDotContainer>
+            <ShimmerDot />
+            <ShimmerDot />
+            <ShimmerDot />
+          </ShimmerDotContainer>
+        </ShimmerContainer>
+      </CarouselContainer>
+    );
+  }
 
   return (
     <CarouselContainer style={{ fontSize: `${fontSize}%` }}>
