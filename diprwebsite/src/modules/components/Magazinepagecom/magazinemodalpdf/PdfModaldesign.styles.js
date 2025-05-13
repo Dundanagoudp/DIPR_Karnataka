@@ -1,6 +1,17 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import theme from "../../../../theme/Theme"
 
+// Shimmer animation
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`
+
+// Modal overlay
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -15,6 +26,7 @@ export const ModalOverlay = styled.div`
   padding: ${theme.spacing(2)};
 `
 
+// Modal container
 export const ModalContainer = styled.div`
   background-color: white;
   border-radius: 8px;
@@ -27,6 +39,7 @@ export const ModalContainer = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 `
 
+// Modal header
 export const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -35,6 +48,7 @@ export const ModalHeader = styled.div`
   border-bottom: 1px solid #eee;
 `
 
+// Modal title
 export const ModalTitle = styled.h3`
   margin: 0;
   font-size: ${theme.spacing(2.5)};
@@ -46,17 +60,20 @@ export const ModalTitle = styled.h3`
   }
 `
 
+// Modal content
 export const ModalContent = styled.div`
   flex: 1;
   overflow: hidden;
 `
 
+// PDF iframe
 export const PDFFrame = styled.iframe`
   width: 100%;
   height: 100%;
   border: none;
 `
 
+// Button styles
 export const IconButton = styled.button`
   background: none;
   border: none;
@@ -104,24 +121,38 @@ export const ButtonGroup = styled.div`
   align-items: center;
 `
 
+// Loading indicator
 export const LoadingContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: ${theme.spacing(2)};
+  padding: ${theme.spacing(2)};
   height: 100%;
-  background-color: #f5f5f5;
 `
 
-export const Spinner = styled.div`
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 4px solid ${theme.colors.primary};
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
+export const SkeletonLoader = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(2)};
+  padding: ${theme.spacing(2)};
+  height: 100%;
+`
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+export const SkeletonHeader = styled.div`
+  height: 32px;
+  width: 60%;
+  background: #e0e0e0;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite;
+  border-radius: 4px;
+`
+
+export const SkeletonContent = styled.div`
+  flex: 1;
+  background: #e0e0e0;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite;
+  border-radius: 8px;
 `

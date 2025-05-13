@@ -1,4 +1,3 @@
-"use client"
 import { useState } from "react"
 import { FaDownload, FaTimes } from "react-icons/fa"
 import {
@@ -12,7 +11,9 @@ import {
   DownloadButton,
   ButtonGroup,
   LoadingContainer,
-  Spinner
+  SkeletonLoader,
+  SkeletonHeader,
+  SkeletonContent
 } from "../magazinemodalpdf/PdfModaldesign.styles"
 
 const PDFModal = ({ isOpen, onClose, pdfUrl, title }) => {
@@ -36,9 +37,10 @@ const PDFModal = ({ isOpen, onClose, pdfUrl, title }) => {
         </ModalHeader>
         <ModalContent>
           {loading && (
-            <LoadingContainer>
-              <Spinner />
-            </LoadingContainer>
+            <SkeletonLoader>
+              <SkeletonHeader />
+              <SkeletonContent />
+            </SkeletonLoader>
           )}
           <PDFFrame
             src={pdfUrl}
