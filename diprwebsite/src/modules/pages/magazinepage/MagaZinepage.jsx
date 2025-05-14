@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import MagaZineRecommend from "../../components/Magazinepagecom/RecommendNews/RecommendNews";
-import MagzineData from "../../components/Magazinepagecom/magzinedata/MagzineData";
-import { FlexContainer, MagzineDataContainer } from "../magazinepage/MagaZinepage.styles";
-import MagazinePdf from "../../components/Magazinepagecom/magazinepdf/MagazinePdf";
 import MagazineDownloadPdf from "../../components/Magazinepagecom/downloadpdf/DownloadPdfs";
+// import { FlexContainer, MagzineDataContainer } from "../magazinepage/MagaZinepage.styles";
+// import MagazinePdf from "../../components/Magazinepagecom/magazinepdf/MagazinePdf";
 import Loader from "../../../components/loder/Loder";
 import MagazinePdf2 from "../../components/Magazinepagecom/magazinemodalpdf/MagzineModalpdf";
 
@@ -27,14 +25,7 @@ const MagaZinepages = () => {
       <MagazineDownloadPdf />
       <MagazinePdf2 />
       {/* <MagazinePdf /> */}
-      {/* <FlexContainer>
-        <div>
-          <MagaZineRecommend />
-        </div>
-        <MagzineDataContainer>
-          <MagzineData />
-        </MagzineDataContainer>
-      </FlexContainer> */}
+
     </div>
   );
 };

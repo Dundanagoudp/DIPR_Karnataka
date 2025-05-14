@@ -21,7 +21,7 @@ import AddComments from "../../comments/AddComments";
 import { getRecommendedNews } from "../../../../services/newsApi/NewsApi";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../../context/LanguageContext"; 
-import Loader from "../../../../components/apiloders/ApiLoders"; // Corrected import name
+import Loader from "../../../../components/apiloders/ApiLoders"; 
 
 const LatestNewsRecommended = () => {
   const [newsData, setNewsData] = useState([]);

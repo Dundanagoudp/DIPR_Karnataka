@@ -1,5 +1,5 @@
-import styled, { keyframes } from "styled-components"
-import theme from "../../../theme/Theme"
+import styled, { keyframes } from "styled-components";
+import theme from "../../../theme/Theme";
 
 const shimmer = keyframes`
   0% {
@@ -8,7 +8,7 @@ const shimmer = keyframes`
   100% {
     background-position: 468px 0;
   }
-`
+`;
 
 export const CarouselContainer = styled.div`
   width: 85%;
@@ -31,7 +31,7 @@ export const CarouselContainer = styled.div`
     width: 95%;
     height: 240px;
   }
-`
+`;
 
 export const CarouselItem = styled.div`
   flex: 1 0 100%;
@@ -49,7 +49,7 @@ export const CarouselItem = styled.div`
   width: 100%;
   height: 100%;
   border-radius: ${theme.spacing(1)};
-`
+`;
 
 export const Overlay = styled.div`
   position: absolute;
@@ -59,7 +59,7 @@ export const Overlay = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   border-radius: ${theme.spacing(1)};
-`
+`;
 
 export const ContentWrapper = styled.div`
   position: absolute;
@@ -81,7 +81,7 @@ export const ContentWrapper = styled.div`
     left: ${theme.spacing(0.5)};
     right: ${theme.spacing(0.5)};
   }
-`
+`;
 
 export const TrendingCategory = styled.div`
   background: ${theme.colors.error};
@@ -102,7 +102,7 @@ export const TrendingCategory = styled.div`
     font-size: ${theme.spacing(1.2)};
     padding: ${theme.spacing(0.2)} ${theme.spacing(0.8)};
   }
-`
+`;
 
 export const NewsInfo = styled.div`
   color: ${theme.colors.light};
@@ -115,7 +115,7 @@ export const NewsInfo = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.3)};
   }
-`
+`;
 
 export const NewsTitle = styled.h2`
   color: ${theme.colors.background};
@@ -135,7 +135,7 @@ export const NewsTitle = styled.h2`
     margin-top: ${theme.spacing(1)};
     margin-bottom: ${theme.spacing(2)};
   }
-`
+`;
 
 export const ArrowIcon = styled.button`
   position: absolute;
@@ -173,7 +173,7 @@ export const ArrowIcon = styled.button`
     right: ${theme.spacing(3)};
     padding: ${theme.spacing(1.2)};
   }
-`
+`;
 
 export const NavigationArrow = styled.button`
   position: absolute;
@@ -212,7 +212,7 @@ export const NavigationArrow = styled.button`
     width: 30px;
     height: 30px;
   }
-`
+`;
 
 export const DotContainer = styled.div`
   position: absolute;
@@ -232,7 +232,7 @@ export const DotContainer = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     top: ${theme.spacing(0.8)};
   }
-`
+`;
 
 export const Dot = styled.button`
   width: 10px;
@@ -251,7 +251,7 @@ export const Dot = styled.button`
   &:focus {
     outline: none;
   }
-`
+`;
 
 // Shimmer effect components
 export const ShimmerContainer = styled.div`
@@ -261,7 +261,7 @@ export const ShimmerContainer = styled.div`
   background: #f6f7f8;
   overflow: hidden;
   border-radius: ${theme.spacing(1)};
-`
+`;
 
 export const ShimmerContent = styled.div`
   position: absolute;
@@ -272,7 +272,7 @@ export const ShimmerContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing(1)};
-`
+`;
 
 export const ShimmerCategory = styled.div`
   width: 100px;
@@ -282,7 +282,7 @@ export const ShimmerCategory = styled.div`
   animation: ${shimmer} 1.5s infinite linear;
   background: linear-gradient(to right, #e1e1e1 8%, #f5f5f5 18%, #e1e1e1 33%);
   background-size: 800px 104px;
-`
+`;
 
 export const ShimmerText = styled.div`
   width: 60%;
@@ -292,7 +292,7 @@ export const ShimmerText = styled.div`
   animation: ${shimmer} 1.5s infinite linear;
   background: linear-gradient(to right, #e1e1e1 8%, #f5f5f5 18%, #e1e1e1 33%);
   background-size: 800px 104px;
-`
+`;
 
 export const ShimmerTitle = styled.div`
   width: 100%;
@@ -303,7 +303,7 @@ export const ShimmerTitle = styled.div`
   background: linear-gradient(to right, #e1e1e1 8%, #f5f5f5 18%, #e1e1e1 33%);
   background-size: 800px 104px;
   margin-top: ${theme.spacing(1)};
-`
+`;
 
 export const ShimmerDotContainer = styled.div`
   position: absolute;
@@ -312,7 +312,7 @@ export const ShimmerDotContainer = styled.div`
   transform: translateX(-50%);
   display: flex;
   gap: ${theme.spacing(1)};
-`
+`;
 
 export const ShimmerDot = styled.div`
   width: 10px;
@@ -322,4 +322,4 @@ export const ShimmerDot = styled.div`
   animation: ${shimmer} 1.5s infinite linear;
   background: linear-gradient(to right, #e1e1e1 8%, #f5f5f5 18%, #e1e1e1 33%);
   background-size: 800px 104px;
-`
+`;

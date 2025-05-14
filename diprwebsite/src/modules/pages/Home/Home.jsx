@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Trending from "../../components/Trending/Trending";
-// import AllNews from "../../components/allnews/AllNews";
-// import MagaZines from "../../components/magazine/MagaZine";
-// import Magzines from "../../components/magzinesdata/MagzineNews";
-// import Magzines from "../../components/magzinesdata/magzinenews";
 import {
   HomeContainer,
   ContentWrapper,
@@ -37,12 +33,9 @@ const Home = () => {
           <Trending />
           <ContentWrapper>
             <NewsSection>
-              {/* <AllNews /> */}
-              {/* <Magzines/> */}
               <Magzines2/>
             </NewsSection>
             <MagazineSection>
-              {/* <MagaZines /> */}
               <AllNewsData/>
             </MagazineSection>
             <Videos/>
