@@ -18,6 +18,7 @@ export const PageContainer = styled.div`
   background-color: ${theme.colors.background};
   font-family: ${theme.fonts.body};
   color: ${theme.colors.text};
+  
 `;
 
 export const VideoLayout = styled.div`
@@ -59,7 +60,7 @@ export const VideoHeader = styled.div`
 `;
 
 export const VideoTitle = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -71,8 +72,8 @@ export const VideoTitle = styled.h1`
 `;
 
 export const ChevronRight = styled.span`
-  margin-left: ${theme.spacing(0.1)};
-  font-size: 1.9rem;
+  margin-left: ${theme.spacing(0.5)};
+  font-size: 1.4rem;
   color: ${theme.colors.text};
 `;
 
@@ -183,7 +184,7 @@ export const WatchNextSection = styled.div`
 `;
 
 export const WatchNextHeader = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-bottom: ${theme.spacing(1)};
   font-weight: 600;
   color: ${theme.colors.text};
@@ -297,6 +298,15 @@ export const VideoItemMeta = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing(0.25)};
+`;
+
+export const Viewall = styled.div`
+font-size: 1.3rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  color: ${theme.colors.text};
+  margin-left: auto;
 `;
 
 // Shimmer Effect Components

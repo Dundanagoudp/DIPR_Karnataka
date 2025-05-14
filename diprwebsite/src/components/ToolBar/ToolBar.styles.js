@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import theme from "../../theme/Theme";
+import styled from "styled-components"
+import theme from "../../theme/Theme"
 
 export const ToolbarContainer = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ export const ToolbarContainer = styled.div`
     gap: ${theme.spacing(1.5)};
     padding: ${theme.spacing(2)};
   }
-`;
+`
 
 export const SearchContainer = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ export const SearchContainer = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(0.5)};
   }
-`;
+`
 
 export const SearchIcon = styled.div`
   color: ${theme.colors.textgray};
@@ -56,7 +56,7 @@ export const SearchIcon = styled.div`
     font-size: 16px;
     margin-right: ${theme.spacing(0.5)};
   }
-`;
+`
 
 export const SearchInput = styled.input`
   flex: 1;
@@ -73,7 +73,7 @@ export const SearchInput = styled.input`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 12px;
   }
-`;
+`
 
 export const SuggestionsContainer = styled.div`
   position: absolute;
@@ -86,13 +86,44 @@ export const SuggestionsContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   margin-top: ${theme.spacing(0.5)};
-`;
+  max-height: 350px;
+  overflow-y: auto;
+`
+
+export const ResultCount = styled.div`
+  padding: ${theme.spacing(0.75)} ${theme.spacing(1)};
+  font-size: 12px;
+  color: ${theme.colors.textgray};
+  border-bottom: 1px solid ${theme.colors.light};
+  background: ${theme.colors.bggrey};
+`
+
+export const LoadingIndicator = styled.div`
+  padding: ${theme.spacing(1.5)};
+  font-size: 14px;
+  color: ${theme.colors.textgray};
+  text-align: center;
+`
+
+export const NoResults = styled.div`
+  padding: ${theme.spacing(1.5)};
+  font-size: 14px;
+  color: ${theme.colors.textgray};
+  text-align: center;
+`
 
 export const SuggestionItem = styled.div`
-  padding: ${theme.spacing(1)};
+  padding: ${theme.spacing(1.5)};
   font-size: 14px;
   color: ${theme.colors.text};
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid ${theme.colors.light};
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   &:hover {
     background: ${theme.colors.light};
@@ -100,8 +131,26 @@ export const SuggestionItem = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 12px;
+    padding: ${theme.spacing(1)};
   }
-`;
+`
+
+export const SuggestionContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+`
+
+export const SuggestionTitle = styled.div`
+  font-weight: 500;
+  margin-bottom: 4px;
+`
+
+export const SuggestionDate = styled.div`
+  font-size: 12px;
+  color: ${theme.colors.textgray};
+`
 
 export const FontControls = styled.div`
   display: flex;
@@ -148,7 +197,7 @@ export const FontControls = styled.div`
       font-size: 12px;
     }
   }
-`;
+`
 
 export const Select = styled.select`
   padding: ${theme.spacing(0.75)} ${theme.spacing(1.5)};
@@ -175,5 +224,4 @@ export const Select = styled.select`
     font-size: 12px;
     padding: ${theme.spacing(0.5)};
   }
-`;
-
+`

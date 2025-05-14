@@ -6,13 +6,13 @@ import {
   TabsWrapper,
   TabItem,
   ProfileIcon,
+  ProfilePlaceholder,
   HamburgerMenu,
-} from "../categorytab/CategoryTab.styles";
+} from "./CategoryTab.styles";
 import ProfileImage from "../../assets/Profile.png";
 import { FontSizeContext } from "../../context/FontSizeProvider";
-import { LanguageContext } from "../../context/LanguageContext"; 
+import { LanguageContext } from "../../context/LanguageContext";
 
-// Define tab names in multiple languages
 const tabs = [
   { 
     name: { 
@@ -69,9 +69,9 @@ const CategoryTab = () => {
   const [activeTab, setActiveTab] = useState(location.pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { fontSize } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext); // Get the current language from context
+  const { language } = useContext(LanguageContext);
 
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleTabClick = (path) => {
     setActiveTab(path);
@@ -84,7 +84,6 @@ const CategoryTab = () => {
     setActiveTab(location.pathname);
   }, [location.pathname]);
 
-  // Close menu on larger screens
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 480) {
@@ -92,15 +91,11 @@ const CategoryTab = () => {
       }
     };
     window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Function to get the tab name based on the selected language
   const getLocalizedTabName = (tab) => {
-    return tab.name[language] || tab.name.English; // Fallback to English if the language is not available
+    return tab.name[language] || tab.name.English;
   };
 
   return (
@@ -108,22 +103,28 @@ const CategoryTab = () => {
       <HamburgerMenu onClick={toggleMenu}>
         {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
       </HamburgerMenu>
-      <TabsWrapper style={{ fontSize: `${fontSize}%` }} isMenuOpen={isMenuOpen}>
+
+      <TabsWrapper isMenuOpen={isMenuOpen}>
         {tabs.map((tab) => (
           <Link
-            key={tab.name.English} // Use English name as the key
+            key={tab.path}
             to={tab.path}
             onClick={() => handleTabClick(tab.path)}
             style={{ textDecoration: "none" }}
           >
-            <TabItem style={{ fontSize: `${fontSize}%` }} active={activeTab === tab.path}>
+            <TabItem active={activeTab === tab.path}>
               {getLocalizedTabName(tab)}
             </TabItem>
           </Link>
         ))}
       </TabsWrapper>
-      <Link to="/profile" style={{ marginLeft: "auto", marginRight: "4%" }}>
-        <ProfileIcon src={ProfileImage} alt="User Profile" />
+
+      <Link to="/profile">
+        {ProfileImage ? (
+          <ProfileIcon src={ProfileImage} alt="User Profile" />
+        ) : (
+          <ProfilePlaceholder size={40} />
+        )}
       </Link>
     </TabContainer>
   );

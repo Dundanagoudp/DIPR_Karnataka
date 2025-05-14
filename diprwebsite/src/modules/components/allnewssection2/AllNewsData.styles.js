@@ -1,5 +1,5 @@
-import styled, { keyframes } from "styled-components";
-import theme from "../../../theme/Theme";
+import styled, { keyframes } from "styled-components"
+import theme from "../../../theme/Theme"
 
 // Shimmer animation
 const shimmer = keyframes`
@@ -9,7 +9,7 @@ const shimmer = keyframes`
   100% {
     background-position: 468px 0;
   }
-`;
+`
 
 export const Container = styled.div`
   max-width: ${theme.spacing(70)};
@@ -23,7 +23,18 @@ export const Container = styled.div`
     padding: 0 ${theme.spacing(2)};
     max-width: 100%;
   }
-`;
+  
+  .tabs-scroll-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: ${theme.spacing(2)};
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+`
 
 export const Title = styled.h1`
   font-size: ${theme.spacing(3)};
@@ -33,34 +44,48 @@ export const Title = styled.h1`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(3.5)};
   }
-`;
+`
 
 export const TabsContainer = styled.div`
   display: flex;
   gap: ${theme.spacing(1.5)};
-  margin-bottom: ${theme.spacing(2)};
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: thin;
-  scrollbar-color: transparent;
-
-  &::-webkit-scrollbar {
-    height: ${theme.spacing(0.5)};
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: ${theme.colors.primary};
-    border-radius: ${theme.spacing(0.2)};
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  flex: 1;
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing(1)};
   }
-`;
+`
+
+export const ScrollButton = styled.button`
+  background: ${theme.colors.light};
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  color: ${theme.colors.primary};
+  
+  &:hover {
+    background: ${theme.colors.background};
+  }
+  
+  &:focus {
+    outline: none;
+  }
+  
+  margin: ${(props) => (props.direction === "left" ? "0 10px 0 0" : "0 0 0 10px")};
+`
 
 export const Tab = styled.button`
   background: none;
@@ -77,7 +102,7 @@ export const Tab = styled.button`
     font-size: ${theme.spacing(1.75)};
     padding: ${theme.spacing(0.75)};
   }
-`;
+`
 
 export const NewsCard = styled.div`
   background: ${theme.colors.light};
@@ -90,7 +115,7 @@ export const NewsCard = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1.5)};
   }
-`;
+`
 
 export const NewsImage = styled.img`
   width: 100%;
@@ -105,7 +130,7 @@ export const NewsImage = styled.img`
   @media (max-width: ${theme.breakpoints.mobile}) {
     height: 200px;
   }
-`;
+`
 
 export const NewsContent = styled.div`
   padding: ${theme.spacing(2)};
@@ -113,7 +138,7 @@ export const NewsContent = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1.5)};
   }
-`;
+`
 
 export const NewsHeader = styled.div`
   font-size: ${theme.spacing(5)};
@@ -124,7 +149,7 @@ export const NewsHeader = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2.2)};
   }
-`;
+`
 
 export const NewsTitle = styled.h2`
   font-size: ${theme.spacing(2.5)};
@@ -134,7 +159,7 @@ export const NewsTitle = styled.h2`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
   }
-`;
+`
 
 export const ShareIcons = styled.div`
   display: flex;
@@ -147,7 +172,7 @@ export const ShareIcons = styled.div`
     font-size: ${theme.spacing(2.5)};
     gap: ${theme.spacing(2)};
   }
-`;
+`
 
 export const NewsMeta = styled.div`
   display: flex;
@@ -160,7 +185,7 @@ export const NewsMeta = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
   }
-`;
+`
 
 export const TrendingTag = styled.span`
   background: ${theme.colors.error};
@@ -176,7 +201,7 @@ export const TrendingTag = styled.span`
     font-size: ${theme.spacing(1.25)};
     margin-right: ${theme.spacing(2)};
   }
-`;
+`
 
 export const ReadMore = styled.a`
   color: ${theme.colors.primary};
@@ -194,7 +219,7 @@ export const ReadMore = styled.a`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
   }
-`;
+`
 
 export const NewsText = styled.p`
   font-size: ${theme.spacing(2)};
@@ -205,7 +230,7 @@ export const NewsText = styled.p`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
   }
-`;
+`
 
 export const PaginationWrapper = styled.div`
   display: flex;
@@ -218,18 +243,18 @@ export const PaginationWrapper = styled.div`
   border-top: 1px solid #ddd;
   bottom: 0;
   z-index: 100;
-`;
+`
 
 // Skeleton styles
 export const SkeletonContainer = styled.div`
   width: 100%;
-`;
+`
 
 export const SkeletonTabs = styled.div`
   display: flex;
   gap: ${theme.spacing(1.5)};
   margin-bottom: ${theme.spacing(2)};
-`;
+`
 
 export const SkeletonTab = styled.div`
   width: 80px;
@@ -239,7 +264,7 @@ export const SkeletonTab = styled.div`
   background-size: 800px 104px;
   animation: ${shimmer} 1.5s infinite linear;
   border-radius: 4px;
-`;
+`
 
 export const SkeletonCard = styled.div`
   background: ${theme.colors.light};
@@ -248,7 +273,7 @@ export const SkeletonCard = styled.div`
   padding: ${theme.spacing(2)};
   box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(1.25)} rgba(0, 0, 0, 0.1);
   margin-bottom: ${theme.spacing(2)};
-`;
+`
 
 export const SkeletonImage = styled.div`
   width: 100%;
@@ -266,11 +291,11 @@ export const SkeletonImage = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     height: 200px;
   }
-`;
+`
 
 export const SkeletonContent = styled.div`
   padding: ${theme.spacing(2)};
-`;
+`
 
 export const SkeletonHeader = styled.div`
   width: 60%;
@@ -280,7 +305,7 @@ export const SkeletonHeader = styled.div`
   background-size: 800px 104px;
   animation: ${shimmer} 1.5s infinite linear;
   margin-bottom: ${theme.spacing(1.5)};
-`;
+`
 
 export const SkeletonTitle = styled.div`
   width: 80%;
@@ -290,17 +315,17 @@ export const SkeletonTitle = styled.div`
   background-size: 800px 104px;
   animation: ${shimmer} 1.5s infinite linear;
   margin-bottom: ${theme.spacing(2)};
-`;
+`
 
 export const SkeletonText = styled.div`
-  width: 100%;
+  width: ${(props) => props.width || "100%"};
   height: 16px;
   background: #eee;
   background: linear-gradient(90deg, #eee 8%, #ddd 18%, #eee 33%);
   background-size: 800px 104px;
   animation: ${shimmer} 1.5s infinite linear;
   margin-bottom: ${theme.spacing(1)};
-`;
+`
 
 export const SkeletonMeta = styled.div`
   width: 40%;
@@ -310,4 +335,4 @@ export const SkeletonMeta = styled.div`
   background-size: 800px 104px;
   animation: ${shimmer} 1.5s infinite linear;
   margin-top: ${theme.spacing(2)};
-`;
+`

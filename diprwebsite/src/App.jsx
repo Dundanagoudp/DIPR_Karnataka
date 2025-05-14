@@ -13,7 +13,6 @@ import MagaZinepages from "./modules/pages/magazinepage/MagaZinepage";
 import AboutUspage from "./modules/pages/aboutuspage/AboutUspage";
 import Exclusive from "./modules/pages/exclusivepage/Exclusive";
 import ContactUs from "./modules/pages/ContactUspage/ContactUs";
-import Test from "./test";
 import CopyrightPolicy from "./components/WebsitePolicies/CopyrightPolicy/CopyrightPolicy";
 import HyperlinkingPolicy from "./components/WebsitePolicies/HyperlinkingPolicy/HyperlinkingPolicy";
 import SecurityPolicy from "./components/WebsitePolicies/SecurityPolicy/SecurityPolicy";

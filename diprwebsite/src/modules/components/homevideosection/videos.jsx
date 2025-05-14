@@ -32,8 +32,10 @@ import {
   ShimmerThumbnail,
   ShimmerTitle,
   ShimmerMeta,
+  Viewall,
 } from "./videos.styles";
 import { getLongVideos } from "../../../services/videoApi/videoApi";
+import { Link } from "react-router-dom";
 
 const Videos = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -214,8 +216,14 @@ const Videos = () => {
         <VideoPlayerSection>
           <VideoHeader>
             <VideoTitle>
-              VIDEO <ChevronRight><IoIosArrowForward /></ChevronRight>
+              Karnataka Varthe <ChevronRight><IoIosArrowForward /></ChevronRight>
             </VideoTitle>
+               <Link to="/gallery" style={{ textDecoration: 'none' ,marginLeft:"auto" }}>
+    <Viewall>
+      View All <ChevronRight><IoIosArrowForward /></ChevronRight>
+    </Viewall>
+  </Link>
+
           </VideoHeader>
 
           {/* Video Player */}
@@ -274,7 +282,7 @@ const Videos = () => {
 
         {/* Right side - Video list */}
         <WatchNextSection>
-          <WatchNextHeader>WATCH NEXT</WatchNextHeader>
+          <WatchNextHeader>Watch Next</WatchNextHeader>
           <VideoList>
             {loading
               ? Array.from({ length: 4 }).map((_, index) => (
