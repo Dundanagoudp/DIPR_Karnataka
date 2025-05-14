@@ -5,11 +5,12 @@ export const LoginApi = async (idToken) => {
   try {
     const response = await fetch(`${VITE_API_URL}api/users/login-on-web`, {
       method: "POST",
-      headers: {
+      headers: {       
+       
         "Content-Type": "application/json", 
       },
       body: JSON.stringify({ idToken }), 
-      credentials: "include", 
+      // credentials: "include", 
     });
 
     const data = await response.json();
