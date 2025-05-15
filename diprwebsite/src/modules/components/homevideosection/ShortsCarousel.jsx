@@ -20,12 +20,18 @@ import {
   VideoPlayer,
   ProgressBar,
   ProgressIndicator,
+  ShimmerContainer,
+  ShimmerThumbnail,
+  ShimmerTitle,
+  ShimmerChannel,
+  ShimmerButton
 } from "./ShortsCarousel.styles"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 import { CarouselTitleWrapper } from "./ShortsCarousel.styles"
 
 const ShortsCarousel = () => {
   const [videos, setVideos] = useState([])
+  const [loading, setLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [playingVideoId, setPlayingVideoId] = useState(null)
   const [progress, setProgress] = useState(0)
@@ -42,6 +48,7 @@ const ShortsCarousel = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
+        setLoading(true)
         const response = await getVideos()
         if (response.success && Array.isArray(response.data)) {
           setVideos(response.data)
@@ -69,6 +76,8 @@ const ShortsCarousel = () => {
             video_url: "",
           }))
         setVideos(placeholderVideos)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -205,13 +214,12 @@ const ShortsCarousel = () => {
 
   return (
     <CarouselContainer ref={containerRef}>
-        
- <CarouselHeader>
-  <CarouselTitleWrapper>
-    <CarouselTitle>View All</CarouselTitle>
-    <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }}/>
-  </CarouselTitleWrapper>
-</CarouselHeader>
+      <CarouselHeader>
+        <CarouselTitleWrapper>
+          <CarouselTitle>View All</CarouselTitle>
+          <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }}/>
+        </CarouselTitleWrapper>
+      </CarouselHeader>
 
       <CarouselWrapper
         onMouseUp={handleMouseUp}
@@ -219,7 +227,7 @@ const ShortsCarousel = () => {
         onTouchEnd={handleMouseUp}
       >
         {!isMobile && (
-          <NavigationButton direction="left" onClick={handlePrev} disabled={currentIndex === 0}>
+          <NavigationButton direction="left" onClick={handlePrev} disabled={currentIndex === 0 || loading}>
             <ChevronLeft size={24} />
           </NavigationButton>
         )}
@@ -232,49 +240,69 @@ const ShortsCarousel = () => {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
         >
-          {videos.map((video) => (
-            <VideoCard key={video._id}>
-              {playingVideoId === video._id ? (
-                <VideoPlayer>
-                  <video
-                    ref={videoRef}
-                    controls
-                    autoPlay
-                    loop
-                    src={
-                      video.video_url || "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                    }
-                  >
-                    Your browser does not support the video tag.
-                  </video>
-                  <ProgressBar>
-                    <ProgressIndicator style={{ width: `${progress}%` }} />
-                  </ProgressBar>
-                </VideoPlayer>
-              ) : (
-                <VideoThumbnail>
-                  <img src={video.thumbnail || "/placeholder.svg?height=400&width=225"} alt={video.title} />
-                  <VideoOverlay>
-                    <PlayButton onClick={() => handlePlayClick(video._id)}>
-                      <Play size={40} />
-                    </PlayButton>
-                  </VideoOverlay>
-                </VideoThumbnail>
-              )}
+          {loading ? (
+            Array(visibleVideos).fill().map((_, index) => (
+              <VideoCard key={`shimmer-${index}`}>
+                <ShimmerContainer>
+                  <ShimmerThumbnail />
+                  <VideoInfo>
+                    <ShimmerTitle />
+                    <ChannelInfo>
+                      <ShimmerChannel />
+                      {/* <ShimmerButton /> */}
+                    </ChannelInfo>
+                  </VideoInfo>
+                </ShimmerContainer>
+              </VideoCard>
+            ))
+          ) : (
+            videos.map((video) => (
+              <VideoCard key={video._id}>
+                {playingVideoId === video._id ? (
+                  <VideoPlayer>
+                    <video
+                      ref={videoRef}
+                      controls
+                      autoPlay
+                      loop
+                      src={
+                        video.video_url || "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                      }
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                    <ProgressBar>
+                      <ProgressIndicator style={{ width: `${progress}%` }} />
+                    </ProgressBar>
+                  </VideoPlayer>
+                ) : (
+                  <VideoThumbnail>
+                    <img src={video.thumbnail || "/placeholder.svg?height=400&width=225"} alt={video.title} />
+                    <VideoOverlay>
+                      <PlayButton onClick={() => handlePlayClick(video._id)}>
+                        <Play size={40} />
+                      </PlayButton>
+                    </VideoOverlay>
+                  </VideoThumbnail>
+                )}
 
-              <VideoInfo>
-                <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
-    
-              </VideoInfo>
-            </VideoCard>
-          ))}
+                <VideoInfo>
+                  <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
+                  <ChannelInfo>
+                    <ChannelName>Channel Name</ChannelName>
+                    {/* <SubscribeButton>Subscribe</SubscribeButton> */}
+                  </ChannelInfo>
+                </VideoInfo>
+              </VideoCard>
+            ))
+          )}
         </CarouselTrack>
 
         {!isMobile && (
           <NavigationButton
             direction="right"
             onClick={handleNext}
-            disabled={currentIndex >= videos.length - visibleVideos}
+            disabled={currentIndex >= videos.length - visibleVideos || loading}
           >
             <ChevronRight size={24} />
           </NavigationButton>

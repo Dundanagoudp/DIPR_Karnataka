@@ -22,6 +22,15 @@ const shimmer = keyframes`
   }
 `;
 
+const shimmerAnimation = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`;
+
 // Helper function for responsive values
 const responsive = (prop, values) => {
   return `
@@ -36,6 +45,78 @@ const responsive = (prop, values) => {
     }
   `;
 };
+
+// Shimmer Effect Components
+export const ShimmerContainer = styled.div`
+  width: 100%;
+`;
+
+export const ShimmerThumbnail = styled.div`
+  width: 100%;
+  aspect-ratio: 9/16;
+  border-radius: ${theme.spacing(1.5)};
+  background: linear-gradient(
+    to right,
+    #f0f0f0 8%,
+    #e0e0e0 18%,
+    #f0f0f0 33%
+  );
+  background-size: 800px 104px;
+  animation: ${shimmerAnimation} 1.5s infinite linear;
+  margin-bottom: ${theme.spacing(1)};
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    border-radius: ${theme.spacing(1)};
+  }
+`;
+
+export const ShimmerTitle = styled.div`
+  height: 20px;
+  width: 80%;
+  margin-bottom: ${theme.spacing(1)};
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    #f0f0f0 8%,
+    #e0e0e0 18%,
+    #f0f0f0 33%
+  );
+  background-size: 800px 104px;
+  animation: ${shimmerAnimation} 1.5s infinite linear;
+`;
+
+export const ShimmerChannel = styled.div`
+  height: 16px;
+  width: 60%;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    #f0f0f0 8%,
+    #e0e0e0 18%,
+    #f0f0f0 33%
+  );
+  background-size: 800px 104px;
+  animation: ${shimmerAnimation} 1.5s infinite linear;
+`;
+
+export const ShimmerButton = styled.div`
+  height: 30px;
+  width: 80px;
+  border-radius: ${theme.spacing(2.25)};
+  background: linear-gradient(
+    to right,
+    #f0f0f0 8%,
+    #e0e0e0 18%,
+    #f0f0f0 33%
+  );
+  background-size: 800px 104px;
+  animation: ${shimmerAnimation} 1.5s infinite linear;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 25px;
+    width: 70px;
+  }
+`;
 
 // Container Components
 export const CarouselContainer = styled.div`
@@ -53,7 +134,7 @@ export const CarouselContainer = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     width: 1200px;
-   max-width: 75%;
+    max-width: 75%;
   }
 `;
 
@@ -92,7 +173,7 @@ export const CarouselTitleWrapper = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-     margin-left:auto;
+    margin-left: auto;
   }
 `;
 
@@ -404,7 +485,7 @@ export const NavigationButton = styled.button`
   @media (max-width: 768px) {
     display: none;
   }
-`
+`;
 
 // Video Player Components
 export const VideoPlayer = styled.div`
