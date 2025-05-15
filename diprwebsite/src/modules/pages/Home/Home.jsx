@@ -38,8 +38,7 @@ const Home = () => {
             </NewsSection>
             <MagazineSection>
               <AllNewsData/>
-            </MagazineSection>
-                
+            </MagazineSection>       
                         <ShortsCarousel/>
             <Videos/>
           </ContentWrapper>

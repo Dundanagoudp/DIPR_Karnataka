@@ -1,17 +1,18 @@
-import styled from "styled-components";
-import theme from "../../theme/Theme";
+import styled from "styled-components"
+import theme from "../../theme/Theme"
 
 export const FooterContainer = styled.footer`
   background-color: ${theme.colors.Footerbg};
   color: ${theme.colors.white};
   font-family: ${theme.fonts.body};
-  padding: ${theme.spacing(0)} 0;
+  padding: 0;
   overflow: hidden;
+  width: 100%;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1)} 0;
   }
-`;
+`
 
 export const FooterSection = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ export const FooterSection = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1)};
   }
-`;
+`
 
 export const FooterContent = styled.div`
   display: flex;
@@ -50,7 +51,7 @@ export const FooterContent = styled.div`
     flex-direction: column;
     gap: ${theme.spacing(3)};
   }
-`;
+`
 
 export const Section = styled.div`
   flex: 2;
@@ -73,11 +74,11 @@ export const Section = styled.div`
   @media (max-width: 1024px) and (min-width: 770px) {
     padding: 0 ${theme.spacing(3)};
   }
-`;
+`
 
-export const LastSection = styled(Section)`
+export const VisitorsSection = styled(Section)`
   border-right: none;
-`;
+`
 
 export const Title = styled.h3`
   font-size: ${theme.spacing(2)};
@@ -95,19 +96,23 @@ export const Title = styled.h3`
   @media (max-width: 1024px) and (min-width: 770px) {
     font-size: ${theme.spacing(2)};
   }
-`;
+`
 
 export const LogoSection = styled.div`
   flex: 1;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     margin-top: ${theme.spacing(2)};
   }
-`;
+`
 
 export const Logo = styled.img`
-  max-width: ${theme.spacing(30)};
+  max-width: ${theme.spacing(28)};
+  height: auto;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: ${theme.spacing(20)};
@@ -116,7 +121,7 @@ export const Logo = styled.img`
   @media (max-width: 1024px) and (min-width: 770px) {
     max-width: ${theme.spacing(25)};
   }
-`;
+`
 
 export const Text = styled.p`
   font-size: ${theme.spacing(1.75)};
@@ -128,11 +133,10 @@ export const Text = styled.p`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
   }
-`;
+`
 
 export const LinksList = styled.div`
   display: grid;
-  color: ${theme.colors.white};
   grid-template-columns: repeat(2, 1fr);
   gap: ${theme.spacing(2)} ${theme.spacing(1)};
   color: ${theme.colors.white};
@@ -145,7 +149,7 @@ export const LinksList = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: ${theme.spacing(2)};
   }
-`;
+`
 
 export const LinkItem = styled.div`
   display: flex;
@@ -153,48 +157,48 @@ export const LinkItem = styled.div`
   gap: ${theme.spacing(1)};
   font-size: ${theme.spacing(1.75)};
   color: ${theme.colors.white};
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     text-decoration: underline;
     cursor: pointer;
+    opacity: 0.9;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
   }
-`;
+`
 
 export const FooterStripContainer = styled.div`
   padding: ${theme.spacing(1)} 0;
   text-align: center;
   background-color: ${theme.colors.Footerstrip};
+  width: 100%;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(0.5)} 0;
   }
-`;
+`
 
 export const FooterStrip = styled.div`
   text-align: center;
-  gap: ${theme.spacing(3)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 ${theme.spacing(2)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    gap: ${theme.spacing(1)};
+    padding: 0 ${theme.spacing(1)};
   }
-`;
+`
 
 export const StripText = styled.p`
   margin: 0;
-  gap: ${theme.spacing(3)};
   font-size: ${theme.spacing(1.75)};
   color: ${theme.colors.white};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
-    gap: ${theme.spacing(1)};
   }
-`;
-
-export const VisitorsSection = styled(Section)`
-  border-right: none;
-`;
+`

@@ -33,7 +33,9 @@ import {
   ShimmerTitle,
   ShimmerMeta,
   Viewall,
-} from "./videos.styles";
+  VideoOverlay,
+  LargePlayButton,
+} from "./Videos.styles";
 import { getLongVideos } from "../../../services/videoApi/videoApi";
 import { Link } from "react-router-dom";
 
@@ -218,12 +220,11 @@ const Videos = () => {
             <VideoTitle>
               Karnataka Varthe <ChevronRight><IoIosArrowForward /></ChevronRight>
             </VideoTitle>
-               <Link to="/gallery" style={{ textDecoration: 'none' ,marginLeft:"auto" }}>
-    <Viewall>
-      View All <ChevronRight><IoIosArrowForward /></ChevronRight>
-    </Viewall>
-  </Link>
-
+            <Link to="/gallery" style={{ textDecoration: 'none', marginLeft: "auto" }}>
+              <Viewall>
+                View All <ChevronRight><IoIosArrowForward /></ChevronRight>
+              </Viewall>
+            </Link>
           </VideoHeader>
 
           {/* Video Player */}
@@ -248,6 +249,15 @@ const Videos = () => {
                   onClick={handleVideoClick}
                   onEnded={handleVideoEnd}
                 />
+                
+                {!isPlaying && (
+                  <VideoOverlay>
+                    <LargePlayButton onClick={togglePlay}>
+                      <FaPlay />
+                    </LargePlayButton>
+                  </VideoOverlay>
+                )}
+                
                 {showControls && (
                   <VideoControls>
                     <ControlButton onClick={togglePlay}>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { FaClock, FaUsers, FaCodeBranch } from "react-icons/fa";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -37,7 +37,7 @@ const translations = {
     help: "Help",
     visitorsTitle: "Visitors",
     lastUpdated: "Last Updated: 18-01-2025 11:33 AM",
-    visitorsCounter: "Visitors Counter: 212444",
+    visitorsCounter: "Visitors Counter: ",
     version: "Version: C64/KBN 1.3",
     footerStripText: "Designed, Developed and Hosted by: Digi9 - Web Portal, Government of Karnataka © 2025, All Rights Reserved.",
   },
@@ -54,7 +54,7 @@ const translations = {
     help: "सहायता",
     visitorsTitle: "आगंतुक",
     lastUpdated: "अंतिम अद्यतन: 18-01-2025 11:33 AM",
-    visitorsCounter: "आगंतुक गणक: 212444",
+    visitorsCounter: "आगंतुक गणक: ",
     version: "संस्करण: C64/KBN 1.3",
     footerStripText: "डिज़ाइन, विकसित और होस्ट किया गया: ई-गवर्नेंस केंद्र - वेब पोर्टल, कर्नाटक सरकार © 2025, सर्वाधिकार सुरक्षित।",
   },
@@ -71,7 +71,7 @@ const translations = {
     help: "ಸಹಾಯ",
     visitorsTitle: "ಭೇಟಿಕಾರರು",
     lastUpdated: "ಕೊನೆಯ ನವೀಕರಣ: 18-01-2025 11:33 AM",
-    visitorsCounter: "ಭೇಟಿಕಾರರ ಗಣಕ: 212444",
+    visitorsCounter: "ಭೇಟಿಕಾರರ ಗಣಕ: ",
     version: "ಆವೃತ್ತಿ: C64/KBN 1.3",
     footerStripText: "ವಿನ್ಯಾಸಗೊಳಿಸಿದ, ಅಭಿವೃದ್ಧಿಪಡಿಸಿದ ಮತ್ತು ಹೋಸ್ಟ್ ಮಾಡಿದವರು: ಇ-ಗವರ್ನೆನ್ಸ್ ಸೆಂಟರ್ - ವೆಬ್ ಪೋರ್ಟಲ್, ಕರ್ನಾಟಕ ಸರ್ಕಾರ © 2025, ಎಲ್ಲ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
   },
@@ -84,7 +84,7 @@ const Footer = () => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
   const t = translations[language] || translations.English;
 
-  const fetchVisitorData = async () => {
+  const fetchVisitorData = useCallback(async () => {
     try {
       const isVisited = sessionStorage.getItem("isVisited");
       if (!isVisited) {
@@ -92,73 +92,77 @@ const Footer = () => {
         sessionStorage.setItem("isVisited", "true");
       }
       const totalVisitorsResponse = await GetTotalVisitorApi();
-      setVisitorData({ lastUpdated: new Date().toLocaleString(), totalVisitors: totalVisitorsResponse.totalVisits });
+      setVisitorData({ 
+        lastUpdated: new Date().toLocaleString(), 
+        totalVisitors: totalVisitorsResponse.totalVisits 
+      });
     } catch (error) {
       console.error("Error fetching visitor data:", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchVisitorData();
-    const intervalId = setInterval(() => setCurrentTime(new Date().toLocaleString()), 1000);
+    
+    // Update time every minute instead of every second for better performance
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date().toLocaleString());
+    }, 60000);
+    
     return () => clearInterval(intervalId);
-  }, []);
+  }, [fetchVisitorData]);
+
+  const fontSizeStyle = { fontSize: `${fontSize}%` };
 
   return (
-    <FooterContainer style={{ fontSize: `${fontSize}%` }}>
+    <FooterContainer style={fontSizeStyle}>
       <FooterSection>
-        <FooterContent style={{ fontSize: `${fontSize}%` }}>
+        <FooterContent style={fontSizeStyle}>
           <LogoSection>
             <Logo src={logo2} alt="Government Logo" />
           </LogoSection>
-          <Section style={{ fontSize: `${fontSize}%` }}>
-            <Title style={{ fontSize: `${fontSize}%` }}>{t.disclaimerTitle}</Title>
-            <Text style={{ fontSize: `${fontSize}%` }}>{t.disclaimerText}</Text>
+          <Section style={fontSizeStyle}>
+            <Title style={fontSizeStyle}>{t.disclaimerTitle}</Title>
+            <Text style={fontSizeStyle}>{t.disclaimerText}</Text>
           </Section>
-          <Section style={{ fontSize: `${fontSize}%` }}>
-            <Title style={{ fontSize: `${fontSize}%` }}>{t.websitePoliciesTitle}</Title>
-            <LinksList style={{ fontSize: `${fontSize}%` }}>
-              <LinkItem style={{ fontSize: `${fontSize}%` }}>
-                <IoIosArrowDroprightCircle />
-                <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/copyright-policy">{t.copyrightPolicy}</Link>
-              </LinkItem>
-              <LinkItem style={{ fontSize: `${fontSize}%` }}>
-                <IoIosArrowDroprightCircle />
-                <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/hyperlinking-policy">{t.hyperlinkingPolicy}</Link>
-              </LinkItem>
-              <LinkItem style={{ fontSize: `${fontSize}%` }}>
-                <IoIosArrowDroprightCircle />
-                <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/security-policy">{t.securityPolicy}</Link>
-              </LinkItem>
-              <LinkItem style={{ fontSize: `${fontSize}%` }}>
-                <IoIosArrowDroprightCircle />
-                <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/guidelines">{t.guidelines}</Link>
-              </LinkItem>
-              <LinkItem style={{ fontSize: `${fontSize}%` }}>
-                <IoIosArrowDroprightCircle />
-                <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/terms-and-conditions">{t.termsAndConditions}</Link>
-              </LinkItem>
-              <LinkItem style={{ fontSize: `${fontSize}%` }}>
-                <IoIosArrowDroprightCircle />
-                <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/privacy-policy">{t.privacyPolicy}</Link>
-              </LinkItem>
-              <LinkItem style={{ fontSize: `${fontSize}%` }}>
-                <IoIosArrowDroprightCircle />
-                <Link style={{ color: 'inherit', fontSize: `${fontSize}%` }} to="/help">{t.help}</Link>
-              </LinkItem>
+          <Section style={fontSizeStyle}>
+            <Title style={fontSizeStyle}>{t.websitePoliciesTitle}</Title>
+            <LinksList>
+              {[
+                { path: "/copyright-policy", text: t.copyrightPolicy },
+                { path: "/hyperlinking-policy", text: t.hyperlinkingPolicy },
+                { path: "/security-policy", text: t.securityPolicy },
+                { path: "/guidelines", text: t.guidelines },
+                { path: "/terms-and-conditions", text: t.termsAndConditions },
+                { path: "/privacy-policy", text: t.privacyPolicy },
+                { path: "/help", text: t.help },
+              ].map((link, index) => (
+                <LinkItem key={index} style={fontSizeStyle}>
+                  <IoIosArrowDroprightCircle />
+                  <Link style={{ color: 'inherit', ...fontSizeStyle }} to={link.path}>
+                    {link.text}
+                  </Link>
+                </LinkItem>
+              ))}
             </LinksList>
           </Section>
-          <VisitorsSection style={{ fontSize: `${fontSize}%` }}>
-            <Title style={{ fontSize: `${fontSize}%` }}>{t.visitorsTitle}</Title>
-            <Text style={{ fontSize: `${fontSize}%` }}><FaClock /> {currentTime}</Text>
-            <Text style={{ fontSize: `${fontSize}%` }}><FaUsers /> Visitors Counter: {visitorData.totalVisitors}</Text>
-            <Text style={{ fontSize: `${fontSize}%` }}><FaCodeBranch /> {t.version}</Text>
+          <VisitorsSection style={fontSizeStyle}>
+            <Title style={fontSizeStyle}>{t.visitorsTitle}</Title>
+            <Text style={fontSizeStyle}>
+              <FaClock /> {currentTime}
+            </Text>
+            <Text style={fontSizeStyle}>
+              <FaUsers /> {t.visitorsCounter}{visitorData.totalVisitors}
+            </Text>
+            <Text style={fontSizeStyle}>
+              <FaCodeBranch /> {t.version}
+            </Text>
           </VisitorsSection>
         </FooterContent>
       </FooterSection>
-      <FooterStripContainer style={{ fontSize: `${fontSize}%` }}>
+      <FooterStripContainer style={fontSizeStyle}>
         <FooterStrip>
-          <StripText style={{ fontSize: `${fontSize}%` }}>{t.footerStripText}</StripText>
+          <StripText style={fontSizeStyle}>{t.footerStripText}</StripText>
         </FooterStrip>
       </FooterStripContainer>
     </FooterContainer>

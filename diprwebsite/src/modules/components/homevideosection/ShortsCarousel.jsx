@@ -248,7 +248,7 @@ const ShortsCarousel = () => {
                   <VideoInfo>
                     <ShimmerTitle />
                     <ChannelInfo>
-                      <ShimmerChannel />
+                      {/* <ShimmerChannel /> */}
                       {/* <ShimmerButton /> */}
                     </ChannelInfo>
                   </VideoInfo>
@@ -289,7 +289,7 @@ const ShortsCarousel = () => {
                 <VideoInfo>
                   <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
                   <ChannelInfo>
-                    <ChannelName>Channel Name</ChannelName>
+                    {/* <ChannelName>Channel Name</ChannelName> */}
                     {/* <SubscribeButton>Subscribe</SubscribeButton> */}
                   </ChannelInfo>
                 </VideoInfo>

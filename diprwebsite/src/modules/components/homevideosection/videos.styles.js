@@ -11,6 +11,18 @@ const shimmer = keyframes`
   }
 `;
 
+// Animation for fade in
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
 // Styled Components
 export const PageContainer = styled.div`
   width: 100%;
@@ -18,12 +30,15 @@ export const PageContainer = styled.div`
   background-color: ${theme.colors.background};
   font-family: ${theme.fonts.body};
   color: ${theme.colors.text};
-  
+  padding: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(1)};
+  }
 `;
 
 export const VideoLayout = styled.div`
   display: flex;
-  padding: ${theme.spacing(1)};
   gap: ${theme.spacing(2)};
   max-width: 1300px;
   margin: 0 auto;
@@ -94,16 +109,69 @@ export const VideoElement = styled.video`
   object-fit: cover;
 `;
 
+export const VideoOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    rgba(0, 0, 0, 0.1) 0%, 
+    rgba(0, 0, 0, 0.3) 50%, 
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+export const LargePlayButton = styled.button`
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  width: ${theme.spacing(7.5)};
+  height: ${theme.spacing(7.5)};
+  cursor: pointer;
+  color: ${theme.colors.white};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  
+  svg {
+    filter: drop-shadow(0 0 ${theme.spacing(0.5)} rgba(0, 0, 0, 0.5));
+    transition: transform 0.3s ease;
+    width: ${theme.spacing(3)};
+    height: ${theme.spacing(3)};
+  }
+  
+  &:hover {
+    background: rgba(255, 0, 0, 0.7);
+    transform: scale(1.1);
+    
+    svg {
+      transform: scale(1.1);
+    }
+  }
+`;
+
 export const VideoControls = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-  padding: ${theme.spacing(0.5)};
+  padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: ${theme.spacing(0.5)};
+  z-index: 2;
 `;
 
 export const ControlButton = styled.button`
@@ -116,21 +184,25 @@ export const ControlButton = styled.button`
   justify-content: center;
   padding: ${theme.spacing(0.25)};
   font-size: 1rem;
-  z-index: 1;
-
+  transition: opacity 0.2s ease;
+  
   &:hover {
     opacity: 0.8;
+  }
+  
+  svg {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
   }
 `;
 
 export const ProgressBar = styled.div`
   flex: 1;
-  height: 0.25rem;
+  height: ${theme.spacing(0.5)};
   background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 0.125rem;
-  margin: 0 ${theme.spacing(0.5)};
+  border-radius: ${theme.spacing(0.25)};
   position: relative;
   cursor: pointer;
+  margin: 0 ${theme.spacing(0.5)};
 `;
 
 export const Progress = styled.div.attrs(props => ({
@@ -140,13 +212,14 @@ export const Progress = styled.div.attrs(props => ({
   left: 0;
   top: 0;
   height: 100%;
-  background-color: ${theme.colors.error};
-  border-radius: 0.125rem;
+  background: linear-gradient(90deg, #ff0000, #ff5e00);
+  border-radius: ${theme.spacing(0.25)};
   width: ${props => props.$width};
+  transition: width 0.1s linear;
 `;
 
 export const VideoInfo = styled.div`
-  margin-top: ${theme.spacing(1)};
+  margin-top: ${theme.spacing(1.5)};
   display: flex;
   flex-direction: column;
 `;
@@ -155,6 +228,7 @@ export const CurrentVideoTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: 500;
   color: ${theme.colors.text};
+  margin: 0;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 1.2rem;
@@ -167,10 +241,7 @@ export const VideoMeta = styled.div`
   gap: ${theme.spacing(0.5)};
   color: ${theme.colors.textgray};
   font-size: 0.9rem;
-`;
-
-export const Separator = styled.span`
-  color: ${theme.colors.icons};
+  margin-top: ${theme.spacing(0.5)};
 `;
 
 export const WatchNextSection = styled.div`
@@ -199,7 +270,6 @@ export const VideoList = styled.div`
   flex-direction: column;
   gap: ${theme.spacing(1)};
 `;
-
 export const VideoItem = styled.div.attrs(props => ({
   $isActive: props.$isActive || false,
 }))`
@@ -216,6 +286,7 @@ export const VideoItem = styled.div.attrs(props => ({
     background-color: ${theme.colors.bggrey};
   }
 `;
+
 
 export const ThumbnailContainer = styled.div`
   position: relative;
@@ -235,6 +306,11 @@ export const Thumbnail = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+  
+  ${VideoItem}:hover & {
+    transform: scale(1.05);
+  }
 `;
 
 export const NowPlaying = styled.div`
@@ -256,19 +332,23 @@ export const PlayButton = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   color: ${theme.colors.white};
-  opacity: 0.8;
-  font-size: 1.5rem;
   background-color: rgba(0, 0, 0, 0.5);
-  width: 40px;
-  height: 40px;
+  width: ${theme.spacing(5)};
+  height: ${theme.spacing(5)};
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
+  
+  svg {
+    width: ${theme.spacing(1.25)};
+    height: ${theme.spacing(1.25)};
+  }
 
   &:hover {
-    opacity: 1;
     background-color: rgba(0, 0, 0, 0.7);
+    transform: translate(-50%, -50%) scale(1.1);
   }
 `;
 
@@ -284,12 +364,12 @@ export const VideoItemTitle = styled.h3`
   font-size: 1rem;
   margin: 0;
   font-weight: 500;
+  color: ${theme.colors.text};
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  color: ${theme.colors.text};
 `;
 
 export const VideoItemMeta = styled.div`
@@ -298,47 +378,46 @@ export const VideoItemMeta = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing(0.25)};
+  margin-top: ${theme.spacing(0.5)};
 `;
 
 export const Viewall = styled.div`
-font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: bold;
   display: flex;
   align-items: center;
   color: ${theme.colors.text};
-  margin-left: auto;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: ${theme.colors.primary};
+  }
 `;
 
 // Shimmer Effect Components
 export const ShimmerContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing(1)};
+  gap: ${theme.spacing(1.5)};
   padding: ${theme.spacing(1)};
 `;
 
 export const ShimmerThumbnail = styled.div`
-  width: 160px;
-  height: 90px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   background: linear-gradient(to right, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
   background-size: 800px 104px;
   animation: ${shimmer} 1.5s infinite linear;
-  border-radius: 0.25rem;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 120px;
-    height: 67.5px;
-  }
+  border-radius: ${theme.spacing(0.75)};
 `;
 
 export const ShimmerTitle = styled.div`
   width: 80%;
-  height: 20px;
+  height: 24px;
   background: linear-gradient(to right, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
   background-size: 800px 104px;
   animation: ${shimmer} 1.5s infinite linear;
-  border-radius: 0.25rem;
-  margin-top: ${theme.spacing(1)};
+  border-radius: ${theme.spacing(0.5)};
 `;
 
 export const ShimmerMeta = styled.div`
@@ -347,7 +426,5 @@ export const ShimmerMeta = styled.div`
   background: linear-gradient(to right, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
   background-size: 800px 104px;
   animation: ${shimmer} 1.5s infinite linear;
-  border-radius: 0.25rem;
-  margin-top: ${theme.spacing(0.5)};
+  border-radius: ${theme.spacing(0.5)};
 `;
-
