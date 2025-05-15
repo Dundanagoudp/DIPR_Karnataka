@@ -1,5 +1,7 @@
-import { useContext, useEffect, useState, useRef, useCallback } from "react";
-import { FiArrowUpRight, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+"use client"
+
+import { useContext, useEffect, useState, useRef, useCallback } from "react"
+import { FiArrowUpRight, FiChevronLeft, FiChevronRight } from "react-icons/fi"
 import {
   CarouselContainer,
   CarouselItem,
@@ -18,31 +20,30 @@ import {
   ShimmerTitle,
   ShimmerDotContainer,
   ShimmerDot,
-  NavigationArrow
-} from "./Trending.styles";
-import theme from "../../../theme/Theme";
-import { BannerApi } from "../../../services/categoryapi/CategoryApi";
-import { FontSizeContext } from "../../../context/FontSizeProvider";
-import ImagePreviewModal from "../Trending/ImagePreviewModal";
+  NavigationArrow,
+} from "./Trending.styles"
+import theme from "../../../theme/Theme"
+import { BannerApi } from "../../../services/categoryapi/CategoryApi"
+import { FontSizeContext } from "../../../context/FontSizeProvider"
+import ImagePreviewModal from "./ImagePreviewModal"
 
 const Trending = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [trendingNews, setTrendingNews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const { fontSize } = useContext(FontSizeContext);
-  const autoPlayRef = useRef(null);
-  const carouselRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [trendingNews, setTrendingNews] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+  const [showModal, setShowModal] = useState(false)
+  const { fontSize } = useContext(FontSizeContext)
+  const autoPlayRef = useRef(null)
+  const carouselRef = useRef(null)
 
   // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        const data = await BannerApi();
+        setLoading(true)
+        const data = await BannerApi()
         const formattedData = data.map((item) => ({
           id: item._id,
           category: "Trending",
@@ -51,98 +52,104 @@ const Trending = () => {
           title: item.title,
           image: item.bannerImage,
           link: `/post/${item._id}`,
-        }));
+        }))
 
-        setTrendingNews(formattedData);
+        setTrendingNews(formattedData)
       } catch (error) {
-        console.error("Error fetching banner data:", error);
+        console.error("Error fetching banner data:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // Navigation functions
   const nextSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % trendingNews.length);
-  }, [trendingNews.length]);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % trendingNews.length)
+  }, [trendingNews.length])
 
   const prevSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? trendingNews.length - 1 : prevIndex - 1));
-  }, [trendingNews.length]);
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? trendingNews.length - 1 : prevIndex - 1))
+  }, [trendingNews.length])
 
   const goToSlide = useCallback(
     (index) => {
-      setCurrentIndex(index);
+      setCurrentIndex(index)
       // Reset autoplay timer when manually navigating
       if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-        autoPlayRef.current = setInterval(nextSlide, 4000);
+        clearInterval(autoPlayRef.current)
+        autoPlayRef.current = setInterval(nextSlide, 4000)
       }
     },
     [nextSlide],
-  );
+  )
 
-  const handleImagePreview = (image, title) => {
-    setSelectedImage({ imageUrl: image, title });
-    setShowModal(true);
-  };
+  const handleImagePreview = () => {
+    // Create an array of image objects for the modal
+    const imageSlides = trendingNews.map((news) => ({
+      imageUrl: news.image,
+      title: news.title,
+    }))
+
+    // Set the images array and show modal
+    setShowModal(true)
+  }
 
   const closeModal = () => {
-    setShowModal(false);
-  };
+    setShowModal(false)
+  }
 
   // Auto-play functionality
   useEffect(() => {
-    if (trendingNews.length === 0 || loading) return;
+    if (trendingNews.length === 0 || loading) return
 
-    autoPlayRef.current = setInterval(nextSlide, 4000);
+    autoPlayRef.current = setInterval(nextSlide, 4000)
 
     return () => {
       if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
+        clearInterval(autoPlayRef.current)
       }
-    };
-  }, [trendingNews, loading, nextSlide]);
+    }
+  }, [trendingNews, loading, nextSlide])
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (document.activeElement === carouselRef.current || carouselRef.current?.contains(document.activeElement)) {
         if (e.key === "ArrowLeft") {
-          prevSlide();
-          e.preventDefault();
+          prevSlide()
+          e.preventDefault()
         } else if (e.key === "ArrowRight") {
-          nextSlide();
-          e.preventDefault();
+          nextSlide()
+          e.preventDefault()
         }
       }
-    };
+    }
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [nextSlide, prevSlide]);
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [nextSlide, prevSlide])
 
   // Touch handlers for swipe
   const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
+    setTouchStart(e.targetTouches[0].clientX)
+  }
 
   const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
 
   const handleTouchEnd = () => {
     if (touchStart - touchEnd > 75) {
       // Swipe left
-      nextSlide();
+      nextSlide()
     } else if (touchStart - touchEnd < -75) {
       // Swipe right
-      prevSlide();
+      prevSlide()
     }
-  };
+  }
 
   // Loading state
   if (loading) {
@@ -162,8 +169,14 @@ const Trending = () => {
           </ShimmerDotContainer>
         </ShimmerContainer>
       </CarouselContainer>
-    );
+    )
   }
+
+  // Prepare images for modal
+  const modalImages = trendingNews.map((news) => ({
+    imageUrl: news.image,
+    title: news.title,
+  }))
 
   return (
     <>
@@ -195,30 +208,19 @@ const Trending = () => {
               </div>
               <NewsTitle>{news.title}</NewsTitle>
             </ContentWrapper>
-            <ArrowIcon 
-              onClick={() => handleImagePreview(news.image, news.title)}
-              aria-label={`Preview image for ${news.title}`}
-            >
+            <ArrowIcon onClick={handleImagePreview} aria-label={`Preview images in slideshow`}>
               <FiArrowUpRight size={28} color={theme.colors.background} />
             </ArrowIcon>
           </CarouselItem>
         ))}
 
         {/* Left Navigation Arrow */}
-        <NavigationArrow 
-          position="left" 
-          onClick={prevSlide}
-          aria-label="Previous slide"
-        >
+        <NavigationArrow position="left" onClick={prevSlide} aria-label="Previous slide">
           <FiChevronLeft size={24} />
         </NavigationArrow>
-        
+
         {/* Right Navigation Arrow */}
-        <NavigationArrow 
-          position="right" 
-          onClick={nextSlide}
-          aria-label="Next slide"
-        >
+        <NavigationArrow position="right" onClick={nextSlide} aria-label="Next slide">
           <FiChevronRight size={24} />
         </NavigationArrow>
 
@@ -235,15 +237,9 @@ const Trending = () => {
         </DotContainer>
       </CarouselContainer>
 
-      {showModal && selectedImage && (
-        <ImagePreviewModal
-          imageUrl={selectedImage.imageUrl}
-          title={selectedImage.title}
-          onClose={closeModal}
-        />
-      )}
+      {showModal && <ImagePreviewModal images={modalImages} initialIndex={currentIndex} onClose={closeModal} />}
     </>
-  );
-};
+  )
+}
 
-export default Trending;
+export default Trending

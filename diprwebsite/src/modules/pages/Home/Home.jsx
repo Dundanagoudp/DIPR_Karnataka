@@ -39,6 +39,7 @@ const Home = () => {
             <MagazineSection>
               <AllNewsData/>
             </MagazineSection>
+                
                         <ShortsCarousel/>
             <Videos/>
           </ContentWrapper>

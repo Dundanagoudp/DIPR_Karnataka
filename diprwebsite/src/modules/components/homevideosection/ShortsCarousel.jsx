@@ -21,6 +21,8 @@ import {
   ProgressBar,
   ProgressIndicator,
 } from "./ShortsCarousel.styles"
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
+import { CarouselTitleWrapper } from "./ShortsCarousel.styles"
 
 const ShortsCarousel = () => {
   const [videos, setVideos] = useState([])
@@ -172,7 +174,7 @@ const ShortsCarousel = () => {
     if (!isDragging) return
     e.preventDefault()
     const x = e.pageX - trackRef.current.offsetLeft
-    const walk = (x - startX) * 2 // Scroll speed multiplier
+    const walk = (x - startX) * 2 
     const newIndex = currentIndex - Math.sign(walk) * (Math.abs(walk) > 50 ? 1 : 0)
 
     if (newIndex >= 0 && newIndex <= videos.length - visibleVideos) {
@@ -203,9 +205,13 @@ const ShortsCarousel = () => {
 
   return (
     <CarouselContainer ref={containerRef}>
-      <CarouselHeader>
-        <CarouselTitle>#Shorts</CarouselTitle>
-      </CarouselHeader>
+        
+ <CarouselHeader>
+  <CarouselTitleWrapper>
+    <CarouselTitle>View All</CarouselTitle>
+    <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }}/>
+  </CarouselTitleWrapper>
+</CarouselHeader>
 
       <CarouselWrapper
         onMouseUp={handleMouseUp}

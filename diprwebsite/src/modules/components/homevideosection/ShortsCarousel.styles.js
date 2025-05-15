@@ -1,5 +1,7 @@
-import styled, { keyframes } from "styled-components"
+import styled, { keyframes } from "styled-components";
+import theme from "../../../theme/Theme";
 
+// Animations
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -9,7 +11,7 @@ const fadeIn = keyframes`
     opacity: 1;
     transform: scale(1);
   }
-`
+`;
 
 const shimmer = keyframes`
   0% {
@@ -18,46 +20,83 @@ const shimmer = keyframes`
   100% {
     background-position: 200% 0;
   }
-`
+`;
 
+// Helper function for responsive values
+const responsive = (prop, values) => {
+  return `
+    ${prop}: ${values.desktop || values.default};
+    
+    @media (max-width: ${theme.breakpoints.desktop}) {
+      ${prop}: ${values.tablet || values.desktop || values.default};
+    }
+    
+    @media (max-width: ${theme.breakpoints.tablet}) {
+      ${prop}: ${values.mobile || values.tablet || values.desktop || values.default};
+    }
+  `;
+};
+
+// Container Components
 export const CarouselContainer = styled.div`
   position: relative;
   width: 100%;
   max-width: 87%;
   margin: 0 auto;
-  padding: 10px;
+  padding: ${theme.spacing(1.25)};
   display: flex;
   flex-direction: column;
   
-  @media (max-width: 768px) {
-    padding: 8px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(1)};
   }
-`
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 1200px;
+   max-width: 75%;
+  }
+`;
 
 export const CarouselHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
-  margin-bottom: 10px;
+  padding: ${theme.spacing(1.25)} 0;
+  margin-bottom: ${theme.spacing(1.25)};
   
-  @media (min-width: 768px) {
+  @media (min-width: ${theme.breakpoints.tablet}) {
     justify-content: flex-end;
-    padding: 10px 20px;
+    padding: ${theme.spacing(1.25)} ${theme.spacing(2.5)};
   }
-`
+`;
 
 export const CarouselTitle = styled.h2`
-  font-size: 20px;
+  ${responsive('font-size', {
+    default: '1.25rem',
+    tablet: '1.125rem'
+  })}
   font-weight: 600;
-  color: #000;
+  color: ${theme.colors.black};
   margin: 0;
-  
-  @media (max-width: 768px) {
-    font-size: 18px;
-  }
-`
+  font-family: ${theme.fonts.heading};
+`;
 
+export const CarouselTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(0.625)};
+  cursor: pointer;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(0.5)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+     margin-left:auto;
+  }
+`;
+
+// Carousel Components
 export const CarouselWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -99,7 +138,7 @@ export const CarouselWrapper = styled.div`
   @media (max-width: 768px) {
     border-radius: 12px;
   }
-`
+`;
 
 export const CarouselTrack = styled.div`
   display: flex;
@@ -110,11 +149,12 @@ export const CarouselTrack = styled.div`
   &:active {
     cursor: grabbing;
   }
-`
+`;
 
+// Video Card Components
 export const VideoCard = styled.div`
   flex: 0 0 calc(100% / 5);
-  padding: 0 8px;
+  padding: 0 ${theme.spacing(1)};
   box-sizing: border-box;
   animation: ${fadeIn} 0.5s ease forwards;
   
@@ -122,35 +162,35 @@ export const VideoCard = styled.div`
     flex: 0 0 25%;
   }
   
-  @media (max-width: 1024px) {
+  @media (max-width: ${theme.breakpoints.desktop}) {
     flex: 0 0 33.333%;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     flex: 0 0 50%;
-    padding: 0 4px;
+    padding: 0 ${theme.spacing(0.5)};
   }
   
   @media (max-width: 640px) {
     flex: 0 0 100%;
-    max-width: 300px;
+    max-width: ${theme.spacing(37.5)};
     margin: 0 auto;
   }
-`
+`;
 
 export const VideoThumbnail = styled.div`
   position: relative;
   width: 100%;
   aspect-ratio: 9/16;
-  border-radius: 12px;
+  border-radius: ${theme.spacing(1.5)};
   overflow: hidden;
-  background-color: #000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: ${theme.colors.black};
+  box-shadow: 0 ${theme.spacing(0.5)} ${theme.spacing(1.5)} rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-${theme.spacing(0.625)});
+    box-shadow: 0 ${theme.spacing(1)} ${theme.spacing(2.5)} rgba(0, 0, 0, 0.15);
   }
   
   img {
@@ -164,19 +204,19 @@ export const VideoThumbnail = styled.div`
     transform: scale(1.05);
   }
   
-  @media (max-width: 768px) {
-    border-radius: 8px;
-    max-height: 400px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    border-radius: ${theme.spacing(1)};
+    max-height: ${theme.spacing(50)};
     
     &:hover {
-      transform: translateY(-3px);
+      transform: translateY(-${theme.spacing(0.375)});
     }
   }
   
   @media (max-width: 640px) {
-    max-height: 350px;
+    max-height: ${theme.spacing(43.75)};
   }
-`
+`;
 
 export const VideoOverlay = styled.div`
   position: absolute;
@@ -198,23 +238,23 @@ export const VideoOverlay = styled.div`
   &:hover {
     opacity: 1;
   }
-`
+`;
 
 export const PlayButton = styled.button`
   background: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: ${theme.spacing(7.5)};
+  height: ${theme.spacing(7.5)};
   cursor: pointer;
-  color: white;
+  color: ${theme.colors.white};
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
   
   svg {
-    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 0 ${theme.spacing(0.5)} rgba(0, 0, 0, 0.5));
     transition: transform 0.3s ease;
   }
   
@@ -227,49 +267,53 @@ export const PlayButton = styled.button`
     }
   }
   
-  @media (max-width: 768px) {
-    width: 50px;
-    height: 50px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: ${theme.spacing(6.25)};
+    height: ${theme.spacing(6.25)};
     
     svg {
-      width: 30px;
-      height: 30px;
+      width: ${theme.spacing(3.75)};
+      height: ${theme.spacing(3.75)};
     }
   }
   
   @media (max-width: 640px) {
-    width: 40px;
-    height: 40px;
+    width: ${theme.spacing(5)};
+    height: ${theme.spacing(5)};
     
     svg {
-      width: 24px;
-      height: 24px;
+      width: ${theme.spacing(3)};
+      height: ${theme.spacing(3)};
     }
   }
-`
+`;
 
+// Video Info Components
 export const VideoInfo = styled.div`
-  padding: 12px 8px;
+  padding: ${theme.spacing(1.5)} ${theme.spacing(1)};
   
-  @media (max-width: 768px) {
-    padding: 8px 4px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(1)} ${theme.spacing(0.5)};
   }
-`
+`;
 
 export const VideoTitle = styled.h3`
-  margin: 0 0 8px 0;
-  font-size: 16px;
+  margin: 0 0 ${theme.spacing(1)} 0;
+  ${responsive('font-size', {
+    default: '1rem',
+    tablet: '0.875rem'
+  })}
   font-weight: 500;
-  color: #000;
+  color: ${theme.colors.black};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: ${theme.fonts.body};
   
-  @media (max-width: 768px) {
-    font-size: 14px;
-    margin: 0 0 4px 0;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    margin: 0 0 ${theme.spacing(0.5)} 0;
   }
-`
+`;
 
 export const ChannelInfo = styled.div`
   display: flex;
@@ -279,41 +323,45 @@ export const ChannelInfo = styled.div`
   @media (max-width: 640px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: ${theme.spacing(0.5)};
   }
-`
+`;
 
 export const ChannelName = styled.span`
-  font-size: 14px;
-  color: #606060;
-  
-  @media (max-width: 768px) {
-    font-size: 12px;
-  }
-`
+  ${responsive('font-size', {
+    default: '0.875rem',
+    tablet: '0.75rem'
+  })}
+  color: ${theme.colors.icons};
+  font-family: ${theme.fonts.body};
+`;
 
 export const SubscribeButton = styled.button`
-  background-color: #000;
-  color: white;
+  background-color: ${theme.colors.black};
+  color: ${theme.colors.white};
   border: none;
-  border-radius: 18px;
-  padding: 6px 12px;
-  font-size: 14px;
+  border-radius: ${theme.spacing(2.25)};
+  padding: ${theme.spacing(0.75)} ${theme.spacing(1.5)};
+  ${responsive('font-size', {
+    default: '0.875rem',
+    tablet: '0.75rem'
+  })}
   cursor: pointer;
   font-weight: 500;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: ${theme.fonts.body};
   
   &:hover {
-    background-color: #333;
+    background-color: ${theme.colors.text};
     transform: scale(1.05);
   }
   
-  @media (max-width: 768px) {
-    font-size: 12px;
-    padding: 4px 10px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(0.5)} ${theme.spacing(1.25)};
   }
-`
+`;
 
+// Navigation Components
 export const NavigationButton = styled.button`
   position: absolute;
   top: 50%;
@@ -358,14 +406,15 @@ export const NavigationButton = styled.button`
   }
 `
 
+// Video Player Components
 export const VideoPlayer = styled.div`
   position: relative;
   width: 100%;
   aspect-ratio: 9/16;
-  border-radius: 12px;
+  border-radius: ${theme.spacing(1.5)};
   overflow: hidden;
-  background-color: #000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: ${theme.colors.black};
+  box-shadow: 0 ${theme.spacing(0.5)} ${theme.spacing(1.5)} rgba(0, 0, 0, 0.2);
   
   video {
     width: 100%;
@@ -373,25 +422,25 @@ export const VideoPlayer = styled.div`
     object-fit: cover;
   }
   
-  @media (max-width: 768px) {
-    border-radius: 8px;
-    max-height: 400px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    border-radius: ${theme.spacing(1)};
+    max-height: ${theme.spacing(50)};
   }
   
   @media (max-width: 640px) {
-    max-height: 350px;
+    max-height: ${theme.spacing(43.75)};
   }
-`
+`;
 
 export const ProgressBar = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 4px;
+  height: ${theme.spacing(0.5)};
   background-color: rgba(255, 255, 255, 0.3);
   z-index: 5;
-`
+`;
 
 export const ProgressIndicator = styled.div`
   height: 100%;
@@ -400,4 +449,10 @@ export const ProgressIndicator = styled.div`
   transition: width 0.1s linear;
   background-size: 200% 100%;
   animation: ${shimmer} 2s infinite linear;
-`
+`;
+
+export const ChevronRight = styled.span`
+  margin-left: ${theme.spacing(0.5)};
+  font-size: 1.4rem;
+  color: ${theme.colors.text};
+`;

@@ -70,3 +70,42 @@ export const ImageInfo = styled.div`
     font-size: ${theme.spacing(1.5)};
   }
 `;
+
+export const NavigationArrow = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  ${({ position }) => (position === "left" ? "left: 15px;" : "right: 15px;")}
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  z-index: 10;
+  transition: background 0.3s ease, transform 0.3s ease;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px white;
+  }
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 35px;
+    height: 35px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 30px;
+    height: 30px;
+  }
+`;
