@@ -261,7 +261,7 @@ const AllNewsData = () => {
                   <ShareIcons>
                     <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
                     <FaTwitter onClick={() => shareOnTwitter(news.url)} style={{ cursor: "pointer" }} />
-                    <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} />
+                    {/* <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} /> */}
                   </ShareIcons>
                   <NewsText
                     style={{

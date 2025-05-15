@@ -10,6 +10,7 @@ import Loader from "../../../components/loder/Loder";
 import AllNewsData from "../../components/allnewssection2/AllNewsData";
 import Videos from "../../components/homevideosection/videos";
 import Magzines2 from "../../components/magzinemodal/MagzinewithModal";
+import ShortsCarousel from "../../components/homevideosection/ShortsCarousel";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +39,7 @@ const Home = () => {
             <MagazineSection>
               <AllNewsData/>
             </MagazineSection>
+                        <ShortsCarousel/>
             <Videos/>
           </ContentWrapper>
         </>
