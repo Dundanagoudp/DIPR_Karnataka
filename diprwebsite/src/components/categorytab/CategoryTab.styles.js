@@ -31,10 +31,16 @@ export const MobileMenuOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 99;
   backdrop-filter: blur(4px);
-  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-  transition: opacity 0.3s ease;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s ease;
+  
+  ${({ $isOpen }) => $isOpen && css`
+    pointer-events: all;
+  `}
 `
+
 
 export const TabContainer = styled.div`
   display: flex;
@@ -137,29 +143,28 @@ export const TabsWrapper = styled.div`
     }
   `}
 
-  ${({ $isMobile, $isOpen }) => $isMobile && css`
+ ${({ $isMobile, $isOpen }) => $isMobile && css`
     flex-direction: column;
     background-color: ${theme.colors.primary};
     position: fixed;
     top: 0;
     right: 0;
-    bottom: 0;
+    height: 100vh;
     width: 80%;
     max-width: 320px;
     padding: ${theme.spacing(2)};
-    display: ${$isOpen ? "flex" : "none"};
     z-index: 100;
     gap: ${theme.spacing(1.5)};
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-    transform: ${$isOpen ? "translateX(0)" : "translateX(100%)"};
-    transition: transform 0.3s ease-out;
     overflow-y: auto;
   `}
+
+  
 `
 
 export const MobileMenuContent = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 60px);
   overflow-y: auto;
   padding-bottom: ${theme.spacing(4)};
   display: flex;
@@ -221,20 +226,21 @@ export const TabItem = styled.div`
     transform: translateY(0);
   }
 
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     width: 100%;
     text-align: left;
     justify-content: flex-start;
     border-radius: ${theme.spacing(0.8)};
     margin-bottom: ${theme.spacing(0.5)};
-    animation: ${fadeIn} 0.3s ease-out forwards;
-    opacity: 0;
+    opacity: 0; // GSAP will handle the animation
     
     &:hover {
       transform: translateX(5px);
       box-shadow: none;
     }
   }
+
 `
 
 export const ProfileIcon = styled.img`

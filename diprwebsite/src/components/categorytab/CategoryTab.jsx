@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { FaBars, FaTimes } from "react-icons/fa"
+import { gsap } from "gsap"
 import {
   TabContainer,
   TabsWrapper,
@@ -78,7 +79,12 @@ const CategoryTab = () => {
   const { language } = useContext(LanguageContext)
   const tabsRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
+  
+  // Refs for GSAP animations
   const menuRef = useRef(null)
+  const overlayRef = useRef(null)
+  const menuItemsRef = useRef([])
+  const tl = useRef(null)
 
   const toggleMenu = () => {
     setIsMenuOpen(prev => !prev)
@@ -86,6 +92,68 @@ const CategoryTab = () => {
 
   const handleTabClick = (path) => {
     setActiveTab(path)
+    closeMenu()
+  }
+
+  // Initialize GSAP timeline
+  useEffect(() => {
+    tl.current = gsap.timeline({ paused: true })
+    
+    return () => {
+      tl.current.kill()
+    }
+  }, [])
+
+  // Animation setup when isMobile changes
+  useEffect(() => {
+    if (isMobile && menuRef.current && overlayRef.current) {
+      // Setup animations
+      tl.current
+        .to(overlayRef.current, {
+          opacity: 1,
+          duration: 0.2,
+          ease: "power1.out"
+        }, 0)
+        .fromTo(menuRef.current, 
+          { x: "100%" }, 
+          { 
+            x: "0%", 
+            duration: 0.3, 
+            ease: "power2.out" 
+          }, 0)
+        .fromTo(menuItemsRef.current, 
+          { 
+            opacity: 0, 
+            y: 20 
+          }, 
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.2, 
+            stagger: 0.05, 
+            ease: "back.out" 
+          }, 0.2)
+    }
+  }, [isMobile])
+
+  // Play/reverse animation based on isMenuOpen
+  useEffect(() => {
+    if (!isMobile) return
+
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden"
+      document.body.style.position = "fixed"
+      document.body.style.width = "100%"
+      tl.current.play()
+    } else {
+      document.body.style.overflow = "auto"
+      document.body.style.position = ""
+      document.body.style.width = ""
+      tl.current.reverse()
+    }
+  }, [isMenuOpen, isMobile])
+
+  const closeMenu = () => {
     setIsMenuOpen(false)
   }
 
@@ -101,7 +169,7 @@ const CategoryTab = () => {
     const handleResize = () => {
       checkIfMobile()
       if (window.innerWidth > 768) {
-        setIsMenuOpen(false)
+        closeMenu()
       }
     }
 
@@ -123,31 +191,20 @@ const CategoryTab = () => {
     return tab.name[language] || tab.name.English
   }
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden"
-      if (menuRef.current) {
-        menuRef.current.scrollTop = 0
-      }
-    } else {
-      document.body.style.overflow = "auto"
-    }
-
-    return () => {
-      document.body.style.overflow = "auto"
-    }
-  }, [isMenuOpen])
-
   return (
     <>
-      {isMobile && isMenuOpen && (
-        <MobileMenuOverlay $isOpen={isMenuOpen} onClick={toggleMenu} />
+      {isMobile && (
+        <MobileMenuOverlay 
+          ref={overlayRef}
+          $isOpen={isMenuOpen} 
+          onClick={closeMenu} 
+        />
       )}
       
       <TabContainer style={{ fontSize: `${fontSize}%` }} $isScrolled={isScrolled}>
         {isMobile && (
           <HamburgerMenu onClick={toggleMenu} $isOpen={isMenuOpen}>
-            <FaBars size={24} />
+            {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </HamburgerMenu>
         )}
 
@@ -168,9 +225,13 @@ const CategoryTab = () => {
             ))}
           </TabsWrapper>
         ) : (
-          <TabsWrapper $isOpen={isMenuOpen} ref={menuRef} $isMobile={true}>
+          <TabsWrapper 
+            ref={menuRef}
+            $isOpen={isMenuOpen} 
+            $isMobile={true}
+          >
             <MobileMenuHeader>
-              <CloseButton onClick={toggleMenu}>
+              <CloseButton onClick={closeMenu}>
                 <FaTimes size={24} />
               </CloseButton>
             </MobileMenuHeader>
@@ -184,8 +245,8 @@ const CategoryTab = () => {
                   style={{ textDecoration: "none" }}
                 >
                   <TabItem 
+                    ref={el => menuItemsRef.current[index] = el}
                     $active={activeTab === tab.path}
-                    style={{ animationDelay: `${index * 0.05}s` }}
                   >
                     {getLocalizedTabName(tab)}
                     {activeTab === tab.path && <TabIndicator />}
