@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext, useRef } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { FaBars, FaTimes } from "react-icons/fa"
-import { gsap } from "gsap"
+import { useState, useEffect, useContext, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
+import { gsap } from "gsap";
 import {
   TabContainer,
   TabsWrapper,
@@ -14,10 +14,11 @@ import {
   MobileMenuHeader,
   CloseButton,
   MobileMenuContent,
-} from "./CategoryTab.styles"
-import ProfileImage from "../../assets/Profile.png"
-import { FontSizeContext } from "../../context/FontSizeProvider"
-import { LanguageContext } from "../../context/LanguageContext"
+  RightControls
+} from "./CategoryTab.styles";
+import ProfileImage from "../../assets/Profile.png";
+import { FontSizeContext } from "../../context/FontSizeProvider";
+import { LanguageContext } from "../../context/LanguageContext";
 
 const tabs = [
   {
@@ -68,148 +69,183 @@ const tabs = [
     },
     path: "/contactus",
   },
-]
+];
 
 const CategoryTab = () => {
-  const location = useLocation()
-  const [activeTab, setActiveTab] = useState(location.pathname)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const { fontSize } = useContext(FontSizeContext)
-  const { language } = useContext(LanguageContext)
-  const tabsRef = useRef(null)
-  const [isMobile, setIsMobile] = useState(false)
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(location.pathname);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { fontSize } = useContext(FontSizeContext);
+  const { language } = useContext(LanguageContext);
+  const [isMobile, setIsMobile] = useState(false);
   
-  // Refs for GSAP animations
-  const menuRef = useRef(null)
-  const overlayRef = useRef(null)
-  const menuItemsRef = useRef([])
-  const tl = useRef(null)
-
-  const toggleMenu = () => {
-    setIsMenuOpen(prev => !prev)
-  }
-
-  const handleTabClick = (path) => {
-    setActiveTab(path)
-    closeMenu()
-  }
-
-  // Initialize GSAP timeline
+  // Refs for elements and animations
+  const menuRef = useRef(null);
+  const overlayRef = useRef(null);
+  const menuItemsRef = useRef([]);
+  
+  // Store scroll position
+  const scrollPos = useRef(0);
+  
+  // Update active tab when location changes
   useEffect(() => {
-    tl.current = gsap.timeline({ paused: true })
-    
-    return () => {
-      tl.current.kill()
-    }
-  }, [])
+    setActiveTab(location.pathname);
+  }, [location.pathname]);
 
-  // Animation setup when isMobile changes
-  useEffect(() => {
-    if (isMobile && menuRef.current && overlayRef.current) {
-      // Setup animations
-      tl.current
-        .to(overlayRef.current, {
-          opacity: 1,
-          duration: 0.2,
-          ease: "power1.out"
-        }, 0)
-        .fromTo(menuRef.current, 
-          { x: "100%" }, 
-          { 
-            x: "0%", 
-            duration: 0.3, 
-            ease: "power2.out" 
-          }, 0)
-        .fromTo(menuItemsRef.current, 
-          { 
-            opacity: 0, 
-            y: 20 
-          }, 
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.2, 
-            stagger: 0.05, 
-            ease: "back.out" 
-          }, 0.2)
-    }
-  }, [isMobile])
-
-  // Play/reverse animation based on isMenuOpen
-  useEffect(() => {
-    if (!isMobile) return
-
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden"
-      document.body.style.position = "fixed"
-      document.body.style.width = "100%"
-      tl.current.play()
-    } else {
-      document.body.style.overflow = "auto"
-      document.body.style.position = ""
-      document.body.style.width = ""
-      tl.current.reverse()
-    }
-  }, [isMenuOpen, isMobile])
-
-  const closeMenu = () => {
-    setIsMenuOpen(false)
-  }
-
-  useEffect(() => {
-    setActiveTab(location.pathname)
-  }, [location.pathname])
-
+  // Handle resize and scroll events
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
-    }
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+    };
 
     const handleResize = () => {
-      checkIfMobile()
-      if (window.innerWidth > 768) {
-        closeMenu()
+      checkIfMobile();
+      if (window.innerWidth > 768 && isMenuOpen) {
+        closeMenu();
       }
-    }
+    };
 
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+      setIsScrolled(window.scrollY > 10);
+    };
 
-    checkIfMobile()
-    window.addEventListener("resize", handleResize)
-    window.addEventListener("scroll", handleScroll)
+    // Initial check
+    checkIfMobile();
+    
+    // Add event listeners
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("resize", handleResize)
-      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isMenuOpen]);
+
+  // Handle menu animations
+  useEffect(() => {
+    if (!menuRef.current || !overlayRef.current) return;
+    
+    if (isMenuOpen) {
+      // Store current scroll position
+      scrollPos.current = window.scrollY;
+      
+      // Lock body scroll
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100%";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.top = `-${scrollPos.current}px`;
+      
+      // Animate overlay
+      gsap.to(overlayRef.current, {
+        opacity: 1,
+        visibility: "visible",
+        duration: 0.2,
+        ease: "power1.out"
+      });
+      
+      // Animate menu
+      gsap.to(menuRef.current, {
+        x: "0%",
+        duration: 0.3,
+        ease: "power2.out"
+      });
+      
+      // Animate menu items
+      gsap.fromTo(
+        menuItemsRef.current,
+        { opacity: 0, x: 20 },
+        { 
+          opacity: 1, 
+          x: 0, 
+          duration: 0.3,
+          stagger: 0.05,
+          delay: 0.1,
+          ease: "power1.out"
+        }
+      );
+    } else {
+      // Animate overlay (out)
+      gsap.to(overlayRef.current, {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power1.in",
+        onComplete: () => {
+          gsap.set(overlayRef.current, { visibility: "hidden" });
+        }
+      });
+      
+      // Animate menu (out)
+      gsap.to(menuRef.current, {
+        x: "100%",
+        duration: 0.3,
+        ease: "power2.in",
+        onComplete: () => {
+          // Unlock body scroll
+          document.body.style.overflow = "";
+          document.body.style.height = "";
+          document.body.style.position = "";
+          document.body.style.width = "";
+          document.body.style.top = "";
+          
+          // Restore scroll position
+          window.scrollTo(0, scrollPos.current);
+        }
+      });
     }
-  }, [])
+  }, [isMenuOpen]);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(prev => !prev);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handleTabClick = (path) => {
+    setActiveTab(path);
+    closeMenu();
+  };
 
   const getLocalizedTabName = (tab) => {
-    return tab.name[language] || tab.name.English
-  }
+    return tab.name[language] || tab.name.English;
+  };
+
+  // Handle escape key to close menu
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === "Escape" && isMenuOpen) {
+        closeMenu();
+      }
+    };
+    
+    window.addEventListener("keydown", handleEscKey);
+    return () => {
+      window.removeEventListener("keydown", handleEscKey);
+    };
+  }, [isMenuOpen]);
 
   return (
     <>
-      {isMobile && (
-        <MobileMenuOverlay 
-          ref={overlayRef}
-          $isOpen={isMenuOpen} 
-          onClick={closeMenu} 
-        />
-      )}
+      <MobileMenuOverlay 
+        ref={overlayRef}
+        $isOpen={isMenuOpen} 
+        onClick={closeMenu} 
+      />
       
       <TabContainer style={{ fontSize: `${fontSize}%` }} $isScrolled={isScrolled}>
         {isMobile && (
-          <HamburgerMenu onClick={toggleMenu} $isOpen={isMenuOpen}>
+          <HamburgerMenu onClick={toggleMenu} aria-label="Toggle menu">
             {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </HamburgerMenu>
         )}
 
         {!isMobile ? (
-          <TabsWrapper ref={tabsRef}>
+          <TabsWrapper>
             {tabs.map((tab) => (
               <Link
                 key={tab.path}
@@ -231,7 +267,7 @@ const CategoryTab = () => {
             $isMobile={true}
           >
             <MobileMenuHeader>
-              <CloseButton onClick={closeMenu}>
+              <CloseButton onClick={closeMenu} aria-label="Close menu">
                 <FaTimes size={24} />
               </CloseButton>
             </MobileMenuHeader>
@@ -247,9 +283,10 @@ const CategoryTab = () => {
                   <TabItem 
                     ref={el => menuItemsRef.current[index] = el}
                     $active={activeTab === tab.path}
+                    $isMobile={true}
                   >
                     {getLocalizedTabName(tab)}
-                    {activeTab === tab.path && <TabIndicator />}
+                    {activeTab === tab.path && <TabIndicator $isMobile={true} />}
                   </TabItem>
                 </Link>
               ))}
@@ -257,7 +294,7 @@ const CategoryTab = () => {
           </TabsWrapper>
         )}
 
-        <div className="right-controls">
+        <RightControls>
           <Link to="/profile">
             {ProfileImage ? (
               <ProfileIcon src={ProfileImage} alt="User Profile" />
@@ -265,10 +302,10 @@ const CategoryTab = () => {
               <ProfilePlaceholder size={40} />
             )}
           </Link>
-        </div>
+        </RightControls>
       </TabContainer>
     </>
-  )
-}
+  );
+};
 
-export default CategoryTab
+export default CategoryTab;
