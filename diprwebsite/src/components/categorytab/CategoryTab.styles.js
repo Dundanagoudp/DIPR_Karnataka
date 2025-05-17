@@ -2,7 +2,6 @@ import styled, { css } from "styled-components";
 import { FaUserCircle } from "react-icons/fa";
 import theme from "../../theme/Theme";
 
-// Mobile Menu Overlay
 export const MobileMenuOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -16,15 +15,19 @@ export const MobileMenuOverlay = styled.div`
   visibility: hidden;
   transition: opacity 0.2s ease;
   will-change: opacity, visibility;
+
+  ${({ $isOpen }) => $isOpen && css`
+    opacity: 1;
+    visibility: visible;
+  `}
 `;
 
-// Main Tab Container
 export const TabContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${theme.colors.primary};
-  padding: ${theme.spacing(1)} ${theme.spacing(4)};
+  padding: ${theme.spacing(0.5)} ${theme.spacing(4)};
   position: sticky;
   top: 0;
   z-index: 100;
@@ -48,7 +51,6 @@ export const TabContainer = styled.div`
   }
 `;
 
-// Right Controls Container
 export const RightControls = styled.div`
   display: flex;
   align-items: center;
@@ -56,7 +58,6 @@ export const RightControls = styled.div`
   margin-left: auto;
 `;
 
-// Mobile Menu Header
 export const MobileMenuHeader = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -69,7 +70,6 @@ export const MobileMenuHeader = styled.div`
   z-index: 1;
 `;
 
-// Close Button
 export const CloseButton = styled.button`
   background: none;
   border: none;
@@ -96,7 +96,6 @@ export const CloseButton = styled.button`
   }
 `;
 
-// Hamburger Menu
 export const HamburgerMenu = styled.button`
   cursor: pointer;
   color: ${theme.colors.background};
@@ -124,7 +123,6 @@ export const HamburgerMenu = styled.button`
   }
 `;
 
-// Tabs Wrapper
 export const TabsWrapper = styled.div`
   display: flex;
   gap: ${theme.spacing(1)};
@@ -136,7 +134,7 @@ export const TabsWrapper = styled.div`
   position: relative;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;
@@ -162,10 +160,13 @@ export const TabsWrapper = styled.div`
     overflow-y: auto;
     transform: translateX(100%);
     will-change: transform;
+
+    ${({ $isOpen }) => $isOpen && css`
+      transform: translateX(0);
+    `}
   `}
 `;
 
-// Mobile Menu Content
 export const MobileMenuContent = styled.div`
   width: 100%;
   height: calc(100vh - 60px);
@@ -175,14 +176,12 @@ export const MobileMenuContent = styled.div`
   flex-direction: column;
   gap: ${theme.spacing(1)};
   
-  /* Hide scrollbar */
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
 `;
 
-// Tab Indicator
 export const TabIndicator = styled.div`
   position: absolute;
   bottom: -5px;
@@ -201,7 +200,6 @@ export const TabIndicator = styled.div`
   `}
 `;
 
-// Tab Item
 export const TabItem = styled.div`
   padding: ${theme.spacing(1.2)} ${theme.spacing(2)};
   cursor: pointer;
@@ -257,7 +255,6 @@ export const TabItem = styled.div`
   `}
 `;
 
-// Profile Icon
 export const ProfileIcon = styled.img`
   width: 40px;
   height: 40px;
@@ -278,7 +275,6 @@ export const ProfileIcon = styled.img`
   }
 `;
 
-// Profile Placeholder
 export const ProfilePlaceholder = styled(FaUserCircle)`
   width: 40px;
   height: 40px;

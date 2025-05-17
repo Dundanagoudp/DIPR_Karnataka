@@ -78,7 +78,7 @@ const CategoryTab = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { fontSize } = useContext(FontSizeContext);
   const { language } = useContext(LanguageContext);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
   // Refs for elements and animations
   const menuRef = useRef(null);
@@ -96,8 +96,7 @@ const CategoryTab = () => {
   // Handle resize and scroll events
   useEffect(() => {
     const checkIfMobile = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
+      setIsMobile(window.innerWidth <= 768);
     };
 
     const handleResize = () => {
@@ -149,7 +148,7 @@ const CategoryTab = () => {
       
       // Animate menu
       gsap.to(menuRef.current, {
-        x: "0%",
+        x: 0,
         duration: 0.3,
         ease: "power2.out"
       });
@@ -279,9 +278,9 @@ const CategoryTab = () => {
                   to={tab.path}
                   onClick={() => handleTabClick(tab.path)}
                   style={{ textDecoration: "none" }}
+                  ref={el => menuItemsRef.current[index] = el}
                 >
                   <TabItem 
-                    ref={el => menuItemsRef.current[index] = el}
                     $active={activeTab === tab.path}
                     $isMobile={true}
                   >

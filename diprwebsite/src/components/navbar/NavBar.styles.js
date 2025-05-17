@@ -1,49 +1,81 @@
-import styled, { keyframes } from "styled-components";
-import theme from "../../theme/Theme";
+import styled, { keyframes } from "styled-components"
+import theme from "../../theme/Theme"
 
 const scrollAnimation = keyframes`
   0% { transform: translateX(0); }
-  100% { transform: translateX(-20%); } /* Moves halfway to make loop seamless */
-`;
+  100% { transform: translateX(-50%); } /* Move exactly half to create seamless loop */
+`
+export const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(1)};
+`
 
-export const NavContainer = styled.nav`
-  background-color: ${theme.colors.error}; 
+export const NavTitle = styled.h1`
+  font-family: ${theme.fonts.heading};
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 1rem;
+  }
+`
+
+export const NavContainer = styled.div`
+background-color: ${theme.colors.error};
   padding: ${theme.spacing(0.8)} 0;
   overflow: hidden;
   white-space: nowrap;
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 1000; 
+  z-index: 1000;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(0.5)} 0;
   }
-    @media (max-width: ${theme.breakpoints.tablet}) {
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
     padding: ${theme.spacing(0.5)} 0;
   }
-`;
+`
 
 export const NewsWrapper = styled.div`
   display: flex;
   overflow: hidden;
   width: 100%;
-`;
+`
 
 export const NewsTicker = styled.div`
   display: flex;
-  gap: ${theme.spacing(2)};
-  animation: ${scrollAnimation} 20s linear infinite; /* Slower animation */
-  min-width: 200%;
-`;
+  gap: ${theme.spacing(3)};
+  animation: ${scrollAnimation} 30s linear infinite; /* Slower animation for better readability */
+  min-width: 100%;
+  
+  &:hover {
+    animation-play-state: paused; /* Pause on hover */
+  }
+`
 
 export const NewsItem = styled.span`
-  color: ${theme.colors.background};
+  color: white;
   font-family: ${theme.fonts.heading};
-  font-weight: bold;
-  
+  font-weight: 500;
   padding: 0 ${theme.spacing(2)};
   white-space: nowrap;
+  position: relative;
+  
+  &:after {
+    content: "•";
+    margin-left: ${theme.spacing(2)};
+    opacity: 0.7;
+  }
+  
+  &:last-child:after {
+    content: "";
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: 0 ${theme.spacing(1)};
@@ -52,6 +84,12 @@ export const NewsItem = styled.span`
   @media (max-width: ${theme.breakpoints.tablet}) {
     padding: 0 ${theme.spacing(1)};
   }
+`
 
-
-`;
+export const LoadingIndicator = styled.div`
+  color: white;
+  font-family: ${theme.fonts.heading};
+  padding: 0 ${theme.spacing(2)};
+  width: 100%;
+  text-align: center;
+`

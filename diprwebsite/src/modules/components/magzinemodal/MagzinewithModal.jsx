@@ -232,7 +232,6 @@ const Magzines2 = () => {
         />
         <ViewAllButton
           style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
-          variant="contained"
           onClick={() => navigate("/magazinepages")}
         >
           View All
