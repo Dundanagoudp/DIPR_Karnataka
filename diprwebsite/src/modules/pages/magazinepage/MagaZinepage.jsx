@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MagazineDownloadPdf from "../../components/Magazinepagecom/downloadpdf/DownloadPdfs";
-// import { FlexContainer, MagzineDataContainer } from "../magazinepage/MagaZinepage.styles";
-// import MagazinePdf from "../../components/Magazinepagecom/magazinepdf/MagazinePdf";
 import Loader from "../../../components/loder/Loder";
 import MagazinePdf2 from "../../components/Magazinepagecom/magazinemodalpdf/MagzineModalpdf";
 
@@ -24,8 +22,6 @@ const MagaZinepages = () => {
     <div>
       <MagazineDownloadPdf />
       <MagazinePdf2 />
-      {/* <MagazinePdf /> */}
-
     </div>
   );
 };

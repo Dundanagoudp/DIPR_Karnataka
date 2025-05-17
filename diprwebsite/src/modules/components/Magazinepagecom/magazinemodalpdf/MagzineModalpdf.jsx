@@ -22,7 +22,7 @@ import {
   SkeletonTitle,
   SkeletonMeta,
   SkeletonButton,
-} from "../magazinepdf/MagazinePdf.styles"
+} from "../magazinemodalpdf/Modalpdf.styles"
 import { getMagazines, MarchMagazines } from "../../../../services/magazineApi/magazineService"
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../../context/LanguageContext"
