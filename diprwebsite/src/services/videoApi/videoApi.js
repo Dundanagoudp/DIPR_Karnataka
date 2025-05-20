@@ -103,26 +103,70 @@ export const LongVideoaddComment = async (commentData) => {
 };
 
 // videos by id
+// export const getVideoById = async (id) => {
+//   try {
+//     const response = await fetch(`${BASE_URL}api/video/${id}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     if (!response.ok) {
+//       throw new Error(`Error: ${response.status} - ${response.statusText}`);
+//     }
+//     const data = await response.json();
+//     console.log("Received video data:", data);
+//     return data;
+//   } catch (error) {
+//     console.error("Error loading video:", error);
+//     throw error;
+//   }
+// };
+
 export const getVideoById = async (id) => {
   try {
-    const response = await fetch(`${BASE_URL}api/video/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    if (!id) throw new Error("Invalid video ID");
+    
+    const response = await fetch(`${BASE_URL}api/video/${id}`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    
+    const result = await response.json();
+    
+    // Handle cases where data is null or undefined
+    if (!result || !result.video) {
+      return { 
+        success: false, 
+        error: "Video data not found",
+        data: null 
+      };
     }
-    const data = await response.json();
-    console.log("Received video data:", data);
-    return data;
+    
+    return {
+      success: true,
+      data: {
+        ...result.video,
+        thumbnail: result.video.thumbnail || "/placeholder-video.png",
+        video_url: result.video.video_url || "",
+        total_Likes: result.video.total_Likes || 0,
+        total_Views: result.video.total_Views || 0,
+        Comments: result.video.Comments || [],
+        channel: result.video.channel || {
+          name: "Unknown Channel",
+          profileImage: "/placeholder-channel.png",
+          subscribers: 0
+        },
+        createdAt: result.video.createdAt || new Date().toISOString()
+      }
+    };
   } catch (error) {
-    console.error("Error loading video:", error);
-    throw error;
+    console.error("Error fetching video:", error);
+    return { 
+      success: false, 
+      error: error.message,
+      data: null 
+    };
   }
 };
-
 
 // short videos like
 

@@ -1,17 +1,19 @@
 import { useState, useEffect, useContext } from "react"
-import { FaAngleDoubleRight } from "react-icons/fa"
+import { FaAngleDoubleRight, FaChevronDown } from "react-icons/fa"
 import { CiBookmark } from "react-icons/ci"
 import {
   Container,
+  MainContent,
+  SidebarContainer,
   Content,
   Title,
   Header,
+  HeaderTitle,
+  HeaderSubtitle,
   MagazineThumbnail,
   MagazineCard,
   MagazineDetails,
   NewsMeta,
-  MagazineMetacat,
-  BookmarkIconWrapper,
   ReadMoreButton,
   ReadMoreIcon,
   TabsContainer,
@@ -22,12 +24,22 @@ import {
   SkeletonTitle,
   SkeletonMeta,
   SkeletonButton,
-} from "../magazinemodalpdf/Modalpdf.styles"
+  FilterSection,
+  FilterHeader,
+  FilterTitle,
+  CategoryName,
+  FilterItem,
+  FilterIcon,
+  ResultsInfo,
+  ViewToggleButton,
+  ViewToggle,
+  PageWrapper,
+} from "./Modalpdf.styles"
 import { getMagazines, MarchMagazines } from "../../../../services/magazineApi/magazineService"
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../../context/LanguageContext"
 import { Pagination } from "@mui/material"
-import PDFModal from "../magazinemodalpdf/ModalPdf"
+import PDFModal from "./ModalPdf"
 
 const MagazinePdf2 = () => {
   const [activeTab, setActiveTab] = useState("Topics")
@@ -36,14 +48,17 @@ const MagazinePdf2 = () => {
   const [bookmarkedMagazines, setBookmarkedMagazines] = useState(new Set())
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(true)
+  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [departmentOpen, setDepartmentOpen] = useState(true)
+  const [productOpen, setProductOpen] = useState(true)
 
   // PDF Modal state
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedPdf, setSelectedPdf] = useState("")
   const [selectedTitle, setSelectedTitle] = useState("")
 
-  const itemsPerPageDesktop = 8
-  const itemsPerPageMobile = 6
+  const itemsPerPageDesktop = 10 
+  const itemsPerPageMobile = 4   
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
@@ -105,7 +120,6 @@ const MagazinePdf2 = () => {
     setBookmarkedMagazines(newBookmarkedMagazines)
   }
 
-  // Updated to open modal instead of new window
   const handleReadMoreClick = (pdfUrl, title) => {
     setSelectedPdf(pdfUrl)
     setSelectedTitle(title)
@@ -134,6 +148,18 @@ const MagazinePdf2 = () => {
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value)
+  }
+
+  const toggleDepartment = () => {
+    setDepartmentOpen(!departmentOpen)
+  }
+
+  const toggleProduct = () => {
+    setProductOpen(!productOpen)
+  }
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category)
   }
 
   const renderSkeleton = () => {
@@ -166,14 +192,15 @@ const MagazinePdf2 = () => {
                 {formatDate(magazine.createdTime)} • {magazine.readTime || "N/A"}
               </span>
             </NewsMeta>
-            <CiBookmark />
-          </div>
-          <MagazineMetacat>
-            <BookmarkIconWrapper
+            <CiBookmark
               onClick={() => handleBookmarkClick(magazine._id)}
-              isBookmarked={bookmarkedMagazines.has(magazine._id)}
+              style={{
+                color: bookmarkedMagazines.has(magazine._id) ? "#e00" : "#777",
+                cursor: "pointer",
+                fontSize: "18px",
+              }}
             />
-          </MagazineMetacat>
+          </div>
           <ReadMoreButton
             style={{ fontSize: `${fontSize}%` }}
             onClick={() => handleReadMoreClick(magazine.magazinePdf, getLocalizedContent(magazine, "title"))}
@@ -189,37 +216,74 @@ const MagazinePdf2 = () => {
   }
 
   return (
-    <Container style={{ fontSize: `${fontSize}%` }}>
-      <Header style={{ fontSize: `${fontSize}%` }}>Magazine</Header>
-      <TabsContainer>
-        <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}>
-          Varthajanapada
-        </Tab>
-        <Tab active={activeTab === "March of Karnataka"} onClick={() => setActiveTab("March of Karnataka")}>
-          March of Karnataka
-        </Tab>
-      </TabsContainer>
-      <Content style={{ fontSize: `${fontSize}%` }}>
-        {loading ? renderSkeleton() : renderMagazines(currentMagazines)}
-      </Content>
+    <PageWrapper>
+      <Container style={{ fontSize: `${fontSize}%` }}>
+        <SidebarContainer>
+          <FilterSection>
+            <FilterHeader>
+              <FilterTitle>Department</FilterTitle>
+              <FaChevronDown
+                onClick={toggleDepartment}
+                style={{
+                  transform: departmentOpen ? "rotate(180deg)" : "none",
+                  transition: "transform 0.3s ease",
+                  cursor: "pointer",
+                }}
+              />
+            </FilterHeader>
+            {departmentOpen && <CategoryName>Karnataka Varthe</CategoryName>}
+          </FilterSection>
+        </SidebarContainer>
 
-      {!loading && (
-        <PaginationWrapper>
-          <Pagination
-            count={Math.ceil(
-              activeTab === "Topics" ? magazinesData.length / itemsPerPage : marchMagazinesData.length / itemsPerPage,
-            )}
-            page={currentPage}
-            onChange={handlePageChange}
-            variant="outlined"
-            shape="rounded"
-          />
-        </PaginationWrapper>
-      )}
+        <MainContent>
+          <Header style={{ fontSize: `${fontSize}%` }}>
+            <div>
+              <HeaderTitle>Magazines</HeaderTitle>
+              <HeaderSubtitle>Explore our collection of magazines</HeaderSubtitle>
+            </div>
+          </Header>
+
+          <TabsContainer>
+            <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}>
+              Varthajanapada
+            </Tab>
+            <Tab active={activeTab === "March of Karnataka"} onClick={() => setActiveTab("March of Karnataka")}>
+              March of Karnataka
+            </Tab>
+          </TabsContainer>
+
+          <ResultsInfo>
+            Showing {indexOfFirstItem + 1} -{" "}
+            {Math.min(indexOfLastItem, activeTab === "Topics" ? magazinesData.length : marchMagazinesData.length)} of{" "}
+            {activeTab === "Topics" ? magazinesData.length : marchMagazinesData.length} magazines
+          </ResultsInfo>
+
+          <Content style={{ fontSize: `${fontSize}%` }}>
+            {loading ? renderSkeleton() : renderMagazines(currentMagazines)}
+          </Content>
+
+          {!loading && (
+            <PaginationWrapper>
+              <Pagination
+                count={Math.ceil(
+                  activeTab === "Topics"
+                    ? magazinesData.length / itemsPerPage
+                    : marchMagazinesData.length / itemsPerPage,
+                )}
+                page={currentPage}
+                onChange={handlePageChange}
+                variant="outlined"
+                shape="rounded"
+                color="primary"
+              />
+            </PaginationWrapper>
+          )}
+        </MainContent>
+      </Container>
 
       {/* PDF Modal */}
       <PDFModal isOpen={modalOpen} onClose={closeModal} pdfUrl={selectedPdf} title={selectedTitle} />
-    </Container>
+    </PageWrapper>
   )
 }
 
