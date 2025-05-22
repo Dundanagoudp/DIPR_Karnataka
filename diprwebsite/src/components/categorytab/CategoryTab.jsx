@@ -35,7 +35,7 @@ const tabs = [
       Hindi: "ताजा खबर",
       Kannada: "ಇತ್ತೀಚಿನ ಸುದ್ದಿ",
     },
-    path: "/latestdata",
+    path: "/latestnews",
   },
   {
     name: {
@@ -88,6 +88,12 @@ const CategoryTab = () => {
   // Store scroll position
   const scrollPos = useRef(0);
   
+  // Add a new ref for body scroll handling
+  const bodyScrollLockRef = useRef({
+    scrollPosition: 0,
+    previousBodyStyles: {}
+  });
+
   // Update active tab when location changes
   useEffect(() => {
     setActiveTab(location.pathname);
@@ -123,27 +129,52 @@ const CategoryTab = () => {
     };
   }, [isMenuOpen]);
 
-  // Handle menu animations
+  // Update menu handling with better scroll lock
+  const lockBodyScroll = () => {
+    const scrollPosition = window.pageYOffset;
+    bodyScrollLockRef.current = {
+      scrollPosition,
+      previousBodyStyles: {
+        position: document.body.style.position,
+        top: document.body.style.top,
+        left: document.body.style.left,
+        right: document.body.style.right,
+        overflow: document.body.style.overflow
+      }
+    };
+
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+  };
+
+  const unlockBodyScroll = () => {
+    const { scrollPosition, previousBodyStyles } = bodyScrollLockRef.current;
+    
+    // Restore previous body styles
+    Object.entries(previousBodyStyles).forEach(([key, value]) => {
+      document.body.style[key] = value;
+    });
+
+    // Restore scroll position
+    window.scrollTo(0, scrollPosition);
+  };
+
+  // Update menu animations
   useEffect(() => {
     if (!menuRef.current || !overlayRef.current) return;
     
     if (isMenuOpen) {
-      // Store current scroll position
-      scrollPos.current = window.scrollY;
-      
-      // Lock body scroll
-      document.body.style.overflow = "hidden";
-      document.body.style.height = "100%";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-      document.body.style.top = `-${scrollPos.current}px`;
+      lockBodyScroll();
       
       // Animate overlay
       gsap.to(overlayRef.current, {
         opacity: 1,
         visibility: "visible",
         duration: 0.2,
-        ease: "power1.out"
+        ease: "power2.out"
       });
       
       // Animate menu
@@ -153,48 +184,53 @@ const CategoryTab = () => {
         ease: "power2.out"
       });
       
-      // Animate menu items
+      // Animate menu items with improved timing
       gsap.fromTo(
         menuItemsRef.current,
         { opacity: 0, x: 20 },
         { 
           opacity: 1, 
           x: 0, 
-          duration: 0.3,
-          stagger: 0.05,
+          duration: 0.2,
+          stagger: 0.03,
           delay: 0.1,
           ease: "power1.out"
         }
       );
     } else {
-      // Animate overlay (out)
+      // Animate menu items out first
+      gsap.to(menuItemsRef.current, {
+        opacity: 0,
+        x: 20,
+        duration: 0.2,
+        stagger: 0.02,
+        ease: "power1.in"
+      });
+
+      // Then animate overlay and menu
       gsap.to(overlayRef.current, {
         opacity: 0,
         duration: 0.2,
-        ease: "power1.in",
+        ease: "power2.in",
         onComplete: () => {
           gsap.set(overlayRef.current, { visibility: "hidden" });
+          unlockBodyScroll();
         }
       });
       
-      // Animate menu (out)
       gsap.to(menuRef.current, {
         x: "100%",
         duration: 0.3,
-        ease: "power2.in",
-        onComplete: () => {
-          // Unlock body scroll
-          document.body.style.overflow = "";
-          document.body.style.height = "";
-          document.body.style.position = "";
-          document.body.style.width = "";
-          document.body.style.top = "";
-          
-          // Restore scroll position
-          window.scrollTo(0, scrollPos.current);
-        }
+        ease: "power2.in"
       });
     }
+
+    // Cleanup function
+    return () => {
+      if (isMenuOpen) {
+        unlockBodyScroll();
+      }
+    };
   }, [isMenuOpen]);
 
   const toggleMenu = () => {
@@ -227,6 +263,15 @@ const CategoryTab = () => {
       window.removeEventListener("keydown", handleEscKey);
     };
   }, [isMenuOpen]);
+
+  // Add cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (isMenuOpen) {
+        unlockBodyScroll();
+      }
+    };
+  }, []);
 
   return (
     <>

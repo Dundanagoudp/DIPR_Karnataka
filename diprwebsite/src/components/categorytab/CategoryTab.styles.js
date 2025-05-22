@@ -3,7 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 import theme from "../../theme/Theme";
 
 export const MobileMenuOverlay = styled.div`
-  position: fixed;
+ position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -30,7 +30,7 @@ export const TabContainer = styled.div`
   padding: ${theme.spacing(0.5)} ${theme.spacing(4)};
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 998;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.3s ease;
@@ -39,8 +39,7 @@ export const TabContainer = styled.div`
   ${({ $isScrolled }) =>
     $isScrolled &&
     css`
-      background-color: rgba(${theme.colors.primaryRgb}, 0.95);
-      backdrop-filter: blur(10px);
+      background-color: ${theme.colors.primary};
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
       padding: ${theme.spacing(0.5)} ${theme.spacing(4)};
     `}
@@ -62,37 +61,39 @@ export const MobileMenuHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  padding: ${theme.spacing(1)};
-  margin-bottom: ${theme.spacing(2)};
+  padding: ${theme.spacing(2)};
+  margin-bottom: 0;
   position: sticky;
   top: 0;
   background-color: ${theme.colors.primary};
-  z-index: 1;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
 export const CloseButton = styled.button`
-  background: none;
+  background: ${theme.colors.background};
   border: none;
-  color: ${theme.colors.background};
+  color: ${theme.colors.primary};
   cursor: pointer;
   padding: ${theme.spacing(1)};
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease;
+  transition: all 0.25s ease;
+  border-radius: 50%;
   
   &:hover {
     transform: rotate(90deg);
+    background-color: ${theme.colors.background};
   }
   
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
+    box-shadow: 0 0 0 2px ${theme.colors.background};
   }
   
   &:active {
-    transform: scale(0.9);
+    transform: scale(0.9) rotate(90deg);
   }
 `;
 
@@ -150,16 +151,17 @@ export const TabsWrapper = styled.div`
     position: fixed;
     top: 0;
     right: 0;
-    height: 100vh;
-    width: 80%;
-    max-width: 320px;
-    padding: ${theme.spacing(2)};
-    z-index: 100;
-    gap: ${theme.spacing(1.5)};
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
+    height: 100%;
+    width: 85%;
+    max-width: 360px;
+    padding: 0;
+    z-index: 1000;
+    gap: 0;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
     transform: translateX(100%);
     will-change: transform;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
 
     ${({ $isOpen }) => $isOpen && css`
       transform: translateX(0);
@@ -169,12 +171,16 @@ export const TabsWrapper = styled.div`
 
 export const MobileMenuContent = styled.div`
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 70px);
   overflow-y: auto;
-  padding-bottom: ${theme.spacing(4)};
+  padding: ${theme.spacing(2)};
+  padding-top: ${theme.spacing(1)};
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing(1)};
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background-color: ${theme.colors.primary};
   
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -210,11 +216,11 @@ export const TabItem = styled.div`
   color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.background)};
   background-color: ${({ $active }) => ($active ? theme.colors.background : "transparent")};
   border-radius: ${theme.spacing(1.3)};
-  transition: all 0.3s ease-in-out;
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: ${({ $active }) => ($active ? 1 : 0.8)};
+  opacity: 1;
   position: relative;
   overflow: hidden;
   
@@ -225,9 +231,8 @@ export const TabItem = styled.div`
     `}
 
   &:hover {
-    background-color: ${({ $active }) => ($active ? theme.colors.background : theme.colors.light)};
-    color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.primary)};
-    opacity: 1;
+    background-color: ${({ $active }) => ($active ? theme.colors.background : theme.colors.background)};
+    color: ${theme.colors.primary};
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
@@ -243,10 +248,14 @@ export const TabItem = styled.div`
     border-radius: ${theme.spacing(0.8)};
     margin-bottom: ${theme.spacing(0.5)};
     padding: ${theme.spacing(1.5)} ${theme.spacing(2)};
+    background-color: ${({ $active }) => ($active ? theme.colors.background : "transparent")};
+    color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.background)};
     
     &:hover {
       transform: translateX(5px);
+      background-color: ${theme.colors.background};
       box-shadow: none;
+      color: ${theme.colors.primary};
     }
     
     &:active {

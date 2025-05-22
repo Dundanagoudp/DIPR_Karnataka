@@ -198,7 +198,7 @@ export const ReadMoreButton = styled.button`
   gap: ${theme.spacing(0.5)};
   cursor: pointer;
   margin-top: ${theme.spacing(1)};
-  width: 100%;
+  width: 80%;
 
   &:hover {
     background: ${theme.colors.primaryDark};

@@ -7,9 +7,6 @@ import {
   SidebarContainer,
   Content,
   Title,
-  Header,
-  HeaderTitle,
-  HeaderSubtitle,
   MagazineThumbnail,
   MagazineCard,
   MagazineDetails,
@@ -28,11 +25,7 @@ import {
   FilterHeader,
   FilterTitle,
   CategoryName,
-  FilterItem,
-  FilterIcon,
   ResultsInfo,
-  ViewToggleButton,
-  ViewToggle,
   PageWrapper,
 } from "./Modalpdf.styles"
 import { getMagazines, MarchMagazines } from "../../../../services/magazineApi/magazineService"
@@ -189,7 +182,7 @@ const MagazinePdf2 = () => {
             <NewsMeta style={{ fontSize: `${fontSize}%` }}>
               {magazine.isTrending && <span>Trending</span>}
               <span>
-                {formatDate(magazine.createdTime)} • {magazine.readTime || "N/A"}
+                {formatDate(magazine.createdTime)}  {magazine.readTime}
               </span>
             </NewsMeta>
             <CiBookmark
@@ -236,13 +229,7 @@ const MagazinePdf2 = () => {
         </SidebarContainer>
 
         <MainContent>
-          <Header style={{ fontSize: `${fontSize}%` }}>
-            <div>
-              <HeaderTitle>Magazines</HeaderTitle>
-              <HeaderSubtitle>Explore our collection of magazines</HeaderSubtitle>
-            </div>
-          </Header>
-
+  
           <TabsContainer>
             <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}>
               Varthajanapada
