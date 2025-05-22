@@ -37,15 +37,15 @@ export const getNewsByid = async (id) => {
 };
 export const addComment = async (commentData) => {
   try {
-    console.log("Sending comment data:", commentData); // Check if the comment data is being passed
+    console.log("Sending comment data:", commentData);
 
     const response = await fetch(`${BASE_URL}api/news/addComment`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(commentData), // Send comment data
-      credentials: "include", // Ensures cookies are included with the request
+      body: JSON.stringify(commentData), 
+      credentials: "include", 
     });
 
     const data = await response.json();
@@ -56,7 +56,7 @@ export const addComment = async (commentData) => {
       );
     }
 
-    console.log("Comment added successfully:", data); // Log the response from the API
+    console.log("Comment added successfully:", data); 
     return data;
   } catch (err) {
     console.error("Error adding comment:", err);

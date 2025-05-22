@@ -1,5 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import theme from "../../../theme/Theme";
+
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`;
 
 export const Container = styled.div`
   margin: auto;
@@ -8,15 +17,13 @@ export const Container = styled.div`
   padding: 0 ${theme.spacing(5)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding:  ${theme.spacing(1)}; 
+    padding: ${theme.spacing(1)}; 
     max-width: 100%;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding:  ${theme.spacing(1.9)}; 
+    padding: ${theme.spacing(1.9)}; 
   }
-
-
 `;
 
 export const NewsCardWrapper = styled.div`
@@ -24,7 +31,6 @@ export const NewsCardWrapper = styled.div`
   border-radius: ${theme.spacing(1)};
   overflow: hidden;
   padding: ${theme.spacing(2)};
-  // box-shadow: 0px ${theme.spacing(0.25)} ${theme.spacing(1.25)} rgba(0, 0, 0, 0.1);
   margin-bottom: ${theme.spacing(2)};
   
   @media (max-width: ${theme.breakpoints.tablet}) {
@@ -41,7 +47,7 @@ export const NewsImageWrapper = styled.div`
   img {
     width: 100%;
     border-radius: ${theme.spacing(1)};
-    hight: auto;
+    height: auto;
     object-fit: cover;
   
     @media (max-width: ${theme.breakpoints.tablet}) {
@@ -77,6 +83,7 @@ export const NewsTitleWrapper = styled.h2`
   font-size: ${theme.spacing(2.5)};
   color: ${theme.colors.black};
   font-family: ${theme.fonts.heading};
+  margin-bottom: ${theme.spacing(1)};
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
@@ -85,9 +92,9 @@ export const NewsTitleWrapper = styled.h2`
 
 export const ShareIconsWrapper = styled.div`
   display: flex;
-  margin-top: ${theme.spacing()};
+  margin-top: ${theme.spacing(1.5)};
   gap: ${theme.spacing(3)};
-  font-size: ${theme.spacing(3.5)};
+  font-size: ${theme.spacing(3.3)};
   margin: ${theme.spacing(1)} 0;
   color: ${theme.colors.icons};
 
@@ -95,48 +102,6 @@ export const ShareIconsWrapper = styled.div`
     font-size: ${theme.spacing(2.5)};
     gap: ${theme.spacing(2)};
   }
-`;
-
-export const CommentSectionWrapper = styled.div`
-  margin-top: ${theme.spacing(1)};
-`;
-
-export const CommentInputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${theme.colors.background};
-  border-radius: ${theme.spacing(1.875)};
-  margin-top: ${theme.spacing(2.5)};
-  border: ${theme.spacing(0.125)} solid ${theme.colors.info};
-  padding: ${theme.spacing(0.7)};
-  width: ${theme.spacing(30)};
-  position: relative;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-export const CommentInputField = styled.input`
-  flex: 1;
-  border: none;
-  font-size: ${theme.spacing(1.75)};
-  outline: none;
-  max-width: 100%;
-  background: transparent;
-  padding-right: ${theme.spacing(4.375)};
-  padding-left: ${theme.spacing(1.25)};
-`;
-
-export const CommentButtonWrapper = styled.button`
-  position: absolute;
-  right: ${theme.spacing(1.25)};
-  top: ${theme.spacing(0.8)};
-  background: none;
-  border: none;
-  font-size: ${theme.spacing(2.375)};
-  color: ${theme.colors.icons};
-  cursor: pointer;
 `;
 
 export const NewsMetaWrapper = styled.div`
@@ -180,20 +145,18 @@ export const NewsTextWrapper = styled.p`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.75)};
-    column-count: 1; /* Switch to single column on smaller screens */
+    column-count: 1;
   }
-    
 `;
 
 export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-left: auto;
+  gap: ${theme.spacing(2)};
+  margin: ${theme.spacing(1.5)} 0;
 
   svg {
-    font-size: 22px;
-    margin-top: 15px;
+    font-size: ${theme.spacing(2.5)};
     color: ${({ theme }) => theme.colors.black};
     cursor: pointer;
     transition: color 0.2s ease-in-out;
@@ -201,5 +164,59 @@ export const IconWrapper = styled.div`
     &:hover {
       color: ${({ theme }) => theme.colors.primary};
     }
+  }
+`;
+
+// Shimmer effect components
+export const ShimmerWrapper = styled.div`
+  width: 100%;
+`;
+
+export const ShimmerImage = styled.div`
+  width: 100%;
+  height: 300px;
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: ${theme.spacing(1)};
+  margin-bottom: ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 200px;
+  }
+`;
+
+export const ShimmerLine = styled.div`
+  width: 60%;
+  height: 20px;
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  margin-bottom: ${theme.spacing(2)};
+`;
+
+export const ShimmerTitle = styled.div`
+  width: 100%;
+  height: 30px;
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  margin-bottom: ${theme.spacing(2)};
+`;
+
+export const ShimmerText = styled.div`
+  width: 100%;
+  height: 15px;
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  margin-bottom: ${theme.spacing(1.5)};
+
+  &:last-child {
+    width: 80%;
   }
 `;

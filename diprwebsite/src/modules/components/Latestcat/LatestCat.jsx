@@ -13,6 +13,11 @@ import {
   TrendingTagWrapper,
   NewsMetaWrapper,
   IconWrapper,
+  ShimmerWrapper,
+  ShimmerImage,
+  ShimmerLine,
+  ShimmerTitle,
+  ShimmerText
 } from "./LatestCat.styles";
 import {
   FaFacebook,
@@ -30,40 +35,14 @@ import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../context/LanguageContext"; 
 
-const fallbackNews = {
-  _id: "fallback1",
-  title: "Fallback News: AI Revolution",
-  description:
-    "This is placeholder content because the news data couldn't be fetched.",
-  newsImage: "https://via.placeholder.com/300",
-  category: { name: "Technology" },
-  author: "Unknown Author",
-  createdTime: "2023-07-24T10:00:00.000Z",
-  readTime: "8 min read",
-  isTrending: false,
-  url: "https://example.com",
-  likedBy: [],
-  comments: [],
-  hindi: {
-    title: "फॉलबैक समाचार: एआई क्रांति",
-    description:
-      "यह प्लेसहोल्डर सामग्री है क्योंकि समाचार डेटा प्राप्त नहीं किया जा सका।",
-  },
-  kannada: {
-    title: "ಫಾಲ್ಬ್ಯಾಕ್ ಸುದ್ದಿ: AI ಕ್ರಾಂತಿ",
-    description:
-      "ಸುದ್ದಿ ಡೇಟಾ ಪಡೆಯಲಾಗದ ಕಾರಣ ಇದು ಪ್ಲೇಸ್ಹೋಲ್ಡರ್ ವಿಷಯವಾಗಿದೆ.",
-  },
-};
-
 const LatestCat = () => {
   const { id } = useParams();
-  const [news, setNews] = useState(fallbackNews);
+  const [news, setNews] = useState(null);
   const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
   const userId = Cookies.get("userId");
   const { fontSize } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext); // Get current language from context
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -74,12 +53,12 @@ const LatestCat = () => {
         if (result.success && result.data) {
           setNews(result.data);
         } else {
-          console.warn("No news data found, using fallback data.");
-          setNews(fallbackNews);
+          console.warn("No news data found");
+          setNews(null);
         }
       } catch (error) {
         console.error("Error fetching news:", error);
-        setNews(fallbackNews);
+        setNews(null);
       } finally {
         setLoading(false);
       }
@@ -102,13 +81,11 @@ const LatestCat = () => {
       const response = await likeNews({ newsId: news._id, userId });
 
       if (response.success) {
-        // Toggle like status in the frontend
         setNews((prevNews) => {
           const newLikedBy = prevNews.likedBy.includes(userId)
             ? prevNews.likedBy.filter((id) => id !== userId)
             : [...prevNews.likedBy, userId];
 
-          // Store the updated likedBy in localStorage
           localStorage.setItem(
             `likedNews_${news._id}`,
             JSON.stringify(newLikedBy)
@@ -134,7 +111,6 @@ const LatestCat = () => {
         });
   };
 
-  // Set the initial like state on component mount
   useEffect(() => {
     if (news && userId) {
       const likedNews = JSON.parse(
@@ -149,8 +125,8 @@ const LatestCat = () => {
     }
   }, [news, userId]);
 
-  // Function to get the correct language content
   const getLocalizedContent = (news, field) => {
+    if (!news) return "Loading...";
     if (language === "English") {
       return news[field] || "No content available";
     } else if (language === "Hindi") {
@@ -175,17 +151,29 @@ const LatestCat = () => {
     );
   };
 
-  const copyLink = (url) => {
-    navigator.clipboard.writeText(url);
-    alert("Link copied to clipboard!");
-  };
+  if (loading || !news) {
+    return (
+      <Container>
+        <NewsCardWrapper>
+          <ShimmerWrapper>
+            <ShimmerImage />
+            <ShimmerLine />
+            <ShimmerTitle />
+            <ShimmerText />
+            <ShimmerText />
+            <ShimmerText />
+          </ShimmerWrapper>
+        </NewsCardWrapper>
+      </Container>
+    );
+  }
 
   return (
     <Container>
       <NewsCardWrapper key={news._id}>
         <NewsImageWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
           <img
-            src={news.newsImage || "https://via.placeholder.com/300"}
+            src={news.newsImage}
             alt={getLocalizedContent(news, "title")}
           />
         </NewsImageWrapper>
@@ -198,27 +186,27 @@ const LatestCat = () => {
 
           <NewsTitleWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             {getLocalizedContent(news, "title")}
-            <IconWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-              {news.likedBy.includes(userId) ? (
-                <FaHeart
-                  onClick={handleLikeNews}
-                  style={{ cursor: "pointer", color: "red" }}
-                />
-              ) : (
-                <FaRegHeart
-                  onClick={handleLikeNews}
-                  style={{ cursor: "pointer" }}
-                />
-              )}
-              <FaRegComment
-                onClick={toggleComments}
-                style={{ cursor: "pointer" }}
-              />
-              <FaPaperPlane />
-            </IconWrapper>
           </NewsTitleWrapper>
 
-          {/* Animated Comments Section */}
+          <IconWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+            {news.likedBy.includes(userId) ? (
+              <FaHeart
+                onClick={handleLikeNews}
+                style={{ cursor: "pointer", color: "red" }}
+              />
+            ) : (
+              <FaRegHeart
+                onClick={handleLikeNews}
+                style={{ cursor: "pointer" }}
+              />
+            )}
+            <FaRegComment
+              onClick={toggleComments}
+              style={{ cursor: "pointer" }}
+            />
+            <FaPaperPlane />
+          </IconWrapper>
+
           <AnimatePresence style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             {showComments && (
               <motion.div
@@ -233,7 +221,6 @@ const LatestCat = () => {
             )}
           </AnimatePresence>
 
-          {/* Add comment box */}
           <AddComments newsId={news?._id || id} />
 
           <NewsMetaWrapper>
@@ -241,7 +228,7 @@ const LatestCat = () => {
               <TrendingTagWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Trending</TrendingTagWrapper>
             )}
             <span style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-              {formatDate(news.createdTime)} • {news.readTime || "N/A"}
+              {formatDate(news.createdTime)}  {news.readTime}
             </span>
           </NewsMetaWrapper>
 
@@ -254,14 +241,11 @@ const LatestCat = () => {
               onClick={() => shareOnTwitter(news.url)}
               style={{ cursor: "pointer" }}
             />
-            <FaLink
-              onClick={() => copyLink(news.url)}
-              style={{ cursor: "pointer" }}
-            />
+      
           </ShareIconsWrapper>
 
           <NewsTextWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-          {getLocalizedContent(news, "description")}
+            {getLocalizedContent(news, "description")}
           </NewsTextWrapper>
         </NewsContentWrapper>
       </NewsCardWrapper>

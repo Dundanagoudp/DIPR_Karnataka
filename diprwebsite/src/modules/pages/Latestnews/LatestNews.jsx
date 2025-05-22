@@ -23,7 +23,7 @@ const LatestNews = () => {
       ) : (
         <>
           <LatestCat />
-          <RecomMended />
+          {/* <RecomMended /> */}
           <LatestTab />
         </>
       )}

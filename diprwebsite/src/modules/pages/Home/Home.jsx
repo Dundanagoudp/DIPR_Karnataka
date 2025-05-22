@@ -39,7 +39,7 @@ const Home = () => {
             <MagazineSection>
               <AllNewsData/>
             </MagazineSection>       
-                        <ShortsCarousel/>
+              <ShortsCarousel/>
             <Videos/>
           </ContentWrapper>
         </>

@@ -92,7 +92,7 @@ export const CMImage = styled.img`
   max-width: ${theme.spacing(25)};
   height: auto;
   object-fit: cover;
-  padding: ${theme.spacing(2)};
+  padding: ${theme.spacing(1.8)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: ${theme.spacing(20)};
