@@ -74,7 +74,7 @@ const App = () => {
                 <Route path="/Gallery" element={<Exclusive />} />
                 <Route path="/aboutuspage" element={<AboutUspage />} />
                 <Route path="/contactus" element={<ContactUs />} />
-                <Route path="/latestdata" element={<LatestData />} />
+                <Route path="/latestnews" element={<LatestData />} />
                 <Route path="/copyright-policy" element={<CopyrightPolicy />} />
                 <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
                 <Route path="/security-policy" element={<SecurityPolicy />} />
