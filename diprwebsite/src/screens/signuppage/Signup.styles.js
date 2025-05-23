@@ -45,7 +45,7 @@ export const SignupBox = styled.div`
   padding: ${theme.spacing(8)};
   border-radius: ${theme.spacing(1.5)};
   text-align: center;
-  max-width: 50%;
+  max-width: 70%;
   width: 100%;
   margin-right: ${theme.spacing(25)};
 

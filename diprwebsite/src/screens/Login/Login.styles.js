@@ -43,7 +43,7 @@ export const LoginBox = styled.div`
   padding: ${theme.spacing(8)};
   border-radius: ${theme.spacing(1.5)};
   text-align: center;
-  max-width: 50%;
+  max-width: 60%;
   width: 100%;
   margin-right: ${theme.spacing(20)};
 
@@ -275,7 +275,7 @@ export const OtpBox = styled.div`
   padding: ${theme.spacing(8)};
   border-radius: ${theme.spacing(1.5)};
   text-align: center;
-  max-width: 50%;
+  max-width: 60%;
   width: 100%;
   margin-right: ${theme.spacing(25)};
 
