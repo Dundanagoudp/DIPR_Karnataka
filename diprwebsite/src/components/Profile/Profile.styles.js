@@ -8,7 +8,6 @@ export const ProfileContainer = styled.div`
   padding: ${theme.spacing(4)};
   max-width: 600px;
   margin: 0 auto;
-  background-color: #fff;
   border-radius: 12px;
   // box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 `;
@@ -33,7 +32,7 @@ export const ProfileHeader = styled.div`
   }
 
   p {
-    color: ${theme.colors.light};
+    color: ${theme.colors.black};
     font-size: 14px;
   }
 `;

@@ -8,7 +8,6 @@ import {
   DetailValue,
   SocialIcons 
 } from "./Profile.styles";
-import { FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
 import ProfileImage from "../../assets/Profile.png";
 
 const Profile = () => {
@@ -51,18 +50,7 @@ const Profile = () => {
         </DetailRow>
       </UserDetailsContainer>
 
-      <SocialIcons>
-        <span>Connect with me:</span>
-        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-          <FaFacebookF />
-        </a>
-        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-          <FaTwitter />
-        </a>
-        <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
-          <FaYoutube />
-        </a>
-      </SocialIcons>
+
     </ProfileContainer>
   );
 };
