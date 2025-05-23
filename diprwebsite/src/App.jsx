@@ -27,8 +27,8 @@ import Signupnumber from "./screens/signuppage/SignUpNumber";
 import { LanguageProvider } from "./context/LanguageContext";
 import Cookies from "js-cookie";
 import { endSession } from "./services/LoginApi"; 
-// import Videos from "./Videotest/VideoPage";
-// import HomePage from "./Videotest/HomePage";
+import Gallery from "./modules/pages/dynamicGallery/Gallery";
+
 
 const App = () => {
   useEffect(() => {
@@ -83,8 +83,7 @@ const App = () => {
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/help" element={<Help />} />
                 <Route path="/profile" element={<Profile />} />
-                {/* <Route path="/video" element={<HomePage />} />
-                <Route path="/video/:id" element={<Videos />} /> */}
+                <Route path="/gallerysection" element={<Gallery />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/otp" element={<Otp />} />
