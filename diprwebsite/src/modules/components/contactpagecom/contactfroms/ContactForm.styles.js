@@ -7,7 +7,7 @@ export const ContactFormContainer = styled.div`
   margin: auto;
   max-width: 600px;
   padding: ${theme.spacing(4)};
-  background-color: ${theme.colors.background};
+  // background-color: ${theme.colors.background};
   border-radius: 8px;
  
   h2 {

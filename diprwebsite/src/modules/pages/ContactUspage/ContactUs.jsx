@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ContactForm from "../../components/contactpagecom/contactfroms/ContactForm";
-import Loader from "../../../components/loder/Loder"; // Import the Loader component
+import Loader from "../../../components/loder/Loder"; 
 
 const ContactUs = () => {
   const [isLoading, setIsLoading] = useState(true); 
