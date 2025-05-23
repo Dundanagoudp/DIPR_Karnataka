@@ -4,148 +4,80 @@ import theme from "../../theme/Theme";
 export const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: ${theme.spacing(4)};
-  background-color: ${(props) => (props.lightMode ? "#fff" : "#2d2d2d")};
-  color: ${(props) => (props.lightMode ? "#000" : "#fff")};
-`;
-
-export const TopSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;  
   align-items: center;
-  margin-bottom: ${theme.spacing(3)};
+  padding: ${theme.spacing(4)};
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 12px;
+  // box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 `;
 
 export const ProfileHeader = styled.div`
+  text-align: center;
   margin-bottom: ${theme.spacing(3)};
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  
   img {
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid ${theme.colors.primary};
+    margin-bottom: ${theme.spacing(1)};
   }
 
   h2 {
     font-size: 24px;
-    font-weight: bold;
+    margin: 8px 0;
+    color: ${theme.colors.dark};
   }
 
   p {
-  margin-top: -20px;
-    font-size: 16px;
-
+    color: ${theme.colors.light};
+    font-size: 14px;
   }
+`;
+
+export const UserDetailsContainer = styled.div`
+  width: 100%;
+  margin-bottom: ${theme.spacing(3)};
+`;
+
+export const DetailRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: ${theme.spacing(1.5)} 0;
+  border-bottom: 1px solid #eee;
+`;
+
+export const DetailLabel = styled.span`
+  font-weight: bold;
+  color: ${theme.colors.dark};
+`;
+
+export const DetailValue = styled.span`
+  color: #555;
 `;
 
 export const SocialIcons = styled.div`
   display: flex;
+  align-items: center;
   gap: ${theme.spacing(2)};
-  
+  margin-top: ${theme.spacing(2)};
+
+  span {
+    color: ${theme.colors.light};
+    margin-right: ${theme.spacing(1)};
+  }
+
   a {
-    text-decoration: none;
-    svg {
-      font-size: 24px;
-      color: ${theme.colors.light};
-      cursor: pointer;
-      background-color: ${(props) => (props.lightMode ? "#fff" : "#2d2d2d")};
-      padding: ${theme.spacing(0.5)};
-      border-radius: 5px;
-      &:hover {
-        color: ${theme.colors.primary};
-      }
+    color: ${theme.colors.primary};
+    font-size: 20px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: ${theme.colors.secondary};
+      transform: translateY(-2px);
     }
   }
 `;
-
-export const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  gap: ${theme.spacing(2)};
-  width: 100%;
-  max-width: 400px;
-`;
-
-export const FormLabel = styled.label`
-  font-size: 16px;
-  font-weight: bold;
-
-`;
-
-export const FormInput = styled.input`
-  padding: ${theme.spacing(1.5)};
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid ${theme.colors.light};
-`;
-
-export const UpdateButton = styled.button`
-  padding: ${theme.spacing(2)};
-  background-color: ${theme.colors.primary};
-  color: #fff;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${theme.colors.secondary};
-  }
-`;
-
-export const LightModeToggle = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${theme.spacing(1)};
-`;
-
-/* Toggle switch styling */
-export const ToggleSwitch = styled.label`
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
-
-  input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: ${theme.colors.light};
-    transition: 0.4s;
-    border-radius: 34px;
-  }
-
-  input:checked + .slider {
-    background-color: ${theme.colors.primary};
-  }
-
-  .slider::before {
-    content: "";
-    position: absolute;
-    height: 16px;
-    width: 16px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-  }
-
-  input:checked + .slider::before {
-    transform: translateX(26px);
-  }
-`;
-
-
