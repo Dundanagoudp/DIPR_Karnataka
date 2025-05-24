@@ -35,8 +35,8 @@ import {
   Viewall,
   VideoOverlay,
   LargePlayButton,
-} from "./Videos.styles.js";
-import { getLongVideos } from "../../../services/videoApi/videoApi";
+} from "../homevideosection/VideosHome.styles.js";
+import { getLongVideos } from "../../../services/videoApi/videoApi.js";
 import { Link } from "react-router-dom";
 
 const Videos = () => {

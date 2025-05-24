@@ -8,9 +8,9 @@ import {
 } from "./Home.styles";
 import Loader from "../../../components/loder/Loder";
 import AllNewsData from "../../../modules/components/allnewssection2/AllNewsData";
-import Videos from "../../../modules/components/homevideosection/videos";
 import Magzines2 from "../../../modules/components/magzinemodal/MagzinewithModal";
 import ShortsCarousel from "../../../modules/components/homevideosection/ShortsCarousel";
+import Videos from "../../../modules/components/homevideosection/VideosHome";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
