@@ -26,7 +26,7 @@ const fadeIn = keyframes`
 // Styled Components
 export const PageContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
+  // min-height: 100vh;
   background-color: ${theme.colors.background};
   font-family: ${theme.fonts.body};
   color: ${theme.colors.text};
@@ -544,6 +544,7 @@ export const ErrorMessage = styled.p`
   font-size: 14px;
   margin-bottom: 16px;
 `
+
 
 export const Comment = styled.div`
   display: flex;
