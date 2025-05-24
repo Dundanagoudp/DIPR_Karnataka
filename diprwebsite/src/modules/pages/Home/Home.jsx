@@ -10,7 +10,7 @@ import Loader from "../../../components/loder/Loder";
 import AllNewsData from "../../../modules/components/allnewssection2/AllNewsData";
 import Videos from "../../../modules/components/homevideosection/videos";
 import Magzines2 from "../../../modules/components/magzinemodal/MagzinewithModal";
-import ShortsCarousel from "../../components/homevideosection/ShortsCarousel";
+import ShortsCarousel from "../../../modules/components/homevideosection/ShortsCarousel";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
