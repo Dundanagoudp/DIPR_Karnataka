@@ -25,7 +25,7 @@ import {
   ShimmerTitle,
   ShimmerChannel,
   ShimmerButton
-} from "../homevideosection/ShortsCarousel.styles"
+} from "../../../modules/components/homevideosection/ShortsCarousel.styles"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 import { CarouselTitleWrapper } from "./ShortsCarousel.styles"
 
