@@ -1,12 +1,10 @@
 import React from 'react'
-// import LongVideos from '../../components/gallerysection/LongVideos'
-// import ShortsCarousel2 from '../../components/gallerysection/ShortsVideos'
+import LongVideos from '../../components/gallerysection/LongVideos'
 
 const Gallery=()=> {
   return (
     <div>
-        {/* <LongVideos/> */}
-        {/* <ShortsCarousel2/> */}
+      <LongVideos/>
     </div>
   )
 }
