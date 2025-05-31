@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
-import { FaRegComment, FaHeart, FaComment, FaRetweet } from "react-icons/fa"
+import { FaRegComment, FaHeart, FaComment, FaRetweet, FaComments } from "react-icons/fa"
 import { AiOutlineLike } from "react-icons/ai"
 import { motion, AnimatePresence } from "framer-motion"
 import { SlCalender } from "react-icons/sl";
@@ -50,6 +50,11 @@ import {
   FlexContainer2,
   LikeCount,
 } from "./LongVideos.styles"
+import { IoIosTimer } from "react-icons/io";
+import { BiSolidMoviePlay } from "react-icons/bi";
+import { User } from 'lucide-react';
+
+
 
 const LongVideos = () => {
   const [videosData, setVideosData] = useState([])
@@ -310,9 +315,8 @@ const LongVideos = () => {
               <VideoInfo>
                 <VideoTitle>{selectedVideo.title}</VideoTitle>
                 <VideoStats>
-                  <span><SlCalender /> {new Date(selectedVideo.createdAt).toLocaleDateString()}</span>
+                  <span><SlCalender style={{color: "#000000", marginRight: "5px"}} /> {new Date(selectedVideo.createdAt).toLocaleDateString()}</span>
                   <VideoActions>
-                    {/* <span>👁️ {selectedVideo.views || 0} views</span> */}
                   </VideoActions>
                 </VideoStats>
                 <VideoDescription>{selectedVideo.description}</VideoDescription>
@@ -346,7 +350,7 @@ const LongVideos = () => {
                       placeholder="Share your thoughts..."
                     />
                     <CommentButton onClick={() => handleAddComment(selectedVideo._id)}>
-                      💬 Comment
+                      <FaComments /> Comment
                     </CommentButton>
                   </CommentInputContainer>
                 </InteractionContainer>
@@ -362,23 +366,20 @@ const LongVideos = () => {
                       transition={{ duration: 0.4, ease: "easeInOut" }}
                     >
                       <CommentsHeader>
-                        💬 Comments ({comments[selectedVideo._id]?.length || 0})
+                        <FaComments /> Comments ({comments[selectedVideo._id]?.length || 0})
                       </CommentsHeader>
                       <CommentsList>
                         {comments[selectedVideo._id]?.length > 0 ? (
                           comments[selectedVideo._id].map((comment) => (
                             <Comment key={comment._id}>
-                              {/* <UserAvatar
-                                src={comment.user?.profileImage || "/placeholder.svg?height=44&width=44"}
-                                alt={comment.user?.displayName || "User"}
-                              /> */}
+                                  <User />
                               <CommentContent>
                                 <CommentHeader>
                                   <Username>
-                                    👤 {comment.user?.displayName || "Anonymous User"}
+                                     {comment.user?.displayName || "Anonymous User"}
                                   </Username>
                                   <CommentTime>
-                                    🕒 {new Date(comment.createdTime).toLocaleTimeString()}
+                                    <IoIosTimer style={{color: "#6c757d"}}/> {new Date(comment.createdTime).toLocaleTimeString()}
                                   </CommentTime>
                                 </CommentHeader>
                                 <CommentText>{comment.comment}</CommentText>
@@ -414,7 +415,7 @@ const LongVideos = () => {
         </VideoPlayerContainer>
 
         <VideoSidebar>
-          <SidebarHeader>🎬 More Videos</SidebarHeader>
+          <SidebarHeader><BiSolidMoviePlay style={{color: "#1E88E5"}} /> More Videos</SidebarHeader>
           <VideoList>
             {videosData.map((video) => (
               <VideoItem
@@ -435,7 +436,7 @@ const LongVideos = () => {
                 <VideoItemInfo>
                   <VideoItemTitle>{video.title}</VideoItemTitle>
                   <VideoItemViews>
-                    <SlCalender /> {new Date(video.createdAt).toLocaleDateString()}
+                    <SlCalender style={{color: "#000000"}} /> {new Date(video.createdAt).toLocaleDateString()}
                   </VideoItemViews>
                 </VideoItemInfo>
               </VideoItem>
