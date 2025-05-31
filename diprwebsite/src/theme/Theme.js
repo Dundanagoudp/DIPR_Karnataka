@@ -1,4 +1,3 @@
-
 const theme = {
   colors: {
     primary: "#1E88E5",
@@ -24,10 +23,23 @@ const theme = {
     icons: "#787878",
     bggrey: "#F3F3F3",
     maincolor: "#372670",
+    primaryVideo: "#ff0000",
     trcloure: "hsla(0, 0.00%, 100.00%, 0.20)",
     // Add missing colors referenced in HomePage.styles.js
     lightgray: "#f1f1f1",
-    lightText: "#666666"
+    lightText: "#666666",
+     gray: {
+      100: "#f5f5f5",
+      200: "#e5e5e5",
+      300: "#d4d4d4",
+      400: "#a3a3a3",
+      500: "#737373",
+      600: "#525252",
+      700: "#404040",
+      800: "#262626",
+      900: "#171717",
+    },
+    
   },
   fonts: {
     body: "'poppins', sans-serif",
@@ -40,13 +52,17 @@ const theme = {
     small: "12px",
     medium: "14px",
     large: "16px"
+    
   },
   breakpoints: {
     mobile: "480px",
     tablet: "768px",
     desktop: "1024px",
+        large: "1280px",
   },
   spacing: (factor) => `${factor * 8}px`,
+  spacing1: (multiplier) => `${multiplier * 4}px`,
+
   borderRadius: {
     small: "4px",
     medium: "8px",

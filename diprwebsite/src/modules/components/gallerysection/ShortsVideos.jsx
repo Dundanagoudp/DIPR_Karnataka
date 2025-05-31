@@ -1,7 +1,5 @@
-"use client"
-
 import { useState, useEffect, useRef } from "react"
-import { ChevronLeft, ChevronRight, Play, Heart, MessageCircle, Send } from "lucide-react"
+import { ChevronLeft, ChevronRight, Play, Heart, MessageCircle, Send, X,  MoreVertical } from "lucide-react"
 import { getVideos, ShortlikeVideo, ShortVideoaddComment } from "../../../services/videoApi/videoApi"
 import {
   CarouselContainer,
@@ -14,8 +12,6 @@ import {
   VideoOverlay,
   PlayButton,
   VideoInfo,
-  ChannelInfo,
-  NavigationButton,
   VideoTitle,
   VideoPlayer,
   ProgressBar,
@@ -23,26 +19,39 @@ import {
   ShimmerContainer,
   ShimmerThumbnail,
   ShimmerTitle,
-  // New styled components for likes and comments
-  InteractionContainer,
-  LikeButton,
-  CommentButton,
-  LikeCount,
-  CommentCount,
-  CommentSection,
+  NavigationButton,
+  // Interaction components
+  InteractionSidebar,
+  ActionButton,
+  ActionCount,
+  CommentPopupOverlay,
+  CommentPopupContent,
+  CommentPopupHeader,
+  CommentPopupTitle,
+  CommentPopupClose,
   CommentList,
   CommentItem,
+  CommentAvatar,
+  CommentContent,
   CommentAuthor,
   CommentText,
   CommentTime,
   CommentInputContainer,
   CommentInput,
   CommentSubmitButton,
-  InteractionOverlay,
-  CarouselTitleWrapper
-} from "../gallerysection/ShortsVideos.styles"
+  // Additional components
+  VideoMetadata,
+  ChannelInfo,
+  ChannelAvatar,
+  ChannelName,
+  VideoDescription,
+  VideoStats,
+  ViewAllButton,
+  CarouselTitleWrapper,
+  VideoDuration,
+  NoCommentsContainer,
+} from "./ShortsVideos.styles"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
-// import { CarouselTitleWrapper } from "./ShortsCarousel.styles"
 import Cookies from "js-cookie"
 
 const ShortsCarousel2 = () => {
@@ -65,8 +74,9 @@ const ShortsCarousel2 = () => {
   const [likedVideos, setLikedVideos] = useState({})
   const [likeCounts, setLikeCounts] = useState({})
   const [comments, setComments] = useState({})
-  const [commentInput, setCommentInput] = useState({})
-  const [showComments, setShowComments] = useState({})
+  const [commentInput, setCommentInput] = useState("")
+  const [showCommentPopup, setShowCommentPopup] = useState(false)
+  const [activeVideoId, setActiveVideoId] = useState(null)
   const [userId, setUserId] = useState(null)
   const [debouncingLike, setDebouncingLike] = useState(false)
 
@@ -105,9 +115,14 @@ const ShortsCarousel2 = () => {
             .map((_, index) => ({
               _id: `placeholder-${index}`,
               title: `Shorts Video ${index + 1}`,
+              description: `This is a description for video ${index + 1}`,
               thumbnail: `/placeholder.svg?height=400&width=225&text=Video ${index + 1}`,
               video_url: "",
               total_Likes: Math.floor(Math.random() * 1000),
+              channel: {
+                name: `Channel ${index + 1}`,
+                avatar: `/placeholder.svg?height=40&width=40&text=C${index + 1}`,
+              },
               Comments: [],
             }))
           setVideos(placeholderVideos)
@@ -120,9 +135,14 @@ const ShortsCarousel2 = () => {
           .map((_, index) => ({
             _id: `placeholder-${index}`,
             title: `Shorts Video ${index + 1}`,
+            description: `This is a description for video ${index + 1}`,
             thumbnail: `/placeholder.svg?height=400&width=225&text=Video ${index + 1}`,
             video_url: "",
             total_Likes: Math.floor(Math.random() * 1000),
+            channel: {
+              name: `Channel ${index + 1}`,
+              avatar: `/placeholder.svg?height=40&width=40&text=C${index + 1}`,
+            },
             Comments: [],
           }))
         setVideos(placeholderVideos)
@@ -213,10 +233,6 @@ const ShortsCarousel2 = () => {
       setPlayingVideoId(null)
     } else {
       setPlayingVideoId(videoId)
-      // Initialize comment input for this video if not already done
-      if (!commentInput[videoId]) {
-        setCommentInput((prev) => ({ ...prev, [videoId]: "" }))
-      }
     }
   }
 
@@ -264,32 +280,28 @@ const ShortsCarousel2 = () => {
   // Toggle comment section visibility
   const handleCommentClick = (videoId, event) => {
     event.stopPropagation()
-    setShowComments((prev) => ({ ...prev, [videoId]: !prev[videoId] }))
-  }
-
-  // Handle comment input change
-  const handleCommentInputChange = (videoId, value) => {
-    setCommentInput((prev) => ({ ...prev, [videoId]: value }))
+    setActiveVideoId(videoId)
+    setShowCommentPopup(true)
   }
 
   // Submit a new comment
-  const handleSubmitComment = async (videoId, event) => {
-    event.stopPropagation()
+  const handleSubmitComment = async (event) => {
+    event.preventDefault()
 
     if (!userId) {
       alert("Please login to comment")
       return
     }
 
-    if (!commentInput[videoId]?.trim()) {
+    if (!commentInput?.trim()) {
       return
     }
 
     try {
       // Call API to add comment
       const response = await ShortVideoaddComment({
-        text: commentInput[videoId],
-        videoId,
+        text: commentInput,
+        videoId: activeVideoId,
         userId,
       })
 
@@ -297,16 +309,23 @@ const ShortsCarousel2 = () => {
       if (response && response.comment) {
         setComments((prev) => ({
           ...prev,
-          [videoId]: [...(prev[videoId] || []), response.comment],
+          [activeVideoId]: [...(prev[activeVideoId] || []), response.comment],
         }))
 
         // Clear input field
-        setCommentInput((prev) => ({ ...prev, [videoId]: "" }))
+        setCommentInput("")
       }
     } catch (error) {
       console.error("Error adding comment:", error)
       alert("Failed to add comment. Please try again.")
     }
+  }
+
+  // Close comment popup
+  const closeCommentPopup = () => {
+    setShowCommentPopup(false)
+    setActiveVideoId(null)
+    setCommentInput("")
   }
 
   // Touch and mouse events for dragging
@@ -362,15 +381,26 @@ const ShortsCarousel2 = () => {
   // Format date for comments
   const formatDate = (dateString) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString()
+    const now = new Date()
+    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60))
+
+    if (diffInHours < 1) return "Just now"
+    if (diffInHours < 24) return `${diffInHours}h ago`
+    return `${Math.floor(diffInHours / 24)}d ago`
+  }
+
+  // Format count numbers
+  const formatCount = (count) => {
+    if (count < 1000) return count.toString()
+    if (count < 1000000) return `${(count / 1000).toFixed(1)}K`
+    return `${(count / 1000000).toFixed(1)}M`
   }
 
   return (
     <CarouselContainer ref={containerRef}>
       <CarouselHeader>
         <CarouselTitleWrapper>
-          <CarouselTitle>View All</CarouselTitle>
-          <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} />
+          <CarouselTitle>Shorts</CarouselTitle>
         </CarouselTitleWrapper>
       </CarouselHeader>
 
@@ -398,10 +428,6 @@ const ShortsCarousel2 = () => {
                       <ShimmerThumbnail />
                       <VideoInfo>
                         <ShimmerTitle />
-                        <ChannelInfo>
-                          {/* <ShimmerChannel /> */}
-                          {/* <ShimmerButton /> */}
-                        </ChannelInfo>
                       </VideoInfo>
                     </ShimmerContainer>
                   </VideoCard>
@@ -425,65 +451,33 @@ const ShortsCarousel2 = () => {
                         <ProgressIndicator style={{ width: `${progress}%` }} />
                       </ProgressBar>
 
-                      {/* Interaction overlay for likes and comments */}
-                      <InteractionOverlay>
-                        <InteractionContainer>
-                          <LikeButton isLiked={likedVideos[video._id]} onClick={(e) => handleLikeClick(video._id, e)}>
-                            <Heart size={24} fill={likedVideos[video._id] ? "#ff0000" : "none"} />
-                            <LikeCount>{likeCounts[video._id] || 0}</LikeCount>
-                          </LikeButton>
+                      {/* Interaction sidebar for likes and comments */}
+                      <InteractionSidebar>
+                        <ActionButton isActive={likedVideos[video._id]} onClick={(e) => handleLikeClick(video._id, e)}>
+                          <Heart size={24} fill={likedVideos[video._id] ? "#ff0000" : "none"} />
+                          <ActionCount>{formatCount(likeCounts[video._id] || 0)}</ActionCount>
+                        </ActionButton>
 
-                          <CommentButton
-                            isActive={showComments[video._id]}
-                            onClick={(e) => handleCommentClick(video._id, e)}
-                          >
-                            <MessageCircle size={24} />
-                            <CommentCount>{comments[video._id]?.length || 0}</CommentCount>
-                          </CommentButton>
-                        </InteractionContainer>
-                      </InteractionOverlay>
+                        <ActionButton onClick={(e) => handleCommentClick(video._id, e)}>
+                          <MessageCircle size={24} />
+                          <ActionCount>{formatCount(comments[video._id]?.length || 0)}</ActionCount>
+                        </ActionButton>
 
-                      {/* Comment section */}
-                      {showComments[video._id] && (
-                        <CommentSection onClick={(e) => e.stopPropagation()}>
-                          <CommentList>
-                            {comments[video._id]?.length > 0 ? (
-                              comments[video._id].map((comment, index) => (
-                                <CommentItem key={comment._id || index}>
-                                  <CommentAuthor>{comment.user?.displayName || "Anonymous"}</CommentAuthor>
-                                  <CommentText>{comment.comment || comment.text}</CommentText>
-                                  <CommentTime>{formatDate(comment.createdTime || comment.createdAt)}</CommentTime>
-                                </CommentItem>
-                              ))
-                            ) : (
-                              <CommentItem>No comments yet. Be the first to comment!</CommentItem>
-                            )}
-                          </CommentList>
+                      </InteractionSidebar>
 
-                          <CommentInputContainer>
-                            <CommentInput
-                              type="text"
-                              placeholder="Add a comment..."
-                              value={commentInput[video._id] || ""}
-                              onChange={(e) => handleCommentInputChange(video._id, e.target.value)}
-                              onClick={(e) => e.stopPropagation()}
-                            />
-                            <CommentSubmitButton
-                              onClick={(e) => handleSubmitComment(video._id, e)}
-                              disabled={!commentInput[video._id]?.trim()}
-                            >
-                              <Send size={20} />
-                            </CommentSubmitButton>
-                          </CommentInputContainer>
-                        </CommentSection>
-                      )}
+                      {/* Video metadata */}
+                      <VideoMetadata>
+                      
+                        <VideoDescription>{video.description || video.title}</VideoDescription>
+                    
+                      </VideoMetadata>
                     </VideoPlayer>
                   ) : (
                     <VideoThumbnail>
                       <img src={video.thumbnail || "/placeholder.svg?height=400&width=225"} alt={video.title} />
                       <VideoOverlay>
                         <PlayButton onClick={() => handlePlayClick(video._id)}>
-                          <Play size={40} />
+                          <Play size={30} />
                         </PlayButton>
                       </VideoOverlay>
                     </VideoThumbnail>
@@ -491,10 +485,6 @@ const ShortsCarousel2 = () => {
 
                   <VideoInfo>
                     <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
-                    <ChannelInfo>
-                      {/* <ChannelName>Channel Name</ChannelName> */}
-                      {/* <SubscribeButton>Subscribe</SubscribeButton> */}
-                    </ChannelInfo>
                   </VideoInfo>
                 </VideoCard>
               ))}
@@ -510,6 +500,60 @@ const ShortsCarousel2 = () => {
           </NavigationButton>
         )}
       </CarouselWrapper>
+
+      {/* Comment Popup */}
+      {showCommentPopup && activeVideoId && (
+        <CommentPopupOverlay onClick={closeCommentPopup}>
+          <CommentPopupContent onClick={(e) => e.stopPropagation()}>
+            <CommentPopupHeader>
+              <CommentPopupTitle>Comments ({comments[activeVideoId]?.length || 0})</CommentPopupTitle>
+              <CommentPopupClose onClick={closeCommentPopup}>
+                <X size={24} />
+              </CommentPopupClose>
+            </CommentPopupHeader>
+
+            <CommentList>
+              {comments[activeVideoId]?.length > 0 ? (
+                comments[activeVideoId].map((comment, index) => (
+                  <CommentItem key={comment._id || index}>
+                    <CommentAvatar>
+                      <img
+                        src={comment.user?.avatar || "/placeholder.svg?height=32&width=32"}
+                        alt={comment.user?.displayName || "User"}
+                      />
+                    </CommentAvatar>
+                    <CommentContent>
+                      <CommentAuthor>{comment.user?.displayName || "Anonymous"}</CommentAuthor>
+                      <CommentText>{comment.comment || comment.text}</CommentText>
+                      <CommentTime>{formatDate(comment.createdTime || comment.createdAt)}</CommentTime>
+                    </CommentContent>
+                  </CommentItem>
+                ))
+              ) : (
+                <NoCommentsContainer>
+                  <MessageCircle size={48} />
+                  <p>No comments yet. Be the first to comment!</p>
+                </NoCommentsContainer>
+              )}
+            </CommentList>
+
+            <CommentInputContainer>
+              <form onSubmit={handleSubmitComment} style={{ display: "flex", width: "100%", gap: "12px" }}>
+                <CommentInput
+                  type="text"
+                  placeholder="Add a comment..."
+                  value={commentInput}
+                  onChange={(e) => setCommentInput(e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <CommentSubmitButton type="submit" disabled={!commentInput?.trim()}>
+                  <Send size={20} />
+                </CommentSubmitButton>
+              </form>
+            </CommentInputContainer>
+          </CommentPopupContent>
+        </CommentPopupOverlay>
+      )}
     </CarouselContainer>
   )
 }
