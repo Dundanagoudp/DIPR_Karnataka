@@ -26,7 +26,7 @@ const fadeIn = keyframes`
 // Styled Components
 export const PageContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
+  // min-height: 100vh;
   background-color: ${theme.colors.background};
   font-family: ${theme.fonts.body};
   color: ${theme.colors.text};
@@ -54,7 +54,6 @@ export const VideoPlayerSection = styled.div`
   position: sticky;
   margin-right: ${theme.spacing(5)};
   top: ${theme.spacing(0.5)};
-  height: calc(100vh - ${theme.spacing(2)});
   display: flex;
   flex-direction: column;
 

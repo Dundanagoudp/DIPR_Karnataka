@@ -15,8 +15,7 @@ import Videos from "../../../modules/components/homevideosection/VideosHome";
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   
-// Simulate a 3-second loading time
-  // Simulate a loading delay with useEffect
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
