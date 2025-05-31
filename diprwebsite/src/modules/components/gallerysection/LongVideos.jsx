@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { FaRegComment, FaHeart, FaComment, FaRetweet } from "react-icons/fa"
 import { AiOutlineLike } from "react-icons/ai"
 import { motion, AnimatePresence } from "framer-motion"
+import { SlCalender } from "react-icons/sl";
 import { getLongVideos, likeLongVideo, LongVideoaddComment } from "../../../services/videoApi/videoApi"
 import {
   Container,
@@ -116,6 +117,17 @@ const LongVideos = () => {
     setSelectedVideo(video)
     setPlayingVideoId(video._id)
     setOpenCommentSection(null)
+    
+    // Force the video to load and play
+    setTimeout(() => {
+      const videoElement = document.getElementById(video._id)
+      if (videoElement) {
+        videoElement.load() // Reload the video source
+        videoElement.play().catch(error => {
+          console.log("Auto-play prevented:", error)
+        })
+      }
+    }, 100)
   }
 
   const handleLikeClick = async (videoId) => {
@@ -226,28 +238,53 @@ const LongVideos = () => {
     }
   }
 
+  // Skeleton Loader Component
+  const SkeletonLoader = () => (
+    <Container>
+      <MainContent>
+        <VideoPlayerContainer>
+          <ShimmerEffect height="400px" marginBottom="20px" />
+          <ShimmerEffect height="32px" width="70%" marginBottom="12px" />
+          <ShimmerEffect height="20px" width="40%" marginBottom="16px" />
+          <ShimmerEffect height="80px" width="100%" marginBottom="24px" />
+          
+          <InteractionContainer>
+            <ShimmerEffect height="40px" width="200px" />
+            <ShimmerEffect height="40px" width="300px" />
+          </InteractionContainer>
+          
+          <ShimmerEffect height="24px" width="30%" marginBottom="16px" />
+          
+          {[1, 2, 3].map((item) => (
+            <div key={item} style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
+              {/* <ShimmerEffect height="44px" width="44px" style={{ borderRadius: '50%' }} /> */}
+              <div style={{ flex: 1 }}>
+                <ShimmerEffect height="16px" width="60%" marginBottom="8px" />
+                <ShimmerEffect height="40px" width="100%" marginBottom="8px" />
+                {/* <ShimmerEffect height="16px" width="30%" /> */}
+              </div>
+            </div>
+          ))}
+        </VideoPlayerContainer>
+
+        <VideoSidebar>
+          <ShimmerEffect height="28px" width="50%" marginBottom="20px" />
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
+              <ShimmerEffect height="78px" width="140px" />
+              <div style={{ flex: 1 }}>
+                <ShimmerEffect height="16px" width="100%" marginBottom="8px" />
+                <ShimmerEffect height="14px" width="60%" />
+              </div>
+            </div>
+          ))}
+        </VideoSidebar>
+      </MainContent>
+    </Container>
+  )
+
   if (loading) {
-    return (
-      <Container>
-        <MainContent>
-          <VideoPlayerContainer>
-            <ShimmerEffect style={{ height: "400px", borderRadius: "8px", marginBottom: "16px" }} />
-            <ShimmerEffect style={{ height: "24px", width: "70%", marginBottom: "8px" }} />
-            <ShimmerEffect style={{ height: "16px", width: "40%", marginBottom: "16px" }} />
-            <ShimmerEffect style={{ height: "80px", width: "100%", marginBottom: "24px" }} />
-            <ShimmerEffect style={{ height: "24px", width: "30%", marginBottom: "16px" }} />
-            <ShimmerEffect style={{ height: "40px", width: "100%", marginBottom: "16px" }} />
-            <ShimmerEffect style={{ height: "80px", width: "100%" }} />
-          </VideoPlayerContainer>
-          <VideoSidebar>
-            <ShimmerEffect style={{ height: "24px", width: "50%", marginBottom: "16px" }} />
-            {[1, 2, 3, 4].map((item) => (
-              <ShimmerEffect key={item} style={{ height: "90px", width: "100%", marginBottom: "12px" }} />
-            ))}
-          </VideoSidebar>
-        </MainContent>
-      </Container>
-    )
+    return <SkeletonLoader />
   }
 
   return (
@@ -257,7 +294,14 @@ const LongVideos = () => {
           {selectedVideo && (
             <>
               <VideoWrapper>
-                <MainVideo id={selectedVideo._id} controls autoPlay>
+                <MainVideo 
+                  key={selectedVideo._id} // Add key prop to force re-render
+                  id={selectedVideo._id} 
+                  controls 
+                  autoPlay
+                  onLoadStart={() => console.log("Video loading started")}
+                  onCanPlay={() => console.log("Video can play")}
+                >
                   <source src={selectedVideo.video_url} type="video/mp4" />
                   Your browser does not support the video tag.
                 </MainVideo>
@@ -266,8 +310,10 @@ const LongVideos = () => {
               <VideoInfo>
                 <VideoTitle>{selectedVideo.title}</VideoTitle>
                 <VideoStats>
-                  <span>{new Date(selectedVideo.createdAt).toLocaleDateString()}</span>
-                  <VideoActions></VideoActions>
+                  <span><SlCalender /> {new Date(selectedVideo.createdAt).toLocaleDateString()}</span>
+                  <VideoActions>
+                    {/* <span>👁️ {selectedVideo.views || 0} views</span> */}
+                  </VideoActions>
                 </VideoStats>
                 <VideoDescription>{selectedVideo.description}</VideoDescription>
               </VideoInfo>
@@ -277,16 +323,17 @@ const LongVideos = () => {
                   <LikeContainer>
                     <FlexContainer2>
                       <AiOutlineLike
-                        style={{ cursor: "pointer" }}
-                        size={30}
-                        color={likedVideos.has(selectedVideo._id) ? "blue" : "#000"}
+                        size={28}
+                        color={likedVideos.has(selectedVideo._id) ? "#667eea" : "#6c757d"}
                         onClick={() => handleLikeClick(selectedVideo._id)}
+                        style={{ cursor: "pointer" }}
                       />
                       <LikeCount>{likeCounts[selectedVideo._id] || 0}</LikeCount>
                       <FaRegComment
-                        style={{ cursor: "pointer" }}
-                        size={25}
+                        size={24}
+                        color="#6c757d"
                         onClick={() => toggleCommentSection(selectedVideo._id)}
+                        style={{ cursor: "pointer" }}
                       />
                     </FlexContainer2>
                   </LikeContainer>
@@ -296,13 +343,15 @@ const LongVideos = () => {
                       type="text"
                       value={newComments[selectedVideo._id] || ""}
                       onChange={(e) => handleCommentChange(selectedVideo._id, e)}
-                      placeholder="Add a comment..."
+                      placeholder="Share your thoughts..."
                     />
-                    <CommentButton onClick={() => handleAddComment(selectedVideo._id)}>Add Comment</CommentButton>
+                    <CommentButton onClick={() => handleAddComment(selectedVideo._id)}>
+                      💬 Comment
+                    </CommentButton>
                   </CommentInputContainer>
                 </InteractionContainer>
 
-                {error && <ErrorMessage>{error}</ErrorMessage>}
+                {error && <ErrorMessage>⚠️ {error}</ErrorMessage>}
 
                 <AnimatePresence>
                   {openCommentSection === selectedVideo._id && (
@@ -310,39 +359,50 @@ const LongVideos = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      transition={{ duration: 0.4, ease: "easeInOut" }}
                     >
-                      <CommentsHeader>Comments ({comments[selectedVideo._id]?.length || 0})</CommentsHeader>
+                      <CommentsHeader>
+                        💬 Comments ({comments[selectedVideo._id]?.length || 0})
+                      </CommentsHeader>
                       <CommentsList>
                         {comments[selectedVideo._id]?.length > 0 ? (
                           comments[selectedVideo._id].map((comment) => (
                             <Comment key={comment._id}>
-                              <UserAvatar
-                                src={comment.user?.profileImage || "/placeholder.svg?height=40&width=40"}
-                                alt="User"
-                              />
+                              {/* <UserAvatar
+                                src={comment.user?.profileImage || "/placeholder.svg?height=44&width=44"}
+                                alt={comment.user?.displayName || "User"}
+                              /> */}
                               <CommentContent>
                                 <CommentHeader>
-                                  <Username>{comment.user?.displayName || "User"}</Username>
-                                  <CommentTime>{new Date(comment.createdTime).toLocaleTimeString()}</CommentTime>
+                                  <Username>
+                                    👤 {comment.user?.displayName || "Anonymous User"}
+                                  </Username>
+                                  <CommentTime>
+                                    🕒 {new Date(comment.createdTime).toLocaleTimeString()}
+                                  </CommentTime>
                                 </CommentHeader>
                                 <CommentText>{comment.comment}</CommentText>
-                                <CommentActions>
+                                {/* <CommentActions>
                                   <CommentAction onClick={() => handleLikeComment(comment._id, selectedVideo._id)}>
-                                    <FaHeart /> <span>{comment.likes || 0}</span>
+                                    <FaHeart color="#e74c3c" />
+                                    <span>{comment.likes || 0}</span>
                                   </CommentAction>
                                   <CommentAction>
-                                    <FaRetweet />
+                                    <FaRetweet color="#17a2b8" />
+                                    <span>Share</span>
                                   </CommentAction>
                                   <CommentAction>
-                                    <FaComment />
+                                    <FaComment color="#6c757d" />
+                                    <span>Reply</span>
                                   </CommentAction>
-                                </CommentActions>
+                                </CommentActions> */}
                               </CommentContent>
                             </Comment>
                           ))
                         ) : (
-                          <NoComments>No comments yet. Be the first to comment!</NoComments>
+                          <NoComments>
+                            💭 No comments yet. Be the first to share your thoughts!
+                          </NoComments>
                         )}
                       </CommentsList>
                     </motion.div>
@@ -354,21 +414,29 @@ const LongVideos = () => {
         </VideoPlayerContainer>
 
         <VideoSidebar>
-          <SidebarHeader>More Videos</SidebarHeader>
+          <SidebarHeader>🎬 More Videos</SidebarHeader>
           <VideoList>
             {videosData.map((video) => (
               <VideoItem
                 key={video._id}
                 className={selectedVideo?._id === video._id ? "active" : ""}
-                onClick={() => handleVideoSelect(video)}
+                onClick={() => {
+                  console.log("Video selected:", video.title) // Debug log
+                  handleVideoSelect(video)
+                }}
+                style={{ cursor: 'pointer' }} // Ensure cursor shows it's clickable
               >
                 <ThumbnailContainer>
-                  <Thumbnail src={video.thumbnail || "/placeholder.svg?height=90&width=160"} alt={video.title} />
-                  <VideoDuration>2:19</VideoDuration>
+                  <Thumbnail 
+                    src={video.thumbnail || "/placeholder.svg?height=78&width=140"} 
+                    alt={video.title}
+                  />
                 </ThumbnailContainer>
                 <VideoItemInfo>
                   <VideoItemTitle>{video.title}</VideoItemTitle>
-                  <VideoItemViews>{new Date(video.createdAt).toLocaleDateString()}</VideoItemViews>
+                  <VideoItemViews>
+                    <SlCalender /> {new Date(video.createdAt).toLocaleDateString()}
+                  </VideoItemViews>
                 </VideoItemInfo>
               </VideoItem>
             ))}
