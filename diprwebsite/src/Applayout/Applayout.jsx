@@ -5,7 +5,7 @@ import NavBar from "../components/navbar/NavBar";
 import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
 import ToolBar from "../components/ToolBar/ToolBar";
-import Loading from "../components/progressloader/Loading"; 
+import Loading from "../components/Progressloader/Loading"; 
 
 const Applayout = () => {
   return (

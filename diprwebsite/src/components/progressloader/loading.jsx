@@ -11,7 +11,7 @@ import {
   Dot,
   Logo,
   MainContentContainer
-} from "./Loading.styles"
+} from "../Progressloader/Loading.styles"
 import logo2 from "../../assets/logo2.png"
 
 export default function Loading({ children }) {
