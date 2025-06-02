@@ -11,10 +11,10 @@ import {
   Dot,
   Logo,
   MainContentContainer
-} from "../Progressloader/Loading.styles"
+} from "./ProgressLoading.styles"
 import logo2 from "../../assets/logo2.png"
 
-export default function Loading({ children }) {
+export default function LoadingProgressBar({ children }) {
   const [isLoading, setIsLoading] = useState(true)
   const [progress, setProgress] = useState(0)
 
