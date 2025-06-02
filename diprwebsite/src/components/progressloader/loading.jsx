@@ -11,7 +11,7 @@ import {
   Dot,
   Logo,
   MainContentContainer
-} from "./loading.styles"
+} from "./Loading.styles"
 import logo2 from "../../assets/logo2.png"
 
 export default function Loading({ children }) {
