@@ -5,28 +5,28 @@ import LatestTab from "../../components/Latesttab/LatestTab";
 import Loader from "../../../components/loder/Loder"; 
 
 const LatestNews = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  // Simulate a loading process
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); 
+  // // Simulate a loading process
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 3000); 
 
-    return () => clearTimeout(timer); 
-  }, []);
+  //   return () => clearTimeout(timer); 
+  // }, []);
 
   return (
     <div>
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loader /> 
-      ) : (
+      ) : ( */}
         <>
           <LatestCat />
           {/* <RecomMended /> */}
           <LatestTab />
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };

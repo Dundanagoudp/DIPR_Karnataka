@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import MagazineDownloadPdf from "../../components/Magazinepagecom/downloadpdf/DownloadPdfs";
-import Loader from "../../../components/loder/Loder";
+// import Loader from "../../../components/loder/Loder";
 import MagazinePdf2 from "../../components/Magazinepagecom/magazinemodalpdf/MagzineModalpdf";
 
 const MagaZinepages = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 3000);
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <div>

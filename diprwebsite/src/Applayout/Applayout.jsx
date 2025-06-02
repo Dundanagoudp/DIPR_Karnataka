@@ -5,17 +5,20 @@ import NavBar from "../components/navbar/NavBar";
 import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
 import ToolBar from "../components/ToolBar/ToolBar";
+import Loading from "../components/progressloader/Loading"; 
 
 const Applayout = () => {
   return (
-    <div style={{ paddingBottom: '30px' }}> 
-    <Header />
-      <CategoryTab />
-      <ToolBar />
-      <Outlet />
-      <Footer />
-      <NavBar />
-    </div>
+    <Loading> {/* Wrap entire layout with Loading */}
+      <div style={{ paddingBottom: '30px' }}>
+        <Header />
+        <CategoryTab />
+        <ToolBar />
+        <Outlet />
+        <Footer />
+        <NavBar />
+      </div>
+    </Loading>
   );
 };
 

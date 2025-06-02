@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LatestNewsRecommended from "../../components/Latestnews/allrecommended/LatestRecommended";
-import Loader from "../../../components/loder/Loder"; 
+// import Loader from "../../../components/loder/Loder"; 
 import CategoryNews from "../../components/Latestnews/allrecommended/CategoryNews";
 import styled from "styled-components";
 
@@ -20,19 +20,19 @@ const Container = styled.div`
 `;
 
 export const LatestData = () => {
-  const [isLoading, setIsLoading] = useState(true); 
+  // const [isLoading, setIsLoading] = useState(true); 
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false); 
-    }, 3000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false); 
+  //   }, 3000);
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <Container>
