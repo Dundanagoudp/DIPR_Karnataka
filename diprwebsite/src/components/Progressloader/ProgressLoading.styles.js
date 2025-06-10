@@ -11,6 +11,17 @@ const pulseAnimation = keyframes`
   }
 `
 
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(10px);
+  }
+`
+
 export const LoadingContainer = styled.div`
   position: fixed;
   top: 0;
@@ -22,10 +33,17 @@ export const LoadingContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f9fafb;
+  background-color: rgba(249, 250, 251, 0.9);
   width: 100%;
   height: 100vh;
   padding: 1rem;
+  animation: ${props => props.$isFading ? fadeOut : 'none'} 2s ease-out forwards;
+  backdrop-filter: blur(0);
+  transition: backdrop-filter 0.3s ease;
+
+  @media (max-width: 768px) {
+    background-color: rgba(249, 250, 251, 0.95);
+  }
 `
 
 export const LogoContainer = styled.div`

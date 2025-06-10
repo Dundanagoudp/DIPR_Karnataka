@@ -17,13 +17,15 @@ import logo2 from "../../assets/logo2.png"
 export default function LoadingProgressBar({ children }) {
   const [isLoading, setIsLoading] = useState(true)
   const [progress, setProgress] = useState(0)
+  const [isFading, setIsFading] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval)
-          setTimeout(() => setIsLoading(false), 500)
+          setIsFading(true)
+          setTimeout(() => setIsLoading(false), 1000) // Changed to 2000ms for fade out
           return 100
         }
         return prev + 2
@@ -38,7 +40,7 @@ export default function LoadingProgressBar({ children }) {
   }
 
   return (
-    <LoadingContainer>
+    <LoadingContainer $isFading={isFading}>
       <LogoContainer>
         <LogoBox>
           <Logo src={logo2 || "/placeholder.svg"} alt="Government of Karnataka Logo" />
