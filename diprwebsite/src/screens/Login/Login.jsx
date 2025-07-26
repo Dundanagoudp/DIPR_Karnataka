@@ -164,21 +164,28 @@ const Login = () => {
   return (
     <LoginContainer>
       <Logowithtitle />
+      <div id="recaptcha-container"></div>
       <RightSection>
         {!otpSent ? (
           <LoginBox>
             <h2>Login</h2>
             <h5>You’ll receive a 6-digit code to verify next.</h5>
 
-            <label>Phone Number</label>
+            <label htmlFor="phone">Phone Number</label>
             <InputWrapper>
               <CountryCode>+91</CountryCode>
               <Input
+                id="phone"
                 type="tel"
                 placeholder="Enter phone number"
                 value={phone}
                 maxLength="10"
                 onChange={handleInputChange}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    sendOTP();
+                  }
+                }}
               />
             </InputWrapper>
             {error && <ErrorText>{error}</ErrorText>}
@@ -207,6 +214,11 @@ const Login = () => {
                   maxLength="1"
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && index === otp.length - 1) {
+                      verifyOTP();
+                    }
+                  }}
                 />
               ))}
             </OtpInputs>
@@ -217,7 +229,6 @@ const Login = () => {
             </Button>
           </OtpBox>
         )}
-        <div id="recaptcha-container"></div>
       </RightSection>
     </LoginContainer>
   );

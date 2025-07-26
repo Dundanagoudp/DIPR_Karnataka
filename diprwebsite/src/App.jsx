@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./theme/GlobalStyle";
@@ -28,7 +28,6 @@ import { LanguageProvider } from "./context/LanguageContext";
 import Cookies from "js-cookie";
 import { endSession } from "./services/LoginApi"; 
 import Gallery from "./modules/pages/dynamicGallery/Gallery";
-import RecomMended from "./modules/components/Recommended/RecomMended";
 import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
 import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Magazineview";
 

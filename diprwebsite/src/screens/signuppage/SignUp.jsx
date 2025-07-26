@@ -112,8 +112,9 @@ const Signup = () => {
         <SignupBox>
           <h2>Sign up</h2>
 
-          <label>First name</label>
+          <label htmlFor="firstName">First name</label>
           <Input
+            id="firstName"
             type="text"
             name="firstName"
             placeholder="Enter your first name"
@@ -122,8 +123,9 @@ const Signup = () => {
           />
           {errors.firstName && <p>{errors.firstName}</p>}
 
-          <label>Last name</label>
+          <label htmlFor="lastName">Last name</label>
           <Input
+            id="lastName"
             type="text"
             name="lastName"
             placeholder="Enter your last name"
@@ -132,8 +134,9 @@ const Signup = () => {
           />
           {errors.lastName && <p>{errors.lastName}</p>}
 
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <Input
+            id="email"
             type="email"
             name="email"
             placeholder="Enter your email"
@@ -142,8 +145,9 @@ const Signup = () => {
           />
           {errors.email && <p>{errors.email}</p>}
 
-          <label>City</label>
+          <label htmlFor="city">City</label>
           <Input
+            id="city"
             type="text"
             name="city"
             placeholder="Enter your city"

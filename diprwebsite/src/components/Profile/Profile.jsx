@@ -1,4 +1,3 @@
-import React from "react";
 import { 
   ProfileContainer, 
   ProfileHeader, 
@@ -6,7 +5,6 @@ import {
   DetailRow,
   DetailLabel,
   DetailValue,
-  SocialIcons 
 } from "./Profile.styles";
 import ProfileImage from "../../assets/Profile.png";
 
