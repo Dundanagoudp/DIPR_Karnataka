@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import {
   Container,
+  MainContentWrapper,
+  SidebarWrapper,
   NewsCardWrapper,
   NewsImageWrapper,
   NewsContentWrapper,
@@ -17,7 +19,13 @@ import {
   ShimmerImage,
   ShimmerLine,
   ShimmerTitle,
-  ShimmerText
+  ShimmerText,
+  SidebarTitle,
+  RelatedArticleCard,
+  RelatedArticleImage,
+  RelatedArticleContent,
+  RelatedArticleTitle,
+  RelatedArticleMeta
 } from "./LatestCat.styles";
 import {
   FaFacebook,
@@ -30,6 +38,7 @@ import {
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { getNewsByid, likeNews } from "../../../services/newsApi/NewsApi";
+import { getRecommendations } from "../../../services/recommened/RecommenedApis";
 import ComMents from "../comments/ComMents";
 import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
@@ -39,8 +48,10 @@ import { logReadingHistory } from "../../../services/recommened/RecommenedApis";
 const LatestCat = () => {
   const { id } = useParams();
   const [news, setNews] = useState(null);
+  const [relatedArticles, setRelatedArticles] = useState([]);
   const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [sidebarLoading, setSidebarLoading] = useState(true);
   const userId = Cookies.get("userId");
   const { fontSize } = useContext(FontSizeContext);
   const { language } = useContext(LanguageContext);
@@ -67,6 +78,42 @@ const LatestCat = () => {
 
     fetchNews();
   }, [id]);
+
+  useEffect(() => {
+    const fetchRelatedArticles = async () => {
+      if (!userId) {
+        setSidebarLoading(false);
+        return;
+      }
+
+      try {
+        setSidebarLoading(true);
+        const result = await getRecommendations(userId);
+        
+        if (result && Array.isArray(result.news) && result.news.length > 0) {
+          // Filter out the current article and get first 4 related articles
+          const filtered = result.news
+            .filter(article => article._id !== id)
+            .slice(0, 3);
+          setRelatedArticles(filtered);
+        } else if (result && Array.isArray(result) && result.length > 0) {
+          const filtered = result
+            .filter(article => article._id !== id)
+            .slice(0, 3);
+          setRelatedArticles(filtered);
+        } else {
+          setRelatedArticles([]);
+        }
+      } catch (error) {
+        console.error("Error fetching related articles:", error);
+        setRelatedArticles([]);
+      } finally {
+        setSidebarLoading(false);
+      }
+    };
+
+    fetchRelatedArticles();
+  }, [id, userId]);
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
@@ -112,6 +159,18 @@ const LatestCat = () => {
         });
   };
 
+  const getTimeAgo = (dateString) => {
+    if (!dateString) return "Unknown time";
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
+    
+    if (diffInHours < 1) return "Just now";
+    if (diffInHours < 24) return `${diffInHours} hours ago`;
+    if (diffInHours < 48) return "1 day ago";
+    return formatDate(dateString);
+  };
+
   useEffect(() => {
     if (news && userId) {
       const likedNews = JSON.parse(
@@ -151,118 +210,144 @@ const LatestCat = () => {
     return news[field] || "No content available";
   };
 
-  const shareOnFacebook = (url) => {
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-      "_blank"
-    );
-  };
-
-  const shareOnTwitter = (url) => {
-    window.open(
-      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`,
-      "_blank"
-    );
-  };
-
   if (loading || !news) {
     return (
       <Container>
-        <NewsCardWrapper>
-          <ShimmerWrapper>
-            <ShimmerImage />
-            <ShimmerLine />
-            <ShimmerTitle />
-            <ShimmerText />
-            <ShimmerText />
-            <ShimmerText />
-          </ShimmerWrapper>
-        </NewsCardWrapper>
+        <MainContentWrapper>
+          <NewsCardWrapper>
+            <ShimmerWrapper>
+              <ShimmerImage />
+              <ShimmerLine />
+              <ShimmerTitle />
+              <ShimmerText />
+              <ShimmerText />
+              <ShimmerText />
+            </ShimmerWrapper>
+          </NewsCardWrapper>
+        </MainContentWrapper>
+        <SidebarWrapper>
+          <SidebarTitle>Related Articles</SidebarTitle>
+          {[1, 2, 3, 4].map((i) => (
+            <RelatedArticleCard key={i}>
+              <ShimmerImage style={{ height: '120px', marginBottom: '10px' }} />
+              <ShimmerTitle style={{ height: '20px', marginBottom: '8px' }} />
+              <ShimmerText style={{ height: '15px', width: '60%' }} />
+            </RelatedArticleCard>
+          ))}
+        </SidebarWrapper>
       </Container>
     );
   }
 
   return (
     <Container>
-      <NewsCardWrapper key={news._id}>
-        <NewsImageWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-          <img
-            src={news.newsImage}
-            alt={getLocalizedContent(news, "title")}
-          />
-        </NewsImageWrapper>
+      <MainContentWrapper>
+        <NewsCardWrapper key={news._id}>
+          <NewsImageWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+            <img
+              src={news.newsImage}
+              alt={getLocalizedContent(news, "title")}
+            />
+          </NewsImageWrapper>
 
-        <NewsContentWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-          <NewsHeaderWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            {news.author || "Unknown Author"} •{" "}
-            {news.category?.name || "General"}
-          </NewsHeaderWrapper>
+          <NewsContentWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+            <NewsHeaderWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              {news.author || "Unknown Author"} •{" "}
+              {news.category?.name || "General"}
+            </NewsHeaderWrapper>
 
-          <NewsTitleWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            {getLocalizedContent(news, "title")}
-          </NewsTitleWrapper>
+            <NewsTitleWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              {getLocalizedContent(news, "title")}
+            </NewsTitleWrapper>
 
-          <IconWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            {news.likedBy.includes(userId) ? (
-              <FaHeart
-                onClick={handleLikeNews}
-                style={{ cursor: "pointer", color: "red" }}
-              />
-            ) : (
-              <FaRegHeart
-                onClick={handleLikeNews}
+            <IconWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              {news.likedBy.includes(userId) ? (
+                <FaHeart
+                  onClick={handleLikeNews}
+                  style={{ cursor: "pointer", color: "red" }}
+                />
+              ) : (
+                <FaRegHeart
+                  onClick={handleLikeNews}
+                  style={{ cursor: "pointer" }}
+                />
+              )}
+              <FaRegComment
+                onClick={toggleComments}
                 style={{ cursor: "pointer" }}
               />
-            )}
-            <FaRegComment
-              onClick={toggleComments}
-              style={{ cursor: "pointer" }}
-            />
-            <FaPaperPlane />
-          </IconWrapper>
+              <FaPaperPlane />
+            </IconWrapper>
 
-          <AnimatePresence style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            {showComments && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                style={{ overflow: "hidden" }}
-              >
-                <ComMents style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} comments={news.comments || []} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+            <AnimatePresence style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              {showComments && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <ComMents style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} comments={news.comments || []} />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-          <AddComments newsId={news?._id || id} />
+            <AddComments newsId={news?._id || id} />
 
-          <NewsMetaWrapper>
-            {news.isTrending && (
-              <TrendingTagWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Trending</TrendingTagWrapper>
-            )}
-            <span style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-              {formatDate(news.createdTime)}  {news.readTime}
-            </span>
-          </NewsMetaWrapper>
+            <NewsMetaWrapper>
+              {news.isTrending && (
+                <TrendingTagWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Trending</TrendingTagWrapper>
+              )}
+              <span style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                {formatDate(news.createdTime)}  {news.readTime}
+              </span>
+            </NewsMetaWrapper>
 
-          <ShareIconsWrapper>
-            <FaFacebook
-              onClick={() => shareOnFacebook(news.url)}
-              style={{ cursor: "pointer" }}
-            />
-            <FaTwitter
-              onClick={() => shareOnTwitter(news.url)}
-              style={{ cursor: "pointer" }}
-            />
-      
-          </ShareIconsWrapper>
 
-          <NewsTextWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            {getLocalizedContent(news, "description")}
-          </NewsTextWrapper>
-        </NewsContentWrapper>
-      </NewsCardWrapper>
+            <NewsTextWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              {getLocalizedContent(news, "description")}
+            </NewsTextWrapper>
+          </NewsContentWrapper>
+        </NewsCardWrapper>
+      </MainContentWrapper>
+
+      <SidebarWrapper>
+        <SidebarTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+          Related Articles
+        </SidebarTitle>
+        
+        {sidebarLoading ? (
+          [1, 2, 3, 4].map((i) => (
+            <RelatedArticleCard key={i}>
+              <ShimmerImage style={{ height: '120px', marginBottom: '10px' }} />
+              <ShimmerTitle style={{ height: '20px', marginBottom: '8px' }} />
+              <ShimmerText style={{ height: '15px', width: '60%' }} />
+            </RelatedArticleCard>
+          ))
+        ) : relatedArticles.length > 0 ? (
+          relatedArticles.map((article) => (
+            <RelatedArticleCard key={article._id}>
+              <RelatedArticleImage
+                src={article.newsImage}
+                alt={getLocalizedContent(article, "title")}
+              />
+              <RelatedArticleContent>
+                <RelatedArticleTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                  {getLocalizedContent(article, "title")}
+                </RelatedArticleTitle>
+                <RelatedArticleMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                  {article.author || "Unknown Author"} • {getTimeAgo(article.createdTime)}
+                </RelatedArticleMeta>
+              </RelatedArticleContent>
+            </RelatedArticleCard>
+          ))
+        ) : (
+          <div style={{ padding: '1rem', textAlign: 'center', color: '#888' }}>
+            No related articles found.
+          </div>
+        )}
+      </SidebarWrapper>
     </Container>
   );
 };

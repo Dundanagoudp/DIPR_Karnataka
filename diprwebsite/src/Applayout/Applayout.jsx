@@ -13,10 +13,10 @@ const Applayout = () => {
       <div style={{ paddingBottom: '30px' }}>
         <Header />
         <CategoryTab />
+                <NavBar />
         <ToolBar />
         <Outlet />
         <Footer />
-        <NavBar />
       </div>
     </LoadingProgressBar>
   );

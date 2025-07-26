@@ -12,17 +12,325 @@ const shimmer = keyframes`
 
 export const Container = styled.div`
   margin: auto;
-  max-width: 1200px;
+  max-width: 1400px;
   margin-top: ${theme.spacing(5)};
   padding: 0 ${theme.spacing(5)};
+  display: flex;
+  gap: ${theme.spacing(4)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
+    flex-direction: column;
     padding: ${theme.spacing(1)}; 
     max-width: 100%;
+    gap: ${theme.spacing(3)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1.9)}; 
+    gap: ${theme.spacing(2)};
+  }
+`;
+
+export const MainContentWrapper = styled.div`
+  flex: 1;
+  max-width: 70%;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    max-width: 100%;
+  }
+`;
+
+export const SidebarWrapper = styled.div`
+  width: 30%;
+  max-width: 350px;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 100%;
+    max-width: 100%;
+  }
+`;
+
+// Banner Section Styles
+export const BannerWrapper = styled.div`
+  display: flex;
+  border-radius: ${theme.spacing(1)};
+  overflow: hidden;
+  margin-bottom: ${theme.spacing(3)};
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: none;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    flex-direction: column;
+  }
+`;
+
+export const BannerLeft = styled.div`
+  flex: 1;
+  padding: 0;
+  background: none;
+  position: relative;
+`;
+
+export const BannerRight = styled.div`
+  flex: 1;
+  padding: ${theme.spacing(3)};
+  background: #4CAF50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(2)};
+  }
+`;
+
+export const BannerImage = styled.img`
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: ${theme.spacing(1)};
+  display: block;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 180px;
+  }
+`;
+
+export const BannerText = styled.div`
+  color: #333;
+  margin-bottom: ${theme.spacing(2)};
+  
+  h2, h3, h4 {
+    margin: 0 0 ${theme.spacing(0.5)} 0;
+    font-weight: 700;
+    font-family: ${theme.fonts.heading};
+  }
+  
+  p {
+    margin: 0;
+    font-size: ${theme.spacing(1.6)};
+    font-family: ${theme.fonts.body};
+  }
+`;
+
+export const BannerBulletPoints = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: ${theme.spacing(2)} 0;
+`;
+
+export const BannerBulletPoint = styled.li`
+  color: #333;
+  font-size: ${theme.spacing(1.4)};
+  margin-bottom: ${theme.spacing(1)};
+  padding-left: ${theme.spacing(2)};
+  position: relative;
+  font-family: ${theme.fonts.body};
+  
+  &:before {
+    content: "•";
+    color: #4CAF50;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+`;
+
+export const PlayButton = styled.button`
+  position: absolute;
+  top: ${theme.spacing(2)};
+  right: ${theme.spacing(2)};
+  background: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: ${theme.spacing(2)};
+  transition: transform 0.2s ease-in-out;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+export const EmblemSection = styled.div`
+  text-align: center;
+  margin-top: auto;
+`;
+
+export const EmblemImage = styled.img`
+  width: 60px;
+  height: 60px;
+  margin-bottom: ${theme.spacing(1)};
+`;
+
+export const EmblemText = styled.p`
+  color: white;
+  font-size: ${theme.spacing(1.2)};
+  margin: ${theme.spacing(0.5)} 0;
+  font-family: ${theme.fonts.body};
+`;
+
+export const SocialIcons = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1)};
+  margin-top: ${theme.spacing(1)};
+  justify-content: center;
+`;
+
+export const SocialIcon = styled.div`
+  color: white;
+  font-size: ${theme.spacing(2)};
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+  
+  &:hover {
+    color: #FFD700;
+  }
+`;
+
+// Comments Section Styles
+export const CommentsSection = styled.div`
+  background: ${theme.colors.white};
+  border-radius: ${theme.spacing(1)};
+  padding: ${theme.spacing(3)};
+  margin-top: ${theme.spacing(3)};
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+`;
+
+export const CommentsTitle = styled.h3`
+  font-size: ${theme.spacing(2.4)};
+  color: ${theme.colors.black};
+  font-family: ${theme.fonts.heading};
+  font-weight: 700;
+  margin-bottom: ${theme.spacing(2)};
+  padding-bottom: ${theme.spacing(1)};
+  border-bottom: 2px solid ${theme.colors.primary};
+`;
+
+export const CommentInputWrapper = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1)};
+  margin-top: ${theme.spacing(2)};
+  align-items: center;
+`;
+
+export const CommentInput = styled.input`
+  flex: 1;
+  padding: ${theme.spacing(1.5)};
+  border: 2px solid ${theme.colors.gray[300]};
+  border-radius: ${theme.spacing(1)};
+  font-size: ${theme.spacing(1.6)};
+  font-family: ${theme.fonts.body};
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+  
+  &:focus {
+    border-color: ${theme.colors.primary};
+  }
+  
+  &::placeholder {
+    color: ${theme.colors.gray[500]};
+  }
+`;
+
+export const SendButton = styled.button`
+  background: ${theme.colors.primary};
+  color: white;
+  border: none;
+  border-radius: ${theme.spacing(1)};
+  padding: ${theme.spacing(1.5)} ${theme.spacing(2)};
+  font-size: ${theme.spacing(1.6)};
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  
+  &:hover {
+    background: ${theme.colors.primaryDark};
+  }
+`;
+
+export const SidebarTitle = styled.h3`
+  font-size: ${theme.spacing(2.8)};
+  color: ${theme.colors.black};
+  font-family: ${theme.fonts.heading};
+  font-weight: 700;
+  margin-bottom: ${theme.spacing(3)};
+  padding-bottom: ${theme.spacing(1)};
+  border-bottom: 2px solid ${theme.colors.primary};
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(2.4)};
+    margin-bottom: ${theme.spacing(2)};
+  }
+`;
+
+export const RelatedArticleCard = styled.div`
+  background: ${theme.colors.white};
+  border-radius: ${theme.spacing(1)};
+  overflow: hidden;
+  margin-bottom: ${theme.spacing(2)};
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-bottom: ${theme.spacing(1.5)};
+  }
+`;
+
+export const RelatedArticleImage = styled.img`
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: ${theme.spacing(1)} ${theme.spacing(1)} 0 0;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 100px;
+  }
+`;
+
+export const RelatedArticleContent = styled.div`
+  padding: ${theme.spacing(1.5)};
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(1.2)};
+  }
+`;
+
+export const RelatedArticleTitle = styled.h4`
+  font-size: ${theme.spacing(1.8)};
+  color: ${theme.colors.black};
+  font-family: ${theme.fonts.heading};
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 ${theme.spacing(0.8)} 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.6)};
+  }
+`;
+
+export const RelatedArticleMeta = styled.div`
+  font-size: ${theme.spacing(1.4)};
+  color: ${theme.colors.gray[600]};
+  font-family: ${theme.fonts.body};
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(1.2)};
   }
 `;
 

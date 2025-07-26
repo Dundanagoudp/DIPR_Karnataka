@@ -13,7 +13,6 @@ import {
   PublishTime,
 } from "./RecomMended.styles"
 // Removed CiBookmark import as it's no longer used
-// import { getRecommendedNews } from "../../../services/newsApi/NewsApi"
 import { FontSizeContext } from "../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../context/LanguageContext"
 import { getRecommendations } from "../../../services/recommened/RecommenedApis"
