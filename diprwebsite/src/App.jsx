@@ -30,6 +30,7 @@ import { endSession } from "./services/LoginApi";
 import Gallery from "./modules/pages/dynamicGallery/Gallery";
 import RecomMended from "./modules/components/Recommended/RecomMended";
 import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
+import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Magazineview";
 
 
 const App = () => {
@@ -87,6 +88,7 @@ const App = () => {
                 <Route path="/help" element={<Help />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/gallerysection" element={<Gallery />} />
+                <Route path="/magazine/:id" element={<Magazineview />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/otp" element={<Otp />} />

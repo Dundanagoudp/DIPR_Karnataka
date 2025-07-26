@@ -198,9 +198,7 @@ const MagazineDownloadPdf = () => {
             </div>
             <PdfNewsTitle>{news.title}</PdfNewsTitle>
           </PdfContentWrapper>
-          <PdfDownloadButton onClick={() => handleDownload(news.id)}>
-            <MdOutlineFileDownload size={20} /> Download PDF
-          </PdfDownloadButton>
+
         </PdfCarouselItem>
       ))}
 

@@ -11,7 +11,7 @@ const shimmer = keyframes`
 `;
 
 export const PdfCarouselContainer = styled.div`
-  width: 85%;
+  width: 90%;
   height: 450px;
   overflow: hidden;
   position: relative;
