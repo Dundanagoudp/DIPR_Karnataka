@@ -64,3 +64,15 @@ export const getRecommendedNews = async (userId) => {
     throw error;
   }
 };
+
+
+export const getLatestNews = async () => {
+  try {
+    const response = await apiClient.get("/api/news/latest");
+    console.log("Received data:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error loading data:", error);
+    throw error;
+  }
+}
