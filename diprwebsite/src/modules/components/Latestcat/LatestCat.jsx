@@ -33,7 +33,8 @@ import { getNewsByid, likeNews } from "../../../services/newsApi/NewsApi";
 import ComMents from "../comments/ComMents";
 import AddComments from "../comments/AddComments";
 import { FontSizeContext } from "../../../context/FontSizeProvider";
-import { LanguageContext } from "../../../context/LanguageContext"; 
+import { LanguageContext } from "../../../context/LanguageContext";
+import { logReadingHistory } from "../../../services/recommened/RecommenedApis";
 
 const LatestCat = () => {
   const { id } = useParams();
@@ -122,6 +123,19 @@ const LatestCat = () => {
           likedBy: likedNews,
         }));
       }
+    }
+  }, [news, userId]);
+
+  useEffect(() => {
+    if (news && userId) {
+      const historyData = {
+        userId,
+        contentId: news._id, // Correct key for backend
+        contentType: "news",
+        // timeSpent: 0 // optional, if you want to track later
+      };
+      console.log("Logging reading history:", historyData);
+      logReadingHistory(historyData);
     }
   }, [news, userId]);
 

@@ -33,6 +33,8 @@ import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../../context/LanguageContext"
 import { Pagination } from "@mui/material"
 import PDFModal from "./ModalPdf"
+import Cookies from "js-cookie";
+import { logReadingHistory } from "../../../../services/recommened/RecommenedApis";
 
 const MagazinePdf2 = () => {
   const [activeTab, setActiveTab] = useState("Topics")
@@ -113,11 +115,22 @@ const MagazinePdf2 = () => {
     setBookmarkedMagazines(newBookmarkedMagazines)
   }
 
-  const handleReadMoreClick = (pdfUrl, title) => {
-    setSelectedPdf(pdfUrl)
-    setSelectedTitle(title)
-    setModalOpen(true)
-  }
+  const handleReadMoreClick = (pdfUrl, title, magazineId) => {
+    setSelectedPdf(pdfUrl);
+    setSelectedTitle(title);
+    setModalOpen(true);
+    const userId = Cookies.get("userId");
+    if (userId && magazineId) {
+      const historyData = {
+        userId,
+        contentId: magazineId, // Correct key for backend
+        contentType: "magazine",
+        // timeSpent: 0 // optional
+      };
+      console.log("Logging reading history (magazine):", historyData);
+      logReadingHistory(historyData);
+    }
+  };
 
   const closeModal = () => {
     setModalOpen(false)
@@ -196,7 +209,7 @@ const MagazinePdf2 = () => {
           </div>
           <ReadMoreButton
             style={{ fontSize: `${fontSize}%` }}
-            onClick={() => handleReadMoreClick(magazine.magazinePdf, getLocalizedContent(magazine, "title"))}
+            onClick={() => handleReadMoreClick(magazine.magazinePdf, getLocalizedContent(magazine, "title"), magazine._id)}
           >
             READ PDF{" "}
             <ReadMoreIcon>
