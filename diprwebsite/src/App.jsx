@@ -28,6 +28,8 @@ import { LanguageProvider } from "./context/LanguageContext";
 import Cookies from "js-cookie";
 import { endSession } from "./services/LoginApi"; 
 import Gallery from "./modules/pages/dynamicGallery/Gallery";
+import RecomMended from "./modules/components/Recommended/RecomMended";
+import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
 
 
 const App = () => {
@@ -70,6 +72,7 @@ const App = () => {
               <Route path="/" element={<Applayout />}>
                 <Route index element={<Home />} />
                 <Route path="/news/:id" element={<LatestNews />} />
+                <Route path="/newsdetails/:id" element={<LatestNews1 />} />
                 <Route path="/magazinepages" element={<MagaZinepages />} />
                 <Route path="/Gallery" element={<Exclusive />} />
                 <Route path="/aboutuspage" element={<AboutUspage />} />

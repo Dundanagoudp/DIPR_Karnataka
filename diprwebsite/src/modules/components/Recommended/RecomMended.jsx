@@ -16,6 +16,7 @@ import {
 import { FontSizeContext } from "../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../context/LanguageContext"
 import { getRecommendations } from "../../../services/recommened/RecommenedApis"
+import { Link } from "react-router-dom"
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -129,30 +130,36 @@ const RecomMended = () => {
       <Content>
         {Array.isArray(videosData) && videosData.length > 0 ? (
           videosData.slice(0, 6).map((video) => (
-            <VideoCard1 key={video._id} style={{ maxWidth: '100%', width: '100%', boxSizing: 'border-box' }}>
-              <VideoThumbnail
-                src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
-                alt={getLocalizedContent(video, "title")}
-                style={{ width: '100%', height: 'auto', maxHeight: 180, objectFit: 'cover', borderRadius: 8 }}
-              />
-              <VideoDetails>
-                <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                  {getLocalizedContent(video, "title")}
-                </Title>
-                <AuthorInfo>
-                  <AuthorAvatar>
-                    {getAuthorInitials(video.author || "AthleteAdmirer")}
-                  </AuthorAvatar>
-                  <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    {video.author || "AthleteAdmirer"}
-                  </AuthorName>
-                  <PublishTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    • {getLocalizedCategory(video.category)}
-                    • {getTimeAgo(video.createdTime || video.publishedAt)}
-                  </PublishTime>
-                </AuthorInfo>
-              </VideoDetails>
-            </VideoCard1>
+            <Link
+              to={`/newsdetails/${video._id}`}
+              key={video._id}
+              style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}
+            >
+              <VideoCard1 style={{ maxWidth: '100%', width: '100%', boxSizing: 'border-box' }}>
+                <VideoThumbnail
+                  src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
+                  alt={getLocalizedContent(video, "title")}
+                  style={{ width: '100%', height: 'auto', maxHeight: 180, objectFit: 'cover', borderRadius: 8 }}
+                />
+                <VideoDetails>
+                  <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                    {getLocalizedContent(video, "title")}
+                  </Title>
+                  <AuthorInfo>
+                    <AuthorAvatar>
+                      {getAuthorInitials(video.author || "AthleteAdmirer")}
+                    </AuthorAvatar>
+                    <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      {video.author || "AthleteAdmirer"}
+                    </AuthorName>
+                    <PublishTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      • {getLocalizedCategory(video.category)}
+                      • {getTimeAgo(video.createdTime || video.publishedAt)}
+                    </PublishTime>
+                  </AuthorInfo>
+                </VideoDetails>
+              </VideoCard1>
+            </Link>
           ))
         ) : (
           <div style={{ padding: '1rem', textAlign: 'center', color: '#888' }}>No recommended news found.</div>

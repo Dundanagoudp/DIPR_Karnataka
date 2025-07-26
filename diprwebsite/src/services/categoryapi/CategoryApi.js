@@ -1,8 +1,8 @@
-import axios from "../../config/axios";
+import apiClient from "../apiClient";
 
 export const CategoryApi = async () => {
   try {
-    const response = await axios.get("/api/category");
+    const response = await apiClient.get("/api/category");
     if (!response || !response.data) {
       throw new Error("No data received from API");
     }
@@ -16,7 +16,7 @@ export const CategoryApi = async () => {
 export const NewsApi = async (categoryId = null) => {
   try {
     const endpoint = categoryId ? `/api/news/categories/${categoryId}` : "/api/news";
-    const response = await axios.get(endpoint);
+    const response = await apiClient.get(endpoint);
     if (!response || !response.data) {
       throw new Error("No data received from API");
     }
@@ -32,7 +32,7 @@ export const NewsApi = async (categoryId = null) => {
 export const VideoApi = async (videoId = null) => {
   try {
     const endpoint = videoId ? `/api/video/${videoId}` : "/api/video";
-    const response = await axios.get(endpoint);
+    const response = await apiClient.get(endpoint);
     if (!response || !response.data) {
       throw new Error("No data received from API");
     }
@@ -43,12 +43,11 @@ export const VideoApi = async (videoId = null) => {
   }
 };
 
-
 // banner api 
 
 export const BannerApi = async () => {
   try {
-    const response = await axios.get("/api/banner/");
+    const response = await apiClient.get("/api/banner/");
     if (!response || !response.data) {
       throw new Error("No data received from API");
     }
@@ -63,7 +62,7 @@ export const BannerApi = async () => {
 
 export const addComment = async (commentData) => {
   try {
-    const response = await axios.post("/api/news/addComment", commentData);
+    const response = await apiClient.post("/api/news/addComment", commentData);
     return response.data;
   } catch (err) {
     console.error("Error adding comment:", err);
@@ -73,7 +72,7 @@ export const addComment = async (commentData) => {
 
 export const likeComment = async (commentId) => {
   try {
-    const response = await axios.post("/api/comments/like", { commentId });
+    const response = await apiClient.post("/api/comments/like", { commentId });
     return response.data;
   } catch (err) {
     console.error("Error liking comment:", err);
