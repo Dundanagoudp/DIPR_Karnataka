@@ -6,7 +6,7 @@ import Loader from "../../../components/loder/Loder";
 
 const LatestNews1 = () => {
   return (
-    <div>
+    <div role="main" aria-label="Recommended news page">
         <>
           <LatestCat />
           <RecomMended />

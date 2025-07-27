@@ -43,7 +43,7 @@ const translations = {
   },
   Hindi: {
     disclaimerTitle: "अस्वीकरण :",
-    disclaimerText: "यह वेबसाइट कर्नाटक राज्य सरकार के सूचना और जनसंपर्क निदेशालय (डीआईपीआर) द्वारा प्रबंधित की जाती है। कृपया ध्यान दें कि यह पृष्ठ कर्नाटक के विभिन्न सरकारी मंत्रालयों, विभागों और संगठनों की वेबसाइटों/वेब पृष्ठों के लिंक प्रदान करता है।",
+    disclaimerText: "यह वेबसाइट कर्नाटक राज्य सरकार के सूचना और जनसंपर्क निदेशालय (डीआईपीआर) द्वारा प्रबंधित की जाती है। कृपया ध्यान दें कि यह पृष्ठ कर्नಾಟक के विभिन्न सरकारी मंत्रालयों, विभागों और संगठनों की वेबसाइटों/वेब पृष्ठों के लिंक प्रदान करता है।",
     websitePoliciesTitle: "वेबसाइट नीतियां",
     copyrightPolicy: "कॉपीराइट नीति",
     hyperlinkingPolicy: "हाइपरलिंकिंग नीति",
@@ -115,11 +115,11 @@ const Footer = () => {
   const fontSizeStyle = { fontSize: `${fontSize}%` };
 
   return (
-    <FooterContainer style={fontSizeStyle}>
+    <FooterContainer style={fontSizeStyle} role="contentinfo" aria-label="Site footer">
       <FooterSection>
         <FooterContent style={fontSizeStyle}>
           <LogoSection>
-            <Logo src={logo2} alt="Government Logo" />
+            <Logo src={logo2} alt="Government of Karnataka Logo" />
           </LogoSection>
           <Section style={fontSizeStyle}>
             <Title style={fontSizeStyle}>{t.disclaimerTitle}</Title>
@@ -127,35 +127,45 @@ const Footer = () => {
           </Section>
           <Section style={fontSizeStyle}>
             <Title style={fontSizeStyle}>{t.websitePoliciesTitle}</Title>
-            <LinksList>
-              {[
-                { path: "/copyright-policy", text: t.copyrightPolicy },
-                { path: "/hyperlinking-policy", text: t.hyperlinkingPolicy },
-                { path: "/security-policy", text: t.securityPolicy },
-                { path: "/guidelines", text: t.guidelines },
-                { path: "/terms-and-conditions", text: t.termsAndConditions },
-                { path: "/privacy-policy", text: t.privacyPolicy },
-                { path: "/help", text: t.help },
-              ].map((link, index) => (
-                <LinkItem key={index} style={fontSizeStyle}>
-                  <IoIosArrowDroprightCircle />
-                  <Link style={{ color: 'inherit', ...fontSizeStyle }} to={link.path}>
-                    {link.text}
-                  </Link>
-                </LinkItem>
-              ))}
-            </LinksList>
+            <nav aria-label="Website policies">
+              <LinksList role="list">
+                {[
+                  { path: "/copyright-policy", text: t.copyrightPolicy },
+                  { path: "/hyperlinking-policy", text: t.hyperlinkingPolicy },
+                  { path: "/security-policy", text: t.securityPolicy },
+                  { path: "/guidelines", text: t.guidelines },
+                  { path: "/terms-and-conditions", text: t.termsAndConditions },
+                  { path: "/privacy-policy", text: t.privacyPolicy },
+                  { path: "/help", text: t.help },
+                ].map((link, index) => (
+                  <LinkItem key={index} style={fontSizeStyle} role="listitem">
+                    <IoIosArrowDroprightCircle aria-hidden="true" />
+                    <Link 
+                      style={{ color: 'inherit', ...fontSizeStyle }} 
+                      to={link.path}
+                      aria-label={link.text}
+                    >
+                      {link.text}
+                    </Link>
+                  </LinkItem>
+                ))}
+              </LinksList>
+            </nav>
           </Section>
           <VisitorsSection style={fontSizeStyle}>
             <Title style={fontSizeStyle}>{t.visitorsTitle}</Title>
             <Text style={fontSizeStyle}>
-              <FaClock /> {currentTime}
+              <FaClock aria-hidden="true" /> 
+              <span aria-live="polite">{currentTime}</span>
             </Text>
             <Text style={fontSizeStyle}>
-              <FaUsers /> {t.visitorsCounter}{visitorData.totalVisitors}
+              <FaUsers aria-hidden="true" /> 
+              {t.visitorsCounter}
+              <span aria-live="polite">{visitorData.totalVisitors}</span>
             </Text>
             <Text style={fontSizeStyle}>
-              <FaCodeBranch /> {t.version}
+              <FaCodeBranch aria-hidden="true" /> 
+              {t.version}
             </Text>
           </VisitorsSection>
         </FooterContent>

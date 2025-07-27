@@ -5,7 +5,7 @@ import MagazinePdf2 from "../../components/Magazinepagecom/magazinemodalpdf/Magz
 const MagaZinepages = () => {
 
   return (
-    <div>
+    <div role="main" aria-label="Magazine page">
       <MagazineDownloadPdf />
       <MagazinePdf2 />
     </div>

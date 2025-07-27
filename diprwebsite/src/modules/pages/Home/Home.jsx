@@ -25,17 +25,17 @@ const Home = () => {
   // // }, []);
 
   return (
-    <HomeContainer>
+    <HomeContainer role="main" aria-label="Home page">
       {/* {isLoading ? (
         <Loader />
       ) : ( */}
         <>
           <Trending />
           <ContentWrapper>
-            <NewsSection>
+            <NewsSection role="region" aria-label="News section">
               <Magzines2/>
             </NewsSection>
-            <MagazineSection>
+            <MagazineSection role="region" aria-label="Magazine section">
               <AllNewsData/>
             </MagazineSection>       
               <ShortsCarousel/>

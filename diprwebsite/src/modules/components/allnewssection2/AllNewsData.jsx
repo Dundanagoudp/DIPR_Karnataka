@@ -167,7 +167,7 @@ const AllNewsData = () => {
     return Array(itemsPerPage)
       .fill(0)
       .map((_, index) => (
-        <NewsCard key={`skeleton-${index}`} style={{ fontSize: `${fontSize}%` }}>
+        <NewsCard key={`skeleton-${index}`} style={{ fontSize: `${fontSize}%` }} aria-hidden="true">
           <SkeletonContainer>
             <SkeletonImage />
             <NewsContent style={{ fontSize: `${fontSize}%` }}>
@@ -186,17 +186,29 @@ const AllNewsData = () => {
   const renderSkeletonTabs = () => {
     return Array(5)
       .fill(0)
-      .map((_, index) => <SkeletonTab key={`skeleton-tab-${index}`} style={{ fontSize: `${fontSize}%` }} />)
+      .map((_, index) => <SkeletonTab key={`skeleton-tab-${index}`} style={{ fontSize: `${fontSize}%` }} aria-hidden="true" />)
   }
 
   return (
     <>
-      <Container>
+      <Container role="region" aria-label="All news section">
         <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>All News</Title>
 
         <div className="tabs-scroll-container">
-          <ScrollButton direction="left" onClick={() => scrollTabs("left")}>
-            <FaChevronLeft />
+          <ScrollButton 
+            direction="left" 
+            onClick={() => scrollTabs("left")}
+            aria-label="Scroll tabs left"
+            tabIndex="0"
+            role="button"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                scrollTabs("left")
+              }
+            }}
+          >
+            <FaChevronLeft aria-hidden="true" />
           </ScrollButton>
 
           <TabsContainer
@@ -207,6 +219,8 @@ const AllNewsData = () => {
               scrollbarWidth: "none",
             }}
             className="hide-scrollbar"
+            role="tablist"
+            aria-label="News categories"
           >
             {categoriesLoading ? (
               renderSkeletonTabs()
@@ -217,6 +231,15 @@ const AllNewsData = () => {
                   active={activeTab === null}
                   onClick={() => setActiveTab(null)}
                   style={{ fontSize: `${fontSize}%` }}
+                  role="tab"
+                  aria-selected={activeTab === null}
+                  tabIndex={activeTab === null ? 0 : -1}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      setActiveTab(null)
+                    }
+                  }}
                 >
                   All
                 </Tab>
@@ -226,6 +249,15 @@ const AllNewsData = () => {
                     active={activeTab === category._id}
                     onClick={() => setActiveTab(category._id)}
                     style={{ fontSize: `${fontSize}%` }}
+                    role="tab"
+                    aria-selected={activeTab === category._id}
+                    tabIndex={activeTab === category._id ? 0 : -1}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setActiveTab(category._id)
+                      }
+                    }}
                   >
                     {getLocalizedCategoryName(category)}
                   </Tab>
@@ -234,65 +266,115 @@ const AllNewsData = () => {
             )}
           </TabsContainer>
 
-          <ScrollButton direction="right" onClick={() => scrollTabs("right")}>
-            <FaChevronRight />
+          <ScrollButton 
+            direction="right" 
+            onClick={() => scrollTabs("right")}
+            aria-label="Scroll tabs right"
+            tabIndex="0"
+            role="button"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                scrollTabs("right")
+              }
+            }}
+          >
+            <FaChevronRight aria-hidden="true" />
           </ScrollButton>
         </div>
 
-        {loading
-          ? renderSkeletonCards()
-          : currentItems.map((news) => (
-              <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id}>
-                <NewsImage
-                  src={news.newsImage || "https://via.placeholder.com/300"}
-                  alt={getLocalizedContent(news, "title")}
-                />
-                <NewsContent style={{ fontSize: `${fontSize}%` }}>
-                  <NewsHeader style={{ fontSize: `${fontSize}%` }}>
-                    {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
-                  </NewsHeader>
-                  <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    {getLocalizedContent(news, "title")}
-                  </NewsTitle>
-                  <ShareIcons>
-                    <FaFacebook onClick={() => shareOnFacebook(news.url)} style={{ cursor: "pointer" }} />
-                    <FaTwitter onClick={() => shareOnTwitter(news.url)} style={{ cursor: "pointer" }} />
-                    {/* <FaLink onClick={() => copyLink(news.url)} style={{ cursor: "pointer" }} /> */}
-                  </ShareIcons>
-                  <NewsText
-                    style={{
-                      display: "-webkit-box",
-                      WebkitLineClamp: 1,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                      fontSize: `${fontSize}%`,
-                    }}
-                  >
-                    {getLocalizedContent(news, "description")}
-                  </NewsText>
-                  <ReadMore style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMore(news._id)}>
-                    Read more
-                  </ReadMore>
-                  <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
-                  <NewsMeta style={{ fontSize: `${fontSize}%` }}>
-                    {news.isTrending && <TrendingTag>Trending</TrendingTag>}
-                    <span style={{ fontSize: `${fontSize}%` }}>
-                      {formatDate(news.createdTime)} • {news.readTime || "N/A"}
-                    </span>
-                  </NewsMeta>
-                </NewsContent>
-              </NewsCard>
-            ))}
+        <div role="tabpanel" aria-label="News content">
+          {loading
+            ? renderSkeletonCards()
+            : currentItems.map((news) => (
+                <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id} role="article">
+                  <NewsImage
+                    src={news.newsImage || "https://via.placeholder.com/300"}
+                    alt={getLocalizedContent(news, "title")}
+                  />
+                  <NewsContent style={{ fontSize: `${fontSize}%` }}>
+                    <NewsHeader style={{ fontSize: `${fontSize}%` }}>
+                      {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
+                    </NewsHeader>
+                    <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      {getLocalizedContent(news, "title")}
+                    </NewsTitle>
+                    <ShareIcons role="group" aria-label="Share options">
+                      <FaFacebook 
+                        onClick={() => shareOnFacebook(news.url)} 
+                        style={{ cursor: "pointer" }} 
+                        aria-label="Share on Facebook"
+                        tabIndex="0"
+                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            shareOnFacebook(news.url)
+                          }
+                        }}
+                      />
+                      <FaTwitter 
+                        onClick={() => shareOnTwitter(news.url)} 
+                        style={{ cursor: "pointer" }} 
+                        aria-label="Share on Twitter"
+                        tabIndex="0"
+                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            shareOnTwitter(news.url)
+                          }
+                        }}
+                      />
+                    </ShareIcons>
+                    <NewsText
+                      style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 1,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        fontSize: `${fontSize}%`,
+                      }}
+                    >
+                      {getLocalizedContent(news, "description")}
+                    </NewsText>
+                    <ReadMore 
+                      style={{ fontSize: `${fontSize}%` }} 
+                      onClick={() => handleReadMore(news._id)}
+                      tabIndex="0"
+                      role="button"
+                      aria-label={`Read more about ${getLocalizedContent(news, "title")}`}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          handleReadMore(news._id)
+                        }
+                      }}
+                    >
+                      Read more
+                    </ReadMore>
+                    <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
+                    <NewsMeta style={{ fontSize: `${fontSize}%` }}>
+                      {news.isTrending && <TrendingTag>Trending</TrendingTag>}
+                      <span style={{ fontSize: `${fontSize}%` }}>
+                        {formatDate(news.createdTime)} • {news.readTime || "N/A"}
+                      </span>
+                    </NewsMeta>
+                  </NewsContent>
+                </NewsCard>
+              ))}
+        </div>
       </Container>
 
       {!loading && newsData.length > 0 && (
-        <PaginationWrapper>
+        <PaginationWrapper role="navigation" aria-label="News pagination">
           <Pagination
             count={Math.ceil(newsData.length / itemsPerPage)}
             page={currentPage}
             onChange={handlePageChange}
             variant="outlined"
             shape="rounded"
+            aria-label="News pages"
           />
         </PaginationWrapper>
       )}

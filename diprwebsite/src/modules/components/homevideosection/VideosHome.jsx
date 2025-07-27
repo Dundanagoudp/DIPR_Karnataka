@@ -212,24 +212,24 @@ const Videos = () => {
   const currentVideo = videos.find((video) => video._id === activeVideo) || videos[0];
 
   return (
-    <PageContainer>
+    <PageContainer role="region" aria-label="Video section">
       <VideoLayout>
         {/* Left side - Fixed video player */}
         <VideoPlayerSection>
           <VideoHeader>
             <VideoTitle>
-              Karnataka Varthe <ChevronRight><IoIosArrowForward /></ChevronRight>
+              Karnataka Varthe <ChevronRight><IoIosArrowForward aria-hidden="true" /></ChevronRight>
             </VideoTitle>
-            <Link to="/gallery" style={{ textDecoration: 'none', marginLeft: "auto" }}>
+            <Link to="/gallery" style={{ textDecoration: 'none', marginLeft: "auto" }} aria-label="View all videos">
               <Viewall>
-                View All <ChevronRight><IoIosArrowForward /></ChevronRight>
+                View All <ChevronRight><IoIosArrowForward aria-hidden="true" /></ChevronRight>
               </Viewall>
             </Link>
           </VideoHeader>
 
           {/* Video Player */}
           {loading ? (
-            <ShimmerContainer>
+            <ShimmerContainer aria-hidden="true">
               <ShimmerThumbnail />
               <ShimmerTitle />
               <ShimmerMeta />
@@ -239,6 +239,8 @@ const Videos = () => {
               <VideoPlayer 
                 onMouseMove={handleMouseMove}
                 onMouseLeave={() => setShowControls(false)}
+                role="application"
+                aria-label="Video player"
               >
                 <VideoElement
                   ref={videoRef}
@@ -248,34 +250,93 @@ const Videos = () => {
                   loop={false}
                   onClick={handleVideoClick}
                   onEnded={handleVideoEnd}
+                  aria-label={currentVideo?.title || "Video content"}
                 />
                 
                 {!isPlaying && (
                   <VideoOverlay>
-                    <LargePlayButton onClick={togglePlay}>
-                      <FaPlay />
+                    <LargePlayButton 
+                      onClick={togglePlay}
+                      aria-label="Play video"
+                      tabIndex="0"
+                      role="button"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          togglePlay()
+                        }
+                      }}
+                    >
+                      <FaPlay aria-hidden="true" />
                     </LargePlayButton>
                   </VideoOverlay>
                 )}
                 
                 {showControls && (
-                  <VideoControls>
-                    <ControlButton onClick={togglePlay}>
-                      {isPlaying ? <FaPause /> : <FaPlay />}
+                  <VideoControls role="group" aria-label="Video controls">
+                    <ControlButton 
+                      onClick={togglePlay}
+                      aria-label={isPlaying ? "Pause video" : "Play video"}
+                      tabIndex="0"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          togglePlay()
+                        }
+                      }}
+                    >
+                      {isPlaying ? <FaPause aria-hidden="true" /> : <FaPlay aria-hidden="true" />}
                     </ControlButton>
                     <ProgressBar 
                       ref={progressBarRef}
                       onClick={handleProgressClick}
                       onMouseDown={handleProgressMouseDown}
                       onMouseUp={handleProgressMouseUp}
+                      role="slider"
+                      aria-label="Video progress"
+                      aria-valuenow={progress}
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      tabIndex="0"
+                      onKeyDown={(e) => {
+                        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                          e.preventDefault()
+                          const change = e.key === 'ArrowLeft' ? -5 : 5
+                          const newProgress = Math.max(0, Math.min(100, progress + change))
+                          setProgress(newProgress)
+                          if (videoRef.current) {
+                            videoRef.current.currentTime = (newProgress / 100) * videoRef.current.duration
+                          }
+                        }
+                      }}
                     >
                       <Progress $width={`${progress}%`} />
                     </ProgressBar>
-                    <ControlButton onClick={toggleMute}>
-                      {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+                    <ControlButton 
+                      onClick={toggleMute}
+                      aria-label={isMuted ? "Unmute video" : "Mute video"}
+                      tabIndex="0"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          toggleMute()
+                        }
+                      }}
+                    >
+                      {isMuted ? <FaVolumeMute aria-hidden="true" /> : <FaVolumeUp aria-hidden="true" />}
                     </ControlButton>
-                    <ControlButton onClick={handleFullscreen}>
-                      <FaExpand />
+                    <ControlButton 
+                      onClick={handleFullscreen}
+                      aria-label="Enter fullscreen"
+                      tabIndex="0"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          handleFullscreen()
+                        }
+                      }}
+                    >
+                      <FaExpand aria-hidden="true" />
                     </ControlButton>
                   </VideoControls>
                 )}
@@ -293,10 +354,10 @@ const Videos = () => {
         {/* Right side - Video list */}
         <WatchNextSection>
           <WatchNextHeader>Watch Next</WatchNextHeader>
-          <VideoList>
+          <VideoList role="list" aria-label="Video playlist">
             {loading
               ? Array.from({ length: 4 }).map((_, index) => (
-                  <VideoItem key={index}>
+                  <VideoItem key={index} role="listitem" aria-hidden="true">
                     <ShimmerThumbnail />
                     <ShimmerTitle />
                     <ShimmerMeta />
@@ -307,13 +368,23 @@ const Videos = () => {
                     key={video._id}
                     $isActive={video._id === activeVideo}
                     onClick={() => handleVideoSelect(video._id)}
+                    role="listitem"
+                    tabIndex="0"
+                    aria-label={`${video.title}${video._id === activeVideo ? ' - Now playing' : ''}`}
+                    aria-current={video._id === activeVideo ? "true" : "false"}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        handleVideoSelect(video._id)
+                      }
+                    }}
                   >
                     <ThumbnailContainer>
                       <Thumbnail src={video.thumbnail} alt={video.title} />
                       {video._id === activeVideo ? (
                         <NowPlaying>NOW PLAYING</NowPlaying>
                       ) : (
-                        <PlayButton>
+                        <PlayButton aria-hidden="true">
                           <FaPlay />
                         </PlayButton>
                       )}

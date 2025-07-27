@@ -174,6 +174,15 @@ const MagzineRecommed = () => {
       <MagazineCard
         key={magazine._id}
         onClick={() => handleReadMoreClick(magazine.magazinePdf, getLocalizedContent(magazine, "title"), magazine._id)}
+        role="listitem"
+        tabIndex="0"
+        aria-label={getLocalizedContent(magazine, "title")}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleReadMoreClick(magazine.magazinePdf, getLocalizedContent(magazine, "title"), magazine._id);
+          }
+        }}
       >
         <MagazineThumbnailWrapper>
           <MagazineThumbnail
@@ -196,24 +205,34 @@ const MagzineRecommed = () => {
 
   return (
     <PageWrapper>
-      <Container style={{ fontSize: `${fontSize}%` }}>
+      <Container style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Recommended magazines">
         <MainContent>
-          <TabsContainer>
-            <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}>
+          <TabsContainer role="tablist" aria-label="Magazine categories">
+            <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}
+              role="tab"
+              aria-selected={activeTab === "Topics"}
+              tabIndex={activeTab === "Topics" ? 0 : -1}
+              onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); setActiveTab("Topics");}}}
+            >
               Varthajanapada
             </Tab>
-            <Tab active={activeTab === "March of Karnataka"} onClick={() => setActiveTab("March of Karnataka")}>
+            <Tab active={activeTab === "March of Karnataka"} onClick={() => setActiveTab("March of Karnataka")}
+              role="tab"
+              aria-selected={activeTab === "March of Karnataka"}
+              tabIndex={activeTab === "March of Karnataka" ? 0 : -1}
+              onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); setActiveTab("March of Karnataka");}}}
+            >
               March of Karnataka
             </Tab>
           </TabsContainer>
           <ResultsInfo>
             Showing {filteredMagazines.length === 0 ? 0 : indexOfFirstItem + 1} - {Math.min(indexOfLastItem, filteredMagazines.length)} of {filteredMagazines.length} magazines
           </ResultsInfo>
-          <Content style={{ fontSize: `${fontSize}%` }}>
+          <Content style={{ fontSize: `${fontSize}%` }} role="list" aria-label="Recommended magazine list">
             {loading ? renderSkeleton() : renderMagazines(currentMagazines)}
           </Content>
           {!loading && filteredMagazines.length > 0 && (
-            <PaginationWrapper>
+            <PaginationWrapper role="navigation" aria-label="Recommended magazine pagination">
               <Pagination
                 count={Math.ceil(filteredMagazines.length / itemsPerPage)}
                 page={currentPage}
@@ -221,6 +240,7 @@ const MagzineRecommed = () => {
                 variant="outlined"
                 shape="rounded"
                 color="primary"
+                aria-label="Recommended magazine pages"
               />
             </PaginationWrapper>
           )}

@@ -128,7 +128,7 @@ const RecomMended = () => {
 
   const renderSkeleton = () => {
     return Array.from({ length: 3 }).map((_, index) => (
-      <ShimmerCard key={index}>
+      <ShimmerCard key={index} aria-hidden="true">
         <ShimmerThumbnail />
         <VideoDetails>
           <ShimmerTitle />
@@ -139,16 +139,25 @@ const RecomMended = () => {
   }
 
   return (
-    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+    <Container 
+      style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+      role="region"
+      aria-label="Recommended news section"
+    >
       <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Recommended News</Header>
       {console.log("Rendering videosData:", videosData)}
-      <Content>
+      <Content role="list" aria-label="Recommended news articles">
         {loading ? (
           renderSkeleton()
         ) : Array.isArray(videosData) && videosData.length > 0 ? (
           videosData.slice(0, 6).map((video) => (
-            <Link to={`/newsdetails/${video._id}`} key={video._id} style={{ textDecoration: "none", color: "inherit" }}>
-              <VideoCard1>
+            <Link 
+              to={`/newsdetails/${video._id}`} 
+              key={video._id} 
+              style={{ textDecoration: "none", color: "inherit" }}
+              aria-label={`Read article: ${getLocalizedContent(video, "title")}`}
+            >
+              <VideoCard1 role="listitem">
                 <VideoThumbnail
                   src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
                   alt={getLocalizedContent(video, "title")}
@@ -158,7 +167,9 @@ const RecomMended = () => {
                     {getLocalizedContent(video, "title")}
                   </Title>
                   <AuthorInfo>
-                    <AuthorAvatar>{getAuthorInitials(video.author || "AthleteAdmirer")}</AuthorAvatar>
+                    <AuthorAvatar aria-label={`Author: ${video.author || "AthleteAdmirer"}`}>
+                      {getAuthorInitials(video.author || "AthleteAdmirer")}
+                    </AuthorAvatar>
                     <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                       {video.author || "AthleteAdmirer"}
                     </AuthorName>
@@ -171,7 +182,13 @@ const RecomMended = () => {
             </Link>
           ))
         ) : (
-          <div style={{ padding: "1rem", textAlign: "center", color: "#888" }}>No recommended news found.</div>
+          <div 
+            style={{ padding: "1rem", textAlign: "center", color: "#888" }} 
+            role="status" 
+            aria-live="polite"
+          >
+            No recommended news found.
+          </div>
         )}
       </Content>
     </Container>

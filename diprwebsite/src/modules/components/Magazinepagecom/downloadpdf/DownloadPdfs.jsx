@@ -148,20 +148,20 @@ const MagazineDownloadPdf = () => {
 
   if (loading) {
     return (
-      <PdfCarouselContainer style={{ fontSize: `${fontSize}%` }}>
-        <SkeletonOverlay />
+      <PdfCarouselContainer style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Loading magazine carousel">
+        <SkeletonOverlay aria-hidden="true" />
         <PdfContentWrapper>
           <div style={{ display: "flex", alignItems: "center", gap: "1%", fontSize: `${fontSize}%` }}>
-            <SkeletonCategory />
-            <SkeletonInfo />
+            <SkeletonCategory aria-hidden="true" />
+            <SkeletonInfo aria-hidden="true" />
           </div>
-          <SkeletonTitle />
-          <SkeletonTitle style={{ width: "60%" }} />
+          <SkeletonTitle aria-hidden="true" />
+          <SkeletonTitle style={{ width: "60%" }} aria-hidden="true" />
         </PdfContentWrapper>
-        <SkeletonButton>
-          <MdOutlineFileDownload size={20} />
+        <SkeletonButton aria-hidden="true">
+          <MdOutlineFileDownload size={20} aria-hidden="true" />
         </SkeletonButton>
-        <SkeletonDotContainer>
+        <SkeletonDotContainer aria-hidden="true">
           <SkeletonDot />
           <SkeletonDot />
           <SkeletonDot />
@@ -187,8 +187,11 @@ const MagazineDownloadPdf = () => {
           active={index === currentIndex}
           bgImage={news.image}
           aria-hidden={index !== currentIndex}
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`Slide ${index + 1} of ${trendingNews.length}: ${news.title}`}
         >
-          <PdfOverlay />
+          <PdfOverlay aria-hidden="true" />
           <PdfContentWrapper>
             <div style={{ display: "flex", alignItems: "center", gap: "1%", fontSize: `${fontSize}%` }}>
               <PdfTrendingCategory style={{ fontSize: `${fontSize}%` }}>{news.category}</PdfTrendingCategory>
@@ -198,20 +201,19 @@ const MagazineDownloadPdf = () => {
             </div>
             <PdfNewsTitle>{news.title}</PdfNewsTitle>
           </PdfContentWrapper>
-
         </PdfCarouselItem>
       ))}
 
       {/* Navigation Arrows */}
-      <NavigationArrow position="left" onClick={prevSlide} aria-label="Previous slide">
-        <FiChevronLeft size={24} />
+      <NavigationArrow position="left" onClick={prevSlide} aria-label="Previous slide" tabIndex="0" role="button" onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); prevSlide();}}}>
+        <FiChevronLeft size={24} aria-hidden="true" />
       </NavigationArrow>
       
-      <NavigationArrow position="right" onClick={nextSlide} aria-label="Next slide">
-        <FiChevronRight size={24} />
+      <NavigationArrow position="right" onClick={nextSlide} aria-label="Next slide" tabIndex="0" role="button" onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); nextSlide();}}}>
+        <FiChevronRight size={24} aria-hidden="true" />
       </NavigationArrow>
 
-      <PdfDotContainer>
+      <PdfDotContainer role="tablist" aria-label="Carousel slide dots">
         {trendingNews.map((_, index) => (
           <PdfDot
             key={index}
@@ -219,6 +221,9 @@ const MagazineDownloadPdf = () => {
             onClick={() => goToSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
             aria-current={index === currentIndex ? "true" : "false"}
+            tabIndex="0"
+            role="tab"
+            onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); goToSlide(index);}}}
           />
         ))}
       </PdfDotContainer>

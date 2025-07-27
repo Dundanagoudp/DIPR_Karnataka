@@ -43,13 +43,20 @@ const ContactForm = () => {
   const t = translations[language] || translations.English;
 
   return (
-    <ContactFormContainer>
+    <ContactFormContainer role="region" aria-label="Contact information">
       <h2 style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{t.title}</h2>
       <p style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{t.description}</p>
-      <div className="contact-info">
+      <div className="contact-info" role="list" aria-label="Contact details">
         {/* Address Section */}
-        <ContactItem style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-          <ContactIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} as={FaMapMarkerAlt} />
+        <ContactItem 
+          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+          role="listitem"
+        >
+          <ContactIcon 
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} 
+            as={FaMapMarkerAlt}
+            aria-hidden="true"
+          />
           <div style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             <h4>{t.directorate}</h4>
             <p>{t.address}</p>
@@ -57,20 +64,50 @@ const ContactForm = () => {
         </ContactItem>
 
         {/* Email Section 1 */}
-        <ContactItem style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-          <ContactIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} as={FaEnvelope} />
+        <ContactItem 
+          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+          role="listitem"
+        >
+          <ContactIcon 
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} 
+            as={FaEnvelope}
+            aria-hidden="true"
+          />
           <div style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             <h4>{t.mailTitle}</h4>
-            <p>{t.mail1}</p>
+            <p>
+              <a 
+                href={`mailto:${t.mail1}`}
+                aria-label={`Send email to ${t.mail1}`}
+                tabIndex="0"
+              >
+                {t.mail1}
+              </a>
+            </p>
           </div>
         </ContactItem>
 
         {/* Email Section 2 */}
-        <ContactItem style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-          <ContactIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} as={FaEnvelope} />
+        <ContactItem 
+          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+          role="listitem"
+        >
+          <ContactIcon 
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} 
+            as={FaEnvelope}
+            aria-hidden="true"
+          />
           <div style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             <h4>{t.mailTitle}</h4>
-            <p>{t.mail2}</p>
+            <p>
+              <a 
+                href={`mailto:${t.mail2}`}
+                aria-label={`Send email to ${t.mail2}`}
+                tabIndex="0"
+              >
+                {t.mail2}
+              </a>
+            </p>
           </div>
         </ContactItem>
       </div>

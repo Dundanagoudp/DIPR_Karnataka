@@ -23,7 +23,7 @@ const Container = styled.div`
 export const LatestData = () => {
 
   return (
-    <Container>
+    <Container role="main" aria-label="Latest news page">
       {/* <LatestNewsRecommended /> */}
       <LatestTrending />
       <CategoryNews />

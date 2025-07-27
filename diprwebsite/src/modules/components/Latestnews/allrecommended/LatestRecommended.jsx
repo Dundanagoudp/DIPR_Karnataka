@@ -176,8 +176,8 @@ const LatestNewsRecommended = () => {
 
   if (error) {
     return (
-      <Container>
-        <div style={{ color: "red", textAlign: "center", padding: "20px" }}>
+      <Container role="region" aria-label="News error message">
+        <div style={{ color: "red", textAlign: "center", padding: "20px" }} role="status" aria-live="polite">
           {error}
         </div>
       </Container>
@@ -185,56 +185,78 @@ const LatestNewsRecommended = () => {
   }
 
   return (
-    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} role="region" aria-label="Latest recommended news">
       <div className="main-content">
         {loading ? (
           renderSkeletonFeatured()
         ) : featuredNews ? (
-          <FeaturedNewsCard>
+          <FeaturedNewsCard role="article">
             <NewsImage
               src={featuredNews.newsImage || "https://via.placeholder.com/800x450"}
               alt={getLocalizedContent(featuredNews, "title")}
             />
             <NewsContent>
-              <NewsCategory>
-                {featuredNews.category?.name || "POLITICS"}
-              </NewsCategory>
-              <NewsTitle>
-                {getLocalizedContent(featuredNews, "title")}
-              </NewsTitle>
+              <NewsCategory>{featuredNews.category?.name || "POLITICS"}</NewsCategory>
+              <NewsTitle>{getLocalizedContent(featuredNews, "title")}</NewsTitle>
               <NewsMeta>
                 <span>{formatDate(featuredNews.createdTime)}</span>
                 <ReadTime>{featuredNews.readTime || "4 MIN READ"}</ReadTime>
               </NewsMeta>
-              <NewsText>
-                {getLocalizedContent(featuredNews, "description")}
-              </NewsText>
-              <ReadMore onClick={() => handleReadMore(featuredNews._id)}>
+              <NewsText>{getLocalizedContent(featuredNews, "description")}</NewsText>
+              <ReadMore 
+                onClick={() => handleReadMore(featuredNews._id)}
+                tabIndex="0"
+                role="button"
+                aria-label={`Read more about ${getLocalizedContent(featuredNews, "title")}`}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleReadMore(featuredNews._id);
+                  }
+                }}
+              >
                 Read more
               </ReadMore>
             </NewsContent>
           </FeaturedNewsCard>
         ) : null}
 
-        <NewsGrid>
+        <NewsGrid role="list" aria-label="Featured news list">
           {loading
             ? renderSkeletonStandard(4)
             : standardNews.map((news) => (
-                <StandardNewsCard key={news._id}>
+                <StandardNewsCard key={news._id} role="listitem" tabIndex="0" aria-label={getLocalizedContent(news, "title")}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleReadMore(news._id);
+                    }
+                  }}
+                  onClick={() => handleReadMore(news._id)}
+                >
                   <NewsImage
                     src={news.newsImage || "https://via.placeholder.com/400x225"}
                     alt={getLocalizedContent(news, "title")}
                   />
                   <NewsContent>
                     <NewsCategory>{news.category?.name || "Latest News"}</NewsCategory>
-                    <NewsTitle>
-                      {getLocalizedContent(news, "title")}
-                    </NewsTitle>
+                    <NewsTitle>{getLocalizedContent(news, "title")}</NewsTitle>
                     <NewsMeta>
                       <span>{formatDate(news.createdTime)}</span>
                       <ReadTime>{news.readTime || "5 MIN READ"}</ReadTime>
                     </NewsMeta>
-                    <ReadMore onClick={() => handleReadMore(news._id)}>
+                    <ReadMore 
+                      onClick={e => {e.stopPropagation(); handleReadMore(news._id);}}
+                      tabIndex="0"
+                      role="button"
+                      aria-label={`Read more about ${getLocalizedContent(news, "title")}`}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleReadMore(news._id);
+                        }
+                      }}
+                    >
                       Read more
                     </ReadMore>
                   </NewsContent>
@@ -243,14 +265,22 @@ const LatestNewsRecommended = () => {
         </NewsGrid>
       </div>
 
-      <MostReadSection>
+      <MostReadSection role="region" aria-label="Most read news">
         <MostReadTitle>MOST READ</MostReadTitle>
-        <MostReadList>
+        <MostReadList role="list" aria-label="Most read articles">
           {loading
             ? renderSkeletonMostRead()
             : mostReadNews.length > 0
             ? mostReadNews.map((news, index) => (
-                <MostReadItem key={news._id} onClick={() => handleReadMore(news._id)}>
+                <MostReadItem key={news._id} role="listitem" tabIndex="0" aria-label={getLocalizedContent(news, "title")}
+                  onClick={() => handleReadMore(news._id)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleReadMore(news._id);
+                    }
+                  }}
+                >
                   <MostReadNumber>{index + 1}</MostReadNumber>
                   <MostReadContent>
                     <MostReadCategory>{news.category?.name || "POLITICS"}</MostReadCategory>
@@ -259,42 +289,59 @@ const LatestNewsRecommended = () => {
                   </MostReadContent>
                 </MostReadItem>
               ))
-            : <div>No most read articles available</div>}
+            : <div role="status" aria-live="polite">No most read articles available</div>}
         </MostReadList>
       </MostReadSection>
 
       <SectionDivider />
       <Title id="category-section">Latest News</Title>
-      <NewsRow>
+      <NewsRow role="list" aria-label="Category news list">
         {loading
           ? renderSkeletonStandard(4)
           : currentCategoryItems.length > 0
           ? currentCategoryItems.map((news) => (
-              <StandardNewsCard key={`category-${news._id}`}>
+              <StandardNewsCard key={`category-${news._id}`} role="listitem" tabIndex="0" aria-label={getLocalizedContent(news, "title")}
+                onClick={() => handleReadMore(news._id)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleReadMore(news._id);
+                  }
+                }}
+              >
                 <NewsImage
                   src={news.newsImage || "https://via.placeholder.com/400x225"}
                   alt={getLocalizedContent(news, "title")}
                 />
                 <NewsContent>
                   <NewsCategory>{news.category?.name || "Latest News"}</NewsCategory>
-                  <NewsTitle>
-                    {getLocalizedContent(news, "title")}
-                  </NewsTitle>
+                  <NewsTitle>{getLocalizedContent(news, "title")}</NewsTitle>
                   <NewsMeta>
                     <span>{formatDate(news.createdTime)}</span>
                     <ReadTime>{news.readTime || "5 MIN READ"}</ReadTime>
                   </NewsMeta>
-                  <ReadMore onClick={() => handleReadMore(news._id)}>
+                  <ReadMore 
+                    onClick={e => {e.stopPropagation(); handleReadMore(news._id);}}
+                    tabIndex="0"
+                    role="button"
+                    aria-label={`Read more about ${getLocalizedContent(news, "title")}`}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleReadMore(news._id);
+                      }
+                    }}
+                  >
                     Read more
                   </ReadMore>
                 </NewsContent>
               </StandardNewsCard>
             ))
-          : <div>No category news available</div>}
+          : <div role="status" aria-live="polite">No category news available</div>}
       </NewsRow>
 
       {!loading && categoryNews.length > itemsPerPage && (
-        <PaginationWrapper>
+        <PaginationWrapper role="navigation" aria-label="Category news pagination">
           <Pagination
             count={Math.ceil(categoryNews.length / itemsPerPage)}
             page={currentPage}
@@ -303,6 +350,7 @@ const LatestNewsRecommended = () => {
             size="large"
             variant="outlined"
             shape="rounded"
+            aria-label="Category news pages"
           />
         </PaginationWrapper>
       )}

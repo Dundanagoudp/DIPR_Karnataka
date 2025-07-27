@@ -180,17 +180,31 @@ const LatestTab = () => {
   const fontSizeStyle = fontSize !== 100 ? { fontSize: `${fontSize}%` } : {};
 
   return (
-    <Container style={fontSizeStyle}>
+    <Container style={fontSizeStyle} role="region" aria-label="Latest news section">
       <CategoryTabs>
         <ScrollButton 
           direction="left" 
           onClick={() => scrollTabs('left')}
           disabled={scrollPosition <= 0}
+          aria-label="Scroll tabs left"
+          tabIndex="0"
+          role="button"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              scrollTabs('left')
+            }
+          }}
         >
-          <FiChevronLeft />
+          <FiChevronLeft aria-hidden="true" />
         </ScrollButton>
         
-        <TabsContainer ref={tabsRef} style={fontSizeStyle}>
+        <TabsContainer 
+          ref={tabsRef} 
+          style={fontSizeStyle}
+          role="tablist"
+          aria-label="News categories"
+        >
           {categories.length > 0 ? (
             categories.map((category) => (
               <Tab
@@ -198,80 +212,118 @@ const LatestTab = () => {
                 active={activeTab === category._id}
                 onClick={() => handleTabClick(category._id)}
                 style={fontSizeStyle}
+                role="tab"
+                aria-selected={activeTab === category._id}
+                tabIndex={activeTab === category._id ? 0 : -1}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleTabClick(category._id)
+                  }
+                }}
               >
                 {category.name}
                 {activeTab === category._id && <TabIndicator />}
               </Tab>
             ))
           ) : (
-            <Tab>No Categories Available</Tab>
+            <Tab role="tab" aria-selected="false">No Categories Available</Tab>
           )}
         </TabsContainer>
         
         <ScrollButton 
           direction="right" 
           onClick={() => scrollTabs('right')}
+          aria-label="Scroll tabs right"
+          tabIndex="0"
+          role="button"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              scrollTabs('right')
+            }
+          }}
         >
-          <FiChevronRight />
+          <FiChevronRight aria-hidden="true" />
         </ScrollButton>
       </CategoryTabs>
 
-      {loading ? (
-        <Content style={fontSizeStyle}>
-          {[...Array(4)].map((_, index) => (
-            <VideoCard key={`skeleton-${index}`} className="skeleton-card">
-              <div className="skeleton-image"></div>
-              <div className="skeleton-title"></div>
-              <div className="skeleton-meta"></div>
-            </VideoCard>
-          ))}
-        </Content>
-      ) : (
-        <Content style={fontSizeStyle}>
-          {currentItems.length > 0 ? (
-            currentItems.map((video) => (
-              <VideoCard
-                key={video._id}
-                onClick={() => handlePostClick(video._id)}
-              >
-                <VideoThumbnail
-                  src={video.newsImage || videoThumbnail}
-                  alt={getLocalizedContent(video, "title")}
-                  loading="lazy"
-                />
-                <VideoDetails>
-                  <NewsMeta style={fontSizeStyle}>
-                    {video.isTrending && <TrendingBadge>Trending</TrendingBadge>}
-                    <AuthorInfo style={fontSizeStyle}>
-                      {video.author || "Unknown Author"} • {" "}
-                      {video.category?.name || "General"}
-                    </AuthorInfo>
-                  </NewsMeta>
-                  <Title style={fontSizeStyle}>
-                    {getLocalizedContent(video, "title")}
-                  </Title>
-                  <CardFooter>
-                    <VideoMetacat style={fontSizeStyle}>
-                      {video.category?.name}
-                    </VideoMetacat>
-                    <BookmarkIconWrapper
-                      onClick={(e) => handleBookmarkClick(video._id, e)}
-                      isBookmarked={bookmarkedVideos.has(video._id)}
-                    >
-                      <CiBookmark size={20} />
-                    </BookmarkIconWrapper>
-                  </CardFooter>
-                </VideoDetails>
+      <div role="tabpanel" aria-label="News content">
+        {loading ? (
+          <Content style={fontSizeStyle}>
+            {[...Array(4)].map((_, index) => (
+              <VideoCard key={`skeleton-${index}`} className="skeleton-card" aria-hidden="true">
+                <div className="skeleton-image"></div>
+                <div className="skeleton-title"></div>
+                <div className="skeleton-meta"></div>
               </VideoCard>
-            ))
-          ) : (
-            <NoContent>No posts available for this category.</NoContent>
-          )}
-        </Content>
-      )}
+            ))}
+          </Content>
+        ) : (
+          <Content style={fontSizeStyle} role="list" aria-label="News articles">
+            {currentItems.length > 0 ? (
+              currentItems.map((video) => (
+                <VideoCard
+                  key={video._id}
+                  onClick={() => handlePostClick(video._id)}
+                  role="listitem"
+                  tabIndex="0"
+                  aria-label={`Read article: ${getLocalizedContent(video, "title")}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      handlePostClick(video._id)
+                    }
+                  }}
+                >
+                  <VideoThumbnail
+                    src={video.newsImage || videoThumbnail}
+                    alt={getLocalizedContent(video, "title")}
+                    loading="lazy"
+                  />
+                  <VideoDetails>
+                    <NewsMeta style={fontSizeStyle}>
+                      {video.isTrending && <TrendingBadge>Trending</TrendingBadge>}
+                      <AuthorInfo style={fontSizeStyle}>
+                        {video.author || "Unknown Author"} • {" "}
+                        {video.category?.name || "General"}
+                      </AuthorInfo>
+                    </NewsMeta>
+                    <Title style={fontSizeStyle}>
+                      {getLocalizedContent(video, "title")}
+                    </Title>
+                    <CardFooter>
+                      <VideoMetacat style={fontSizeStyle}>
+                        {video.category?.name}
+                      </VideoMetacat>
+                      <BookmarkIconWrapper
+                        onClick={(e) => handleBookmarkClick(video._id, e)}
+                        isBookmarked={bookmarkedVideos.has(video._id)}
+                        aria-label={bookmarkedVideos.has(video._id) ? "Remove bookmark" : "Add bookmark"}
+                        tabIndex="0"
+                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            handleBookmarkClick(video._id, e)
+                          }
+                        }}
+                      >
+                        <CiBookmark size={20} aria-hidden="true" />
+                      </BookmarkIconWrapper>
+                    </CardFooter>
+                  </VideoDetails>
+                </VideoCard>
+              ))
+            ) : (
+              <NoContent role="status" aria-live="polite">No posts available for this category.</NoContent>
+            )}
+          </Content>
+        )}
+      </div>
 
       {videosData.length > 0 && (
-        <PaginationWrapper>
+        <PaginationWrapper role="navigation" aria-label="News pagination">
           <Pagination
             count={Math.ceil(videosData.length / itemsPerPage)}
             page={currentPage}
@@ -280,6 +332,7 @@ const LatestTab = () => {
             shape="rounded"
             color="primary"
             size={window.innerWidth <= 768 ? "small" : "medium"}
+            aria-label="News pages"
           />
         </PaginationWrapper>
       )}

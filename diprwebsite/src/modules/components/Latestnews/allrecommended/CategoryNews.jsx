@@ -219,13 +219,25 @@ const CategoryNews = () => {
   )
 
   return (
-    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} role="region" aria-label="Category news section">
       <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         {activeTab ? categories.find((c) => c._id === activeTab)?.name || "Category News" : "Latest All News"}
       </Title>
       <div className="tabs-scroll-container">
-        <ScrollButton direction="left" onClick={() => scrollTabs("left")}>
-          <FaChevronLeft />
+        <ScrollButton 
+          direction="left" 
+          onClick={() => scrollTabs("left")}
+          aria-label="Scroll categories left"
+          tabIndex="0"
+          role="button"
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              scrollTabs("left");
+            }
+          }}
+        >
+          <FaChevronLeft aria-hidden="true" />
         </ScrollButton>
         <TabsContainer
           ref={tabsRef}
@@ -235,6 +247,8 @@ const CategoryNews = () => {
             scrollbarWidth: "none",
           }}
           className="hide-scrollbar"
+          role="tablist"
+          aria-label="News categories"
         >
           {categoriesLoading ? (
             renderSkeletonTabs()
@@ -245,6 +259,15 @@ const CategoryNews = () => {
                 active={activeTab === null}
                 onClick={() => setActiveTab(null)}
                 style={{ fontSize: `${fontSize}%` }}
+                role="tab"
+                aria-selected={activeTab === null}
+                tabIndex={activeTab === null ? 0 : -1}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActiveTab(null);
+                  }
+                }}
               >
                 All
               </Tab>
@@ -254,6 +277,15 @@ const CategoryNews = () => {
                   active={activeTab === category._id}
                   onClick={() => setActiveTab(category._id)}
                   style={{ fontSize: `${fontSize}%` }}
+                  role="tab"
+                  aria-selected={activeTab === category._id}
+                  tabIndex={activeTab === category._id ? 0 : -1}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveTab(category._id);
+                    }
+                  }}
                 >
                   {getLocalizedCategoryName(category)}
                 </Tab>
@@ -261,15 +293,27 @@ const CategoryNews = () => {
             </>
           )}
         </TabsContainer>
-        <ScrollButton direction="right" onClick={() => scrollTabs("right")}>
-          <FaChevronRight />
+        <ScrollButton 
+          direction="right" 
+          onClick={() => scrollTabs("right")}
+          aria-label="Scroll categories right"
+          tabIndex="0"
+          role="button"
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              scrollTabs("right");
+            }
+          }}
+        >
+          <FaChevronRight aria-hidden="true" />
         </ScrollButton>
       </div>
       <MainContentWrapper id="news-grid">
         {loading ? (
           renderSkeletonCards()
         ) : newsData.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "20px", gridColumn: "1 / -1" }}>No articles found</div>
+          <div style={{ textAlign: "center", padding: "20px", gridColumn: "1 / -1" }} role="status" aria-live="polite">No articles found</div>
         ) : (
           <>
             {featuredNews && (
@@ -278,8 +322,17 @@ const CategoryNews = () => {
                 style={{
                   backgroundImage: `url(${featuredNews.newsImage || "/placeholder.svg?height=400&width=800"})`,
                 }}
+                role="article"
+                tabIndex="0"
+                aria-label={getLocalizedContent(featuredNews, "title")}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleReadMore(featuredNews._id);
+                  }
+                }}
               >
-                <FeaturedNewsImageOverlay />
+                <FeaturedNewsImageOverlay aria-hidden="true" />
                 <FeaturedNewsContent>
                   <FeaturedNewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                     {getLocalizedContent(featuredNews, "title")}
@@ -307,10 +360,20 @@ const CategoryNews = () => {
               </FeaturedNewsCard>
             )}
 
-            <RelatedArticlesWrapper>
+            <RelatedArticlesWrapper role="list" aria-label="Related articles list">
               {relatedNews.length > 0 ? (
                 relatedNews.map((news) => (
-                  <RelatedArticleCard key={news._id} onClick={() => handleReadMore(news._id)}>
+                  <RelatedArticleCard key={news._id} onClick={() => handleReadMore(news._id)}
+                    role="listitem"
+                    tabIndex="0"
+                    aria-label={getLocalizedContent(news, "title")}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleReadMore(news._id);
+                      }
+                    }}
+                  >
                     <RelatedArticleImage
                       src={news.newsImage || "/placeholder.svg?height=80&width=80&query=related news thumbnail"}
                       alt={getLocalizedContent(news, "title")}
@@ -326,7 +389,7 @@ const CategoryNews = () => {
                   </RelatedArticleCard>
                 ))
               ) : (
-                <div style={{ textAlign: "center", padding: "20px", color: "#666" }}>No related articles available</div>
+                <div style={{ textAlign: "center", padding: "20px", color: "#666" }} role="status" aria-live="polite">No related articles available</div>
               )}
             </RelatedArticlesWrapper>
           </>
@@ -334,7 +397,7 @@ const CategoryNews = () => {
       </MainContentWrapper>
 
       {!loading && newsData.length > 0 && (
-        <PaginationWrapper>
+        <PaginationWrapper role="navigation" aria-label="Category news pagination">
           <Pagination
             count={Math.ceil(newsData.length / itemsPerPage)}
             page={currentPage}
@@ -343,6 +406,7 @@ const CategoryNews = () => {
             size="large"
             variant="outlined"
             shape="rounded"
+            aria-label="Category news pages"
           />
         </PaginationWrapper>
       )}

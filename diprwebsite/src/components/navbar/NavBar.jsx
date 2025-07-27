@@ -62,12 +62,18 @@ const NavBar = () => {
 
   return (
     <>
-      <NavContainer style={{ fontSize: `${fontSize}%` }} role="complementary" aria-label="News Updates">
+      <NavContainer 
+        style={{ fontSize: `${fontSize}%` }} 
+        role="complementary" 
+        aria-label="News Updates"
+        aria-live="polite"
+        aria-atomic="false"
+      >
         <NewsWrapper>
           {isLoading ? (
-            <LoadingIndicator>Loading latest updates...</LoadingIndicator>
+            <LoadingIndicator aria-live="polite">Loading latest updates...</LoadingIndicator>
           ) : error ? (
-            <NewsItem style={{ animation: "none" }}>{error}</NewsItem>
+            <NewsItem style={{ animation: "none" }} aria-live="polite">{error}</NewsItem>
           ) : (
             <NewsTicker
               style={{
@@ -76,23 +82,35 @@ const NavBar = () => {
               }}
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
+              onFocus={() => setIsPaused(true)}
+              onBlur={() => setIsPaused(false)}
+              role="marquee"
+              aria-label="Scrolling news headlines"
             >
               {headlines.length > 0 ? (
                 <>
                   {headlines.map((headline, index) => (
-                    <NewsItem style={{ fontSize: `${fontSize}%` }} key={index}>
+                    <NewsItem 
+                      style={{ fontSize: `${fontSize}%` }} 
+                      key={index}
+                      aria-label={`News headline ${index + 1}: ${headline}`}
+                    >
                       {headline}
                     </NewsItem>
                   ))}
                   {/* Duplicate headlines for seamless looping */}
                   {headlines.map((headline, index) => (
-                    <NewsItem style={{ fontSize: `${fontSize}%` }} key={`duplicate-${index}`}>
+                    <NewsItem 
+                      style={{ fontSize: `${fontSize}%` }} 
+                      key={`duplicate-${index}`}
+                      aria-hidden="true"
+                    >
                       {headline}
                     </NewsItem>
                   ))}
                 </>
               ) : (
-                <NewsItem>No updates available at this time</NewsItem>
+                <NewsItem aria-live="polite">No updates available at this time</NewsItem>
               )}
             </NewsTicker>
           )}

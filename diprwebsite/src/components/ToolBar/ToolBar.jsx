@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useState, useEffect, useCallback } from "react"
+import { useContext, useState, useEffect, useCallback, useRef } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
@@ -62,8 +62,11 @@ const ToolBar = ({ onSearch }) => {
   const [suggestions, setSuggestions] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1)
   const navigate = useNavigate()
   const t = translations[language] || translations.English
+  const searchInputRef = useRef(null)
+  const suggestionsRef = useRef(null)
 
   // PDF Modal state
   const [modalOpen, setModalOpen] = useState(false)
@@ -84,6 +87,7 @@ const ToolBar = ({ onSearch }) => {
         onSearch?.([])
         setSuggestions([])
         setShowSuggestions(false)
+        setSelectedSuggestionIndex(-1)
         return
       }
 
@@ -99,11 +103,13 @@ const ToolBar = ({ onSearch }) => {
           : []
 
         setSuggestions(sortedResults)
+        setSelectedSuggestionIndex(-1)
         onSearch?.(sortedResults)
       } catch (error) {
         console.error("Search Error:", error)
         onSearch?.([])
         setSuggestions([])
+        setSelectedSuggestionIndex(-1)
       } finally {
         setIsSearching(false)
       }
@@ -129,6 +135,7 @@ const ToolBar = ({ onSearch }) => {
     setModalOpen(true)
     // Hide suggestions after selection
     setShowSuggestions(false)
+    setSelectedSuggestionIndex(-1)
   }
 
   // Function to close PDF modal
@@ -138,6 +145,37 @@ const ToolBar = ({ onSearch }) => {
 
   const handleSearchIconClick = () => debouncedSearch(searchText)
   const handleLanguageChange = (e) => setLanguage(e.target.value)
+
+  // Handle keyboard navigation for suggestions
+  const handleKeyDown = (e) => {
+    if (!showSuggestions || suggestions.length === 0) return
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setSelectedSuggestionIndex(prev => 
+          prev < suggestions.length - 1 ? prev + 1 : 0
+        )
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setSelectedSuggestionIndex(prev => 
+          prev > 0 ? prev - 1 : suggestions.length - 1
+        )
+        break
+      case 'Enter':
+        e.preventDefault()
+        if (selectedSuggestionIndex >= 0 && selectedSuggestionIndex < suggestions.length) {
+          handleSuggestionClick(suggestions[selectedSuggestionIndex])
+        }
+        break
+      case 'Escape':
+        setShowSuggestions(false)
+        setSelectedSuggestionIndex(-1)
+        searchInputRef.current?.blur()
+        break
+    }
+  }
 
   // Format date for display
   const formatDate = (dateString) => {
@@ -152,6 +190,7 @@ const ToolBar = ({ onSearch }) => {
     const handleClickOutside = (event) => {
       if (showSuggestions && !event.target.closest(".search-container")) {
         setShowSuggestions(false)
+        setSelectedSuggestionIndex(-1)
       }
     }
 
@@ -163,12 +202,24 @@ const ToolBar = ({ onSearch }) => {
 
   return (
     <>
-      <ToolbarContainer>
+      <ToolbarContainer role="toolbar" aria-label="Website tools">
         <SearchContainer className="search-container">
-          <SearchIcon onClick={handleSearchIconClick}>
-            <AiOutlineSearch />
+          <SearchIcon 
+            onClick={handleSearchIconClick} 
+            aria-label="Search"
+            tabIndex="0"
+            role="button"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleSearchIconClick()
+              }
+            }}
+          >
+            <AiOutlineSearch aria-hidden="true" />
           </SearchIcon>
           <SearchInput
+            ref={searchInputRef}
             type="text"
             placeholder={t.searchPlaceholder}
             value={searchText}
@@ -178,18 +229,33 @@ const ToolBar = ({ onSearch }) => {
                 setShowSuggestions(true)
               }
             }}
+            onKeyDown={handleKeyDown}
+            aria-label={t.searchPlaceholder}
+            aria-expanded={showSuggestions}
+            aria-controls="search-suggestions"
+            aria-activedescendant={
+              selectedSuggestionIndex >= 0 
+                ? `suggestion-${selectedSuggestionIndex}` 
+                : undefined
+            }
+            role="combobox"
+            aria-autocomplete="list"
           />
           <AnimatePresence>
             {showSuggestions && searchText.trim() && (
               <SuggestionsContainer
+                ref={suggestionsRef}
                 as={motion.div}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
+                id="search-suggestions"
+                role="listbox"
+                aria-label="Search suggestions"
               >
                 {isSearching ? (
-                  <LoadingIndicator>{t.searching}</LoadingIndicator>
+                  <LoadingIndicator aria-live="polite">{t.searching}</LoadingIndicator>
                 ) : suggestions.length > 0 ? (
                   <>
                     <ResultCount>
@@ -199,9 +265,19 @@ const ToolBar = ({ onSearch }) => {
                       <SuggestionItem
                         as={motion.div}
                         key={index}
+                        id={`suggestion-${index}`}
                         onClick={() => handleSuggestionClick(suggestion)}
                         whileHover={{ backgroundColor: "rgba(0,0,0,0.05)" }}
                         transition={{ duration: 0.1 }}
+                        role="option"
+                        aria-selected={index === selectedSuggestionIndex}
+                        tabIndex="0"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            handleSuggestionClick(suggestion)
+                          }
+                        }}
                       >
                         <SuggestionContent>
                           <SuggestionTitle>{suggestion.title}</SuggestionTitle>
@@ -211,28 +287,43 @@ const ToolBar = ({ onSearch }) => {
                     ))}
                   </>
                 ) : (
-                  <NoResults>{t.noResults}</NoResults>
+                  <NoResults role="status" aria-live="polite">{t.noResults}</NoResults>
                 )}
               </SuggestionsContainer>
             )}
           </AnimatePresence>
         </SearchContainer>
-        <FontControls>
+        <FontControls role="group" aria-label="Font size controls">
           <span>
-            {t.fontSizeLabel} <b>Aa</b>
+            {t.fontSizeLabel} <b aria-hidden="true">Aa</b>
           </span>
-          <button onClick={() => changeFontSize(-5)}>
-            <b>-</b>
+          <button 
+            onClick={() => changeFontSize(-5)}
+            aria-label="Decrease font size"
+          >
+            <b aria-hidden="true">-</b>
           </button>
           <b>
-            <span>{fontSize}%</span>
+            <span aria-live="polite">{fontSize}%</span>
           </b>
-          <button onClick={() => changeFontSize(5)}>
-            <b>+</b>
+          <button 
+            onClick={() => changeFontSize(5)}
+            aria-label="Increase font size"
+          >
+            <b aria-hidden="true">+</b>
           </button>
-          <button onClick={() => changeFontSize(100 - fontSize)}>{t.resetLabel}</button>
+          <button 
+            onClick={() => changeFontSize(100 - fontSize)}
+            aria-label="Reset font size to default"
+          >
+            {t.resetLabel}
+          </button>
         </FontControls>
-        <Select onChange={handleLanguageChange} value={language}>
+        <Select 
+          onChange={handleLanguageChange} 
+          value={language}
+          aria-label="Select language"
+        >
           <option value="English">English</option>
           <option value="Hindi">Hindi</option>
           <option value="Kannada">Kannada</option>

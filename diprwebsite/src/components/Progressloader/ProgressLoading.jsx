@@ -43,11 +43,16 @@ export default function LoadingProgressBar({ children }) {
   }, [isLoading])
 
   if (!isLoading) {
-    return <MainContentContainer>{children}</MainContentContainer>
+    return <MainContentContainer role="main">{children}</MainContentContainer>
   }
 
   return (
-    <LoadingContainer $isFading={isFading}>
+    <LoadingContainer 
+      $isFading={isFading}
+      role="status"
+      aria-label="Loading application"
+      aria-live="polite"
+    >
       <LogoContainer>
         <LogoBox>
           <Logo src={logo2 || "/placeholder.svg"} alt="Government of Karnataka Logo" />
@@ -55,13 +60,19 @@ export default function LoadingProgressBar({ children }) {
         <LogoText>Karnataka Varthe</LogoText>
       </LogoContainer>
 
-      <ProgressBar>
+      <ProgressBar 
+        role="progressbar"
+        aria-valuenow={progress}
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-label="Loading progress"
+      >
         <ProgressFill progress={progress} />
       </ProgressBar>
 
       <LoadingText>Welcome to Karnataka Varthe...</LoadingText>
 
-      <DotsContainer>
+      <DotsContainer aria-hidden="true">
         <Dot delay={0} />
         <Dot delay={0.2} />
         <Dot delay={0.4} />

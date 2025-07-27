@@ -4,7 +4,11 @@ import { LoaderContainer } from "./Loder.styles";
 
 const Loader = () => {
   return (
-    <LoaderContainer>
+    <LoaderContainer 
+      role="status" 
+      aria-label="Loading content"
+      aria-live="polite"
+    >
       {/* <MoonLoader color="#1E88E5" size={40} /> */}
       <ScaleLoader color="#1E88E5" size={40} />
     </LoaderContainer>

@@ -37,6 +37,8 @@ const Trending = () => {
   const { fontSize } = useContext(FontSizeContext)
   const autoPlayRef = useRef(null)
   const carouselRef = useRef(null)
+  const prevButtonRef = useRef(null)
+  const nextButtonRef = useRef(null)
 
   // Fetch data
   useEffect(() => {
@@ -124,13 +126,19 @@ const Trending = () => {
         } else if (e.key === "ArrowRight") {
           nextSlide()
           e.preventDefault()
+        } else if (e.key === "Home") {
+          goToSlide(0)
+          e.preventDefault()
+        } else if (e.key === "End") {
+          goToSlide(trendingNews.length - 1)
+          e.preventDefault()
         }
       }
     }
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [nextSlide, prevSlide])
+  }, [nextSlide, prevSlide, goToSlide, trendingNews.length])
 
   // Touch handlers for swipe
   const handleTouchStart = (e) => {
@@ -154,7 +162,7 @@ const Trending = () => {
   // Loading state
   if (loading) {
     return (
-      <CarouselContainer style={{ fontSize: `${fontSize}%` }}>
+      <CarouselContainer style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Loading trending news">
         <ShimmerContainer>
           <ShimmerContent>
             <ShimmerCategory />
@@ -189,6 +197,7 @@ const Trending = () => {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        aria-roledescription="carousel"
       >
         {trendingNews.map((news, index) => (
           <CarouselItem
@@ -197,6 +206,9 @@ const Trending = () => {
             active={index === currentIndex}
             bgImage={news.image}
             aria-hidden={index !== currentIndex}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${index + 1} of ${trendingNews.length}`}
           >
             <Overlay />
             <ContentWrapper>
@@ -208,23 +220,60 @@ const Trending = () => {
               </div>
               <NewsTitle>{news.title}</NewsTitle>
             </ContentWrapper>
-            <ArrowIcon onClick={handleImagePreview} aria-label={`Preview images in slideshow`}>
-              <FiArrowUpRight size={28} color={theme.colors.background} />
+            <ArrowIcon 
+              onClick={handleImagePreview} 
+              aria-label={`Preview images in slideshow`}
+              tabIndex="0"
+              role="button"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  handleImagePreview()
+                }
+              }}
+            >
+              <FiArrowUpRight size={28} color={theme.colors.background} aria-hidden="true" />
             </ArrowIcon>
           </CarouselItem>
         ))}
 
         {/* Left Navigation Arrow */}
-        <NavigationArrow position="left" onClick={prevSlide} aria-label="Previous slide">
-          <FiChevronLeft size={24} />
+        <NavigationArrow 
+          ref={prevButtonRef}
+          position="left" 
+          onClick={prevSlide} 
+          aria-label="Previous slide"
+          tabIndex="0"
+          role="button"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              prevSlide()
+            }
+          }}
+        >
+          <FiChevronLeft size={24} aria-hidden="true" />
         </NavigationArrow>
 
         {/* Right Navigation Arrow */}
-        <NavigationArrow position="right" onClick={nextSlide} aria-label="Next slide">
-          <FiChevronRight size={24} />
+        <NavigationArrow 
+          ref={nextButtonRef}
+          position="right" 
+          onClick={nextSlide} 
+          aria-label="Next slide"
+          tabIndex="0"
+          role="button"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              nextSlide()
+            }
+          }}
+        >
+          <FiChevronRight size={24} aria-hidden="true" />
         </NavigationArrow>
 
-        <DotContainer>
+        <DotContainer role="tablist" aria-label="Slide navigation">
           {trendingNews.map((_, index) => (
             <Dot
               key={index}
@@ -232,6 +281,14 @@ const Trending = () => {
               onClick={() => goToSlide(index)}
               aria-label={`Go to slide ${index + 1}`}
               aria-current={index === currentIndex ? "true" : "false"}
+              role="tab"
+              tabIndex={index === currentIndex ? 0 : -1}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  goToSlide(index)
+                }
+              }}
             />
           ))}
         </DotContainer>

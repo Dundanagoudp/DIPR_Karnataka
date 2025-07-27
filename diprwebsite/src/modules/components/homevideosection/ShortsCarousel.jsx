@@ -212,12 +212,35 @@ const ShortsCarousel = () => {
     }
   }
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (document.activeElement === containerRef.current || containerRef.current?.contains(document.activeElement)) {
+        if (e.key === "ArrowLeft") {
+          handlePrev()
+          e.preventDefault()
+        } else if (e.key === "ArrowRight") {
+          handleNext()
+          e.preventDefault()
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [currentIndex, videos.length, visibleVideos])
+
   return (
-    <CarouselContainer ref={containerRef}>
+    <CarouselContainer 
+      ref={containerRef}
+      role="region" 
+      aria-label="Shorts videos carousel"
+      tabIndex="0"
+    >
       <CarouselHeader>
         <CarouselTitleWrapper>
           <CarouselTitle>View All</CarouselTitle>
-          <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }}/>
+          <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} aria-hidden="true"/>
         </CarouselTitleWrapper>
       </CarouselHeader>
 
@@ -227,8 +250,20 @@ const ShortsCarousel = () => {
         onTouchEnd={handleMouseUp}
       >
         {!isMobile && (
-          <NavigationButton direction="left" onClick={handlePrev} disabled={currentIndex === 0 || loading}>
-            <ChevronLeft size={24} />
+          <NavigationButton 
+            direction="left" 
+            onClick={handlePrev} 
+            disabled={currentIndex === 0 || loading}
+            aria-label="Previous videos"
+            tabIndex="0"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handlePrev()
+              }
+            }}
+          >
+            <ChevronLeft size={24} aria-hidden="true" />
           </NavigationButton>
         )}
 
@@ -239,10 +274,12 @@ const ShortsCarousel = () => {
           onMouseMove={handleMouseMove}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
+          role="list"
+          aria-label="Video list"
         >
           {loading ? (
             Array(visibleVideos).fill().map((_, index) => (
-              <VideoCard key={`shimmer-${index}`}>
+              <VideoCard key={`shimmer-${index}`} role="listitem" aria-hidden="true">
                 <ShimmerContainer>
                   <ShimmerThumbnail />
                   <VideoInfo>
@@ -256,8 +293,8 @@ const ShortsCarousel = () => {
               </VideoCard>
             ))
           ) : (
-            videos.map((video) => (
-              <VideoCard key={video._id}>
+            videos.map((video, index) => (
+              <VideoCard key={video._id} role="listitem">
                 {playingVideoId === video._id ? (
                   <VideoPlayer>
                     <video
@@ -268,19 +305,31 @@ const ShortsCarousel = () => {
                       src={
                         video.video_url || "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                       }
+                      aria-label={`Playing: ${video.title || "Farmers' Empowerment"}`}
                     >
                       Your browser does not support the video tag.
                     </video>
-                    <ProgressBar>
+                    <ProgressBar role="progressbar" aria-label="Video progress" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100">
                       <ProgressIndicator style={{ width: `${progress}%` }} />
                     </ProgressBar>
                   </VideoPlayer>
                 ) : (
                   <VideoThumbnail>
-                    <img src={video.thumbnail || "/placeholder.svg?height=400&width=225"} alt={video.title} />
+                    <img src={video.thumbnail || "/placeholder.svg?height=400&width=225"} alt={video.title || "Video thumbnail"} />
                     <VideoOverlay>
-                      <PlayButton onClick={() => handlePlayClick(video._id)}>
-                        <Play size={40} />
+                      <PlayButton 
+                        onClick={() => handlePlayClick(video._id)}
+                        aria-label={`Play ${video.title || "video"}`}
+                        tabIndex="0"
+                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            handlePlayClick(video._id)
+                          }
+                        }}
+                      >
+                        <Play size={40} aria-hidden="true" />
                       </PlayButton>
                     </VideoOverlay>
                   </VideoThumbnail>
@@ -303,8 +352,16 @@ const ShortsCarousel = () => {
             direction="right"
             onClick={handleNext}
             disabled={currentIndex >= videos.length - visibleVideos || loading}
+            aria-label="Next videos"
+            tabIndex="0"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleNext()
+              }
+            }}
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={24} aria-hidden="true" />
           </NavigationButton>
         )}
       </CarouselWrapper>

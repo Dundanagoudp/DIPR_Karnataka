@@ -84,6 +84,8 @@ const CategoryTab = () => {
   const menuRef = useRef(null);
   const overlayRef = useRef(null);
   const menuItemsRef = useRef([]);
+  const hamburgerRef = useRef(null);
+  const closeButtonRef = useRef(null);
   
   // Store scroll position
   const scrollPos = useRef(0);
@@ -255,6 +257,10 @@ const CategoryTab = () => {
     const handleEscKey = (e) => {
       if (e.key === "Escape" && isMenuOpen) {
         closeMenu();
+        // Return focus to hamburger button
+        if (hamburgerRef.current) {
+          hamburgerRef.current.focus();
+        }
       }
     };
     
@@ -278,26 +284,45 @@ const CategoryTab = () => {
       <MobileMenuOverlay 
         ref={overlayRef}
         $isOpen={isMenuOpen} 
-        onClick={closeMenu} 
+        onClick={closeMenu}
+        aria-hidden={!isMenuOpen}
       />
       
-      <TabContainer style={{ fontSize: `${fontSize}%` }} $isScrolled={isScrolled}>
+      <TabContainer 
+        style={{ fontSize: `${fontSize}%` }} 
+        $isScrolled={isScrolled}
+        role="navigation"
+        aria-label="Main navigation"
+      >
         {isMobile && (
-          <HamburgerMenu onClick={toggleMenu} aria-label="Toggle menu">
-            {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          <HamburgerMenu 
+            ref={hamburgerRef}
+            onClick={toggleMenu} 
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            aria-haspopup="true"
+          >
+            {isMenuOpen ? <FaTimes size={24} aria-hidden="true" /> : <FaBars size={24} aria-hidden="true" />}
           </HamburgerMenu>
         )}
 
         {!isMobile ? (
-          <TabsWrapper>
-            {tabs.map((tab) => (
+          <TabsWrapper role="tablist" aria-label="Main navigation tabs">
+            {tabs.map((tab, index) => (
               <Link
                 key={tab.path}
                 to={tab.path}
                 onClick={() => handleTabClick(tab.path)}
                 style={{ textDecoration: "none" }}
               >
-                <TabItem $active={activeTab === tab.path} $isScrolled={isScrolled}>
+                <TabItem 
+                  $active={activeTab === tab.path} 
+                  $isScrolled={isScrolled}
+                  role="tab"
+                  aria-selected={activeTab === tab.path}
+                  tabIndex={activeTab === tab.path ? 0 : -1}
+                >
                   {getLocalizedTabName(tab)}
                   {activeTab === tab.path && <TabIndicator />}
                 </TabItem>
@@ -309,14 +334,23 @@ const CategoryTab = () => {
             ref={menuRef}
             $isOpen={isMenuOpen} 
             $isMobile={true}
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation menu"
+            aria-hidden={!isMenuOpen}
           >
             <MobileMenuHeader>
-              <CloseButton onClick={closeMenu} aria-label="Close menu">
-                <FaTimes size={24} />
+              <CloseButton 
+                ref={closeButtonRef}
+                onClick={closeMenu} 
+                aria-label="Close menu"
+              >
+                <FaTimes size={24} aria-hidden="true" />
               </CloseButton>
             </MobileMenuHeader>
 
-            <MobileMenuContent>
+            <MobileMenuContent role="menu">
               {tabs.map((tab, index) => (
                 <Link
                   key={tab.path}
@@ -328,6 +362,8 @@ const CategoryTab = () => {
                   <TabItem 
                     $active={activeTab === tab.path}
                     $isMobile={true}
+                    role="menuitem"
+                    tabIndex={isMenuOpen ? 0 : -1}
                   >
                     {getLocalizedTabName(tab)}
                     {activeTab === tab.path && <TabIndicator $isMobile={true} />}
@@ -339,11 +375,11 @@ const CategoryTab = () => {
         )}
 
         <RightControls>
-          <Link to="/profile">
+          <Link to="/profile" aria-label="User profile">
             {ProfileImage ? (
               <ProfileIcon src={ProfileImage} alt="User Profile" />
             ) : (
-              <ProfilePlaceholder size={40} />
+              <ProfilePlaceholder size={40} aria-hidden="true" />
             )}
           </Link>
         </RightControls>

@@ -49,19 +49,46 @@ const AddComments = ({ newsId }) => {
   };
 
   return (
-    <div>
-      <CommentInputWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-        <CommentInputField style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
-          type="text"
-          placeholder="Add your comments"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <CommentButtonWrapper onClick={handleSubmit} disabled={!text.trim()}>
-          <MdOutlineComment style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} />
-        </CommentButtonWrapper>
-      </CommentInputWrapper>
-      {error && <ErrorText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{error}</ErrorText>}
+    <div role="region" aria-label="Add comment section">
+      <form onSubmit={handleSubmit}>
+        <CommentInputWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+          <CommentInputField 
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+            type="text"
+            placeholder="Add your comments"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            aria-label="Comment text"
+            aria-describedby={error ? "comment-error" : undefined}
+            aria-invalid={error ? "true" : "false"}
+            required
+          />
+          <CommentButtonWrapper 
+            type="submit"
+            disabled={!text.trim()}
+            aria-label="Submit comment"
+            tabIndex="0"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleSubmit(e)
+              }
+            }}
+          >
+            <MdOutlineComment style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} aria-hidden="true" />
+          </CommentButtonWrapper>
+        </CommentInputWrapper>
+        {error && (
+          <ErrorText 
+            id="comment-error"
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+            role="alert"
+            aria-live="polite"
+          >
+            {error}
+          </ErrorText>
+        )}
+      </form>
     </div>
   );
 };

@@ -164,6 +164,15 @@ const MagazinePdf2 = () => {
       <MagazineCard
         key={magazine._id}
         onClick={() => handleReadMoreClick(magazine.magazinePdf, getLocalizedContent(magazine, "title"), magazine._id)}
+        role="listitem"
+        tabIndex="0"
+        aria-label={getLocalizedContent(magazine, "title")}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleReadMoreClick(magazine.magazinePdf, getLocalizedContent(magazine, "title"), magazine._id);
+          }
+        }}
       >
         <MagazineThumbnailWrapper>
           <MagazineThumbnail
@@ -186,13 +195,23 @@ const MagazinePdf2 = () => {
 
   return (
     <PageWrapper>
-      <Container style={{ fontSize: `${fontSize}%` }}>
+      <Container style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Magazine PDF section">
         <MainContent>
-          <TabsContainer>
-            <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}>
+          <TabsContainer role="tablist" aria-label="Magazine categories">
+            <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}
+              role="tab"
+              aria-selected={activeTab === "Topics"}
+              tabIndex={activeTab === "Topics" ? 0 : -1}
+              onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); setActiveTab("Topics");}}}
+            >
               Varthajanapada
             </Tab>
-            <Tab active={activeTab === "March of Karnataka"} onClick={() => setActiveTab("March of Karnataka")}>
+            <Tab active={activeTab === "March of Karnataka"} onClick={() => setActiveTab("March of Karnataka")}
+              role="tab"
+              aria-selected={activeTab === "March of Karnataka"}
+              tabIndex={activeTab === "March of Karnataka" ? 0 : -1}
+              onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); setActiveTab("March of Karnataka");}}}
+            >
               March of Karnataka
             </Tab>
           </TabsContainer>
@@ -201,11 +220,11 @@ const MagazinePdf2 = () => {
             {Math.min(indexOfLastItem, activeTab === "Topics" ? magazinesData.length : marchMagazinesData.length)} of{" "}
             {activeTab === "Topics" ? magazinesData.length : marchMagazinesData.length} magazines
           </ResultsInfo>
-          <Content style={{ fontSize: `${fontSize}%` }}>
+          <Content style={{ fontSize: `${fontSize}%` }} role="list" aria-label="Magazine list">
             {loading ? renderSkeleton() : renderMagazines(currentMagazines)}
           </Content>
           {!loading && (
-            <PaginationWrapper>
+            <PaginationWrapper role="navigation" aria-label="Magazine pagination">
               <Pagination
                 count={Math.ceil(
                   activeTab === "Topics"
@@ -217,6 +236,7 @@ const MagazinePdf2 = () => {
                 variant="outlined"
                 shape="rounded"
                 color="primary"
+                aria-label="Magazine pages"
               />
             </PaginationWrapper>
           )}

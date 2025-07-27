@@ -7,7 +7,7 @@ import logo from "../../assets/Logo.png";
 
 const Logowithtitle = () => {
       return (
-           <LeftSection>
+           <LeftSection role="banner" aria-label="Department header">
             <Logo src={logo} alt="Government of Karnataka Logo" />
                     <h2>Department of <br /> Information and Public <br /> Relations</h2>
                     <p>Government of Karnataka</p>

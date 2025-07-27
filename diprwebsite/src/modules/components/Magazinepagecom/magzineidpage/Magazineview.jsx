@@ -64,17 +64,22 @@ const Magazineview = () => {
   }
 
   return (
-    <MagazineViewContainer style={{ fontSize: `${fontSize}%` }}>
+    <MagazineViewContainer style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Magazine PDF viewer">
       <Header>
         <Title>{title}</Title>
-        <DownloadButton onClick={handleDownload} disabled={!pdfUrl}>
-          <MdOutlineFileDownload size={20} /> Download
+        <DownloadButton onClick={handleDownload} disabled={!pdfUrl}
+          tabIndex="0"
+          role="button"
+          aria-label="Download PDF"
+          onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); handleDownload();}}}
+        >
+          <MdOutlineFileDownload size={20} aria-hidden="true" /> Download
         </DownloadButton>
       </Header>
 
       <ContentWrapper>
         <MainPdfViewer>
-          {loading && <LoadingSpinner />}
+          {loading && <LoadingSpinner role="status" aria-live="polite" />}
           {pdfUrl ? (
             <iframe
               src={pdfUrl}
@@ -91,7 +96,7 @@ const Magazineview = () => {
               Your browser does not support PDFs. Please download the PDF to view it.
             </iframe>
           ) : (
-            <div style={{ textAlign: "center", padding: "20px", color: "#666" }}>
+            <div style={{ textAlign: "center", padding: "20px", color: "#666" }} role="status" aria-live="polite">
               {loading ? "Loading PDF..." : "No PDF available to display."}
             </div>
           )}
