@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import MagazineDownloadPdf from "../../components/Magazinepagecom/downloadpdf/DownloadPdfs";
 import MagazinePdf2 from "../../components/Magazinepagecom/magazinemodalpdf/MagzineModalpdf";
 

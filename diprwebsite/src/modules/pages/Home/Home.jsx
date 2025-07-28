@@ -9,6 +9,7 @@ import AllNewsData from "../../../modules/components/allnewssection2/AllNewsData
 import Magzines2 from "../../../modules/components/magzinemodal/MagzinewithModal";
 import ShortsCarousel from "../../../modules/components/homevideosection/ShortsCarousel";
 import Videos from "../../../modules/components/homevideosection/VideosHome";
+import Magzinehome from "../../components/homepage-new/MagzineShow";
 
 const Home = () => {
 
@@ -16,6 +17,7 @@ const Home = () => {
     <HomeContainer role="main" aria-label="Home page">
         <>
           <Trending />
+          <Magzinehome/>
           <ContentWrapper>
             <NewsSection role="region" aria-label="News section">
               <Magzines2/>
