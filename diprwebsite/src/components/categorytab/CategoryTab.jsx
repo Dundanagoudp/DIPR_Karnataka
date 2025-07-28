@@ -1,24 +1,26 @@
-import { useState, useEffect, useContext, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
-import { gsap } from "gsap";
+import { useState, useEffect, useContext, useRef } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { FaBars, FaTimes } from "react-icons/fa" 
+import { gsap } from "gsap"
+
 import {
   TabContainer,
   TabsWrapper,
   TabItem,
-  ProfileIcon,
-  ProfilePlaceholder,
   HamburgerMenu,
   TabIndicator,
   MobileMenuOverlay,
   MobileMenuHeader,
   CloseButton,
   MobileMenuContent,
-  RightControls
-} from "./CategoryTab.styles";
-import ProfileImage from "../../assets/Profile.png";
-import { FontSizeContext } from "../../context/FontSizeProvider";
-import { LanguageContext } from "../../context/LanguageContext";
+  RightControls,
+  LoginButton, // Added LoginButton
+} from "./CategoryTab.styles"
+
+// Removed ProfileImage import
+
+import { FontSizeContext } from "../../context/FontSizeProvider"
+import { LanguageContext } from "../../context/LanguageContext"
 
 const tabs = [
   {
@@ -69,71 +71,67 @@ const tabs = [
     },
     path: "/contactus",
   },
-];
+]
 
 const CategoryTab = () => {
-  const location = useLocation();
-  const [activeTab, setActiveTab] = useState(location.pathname);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { fontSize } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  
+  const location = useLocation()
+  const [activeTab, setActiveTab] = useState(location.pathname)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const { fontSize } = useContext(FontSizeContext)
+  const { language } = useContext(LanguageContext)
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+
   // Refs for elements and animations
-  const menuRef = useRef(null);
-  const overlayRef = useRef(null);
-  const menuItemsRef = useRef([]);
-  const hamburgerRef = useRef(null);
-  const closeButtonRef = useRef(null);
-  
+  const menuRef = useRef(null)
+  const overlayRef = useRef(null)
+  const menuItemsRef = useRef([])
+  const hamburgerRef = useRef(null)
+  const closeButtonRef = useRef(null)
+
   // Store scroll position
-  const scrollPos = useRef(0);
-  
+  const scrollPos = useRef(0)
+
   // Add a new ref for body scroll handling
   const bodyScrollLockRef = useRef({
     scrollPosition: 0,
-    previousBodyStyles: {}
-  });
+    previousBodyStyles: {},
+  })
 
   // Update active tab when location changes
   useEffect(() => {
-    setActiveTab(location.pathname);
-  }, [location.pathname]);
+    setActiveTab(location.pathname)
+  }, [location.pathname])
 
   // Handle resize and scroll events
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
+      setIsMobile(window.innerWidth <= 768)
+    }
     const handleResize = () => {
-      checkIfMobile();
+      checkIfMobile()
       if (window.innerWidth > 768 && isMenuOpen) {
-        closeMenu();
+        closeMenu()
       }
-    };
-
+    }
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
+      setIsScrolled(window.scrollY > 10)
+    }
     // Initial check
-    checkIfMobile();
-    
-    // Add event listeners
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleScroll);
+    checkIfMobile()
 
+    // Add event listeners
+    window.addEventListener("resize", handleResize)
+    window.addEventListener("scroll", handleScroll)
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isMenuOpen]);
+      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [isMenuOpen])
 
   // Update menu handling with better scroll lock
   const lockBodyScroll = () => {
-    const scrollPosition = window.pageYOffset;
+    const scrollPosition = window.pageYOffset
     bodyScrollLockRef.current = {
       scrollPosition,
       previousBodyStyles: {
@@ -141,64 +139,62 @@ const CategoryTab = () => {
         top: document.body.style.top,
         left: document.body.style.left,
         right: document.body.style.right,
-        overflow: document.body.style.overflow
-      }
-    };
-
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-  };
+        overflow: document.body.style.overflow,
+      },
+    }
+    document.body.style.overflow = "hidden"
+    document.body.style.position = "fixed"
+    document.body.style.top = `-${scrollPosition}px`
+    document.body.style.left = "0"
+    document.body.style.right = "0"
+  }
 
   const unlockBodyScroll = () => {
-    const { scrollPosition, previousBodyStyles } = bodyScrollLockRef.current;
-    
+    const { scrollPosition, previousBodyStyles } = bodyScrollLockRef.current
+
     // Restore previous body styles
     Object.entries(previousBodyStyles).forEach(([key, value]) => {
-      document.body.style[key] = value;
-    });
-
+      document.body.style[key] = value
+    })
     // Restore scroll position
-    window.scrollTo(0, scrollPosition);
-  };
+    window.scrollTo(0, scrollPosition)
+  }
 
   // Update menu animations
   useEffect(() => {
-    if (!menuRef.current || !overlayRef.current) return;
-    
+    if (!menuRef.current || !overlayRef.current) return
+
     if (isMenuOpen) {
-      lockBodyScroll();
-      
+      lockBodyScroll()
+
       // Animate overlay
       gsap.to(overlayRef.current, {
         opacity: 1,
         visibility: "visible",
         duration: 0.2,
-        ease: "power2.out"
-      });
-      
+        ease: "power2.out",
+      })
+
       // Animate menu
       gsap.to(menuRef.current, {
         x: 0,
         duration: 0.3,
-        ease: "power2.out"
-      });
-      
+        ease: "power2.out",
+      })
+
       // Animate menu items with improved timing
       gsap.fromTo(
         menuItemsRef.current,
         { opacity: 0, x: 20 },
-        { 
-          opacity: 1, 
-          x: 0, 
+        {
+          opacity: 1,
+          x: 0,
           duration: 0.2,
           stagger: 0.03,
           delay: 0.1,
-          ease: "power1.out"
-        }
-      );
+          ease: "power1.out",
+        },
+      )
     } else {
       // Animate menu items out first
       gsap.to(menuItemsRef.current, {
@@ -206,98 +202,91 @@ const CategoryTab = () => {
         x: 20,
         duration: 0.2,
         stagger: 0.02,
-        ease: "power1.in"
-      });
-
+        ease: "power1.in",
+      })
       // Then animate overlay and menu
       gsap.to(overlayRef.current, {
         opacity: 0,
         duration: 0.2,
         ease: "power2.in",
         onComplete: () => {
-          gsap.set(overlayRef.current, { visibility: "hidden" });
-          unlockBodyScroll();
-        }
-      });
-      
+          gsap.set(overlayRef.current, { visibility: "hidden" })
+          unlockBodyScroll()
+        },
+      })
+
       gsap.to(menuRef.current, {
         x: "100%",
         duration: 0.3,
-        ease: "power2.in"
-      });
+        ease: "power2.in",
+      })
     }
-
     // Cleanup function
     return () => {
       if (isMenuOpen) {
-        unlockBodyScroll();
+        unlockBodyScroll()
       }
-    };
-  }, [isMenuOpen]);
+    }
+  }, [isMenuOpen])
 
   const toggleMenu = () => {
-    setIsMenuOpen(prev => !prev);
-  };
+    setIsMenuOpen((prev) => !prev)
+  }
 
   const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+    setIsMenuOpen(false)
+  }
 
   const handleTabClick = (path) => {
-    setActiveTab(path);
-    closeMenu();
-  };
+    setActiveTab(path)
+    closeMenu()
+  }
 
   const getLocalizedTabName = (tab) => {
-    return tab.name[language] || tab.name.English;
-  };
+    return tab.name[language] || tab.name.English
+  }
 
   // Handle escape key to close menu
   useEffect(() => {
     const handleEscKey = (e) => {
       if (e.key === "Escape" && isMenuOpen) {
-        closeMenu();
+        closeMenu()
         // Return focus to hamburger button
         if (hamburgerRef.current) {
-          hamburgerRef.current.focus();
+          hamburgerRef.current.focus()
         }
       }
-    };
-    
-    window.addEventListener("keydown", handleEscKey);
+    }
+
+    window.addEventListener("keydown", handleEscKey)
     return () => {
-      window.removeEventListener("keydown", handleEscKey);
-    };
-  }, [isMenuOpen]);
+      window.removeEventListener("keydown", handleEscKey)
+    }
+  }, [isMenuOpen])
 
   // Add cleanup on unmount
   useEffect(() => {
     return () => {
       if (isMenuOpen) {
-        unlockBodyScroll();
+        unlockBodyScroll()
       }
-    };
-  }, []);
+    }
+  }, [])
 
   return (
     <>
-      <MobileMenuOverlay 
-        ref={overlayRef}
-        $isOpen={isMenuOpen} 
-        onClick={closeMenu}
-        aria-hidden={!isMenuOpen}
-      />
-      
-      <TabContainer 
-        style={{ fontSize: `${fontSize}%` }} 
+      <MobileMenuOverlay ref={overlayRef} $isOpen={isMenuOpen} onClick={closeMenu} aria-hidden={!isMenuOpen} />
+
+      <TabContainer
+        style={{ fontSize: `${fontSize}%` }}
         $isScrolled={isScrolled}
         role="navigation"
         aria-label="Main navigation"
       >
         {isMobile && (
-          <HamburgerMenu 
+          <HamburgerMenu
             ref={hamburgerRef}
-            onClick={toggleMenu} 
+            onClick={toggleMenu}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
@@ -306,7 +295,6 @@ const CategoryTab = () => {
             {isMenuOpen ? <FaTimes size={24} aria-hidden="true" /> : <FaBars size={24} aria-hidden="true" />}
           </HamburgerMenu>
         )}
-
         {!isMobile ? (
           <TabsWrapper role="tablist" aria-label="Main navigation tabs">
             {tabs.map((tab, index) => (
@@ -316,8 +304,8 @@ const CategoryTab = () => {
                 onClick={() => handleTabClick(tab.path)}
                 style={{ textDecoration: "none" }}
               >
-                <TabItem 
-                  $active={activeTab === tab.path} 
+                <TabItem
+                  $active={activeTab === tab.path}
                   $isScrolled={isScrolled}
                   role="tab"
                   aria-selected={activeTab === tab.path}
@@ -330,9 +318,9 @@ const CategoryTab = () => {
             ))}
           </TabsWrapper>
         ) : (
-          <TabsWrapper 
+          <TabsWrapper
             ref={menuRef}
-            $isOpen={isMenuOpen} 
+            $isOpen={isMenuOpen}
             $isMobile={true}
             id="mobile-menu"
             role="dialog"
@@ -341,15 +329,10 @@ const CategoryTab = () => {
             aria-hidden={!isMenuOpen}
           >
             <MobileMenuHeader>
-              <CloseButton 
-                ref={closeButtonRef}
-                onClick={closeMenu} 
-                aria-label="Close menu"
-              >
+              <CloseButton ref={closeButtonRef} onClick={closeMenu} aria-label="Close menu">
                 <FaTimes size={24} aria-hidden="true" />
               </CloseButton>
             </MobileMenuHeader>
-
             <MobileMenuContent role="menu">
               {tabs.map((tab, index) => (
                 <Link
@@ -357,9 +340,9 @@ const CategoryTab = () => {
                   to={tab.path}
                   onClick={() => handleTabClick(tab.path)}
                   style={{ textDecoration: "none" }}
-                  ref={el => menuItemsRef.current[index] = el}
+                  ref={(el) => (menuItemsRef.current[index] = el)}
                 >
-                  <TabItem 
+                  <TabItem
                     $active={activeTab === tab.path}
                     $isMobile={true}
                     role="menuitem"
@@ -373,19 +356,14 @@ const CategoryTab = () => {
             </MobileMenuContent>
           </TabsWrapper>
         )}
-
         <RightControls>
-          <Link to="/profile" aria-label="User profile">
-            {ProfileImage ? (
-              <ProfileIcon src={ProfileImage} alt="User Profile" />
-            ) : (
-              <ProfilePlaceholder size={40} aria-hidden="true" />
-            )}
+          <Link to="/login" aria-label="Login" style={{ textDecoration: "none" }}>
+            <LoginButton>Login</LoginButton>
           </Link>
         </RightControls>
       </TabContainer>
     </>
-  );
-};
+  )
+}
 
-export default CategoryTab;
+export default CategoryTab

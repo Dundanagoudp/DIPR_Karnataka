@@ -1,9 +1,9 @@
-import styled, { css } from "styled-components";
-import { FaUserCircle } from "react-icons/fa";
-import theme from "../../theme/Theme";
+import styled, { css } from "styled-components"
+// Removed FaUserCircle import as ProfilePlaceholder is no longer used
+import theme from "../../theme/Theme"
 
 export const MobileMenuOverlay = styled.div`
- position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -15,12 +15,13 @@ export const MobileMenuOverlay = styled.div`
   visibility: hidden;
   transition: opacity 0.2s ease;
   will-change: opacity, visibility;
-
-  ${({ $isOpen }) => $isOpen && css`
+  ${({ $isOpen }) =>
+    $isOpen &&
+    css`
     opacity: 1;
     visibility: visible;
   `}
-`;
+`
 
 export const TabContainer = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ export const TabContainer = styled.div`
   box-sizing: border-box;
   transition: all 0.3s ease;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  
+
   ${({ $isScrolled }) =>
     $isScrolled &&
     css`
@@ -43,19 +44,18 @@ export const TabContainer = styled.div`
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
       padding: ${theme.spacing(0.5)} ${theme.spacing(4)};
     `}
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1)} ${theme.spacing(2)};
     justify-content: space-between;
   }
-`;
+`
 
 export const RightControls = styled.div`
   display: flex;
   align-items: center;
   gap: ${theme.spacing(1)};
   margin-left: auto;
-`;
+`
 
 export const MobileMenuHeader = styled.div`
   display: flex;
@@ -68,7 +68,7 @@ export const MobileMenuHeader = styled.div`
   background-color: ${theme.colors.primary};
   z-index: 2;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-`;
+`
 
 export const CloseButton = styled.button`
   background: ${theme.colors.background};
@@ -81,21 +81,21 @@ export const CloseButton = styled.button`
   justify-content: center;
   transition: all 0.25s ease;
   border-radius: 50%;
-  
+
   &:hover {
     transform: rotate(90deg);
     background-color: ${theme.colors.background};
   }
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px ${theme.colors.background};
   }
-  
+
   &:active {
     transform: scale(0.9) rotate(90deg);
   }
-`;
+`
 
 export const HamburgerMenu = styled.button`
   cursor: pointer;
@@ -108,21 +108,21 @@ export const HamburgerMenu = styled.button`
   justify-content: center;
   background: none;
   border: none;
-  
+
   &:hover {
     transform: scale(1.1);
   }
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
     border-radius: 50%;
   }
-  
+
   &:active {
     transform: scale(0.95);
   }
-`;
+`
 
 export const TabsWrapper = styled.div`
   display: flex;
@@ -136,16 +136,15 @@ export const TabsWrapper = styled.div`
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-
   &::-webkit-scrollbar {
     display: none;
   }
-
   @media (max-width: ${theme.breakpoints.tablet}) {
     gap: ${theme.spacing(0.5)};
   }
-
-  ${({ $isMobile }) => $isMobile && css`
+  ${({ $isMobile }) =>
+    $isMobile &&
+    css`
     flex-direction: column;
     background-color: ${theme.colors.primary};
     position: fixed;
@@ -162,12 +161,13 @@ export const TabsWrapper = styled.div`
     will-change: transform;
     overscroll-behavior: contain;
     touch-action: pan-y;
-
-    ${({ $isOpen }) => $isOpen && css`
+    ${({ $isOpen }) =>
+      $isOpen &&
+      css`
       transform: translateX(0);
     `}
   `}
-`;
+`
 
 export const MobileMenuContent = styled.div`
   width: 100%;
@@ -181,12 +181,12 @@ export const MobileMenuContent = styled.div`
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   background-color: ${theme.colors.primary};
-  
+
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
-`;
+`
 
 export const TabIndicator = styled.div`
   position: absolute;
@@ -196,15 +196,17 @@ export const TabIndicator = styled.div`
   height: 3px;
   background-color: ${theme.colors.background};
   border-radius: 3px;
-  
-  ${({ $isMobile }) => $isMobile && css`
+
+  ${({ $isMobile }) =>
+    $isMobile &&
+    css`
     width: 5px;
     height: 100%;
     right: -10px;
     left: auto;
     bottom: 0;
   `}
-`;
+`
 
 export const TabItem = styled.div`
   padding: ${theme.spacing(1.2)} ${theme.spacing(2)};
@@ -223,25 +225,25 @@ export const TabItem = styled.div`
   opacity: 1;
   position: relative;
   overflow: hidden;
-  
+
   ${({ $isScrolled }) =>
     $isScrolled &&
     css`
       padding: ${theme.spacing(1)} ${theme.spacing(1.5)};
     `}
-
   &:hover {
     background-color: ${({ $active }) => ($active ? theme.colors.background : theme.colors.background)};
     color: ${theme.colors.primary};
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
-
-  ${({ $isMobile }) => $isMobile && css`
+  ${({ $isMobile }) =>
+    $isMobile &&
+    css`
     width: 100%;
     text-align: left;
     justify-content: flex-start;
@@ -250,53 +252,44 @@ export const TabItem = styled.div`
     padding: ${theme.spacing(1.5)} ${theme.spacing(2)};
     background-color: ${({ $active }) => ($active ? theme.colors.background : "transparent")};
     color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.background)};
-    
+
     &:hover {
       transform: translateX(5px);
       background-color: ${theme.colors.background};
       box-shadow: none;
       color: ${theme.colors.primary};
     }
-    
+
     &:active {
       transform: translateX(2px);
     }
   `}
-`;
+`
 
-export const ProfileIcon = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+// Removed ProfileIcon and ProfilePlaceholder styled components
+
+export const LoginButton = styled.button`
+  background-color: #E0F7FA; /* Light blue from image */
+  border: 1px solid #007BFF; /* Blue border from image */
+  color: #007BFF; /* Blue text from image */
+  padding: ${theme.spacing(1)} ${theme.spacing(2)};
+  border-radius: 10px; /* Rounded corners from image */
+  font-family: ${theme.fonts.heading};
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-  border: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap; /* Prevent text wrapping */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    border-color: ${theme.colors.background};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
-  &:active {
-    transform: scale(0.95);
-  }
-`;
 
-export const ProfilePlaceholder = styled(FaUserCircle)`
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out, filter 0.3s ease;
-  color: ${theme.colors.background};
-
-  &:hover {
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-  }
-  
   &:active {
-    transform: scale(0.95);
+    transform: translateY(0);
   }
-`;
+`
