@@ -9,7 +9,7 @@ import {
   NewsContent,
   NewsHeader,
   NewsText,
-  ReadMore,
+  ReadMore, 
   NewsMeta,
   PaginationWrapper,
   ViewAllButton,
@@ -18,13 +18,13 @@ import {
   SkeletonContent,
   SkeletonText,
   SkeletonButton,
-} from "./Modal.styles"
+} from "./Modal.styles" // Ensure this path is correct for your styled components
 import { getMagazines, MarchMagazines } from "../../../services/magazineApi/magazineService"
 import { FontSizeContext } from "../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../context/LanguageContext"
 import { useNavigate } from "react-router-dom"
 import { Pagination } from "@mui/material"
-import PDFModal from "./PDFModal"
+import PDFModal from "./PDFModal" // Updated import path for PDFModal
 
 const Magzines2 = () => {
   const [activeTab, setActiveTab] = useState("Topics")
@@ -32,16 +32,13 @@ const Magzines2 = () => {
   const [marchMagazines, setMarchMagazines] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
   // PDF Modal state
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedPdf, setSelectedPdf] = useState("")
   const [selectedTitle, setSelectedTitle] = useState("")
-
   const [topicsPage, setTopicsPage] = useState(1)
   const [marchPage, setMarchPage] = useState(1)
   const itemsPerPage = 8
-
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
   const navigate = useNavigate()
@@ -82,6 +79,7 @@ const Magzines2 = () => {
 
   const getLocalizedContent = useCallback(
     (magazine, field) => {
+      // Fallback to English if specific language content is not available
       return magazine[language.toLowerCase()]?.[field] || magazine[field] || "No content available"
     },
     [language],
@@ -103,7 +101,7 @@ const Magzines2 = () => {
     return Array(itemsPerPage)
       .fill(0)
       .map((_, index) => (
-        <SkeletonCard key={`skeleton-${index}`}>
+        <SkeletonCard key={`skeleton-${index}`} aria-hidden="true">
           <SkeletonImage />
           <SkeletonContent>
             <SkeletonText width="80%" />
@@ -127,6 +125,8 @@ const Magzines2 = () => {
               fontSize: `${fontSize}%`,
               color: "red",
             }}
+            role="alert"
+            aria-live="polite"
           >
             {error}
           </div>
@@ -139,26 +139,29 @@ const Magzines2 = () => {
               textAlign: "center",
               fontSize: `${fontSize}%`,
             }}
+            role="status"
+            aria-live="polite"
           >
             No magazines found
           </div>
         )
-
       return magazinesArray.map((magazine) => (
-        <NewsCard key={magazine.id || magazine._id}>
+        <NewsCard
+          key={magazine.id || magazine._id}
+          // Removed onClick and onKeyDown from NewsCard itself
+          // The ReadMore button will handle opening the modal
+        >
           <NewsImage
             style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
-            src={magazine.magazineThumbnail}
+            src={magazine.magazineThumbnail || "/placeholder.svg?height=400&width=300&query=magazine thumbnail"}
             alt={getLocalizedContent(magazine, "title")}
-            aria-label={getLocalizedContent(magazine, "title")}
           />
           <NewsContent>
             <NewsHeader style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               {getLocalizedContent(magazine, "title")}
             </NewsHeader>
             <NewsText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-              {getLocalizedContent(magazine, "description").split(" ").slice(0, 10).join(" ")}
-              ...
+              {getLocalizedContent(magazine, "description").split(" ").slice(0, 10).join(" ")}...
             </NewsText>
             <NewsMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
               <span>{new Date(magazine.createdTime).toLocaleDateString()}</span>
@@ -166,10 +169,10 @@ const Magzines2 = () => {
             <ReadMore
               style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
               onClick={(e) => {
-                e.preventDefault()
+                e.preventDefault() // Prevent default button behavior if it's a link
+                e.stopPropagation() // Prevent the parent card's click if it had one
                 openPdfModal(magazine.magazinePdf, getLocalizedContent(magazine, "title"))
               }}
-              as="button"
               aria-label={`Read more about ${getLocalizedContent(magazine, "title")}`}
             >
               Read more
@@ -193,12 +196,13 @@ const Magzines2 = () => {
     <>
       <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Magazine</Title>
       <Container style={{ fontSize: `${fontSize}%` }}>
-        <TabsContainer>
+        <TabsContainer role="tablist" aria-label="Magazine categories">
           <Tab
             style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
             active={activeTab === "Topics"}
             onClick={() => setActiveTab("Topics")}
             aria-selected={activeTab === "Topics"}
+            role="tab"
           >
             Varthajanapada
           </Tab>
@@ -207,16 +211,15 @@ const Magzines2 = () => {
             active={activeTab === "March of Karnataka"}
             onClick={() => setActiveTab("March of Karnataka")}
             aria-selected={activeTab === "March of Karnataka"}
+            role="tab"
           >
             March of Karnataka
           </Tab>
         </TabsContainer>
-
         {/* Render news cards or skeleton */}
         {activeTab === "Topics" && renderMagazines(topicsCurrentItems)}
         {activeTab === "March of Karnataka" && renderMagazines(marchCurrentItems)}
       </Container>
-
       {/* Fixed Pagination and View All Button */}
       <PaginationWrapper style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         <Pagination
@@ -229,15 +232,17 @@ const Magzines2 = () => {
           onChange={(event, value) => (activeTab === "Topics" ? setTopicsPage(value) : setMarchPage(value))}
           variant="outlined"
           shape="rounded"
+          color="primary"
+          aria-label="Magazine pagination"
         />
         <ViewAllButton
           style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
           onClick={() => navigate("/magazinepages")}
+          aria-label="View all magazines"
         >
           View All
         </ViewAllButton>
       </PaginationWrapper>
-
       {/* PDF Modal */}
       <PDFModal isOpen={modalOpen} onClose={closePdfModal} pdfUrl={selectedPdf} title={selectedTitle} />
     </>

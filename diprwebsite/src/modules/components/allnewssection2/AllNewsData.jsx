@@ -40,6 +40,7 @@ const AllNewsData = () => {
   const [loading, setLoading] = useState(true)
   const [categoriesLoading, setCategoriesLoading] = useState(true)
   const tabsRef = useRef(null)
+  const tabRefs = useRef([]) // Ref for individual tab buttons
   const itemsPerPage = 3
   const navigate = useNavigate()
   const { fontSize } = useContext(FontSizeContext)
@@ -91,7 +92,6 @@ const AllNewsData = () => {
         setLoading(false)
       }
     }
-
     fetchNews()
   }, [activeTab])
 
@@ -162,6 +162,29 @@ const AllNewsData = () => {
     return category.name || "No content available"
   }
 
+  // Handle keyboard navigation for tabs
+  const handleTabKeyDown = (e) => {
+    const tabs = tabRefs.current.filter(Boolean) // Filter out nulls
+    if (tabs.length === 0) return
+
+    const currentFocusedIndex = tabs.findIndex((tab) => tab === document.activeElement)
+    let nextIndex = -1
+
+    if (e.key === "ArrowRight") {
+      e.preventDefault()
+      nextIndex = currentFocusedIndex === tabs.length - 1 ? 0 : currentFocusedIndex + 1
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault()
+      nextIndex = currentFocusedIndex === 0 ? tabs.length - 1 : currentFocusedIndex - 1
+    }
+
+    if (nextIndex !== -1) {
+      const nextTab = tabs[nextIndex]
+      setActiveTab(nextTab.dataset.categoryId === "null" ? null : nextTab.dataset.categoryId)
+      nextTab.focus()
+    }
+  }
+
   // Skeleton loader for news cards
   const renderSkeletonCards = () => {
     return Array(itemsPerPage)
@@ -186,23 +209,24 @@ const AllNewsData = () => {
   const renderSkeletonTabs = () => {
     return Array(5)
       .fill(0)
-      .map((_, index) => <SkeletonTab key={`skeleton-tab-${index}`} style={{ fontSize: `${fontSize}%` }} aria-hidden="true" />)
+      .map((_, index) => (
+        <SkeletonTab key={`skeleton-tab-${index}`} style={{ fontSize: `${fontSize}%` }} aria-hidden="true" />
+      ))
   }
 
   return (
     <>
       <Container role="region" aria-label="All news section">
         <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>All News</Title>
-
         <div className="tabs-scroll-container">
-          <ScrollButton 
-            direction="left" 
+          <ScrollButton
+            direction="left"
             onClick={() => scrollTabs("left")}
             aria-label="Scroll tabs left"
             tabIndex="0"
             role="button"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault()
                 scrollTabs("left")
               }
@@ -210,7 +234,6 @@ const AllNewsData = () => {
           >
             <FaChevronLeft aria-hidden="true" />
           </ScrollButton>
-
           <TabsContainer
             ref={tabsRef}
             style={{
@@ -221,6 +244,7 @@ const AllNewsData = () => {
             className="hide-scrollbar"
             role="tablist"
             aria-label="News categories"
+            onKeyDown={handleTabKeyDown} // Add keyboard navigation for tabs
           >
             {categoriesLoading ? (
               renderSkeletonTabs()
@@ -234,8 +258,10 @@ const AllNewsData = () => {
                   role="tab"
                   aria-selected={activeTab === null}
                   tabIndex={activeTab === null ? 0 : -1}
+                  data-category-id="null" // Custom data attribute for category ID
+                  ref={(el) => (tabRefs.current[0] = el)} // Store ref
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault()
                       setActiveTab(null)
                     }
@@ -243,7 +269,7 @@ const AllNewsData = () => {
                 >
                   All
                 </Tab>
-                {categories.map((category) => (
+                {categories.map((category, index) => (
                   <Tab
                     key={category._id}
                     active={activeTab === category._id}
@@ -252,8 +278,10 @@ const AllNewsData = () => {
                     role="tab"
                     aria-selected={activeTab === category._id}
                     tabIndex={activeTab === category._id ? 0 : -1}
+                    data-category-id={category._id} // Custom data attribute for category ID
+                    ref={(el) => (tabRefs.current[index + 1] = el)} // Store ref (+1 for 'All' tab)
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
+                      if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault()
                         setActiveTab(category._id)
                       }
@@ -265,15 +293,14 @@ const AllNewsData = () => {
               </>
             )}
           </TabsContainer>
-
-          <ScrollButton 
-            direction="right" 
+          <ScrollButton
+            direction="right"
             onClick={() => scrollTabs("right")}
             aria-label="Scroll tabs right"
             tabIndex="0"
             role="button"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault()
                 scrollTabs("right")
               }
@@ -282,49 +309,64 @@ const AllNewsData = () => {
             <FaChevronRight aria-hidden="true" />
           </ScrollButton>
         </div>
-
-        <div role="tabpanel" aria-label="News content">
+        <div role="tabpanel" aria-label="News content" aria-live="polite">
           {loading
             ? renderSkeletonCards()
             : currentItems.map((news) => (
                 <NewsCard style={{ fontSize: `${fontSize}%` }} key={news._id} role="article">
                   <NewsImage
-                    src={news.newsImage || "https://via.placeholder.com/300"}
+                    src={news.newsImage || "/placeholder.svg?height=250&width=400&query=news article image"}
                     alt={getLocalizedContent(news, "title")}
                   />
                   <NewsContent style={{ fontSize: `${fontSize}%` }}>
                     <NewsHeader style={{ fontSize: `${fontSize}%` }}>
-                      {news.author || "Unknown Author"} • {getLocalizedContent(news.category, "name") || "General"}
+                      {news.author || "Unknown Author"} • {getLocalizedCategoryName(news.category) || "General"}
                     </NewsHeader>
                     <NewsTitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                       {getLocalizedContent(news, "title")}
                     </NewsTitle>
                     <ShareIcons role="group" aria-label="Share options">
-                      <FaFacebook 
-                        onClick={() => shareOnFacebook(news.url)} 
-                        style={{ cursor: "pointer" }} 
+                      <FaFacebook
+                        onClick={() => shareOnFacebook(news.url)}
+                        style={{ cursor: "pointer" }}
                         aria-label="Share on Facebook"
                         tabIndex="0"
                         role="button"
                         onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
+                          if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault()
                             shareOnFacebook(news.url)
                           }
                         }}
+                        aria-hidden="true" // Icon is decorative, functionality is via button
                       />
-                      <FaTwitter 
-                        onClick={() => shareOnTwitter(news.url)} 
-                        style={{ cursor: "pointer" }} 
+                      <FaTwitter
+                        onClick={() => shareOnTwitter(news.url)}
+                        style={{ cursor: "pointer" }}
                         aria-label="Share on Twitter"
                         tabIndex="0"
                         role="button"
                         onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
+                          if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault()
                             shareOnTwitter(news.url)
                           }
                         }}
+                        aria-hidden="true" // Icon is decorative, functionality is via button
+                      />
+                      <FaLink
+                        onClick={() => copyLink(news.url)}
+                        style={{ cursor: "pointer" }}
+                        aria-label="Copy link"
+                        tabIndex="0"
+                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault()
+                            copyLink(news.url)
+                          }
+                        }}
+                        aria-hidden="true" // Icon is decorative, functionality is via button
                       />
                     </ShareIcons>
                     <NewsText
@@ -338,14 +380,18 @@ const AllNewsData = () => {
                     >
                       {getLocalizedContent(news, "description")}
                     </NewsText>
-                    <ReadMore 
-                      style={{ fontSize: `${fontSize}%` }} 
-                      onClick={() => handleReadMore(news._id)}
+                    <ReadMore
+                      style={{ fontSize: `${fontSize}%` }}
+                      onClick={(e) => {
+                        e.preventDefault() // Prevent default button behavior
+                        e.stopPropagation() // Prevent parent card's click if it had one
+                        handleReadMore(news._id)
+                      }}
                       tabIndex="0"
                       role="button"
                       aria-label={`Read more about ${getLocalizedContent(news, "title")}`}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
+                        if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault()
                           handleReadMore(news._id)
                         }
@@ -353,7 +399,11 @@ const AllNewsData = () => {
                     >
                       Read more
                     </ReadMore>
-                    <AddComments style={{ fontSize: `${fontSize}%` }} newsId={news._id} onAddComment={handleAddComment} />
+                    <AddComments
+                      style={{ fontSize: `${fontSize}%` }}
+                      newsId={news._id}
+                      onAddComment={handleAddComment}
+                    />
                     <NewsMeta style={{ fontSize: `${fontSize}%` }}>
                       {news.isTrending && <TrendingTag>Trending</TrendingTag>}
                       <span style={{ fontSize: `${fontSize}%` }}>
@@ -365,7 +415,6 @@ const AllNewsData = () => {
               ))}
         </div>
       </Container>
-
       {!loading && newsData.length > 0 && (
         <PaginationWrapper role="navigation" aria-label="News pagination">
           <Pagination
