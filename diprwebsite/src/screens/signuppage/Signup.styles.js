@@ -138,6 +138,13 @@ export const Input = styled.input`
     color: ${theme.colors.textgray};
   }
 
+  &:focus {
+    outline: 2px solid ${theme.colors.secondary};
+    outline-offset: 2px;
+    border-bottom: 2px solid ${theme.colors.secondary};
+    box-shadow: 0 0 0 2px ${theme.colors.secondary}33;
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     margin-bottom: ${theme.spacing(2)};
     
@@ -163,6 +170,12 @@ export const Button = styled.button`
   &:disabled {
     background: ${theme.colors.textgray};
     cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: 2px solid ${theme.colors.secondary};
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px ${theme.colors.secondary}33;
   }
 `;
 

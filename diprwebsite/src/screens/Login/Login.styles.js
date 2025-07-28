@@ -166,6 +166,12 @@ export const Input = styled.input`
   &::placeholder {
     color: ${theme.colors.textgray};
   }
+
+  &:focus {
+    outline: none;
+    // border-bottom: 2px solid ${theme.colors.secondary};
+    box-shadow: none;
+  }
 `;
 
 
@@ -196,6 +202,12 @@ export const Button = styled.button`
   &:disabled {
     background: ${theme.colors.textgray};
     cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: 2px solid ${theme.colors.secondary};
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px ${theme.colors.secondary}33;
   }
 `;
 
@@ -372,6 +384,9 @@ export const OtpInput = styled.input`
 
   &:focus {
     border-color: ${theme.colors.primary};
+    outline: 2px solid ${theme.colors.secondary};
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px ${theme.colors.secondary}33;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {

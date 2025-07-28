@@ -29,7 +29,7 @@ const AboutUspage = () => {
   }
 
   return (
-    <PageContainer>
+    <PageContainer role="main" aria-label="About us page">
       <AboutUsText />
      {/* <ContentContainer>
         <RecommendedContainer>

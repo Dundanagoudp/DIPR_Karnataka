@@ -4,9 +4,9 @@ import RecomMended from "../../components/Recommended/RecomMended";
 import LatestTab from "../../components/Latesttab/LatestTab";
 import Loader from "../../../components/loder/Loder"; 
 
-const LatestNews = () => {
+const LatestNews1 = () => {
   return (
-    <div role="main" aria-label="Latest news page">
+    <div role="main" aria-label="Recommended news page">
         <>
           <LatestCat />
           <RecomMended />
@@ -16,4 +16,4 @@ const LatestNews = () => {
   );
 };
 
-export default LatestNews;
+export default LatestNews1;

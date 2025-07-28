@@ -10,13 +10,11 @@ export const ToolbarContainer = styled.div`
   gap: ${theme.spacing(2)};
   max-width: 100%;
   margin: 0 auto;
-
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;
     gap: ${theme.spacing(1)};
     padding: ${theme.spacing(1)};
   }
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing(1.5)};
     padding: ${theme.spacing(2)};
@@ -32,15 +30,12 @@ export const SearchContainer = styled.div`
   width: 100%;
   border: 1px solid ${theme.colors.info};
   position: relative;
-
   @media (max-width: ${theme.breakpoints.desktop}) {
     max-width: 100%;
   }
-
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 100%;
   }
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(0.5)};
   }
@@ -51,7 +46,12 @@ export const SearchIcon = styled.div`
   font-size: 18px;
   margin-right: ${theme.spacing(1)};
   cursor: pointer;
-
+  /* Focus style for keyboard navigation */
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 16px;
     margin-right: ${theme.spacing(0.5)};
@@ -65,11 +65,13 @@ export const SearchInput = styled.input`
   font-size: 14px;
   background: transparent;
   color: ${theme.colors.text};
-
   &::placeholder {
     color: ${theme.colors.textgray};
   }
+  /* Focus style for keyboard navigation */
+  &:focus-visible {
 
+  }
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 12px;
   }
@@ -120,15 +122,18 @@ export const SuggestionItem = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid ${theme.colors.light};
-
   &:last-child {
     border-bottom: none;
   }
-
   &:hover {
     background: ${theme.colors.light};
   }
-
+  /* Focus style for keyboard navigation */
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: -2px; /* Inset outline */
+    background: ${theme.colors.light}; /* Keep hover background on focus */
+  }
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 12px;
     padding: ${theme.spacing(1)};
@@ -161,12 +166,10 @@ export const FontControls = styled.div`
   border-radius: 8px;
   width: 100%;
   max-width: 310px;
-
   span {
     font-size: 14px;
     color: ${theme.colors.text};
   }
-
   button {
     padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
     border: 1px solid ${theme.colors.info};
@@ -175,23 +178,24 @@ export const FontControls = styled.div`
     border-radius: 4px;
     font-family: ${theme.fonts.body};
     color: ${theme.colors.text};
-
     &:hover {
       background: ${theme.colors.backgray};
     }
+    /* Focus style for keyboard navigation */
+    &:focus-visible {
+      outline: 2px solid ${theme.colors.primary};
+      outline-offset: 2px;
+    }
   }
-
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 100%;
     max-width: 100%;
     justify-content: center;
   }
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     span {
       font-size: 12px;
     }
-
     button {
       padding: ${theme.spacing(0.25)} ${theme.spacing(0.75)};
       font-size: 12px;
@@ -210,16 +214,18 @@ export const Select = styled.select`
   font-family: ${theme.fonts.body};
   background: ${theme.colors.light};
   color: ${theme.colors.text};
-
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
-
+  /* Focus style for keyboard navigation */
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
   }
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 12px;
     padding: ${theme.spacing(0.5)};

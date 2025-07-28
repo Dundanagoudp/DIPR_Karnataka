@@ -62,45 +62,95 @@ const ComMents = () => {
   };
 
   return (
-    <CommentSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+    <CommentSection 
+      style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+      role="region"
+      aria-label="Comments section"
+    >
       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50px" }}>
-          <ClipLoader color="#1E88E5" />
+        <div 
+          style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50px" }}
+          aria-live="polite"
+          aria-label="Loading comments"
+        >
+          <ClipLoader color="#1E88E5" aria-hidden="true" />
         </div>
       ) : comments.length === 0 ? (
-        <p>No comments yet.</p>
+        <p role="status" aria-live="polite">No comments yet.</p>
       ) : (
-        comments.map((comment) => (
-          <Comment key={comment._id}>
-            <ProfileImage
-              src="https://via.placeholder.com/50"
-              alt={comment.user.displayName}
-            />
-            <CommentContent style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-              <UserHeader>
-                <UserInfo>
-                  <Username style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.user.displayName}</Username>
-                  {comment.user.verified && <VerifiedIcon>✔</VerifiedIcon>}
-                </UserInfo>
-                <Time style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                  {new Date(comment.createdTime).toLocaleTimeString()}
-                </Time>
-              </UserHeader>
-              <CommentText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{comment.comment}</CommentText>
-              <Actions>
-                <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                  <FaComment />
-                </ActionIcon>
-                <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                  <FaRetweet />
-                </ActionIcon>
-                <ActionIcon style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} onClick={() => handleLikeComment(comment._id)}>
-                  <FaHeart />
-                </ActionIcon>
-              </Actions>
-            </CommentContent>
-          </Comment>
-        ))
+        <div role="list" aria-label="Comments list">
+          {comments.map((comment) => (
+            <Comment key={comment._id} role="listitem">
+              <ProfileImage
+                src="https://via.placeholder.com/50"
+                alt={`Profile picture of ${comment.user.displayName}`}
+              />
+              <CommentContent style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                <UserHeader>
+                  <UserInfo>
+                    <Username style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      {comment.user.displayName}
+                    </Username>
+                    {comment.user.verified && (
+                      <VerifiedIcon aria-label="Verified user" title="Verified user">✔</VerifiedIcon>
+                    )}
+                  </UserInfo>
+                  <Time style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                    {new Date(comment.createdTime).toLocaleTimeString()}
+                  </Time>
+                </UserHeader>
+                <CommentText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                  {comment.comment}
+                </CommentText>
+                <Actions role="group" aria-label="Comment actions">
+                  <ActionIcon 
+                    style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+                    aria-label="Reply to comment"
+                    tabIndex="0"
+                    role="button"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        // Handle reply functionality
+                      }
+                    }}
+                  >
+                    <FaComment aria-hidden="true" />
+                  </ActionIcon>
+                  <ActionIcon 
+                    style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+                    aria-label="Retweet comment"
+                    tabIndex="0"
+                    role="button"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        // Handle retweet functionality
+                      }
+                    }}
+                  >
+                    <FaRetweet aria-hidden="true" />
+                  </ActionIcon>
+                  <ActionIcon 
+                    style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} 
+                    onClick={() => handleLikeComment(comment._id)}
+                    aria-label={`Like comment by ${comment.user.displayName}`}
+                    tabIndex="0"
+                    role="button"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        handleLikeComment(comment._id)
+                      }
+                    }}
+                  >
+                    <FaHeart aria-hidden="true" />
+                  </ActionIcon>
+                </Actions>
+              </CommentContent>
+            </Comment>
+          ))}
+        </div>
       )}
     </CommentSection>
   );

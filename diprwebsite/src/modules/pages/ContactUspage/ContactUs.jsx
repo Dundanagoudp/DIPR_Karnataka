@@ -17,7 +17,7 @@ const ContactUs = () => {
   }
 
   return (
-    <div>
+    <div role="main" aria-label="Contact us page">
       <ContactForm />
     </div>
   );

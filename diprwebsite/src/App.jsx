@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./theme/GlobalStyle";
@@ -28,6 +28,8 @@ import { LanguageProvider } from "./context/LanguageContext";
 import Cookies from "js-cookie";
 import { endSession } from "./services/LoginApi"; 
 import Gallery from "./modules/pages/dynamicGallery/Gallery";
+import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
+import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Magazineview";
 
 
 const App = () => {
@@ -70,6 +72,7 @@ const App = () => {
               <Route path="/" element={<Applayout />}>
                 <Route index element={<Home />} />
                 <Route path="/news/:id" element={<LatestNews />} />
+                <Route path="/newsdetails/:id" element={<LatestNews1 />} />
                 <Route path="/magazinepages" element={<MagaZinepages />} />
                 <Route path="/Gallery" element={<Exclusive />} />
                 <Route path="/aboutuspage" element={<AboutUspage />} />
@@ -84,6 +87,7 @@ const App = () => {
                 <Route path="/help" element={<Help />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/gallerysection" element={<Gallery />} />
+                <Route path="/magazine/:id" element={<Magazineview />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/otp" element={<Otp />} />

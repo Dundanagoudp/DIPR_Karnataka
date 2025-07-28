@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useContext } from "react"
 import {
   Container,
@@ -12,11 +13,11 @@ import {
   AuthorName,
   PublishTime,
 } from "./RecomMended.styles"
-// Removed CiBookmark import as it's no longer used
-// import { getRecommendedNews } from "../../../services/newsApi/NewsApi"
 import { FontSizeContext } from "../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../context/LanguageContext"
 import { getRecommendations } from "../../../services/recommened/RecommenedApis"
+import { Link } from "react-router-dom"
+import { ShimmerCard, ShimmerThumbnail, ShimmerTitle, ShimmerMeta } from "./RecomMended.styles"
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -29,7 +30,7 @@ const getAuthorInitials = (authorName) => {
   if (!authorName) return "A"
   return authorName
     .split(" ")
-    .map(word => word.charAt(0))
+    .map((word) => word.charAt(0))
     .join("")
     .toUpperCase()
     .slice(0, 2)
@@ -37,7 +38,7 @@ const getAuthorInitials = (authorName) => {
 
 const RecomMended = () => {
   const [videosData, setVideosData] = useState([])
-  // Removed bookmarkedVideos state as it's no longer used
+  const [loading, setLoading] = useState(true)
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
 
@@ -45,14 +46,13 @@ const RecomMended = () => {
     const userId = getCookie("userId")
     if (userId) {
       const fetchVideos = async () => {
+        setLoading(true) // Set loading to true before fetching
         try {
           const result = await getRecommendations(userId)
           console.log("Received videos data:", result)
-          // Check if result has news array directly (as per Postman response)
           if (result && Array.isArray(result.news) && result.news.length > 0) {
             setVideosData(result.news)
           } else if (result && Array.isArray(result) && result.length > 0) {
-            // Fallback: if result itself is an array
             setVideosData(result)
           } else {
             console.warn("No video data found in response:", result)
@@ -61,11 +61,17 @@ const RecomMended = () => {
         } catch (error) {
           console.error("Error fetching videos:", error)
           setVideosData([])
+        } finally {
+          // Simulate a network delay for the shimmer effect
+          setTimeout(() => {
+            setLoading(false)
+          }, 1000) // Adjust delay as needed
         }
       }
       fetchVideos()
     } else {
       console.error("No userId found in cookies.")
+      setLoading(false) // Ensure loading is false if no userId
     }
   }, [language])
 
@@ -84,7 +90,6 @@ const RecomMended = () => {
   // Function to get localized category name
   const getLocalizedCategory = (category) => {
     if (!category) return "General"
-    
     if (language === "English") {
       return category.name || "General"
     } else if (language === "Hindi") {
@@ -121,42 +126,69 @@ const RecomMended = () => {
     return formatDate(dateString)
   }
 
-  // Removed handleBookmarkClick as it's no longer used
+  const renderSkeleton = () => {
+    return Array.from({ length: 3 }).map((_, index) => (
+      <ShimmerCard key={index} aria-hidden="true">
+        <ShimmerThumbnail />
+        <VideoDetails>
+          <ShimmerTitle />
+          <ShimmerMeta />
+        </VideoDetails>
+      </ShimmerCard>
+    ))
+  }
 
   return (
-    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+    <Container 
+      style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+      role="region"
+      aria-label="Recommended news section"
+    >
       <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Recommended News</Header>
-      {console.log('Rendering videosData:', videosData)}
-      <Content>
-        {Array.isArray(videosData) && videosData.length > 0 ? (
+      {console.log("Rendering videosData:", videosData)}
+      <Content role="list" aria-label="Recommended news articles">
+        {loading ? (
+          renderSkeleton()
+        ) : Array.isArray(videosData) && videosData.length > 0 ? (
           videosData.slice(0, 6).map((video) => (
-            <VideoCard1 key={video._id} style={{ maxWidth: '100%', width: '100%', boxSizing: 'border-box' }}>
-              <VideoThumbnail
-                src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
-                alt={getLocalizedContent(video, "title")}
-                style={{ width: '100%', height: 'auto', maxHeight: 180, objectFit: 'cover', borderRadius: 8 }}
-              />
-              <VideoDetails>
-                <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                  {getLocalizedContent(video, "title")}
-                </Title>
-                <AuthorInfo>
-                  <AuthorAvatar>
-                    {getAuthorInitials(video.author || "AthleteAdmirer")}
-                  </AuthorAvatar>
-                  <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    {video.author || "AthleteAdmirer"}
-                  </AuthorName>
-                  <PublishTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    • {getLocalizedCategory(video.category)}
-                    • {getTimeAgo(video.createdTime || video.publishedAt)}
-                  </PublishTime>
-                </AuthorInfo>
-              </VideoDetails>
-            </VideoCard1>
+            <Link 
+              to={`/newsdetails/${video._id}`} 
+              key={video._id} 
+              style={{ textDecoration: "none", color: "inherit" }}
+              aria-label={`Read article: ${getLocalizedContent(video, "title")}`}
+            >
+              <VideoCard1 role="listitem">
+                <VideoThumbnail
+                  src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
+                  alt={getLocalizedContent(video, "title")}
+                />
+                <VideoDetails>
+                  <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                    {getLocalizedContent(video, "title")}
+                  </Title>
+                  <AuthorInfo>
+                    <AuthorAvatar aria-label={`Author: ${video.author || "AthleteAdmirer"}`}>
+                      {getAuthorInitials(video.author || "AthleteAdmirer")}
+                    </AuthorAvatar>
+                    <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      {video.author || "AthleteAdmirer"}
+                    </AuthorName>
+                    <PublishTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      • {getLocalizedCategory(video.category)} • {getTimeAgo(video.createdTime || video.publishedAt)}
+                    </PublishTime>
+                  </AuthorInfo>
+                </VideoDetails>
+              </VideoCard1>
+            </Link>
           ))
         ) : (
-          <div style={{ padding: '1rem', textAlign: 'center', color: '#888' }}>No recommended news found.</div>
+          <div 
+            style={{ padding: "1rem", textAlign: "center", color: "#888" }} 
+            role="status" 
+            aria-live="polite"
+          >
+            No recommended news found.
+          </div>
         )}
       </Content>
     </Container>

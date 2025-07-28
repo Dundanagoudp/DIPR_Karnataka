@@ -42,7 +42,7 @@ const AboutUsText = () => {
   const t = translations[language] || translations.English;
 
   return (
-    <Container>
+    <Container role="region" aria-label="About us information">
       {/* Apply fontSize only if it's explicitly set, otherwise use theme's default */}
       <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         {t.title}

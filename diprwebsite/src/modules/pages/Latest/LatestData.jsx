@@ -3,10 +3,11 @@ import LatestNewsRecommended from "../../components/Latestnews/allrecommended/La
 // import Loader from "../../../components/loder/Loder"; 
 import CategoryNews from "../../components/Latestnews/allrecommended/CategoryNews";
 import styled from "styled-components";
+import LatestTrending from "../../components/Latestnews/latesnewsapi/LatestTrending";
 
 const Container = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 94%;
   margin: 0 auto;
   padding: 20px;
   
@@ -20,23 +21,11 @@ const Container = styled.div`
 `;
 
 export const LatestData = () => {
-  // const [isLoading, setIsLoading] = useState(true); 
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false); 
-  //   }, 3000);
-
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
 
   return (
-    <Container>
-      <LatestNewsRecommended />
+    <Container role="main" aria-label="Latest news page">
+      {/* <LatestNewsRecommended /> */}
+      <LatestTrending />
       <CategoryNews />
     </Container>
   );

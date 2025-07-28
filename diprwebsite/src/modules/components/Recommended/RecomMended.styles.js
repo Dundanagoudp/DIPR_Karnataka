@@ -1,21 +1,21 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import theme from "../../../theme/Theme"
 
 export const Container = styled.div`
   margin: auto;
-  max-width: 1200px;
-  padding: ${theme.spacing(4)} ${theme.spacing(3)};
+  max-width: 94%;
+  padding: ${theme.spacing(4)} ${theme.spacing(6)}; /* Increased horizontal padding */
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
-    padding: ${theme.spacing(3)} ${theme.spacing(2)};
+    padding: ${theme.spacing(3)} ${theme.spacing(4)}; /* Adjusted for tablet */
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
-    padding: ${theme.spacing(2)} ${theme.spacing(1.5)};
+    padding: ${theme.spacing(2)} ${theme.spacing(2.5)}; /* Adjusted for mobile */
     margin: 0;
   }
 `
@@ -62,7 +62,7 @@ export const VideoCard1 = styled.div`
   overflow: hidden;
   cursor: pointer;
   border: none;
-  transition: none;
+  transition: none; /* Removed transform transition as per image */
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
@@ -194,4 +194,55 @@ export const NewsMeta = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.7)};
   }
+`
+
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`
+
+export const ShimmerCard = styled.div`
+  background: #f6f7f8;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(2)};
+  padding: ${theme.spacing(2.5)};
+`
+
+export const ShimmerThumbnail = styled.div`
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: 12px;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 200px;
+  }
+`
+
+export const ShimmerTitle = styled.div`
+  width: 90%;
+  height: 24px;
+  background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: 4px;
+  margin-bottom: ${theme.spacing(1)};
+`
+
+export const ShimmerMeta = styled.div`
+  width: 70%;
+  height: 16px;
+  background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 800px 104px;
+  animation: ${shimmer} 1.5s infinite linear;
+  border-radius: 4px;
 `

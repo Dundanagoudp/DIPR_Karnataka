@@ -126,7 +126,9 @@ const MagazinePdf = () => {
 
   const renderMagazines = (magazines) => {
     return magazines.map((magazine) => (
-      <MagazineCard key={magazine._id}>
+      <MagazineCard key={magazine._id} role="listitem" tabIndex="0" aria-label={getLocalizedContent(magazine, "title")}
+        onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); handleReadMoreClick(magazine.magazinePdf);}}}
+      >
         <MagazineThumbnail
           src={magazine.magazineThumbnail}
           alt={getLocalizedContent(magazine, "title")}
@@ -138,16 +140,25 @@ const MagazinePdf = () => {
               {magazine.isTrending && <span>Trending</span>}
               <span>{formatDate(magazine.createdTime)} • {magazine.readTime || "N/A"}</span>
             </NewsMeta>
-            <CiBookmark />
+            <CiBookmark aria-hidden="true" />
           </div>
           <MagazineMetacat>
             <BookmarkIconWrapper
               onClick={() => handleBookmarkClick(magazine._id)}
               isBookmarked={bookmarkedMagazines.has(magazine._id)}
+              aria-label={bookmarkedMagazines.has(magazine._id) ? "Remove bookmark" : "Add bookmark"}
+              tabIndex="0"
+              role="button"
+              onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); handleBookmarkClick(magazine._id);}}}
             />
           </MagazineMetacat>
-          <ReadMoreButton style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMoreClick(magazine.magazinePdf)}>
-            READ PDF <ReadMoreIcon><FaAngleDoubleRight /></ReadMoreIcon>
+          <ReadMoreButton style={{ fontSize: `${fontSize}%` }} onClick={() => handleReadMoreClick(magazine.magazinePdf)}
+            tabIndex="0"
+            role="button"
+            aria-label={`Read PDF: ${getLocalizedContent(magazine, "title")}`}
+            onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); handleReadMoreClick(magazine.magazinePdf);}}}
+          >
+            READ PDF <ReadMoreIcon><FaAngleDoubleRight aria-hidden="true" /></ReadMoreIcon>
           </ReadMoreButton>
         </MagazineDetails>
       </MagazineCard>
@@ -155,22 +166,32 @@ const MagazinePdf = () => {
   };
 
   return (
-    <Container style={{ fontSize: `${fontSize}%` }}>
+    <Container style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Magazine PDF list">
       <Header style={{ fontSize: `${fontSize}%` }}>Magazine</Header>
-      <TabsContainer>
-        <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}>
+      <TabsContainer role="tablist" aria-label="Magazine categories">
+        <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}
+          role="tab"
+          aria-selected={activeTab === "Topics"}
+          tabIndex={activeTab === "Topics" ? 0 : -1}
+          onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); setActiveTab("Topics");}}}
+        >
           Varthajanapada
         </Tab>
-        <Tab active={activeTab === "March of Karnataka"} onClick={() => setActiveTab("March of Karnataka")}>
+        <Tab active={activeTab === "March of Karnataka"} onClick={() => setActiveTab("March of Karnataka")}
+          role="tab"
+          aria-selected={activeTab === "March of Karnataka"}
+          tabIndex={activeTab === "March of Karnataka" ? 0 : -1}
+          onKeyDown={e => {if (e.key === 'Enter' || e.key === ' ') {e.preventDefault(); setActiveTab("March of Karnataka");}}}
+        >
           March of Karnataka
         </Tab>
       </TabsContainer>
-      <Content style={{ fontSize: `${fontSize}%` }}>
+      <Content style={{ fontSize: `${fontSize}%` }} role="list" aria-label="Magazine cards">
         {loading ? renderSkeleton() : renderMagazines(currentMagazines)}
       </Content>
 
       {!loading && (
-        <PaginationWrapper>
+        <PaginationWrapper role="navigation" aria-label="Magazine pagination">
           <Pagination
             count={Math.ceil(
               activeTab === "Topics" 
@@ -181,6 +202,7 @@ const MagazinePdf = () => {
             onChange={handlePageChange}
             variant="outlined"
             shape="rounded"
+            aria-label="Magazine pages"
           />
         </PaginationWrapper>
       )}

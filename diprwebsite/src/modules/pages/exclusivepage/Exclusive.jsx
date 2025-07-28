@@ -22,12 +22,12 @@ const Exclusive = () => {
   }
 
   return (
-    <div>
+    <div role="main" aria-label="Exclusive content page">
       <FlexContainer>
-        <div>
+        <div role="region" aria-label="Exclusive videos section">
           <ExclusiveVideos />
         </div>
-        <div>
+        <div role="region" aria-label="Exclusive shorts section">
           <Exclusiveshorts />
         </div>
       </FlexContainer>

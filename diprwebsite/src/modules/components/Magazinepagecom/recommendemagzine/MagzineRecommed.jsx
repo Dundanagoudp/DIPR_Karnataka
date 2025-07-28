@@ -19,25 +19,21 @@ import {
   MagazineThumbnailWrapper,
   AuthorInfo,
   PublishTime,
-} from "./Modalpdf.styles"
-import { getMagazines, MarchMagazines } from "../../../../services/magazineApi/magazineService"
+} from "./MagzineRecommed.styles"
+import { getRecommendations } from "../../../../services/recommened/RecommenedApis"
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../../context/LanguageContext"
 import { Pagination } from "@mui/material"
-import PDFModal from "./ModalPdf"
 import Cookies from "js-cookie"
 import { logReadingHistory } from "../../../../services/recommened/RecommenedApis"
 import { useNavigate } from "react-router-dom"
+// import PDFModal from "../magazinemodalpdf/ModalPdf"
 
-const MagazinePdf2 = () => {
-  const [activeTab, setActiveTab] = useState("Topics")
-  const [magazinesData, setMagazinesData] = useState([])
-  const [marchMagazinesData, setMarchMagazinesData] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
+const MagzineRecommed = () => {
+  const [magazines, setMagazines] = useState([])
   const [loading, setLoading] = useState(true)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [selectedPdf, setSelectedPdf] = useState("")
-  const [selectedTitle, setSelectedTitle] = useState("")
+  const [activeTab, setActiveTab] = useState("Topics")
+  const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPageDesktop = 10
   const itemsPerPageMobile = 4
 
@@ -57,27 +53,25 @@ const MagazinePdf2 = () => {
   }, [])
 
   useEffect(() => {
-    const fetchMagazines = async () => {
+    const fetchRecommendations = async () => {
       setLoading(true)
       try {
-        const result = activeTab === "Topics" ? await getMagazines() : await MarchMagazines()
-        const data = result.success && Array.isArray(result.data) ? result.data : []
-        if (activeTab === "Topics") {
-          setMagazinesData(data)
-        } else {
-          setMarchMagazinesData(data)
+        const userId = Cookies.get("userId")
+        if (!userId) {
+          setMagazines([])
+          setLoading(false)
+          return
         }
+        const result = await getRecommendations(userId)
+        const data = result && Array.isArray(result.magazines) ? result.magazines : []
+        setMagazines(data)
       } catch (error) {
-        if (activeTab === "Topics") {
-          setMagazinesData([])
-        } else {
-          setMarchMagazinesData([])
-        }
+        setMagazines([])
       } finally {
         setLoading(false)
       }
     }
-    fetchMagazines()
+    fetchRecommendations()
     setCurrentPage(1)
   }, [activeTab])
 
@@ -133,14 +127,30 @@ const MagazinePdf2 = () => {
     return item[field] || "No content available"
   }
 
+  // Filtering logic for tabs
+  const filterMagazines = (tab) => {
+    if (tab === "Topics") {
+      // Varthajanapada: title or english.title includes 'Vartha Janapada' (case-insensitive)
+      return magazines.filter(magazine => {
+        const title = (magazine.title || "") + " " + (magazine.english?.title || "")
+        return /vartha\s*janapada/i.test(title)
+      })
+    } else if (tab === "March of Karnataka") {
+      // March of Karnataka: title or english.title includes 'March' (case-insensitive)
+      return magazines.filter(magazine => {
+        const title = (magazine.title || "") + " " + (magazine.english?.title || "")
+        return /march/i.test(title)
+      })
+    }
+    return magazines
+  }
+
   // Pagination logic
   const itemsPerPage = isMobile ? itemsPerPageMobile : itemsPerPageDesktop
+  const filteredMagazines = filterMagazines(activeTab)
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentMagazines =
-    activeTab === "Topics"
-      ? magazinesData.slice(indexOfFirstItem, indexOfLastItem)
-      : marchMagazinesData.slice(indexOfFirstItem, indexOfLastItem)
+  const currentMagazines = filteredMagazines.slice(indexOfFirstItem, indexOfLastItem)
   const handlePageChange = (event, value) => {
     setCurrentPage(value)
   }
@@ -195,7 +205,7 @@ const MagazinePdf2 = () => {
 
   return (
     <PageWrapper>
-      <Container style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Magazine PDF section">
+      <Container style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Recommended magazines">
         <MainContent>
           <TabsContainer role="tablist" aria-label="Magazine categories">
             <Tab active={activeTab === "Topics"} onClick={() => setActiveTab("Topics")}
@@ -216,36 +226,30 @@ const MagazinePdf2 = () => {
             </Tab>
           </TabsContainer>
           <ResultsInfo>
-            Showing {indexOfFirstItem + 1} -{" "}
-            {Math.min(indexOfLastItem, activeTab === "Topics" ? magazinesData.length : marchMagazinesData.length)} of{" "}
-            {activeTab === "Topics" ? magazinesData.length : marchMagazinesData.length} magazines
+            Showing {filteredMagazines.length === 0 ? 0 : indexOfFirstItem + 1} - {Math.min(indexOfLastItem, filteredMagazines.length)} of {filteredMagazines.length} magazines
           </ResultsInfo>
-          <Content style={{ fontSize: `${fontSize}%` }} role="list" aria-label="Magazine list">
+          <Content style={{ fontSize: `${fontSize}%` }} role="list" aria-label="Recommended magazine list">
             {loading ? renderSkeleton() : renderMagazines(currentMagazines)}
           </Content>
-          {!loading && (
-            <PaginationWrapper role="navigation" aria-label="Magazine pagination">
+          {!loading && filteredMagazines.length > 0 && (
+            <PaginationWrapper role="navigation" aria-label="Recommended magazine pagination">
               <Pagination
-                count={Math.ceil(
-                  activeTab === "Topics"
-                    ? magazinesData.length / itemsPerPage
-                    : marchMagazinesData.length / itemsPerPage,
-                )}
+                count={Math.ceil(filteredMagazines.length / itemsPerPage)}
                 page={currentPage}
                 onChange={handlePageChange}
                 variant="outlined"
                 shape="rounded"
                 color="primary"
-                aria-label="Magazine pages"
+                aria-label="Recommended magazine pages"
               />
             </PaginationWrapper>
           )}
         </MainContent>
       </Container>
       {/* PDF Modal */}
-      <PDFModal isOpen={modalOpen} onClose={closeModal} pdfUrl={selectedPdf} title={selectedTitle} />
+      {/* <PDFModal isOpen={modalOpen} onClose={closeModal} pdfUrl={selectedPdf} title={selectedTitle} /> */}
     </PageWrapper>
   )
 }
 
-export default MagazinePdf2
+export default MagzineRecommed
