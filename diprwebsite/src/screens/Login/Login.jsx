@@ -38,7 +38,7 @@ const Login = () => {
     // Set a timeout to hide the loader after 3 seconds
     const timer = setTimeout(() => {
       setShowLoader(false);
-    }, 3000);
+    }, 1000);
 
     // Cleanup the timer if the component unmounts
     return () => clearTimeout(timer);

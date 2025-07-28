@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components"
-// Removed FaUserCircle import as ProfilePlaceholder is no longer used
 import theme from "../../theme/Theme"
 
 export const MobileMenuOverlay = styled.div`

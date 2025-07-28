@@ -1,5 +1,3 @@
-"use client"
-
 import { useContext, useState, useEffect, useCallback, useRef } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
@@ -90,7 +88,6 @@ const ToolBar = ({ onSearch }) => {
         setSelectedSuggestionIndex(-1)
         return
       }
-
       setIsSearching(true)
       setShowSuggestions(true)
       try {
@@ -101,7 +98,6 @@ const ToolBar = ({ onSearch }) => {
               (a, b) => new Date(b.createdTime || b.date || 0) - new Date(a.createdTime || a.date || 0),
             )
           : []
-
         setSuggestions(sortedResults)
         setSelectedSuggestionIndex(-1)
         onSearch?.(sortedResults)
@@ -144,6 +140,7 @@ const ToolBar = ({ onSearch }) => {
   }
 
   const handleSearchIconClick = () => debouncedSearch(searchText)
+
   const handleLanguageChange = (e) => setLanguage(e.target.value)
 
   // Handle keyboard navigation for suggestions
@@ -151,25 +148,37 @@ const ToolBar = ({ onSearch }) => {
     if (!showSuggestions || suggestions.length === 0) return
 
     switch (e.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         e.preventDefault()
-        setSelectedSuggestionIndex(prev => 
-          prev < suggestions.length - 1 ? prev + 1 : 0
-        )
+        setSelectedSuggestionIndex((prev) => {
+          const newIndex = prev === suggestions.length - 1 ? 0 : prev + 1
+          // Scroll the item into view
+          if (suggestionsRef.current) {
+            const item = suggestionsRef.current.children[newIndex + 1] // +1 to account for ResultCount div
+            item?.scrollIntoView({ behavior: "smooth", block: "nearest" })
+          }
+          return newIndex
+        })
         break
-      case 'ArrowUp':
+      case "ArrowUp":
         e.preventDefault()
-        setSelectedSuggestionIndex(prev => 
-          prev > 0 ? prev - 1 : suggestions.length - 1
-        )
+        setSelectedSuggestionIndex((prev) => {
+          const newIndex = prev === 0 ? suggestions.length - 1 : prev - 1
+          // Scroll the item into view
+          if (suggestionsRef.current) {
+            const item = suggestionsRef.current.children[newIndex + 1] // +1 to account for ResultCount div
+            item?.scrollIntoView({ behavior: "smooth", block: "nearest" })
+          }
+          return newIndex
+        })
         break
-      case 'Enter':
+      case "Enter":
         e.preventDefault()
         if (selectedSuggestionIndex >= 0 && selectedSuggestionIndex < suggestions.length) {
           handleSuggestionClick(suggestions[selectedSuggestionIndex])
         }
         break
-      case 'Escape':
+      case "Escape":
         setShowSuggestions(false)
         setSelectedSuggestionIndex(-1)
         searchInputRef.current?.blur()
@@ -193,7 +202,6 @@ const ToolBar = ({ onSearch }) => {
         setSelectedSuggestionIndex(-1)
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
@@ -204,13 +212,13 @@ const ToolBar = ({ onSearch }) => {
     <>
       <ToolbarContainer role="toolbar" aria-label="Website tools">
         <SearchContainer className="search-container">
-          <SearchIcon 
-            onClick={handleSearchIconClick} 
+          <SearchIcon
+            onClick={handleSearchIconClick}
             aria-label="Search"
             tabIndex="0"
             role="button"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault()
                 handleSearchIconClick()
               }
@@ -233,11 +241,7 @@ const ToolBar = ({ onSearch }) => {
             aria-label={t.searchPlaceholder}
             aria-expanded={showSuggestions}
             aria-controls="search-suggestions"
-            aria-activedescendant={
-              selectedSuggestionIndex >= 0 
-                ? `suggestion-${selectedSuggestionIndex}` 
-                : undefined
-            }
+            aria-activedescendant={selectedSuggestionIndex >= 0 ? `suggestion-${selectedSuggestionIndex}` : undefined}
             role="combobox"
             aria-autocomplete="list"
           />
@@ -273,7 +277,7 @@ const ToolBar = ({ onSearch }) => {
                         aria-selected={index === selectedSuggestionIndex}
                         tabIndex="0"
                         onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
+                          if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault()
                             handleSuggestionClick(suggestion)
                           }
@@ -287,7 +291,9 @@ const ToolBar = ({ onSearch }) => {
                     ))}
                   </>
                 ) : (
-                  <NoResults role="status" aria-live="polite">{t.noResults}</NoResults>
+                  <NoResults role="status" aria-live="polite">
+                    {t.noResults}
+                  </NoResults>
                 )}
               </SuggestionsContainer>
             )}
@@ -297,40 +303,34 @@ const ToolBar = ({ onSearch }) => {
           <span>
             {t.fontSizeLabel} <b aria-hidden="true">Aa</b>
           </span>
-          <button 
-            onClick={() => changeFontSize(-5)}
-            aria-label="Decrease font size"
-          >
+          <button onClick={() => changeFontSize(-5)} aria-label="Decrease font size">
             <b aria-hidden="true">-</b>
           </button>
           <b>
             <span aria-live="polite">{fontSize}%</span>
           </b>
-          <button 
-            onClick={() => changeFontSize(5)}
-            aria-label="Increase font size"
-          >
+          <button onClick={() => changeFontSize(5)} aria-label="Increase font size">
             <b aria-hidden="true">+</b>
           </button>
-          <button 
-            onClick={() => changeFontSize(100 - fontSize)}
-            aria-label="Reset font size to default"
-          >
+          <button onClick={() => changeFontSize(100 - fontSize)} aria-label="Reset font size to default">
             {t.resetLabel}
           </button>
         </FontControls>
-        <Select 
-          onChange={handleLanguageChange} 
-          value={language}
-          aria-label="Select language"
-        >
+        <Select onChange={handleLanguageChange} value={language} aria-label="Select language">
           <option value="English">English</option>
           <option value="Hindi">Hindi</option>
           <option value="Kannada">Kannada</option>
         </Select>
       </ToolbarContainer>
-
-      {/* PDF Modal */}
+      {/* 
+        IMPORTANT: Ensure your PDFModal component (Searchmodal.jsx)
+        implements proper accessibility for modals, including:
+        - role="dialog"
+        - aria-modal="true"
+        - Focus trapping within the modal when open
+        - Closing on Escape key
+        - Managing focus when the modal opens and closes (return focus to the element that opened it)
+      */}
       <PDFModal isOpen={modalOpen} onClose={closePdfModal} pdfUrl={selectedPdf} title={selectedTitle} />
     </>
   )
