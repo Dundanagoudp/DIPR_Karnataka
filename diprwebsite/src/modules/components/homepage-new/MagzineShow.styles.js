@@ -80,21 +80,6 @@ export const MagazineThumbnail = styled.img`
   height: 100%;
   object-fit: cover;
 `
-
-// Removed MagazineFlag as per request
-// export const MagazineFlag = styled.div`
-//   position: absolute;
-//   top: 0;
-//   right: 15px;
-//   width: 0;
-//   height: 0;
-//   border-style: solid;
-//   border-width: 0 15px 15px 15px;
-//   border-color: transparent transparent ${theme.colors.primary} transparent;
-//   transform: rotate(180deg);
-//   z-index: 10;
-// `
-
 export const MagazineDetails = styled.div`
   display: flex;
   flex-direction: column;

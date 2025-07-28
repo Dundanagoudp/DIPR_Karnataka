@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from "react";
-import LatestNewsRecommended from "../../components/Latestnews/allrecommended/LatestRecommended";
-// import Loader from "../../../components/loder/Loder"; 
 import CategoryNews from "../../components/Latestnews/allrecommended/CategoryNews";
 import styled from "styled-components";
 import LatestTrending from "../../components/Latestnews/latesnewsapi/LatestTrending";

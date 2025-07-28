@@ -107,26 +107,45 @@ export const ScrollButton = styled.button`
   }
 `
 
+export const TabIcon = styled.img`
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 4px;
+  background: #f5f5f5;
+`;
+
 export const Tab = styled.button`
-  background: ${(props) => (props.active ? "hsl(210 40% 96.1%)" : theme.colors.background)}; 
-  border: none;
+  display: flex;
+  align-items: center;
+  background: ${(props) => (props.active ? '#f5f7fa' : '#f3f3f3')};
+  border: 1px solid ${(props) => (props.active ? '#b3d4fc' : '#e0e0e0')};
   font-size: ${theme.spacing(1.75)};
   cursor: pointer;
-  color: ${(props) => (props.active ? "hsl(221.2 83.2% 53.3%)" : theme.colors.black)}; /* Active tab white text, others black */
-  border-radius: ${theme.spacing(0.5)}; /* Rounded corners for tabs */
-  padding: ${theme.spacing(0.75)} ${theme.spacing(1.5)};
-  font-weight: bold;
-  font-family: ${theme.fonts.body};
-  transition: all 0.2s ease;
+  color: ${(props) => (props.active ? '#2563eb' : theme.colors.black)};
+  border-radius: 8px;
+  padding: 6px 18px;
+  font-weight: 600;
+  font-family: ${theme.fonts.monospace};
+  box-shadow: ${(props) => (props.active ? '0 2px 8px rgba(37,99,235,0.08)' : 'none')};
+  transition: all 0.18s cubic-bezier(.4,0,.2,1);
   white-space: nowrap;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
+  outline: none;
+  &:hover, &:focus {
+    background: #e8f0fe;
+    color: #2563eb;
+    border-color: #b3d4fc;
+  }
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: ${theme.spacing(1.6)};
-    padding: ${theme.spacing(0.6)} ${theme.spacing(1.25)};
+    padding: 5px 12px;
   }
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
-    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+    padding: 4px 8px;
   }
 `
 

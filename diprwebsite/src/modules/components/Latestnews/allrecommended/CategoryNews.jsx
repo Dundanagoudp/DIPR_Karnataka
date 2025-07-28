@@ -187,12 +187,12 @@ const CategoryNews = () => {
   const renderSkeletonTabs = () =>
     Array(5)
       .fill(0)
-      .map((_, index) => <SkeletonTab key={`skeleton-tab-${index}`} />)
+      .map((_, index) => <SkeletonTab key={`skeleton-tab-${index}`} aria-hidden="true" />)
 
   // Render skeleton loaders for news cards
   const renderSkeletonCards = () => (
     <>
-      <SkeletonFeaturedNewsCard>
+      <SkeletonFeaturedNewsCard aria-hidden="true">
         <SkeletonFeaturedImage />
         <FeaturedNewsContent>
           <SkeletonFeaturedTitle width="30%" />
@@ -206,7 +206,7 @@ const CategoryNews = () => {
         {Array(4)
           .fill(0)
           .map((_, index) => (
-            <SkeletonRelatedArticleCard key={`skeleton-related-${index}`}>
+            <SkeletonRelatedArticleCard key={`skeleton-related-${index}`} aria-hidden="true">
               <SkeletonRelatedImage />
               <RelatedArticleContent>
                 <SkeletonRelatedTitle />
@@ -219,21 +219,25 @@ const CategoryNews = () => {
   )
 
   return (
-    <Container style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} role="region" aria-label="Category news section">
+    <Container
+      style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+      role="region"
+      aria-label="Category news section"
+    >
       <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         {activeTab ? categories.find((c) => c._id === activeTab)?.name || "Category News" : "Latest All News"}
       </Title>
       <div className="tabs-scroll-container">
-        <ScrollButton 
-          direction="left" 
+        <ScrollButton
+          direction="left"
           onClick={() => scrollTabs("left")}
           aria-label="Scroll categories left"
           tabIndex="0"
           role="button"
-          onKeyDown={e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              scrollTabs("left");
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault()
+              scrollTabs("left")
             }
           }}
         >
@@ -262,10 +266,20 @@ const CategoryNews = () => {
                 role="tab"
                 aria-selected={activeTab === null}
                 tabIndex={activeTab === null ? 0 : -1}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setActiveTab(null);
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    setActiveTab(null)
+                  } else if (e.key === "ArrowRight") {
+                    e.preventDefault()
+                    const nextTab = e.target.nextElementSibling
+                    if (nextTab) nextTab.focus()
+                    else tabsRef.current.firstElementChild.focus() // Loop to first
+                  } else if (e.key === "ArrowLeft") {
+                    e.preventDefault()
+                    const prevTab = e.target.previousElementSibling
+                    if (prevTab) prevTab.focus()
+                    else tabsRef.current.lastElementChild.focus() // Loop to last
                   }
                 }}
               >
@@ -280,10 +294,20 @@ const CategoryNews = () => {
                   role="tab"
                   aria-selected={activeTab === category._id}
                   tabIndex={activeTab === category._id ? 0 : -1}
-                  onKeyDown={e => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setActiveTab(category._id);
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault()
+                      setActiveTab(category._id)
+                    } else if (e.key === "ArrowRight") {
+                      e.preventDefault()
+                      const nextTab = e.target.nextElementSibling
+                      if (nextTab) nextTab.focus()
+                      else tabsRef.current.firstElementChild.focus() // Loop to first
+                    } else if (e.key === "ArrowLeft") {
+                      e.preventDefault()
+                      const prevTab = e.target.previousElementSibling
+                      if (prevTab) prevTab.focus()
+                      else tabsRef.current.lastElementChild.focus() // Loop to last
                     }
                   }}
                 >
@@ -293,16 +317,16 @@ const CategoryNews = () => {
             </>
           )}
         </TabsContainer>
-        <ScrollButton 
-          direction="right" 
+        <ScrollButton
+          direction="right"
           onClick={() => scrollTabs("right")}
           aria-label="Scroll categories right"
           tabIndex="0"
           role="button"
-          onKeyDown={e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              scrollTabs("right");
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault()
+              scrollTabs("right")
             }
           }}
         >
@@ -313,7 +337,9 @@ const CategoryNews = () => {
         {loading ? (
           renderSkeletonCards()
         ) : newsData.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "20px", gridColumn: "1 / -1" }} role="status" aria-live="polite">No articles found</div>
+          <div style={{ textAlign: "center", padding: "20px", gridColumn: "1 / -1" }} role="status" aria-live="polite">
+            No articles found
+          </div>
         ) : (
           <>
             {featuredNews && (
@@ -325,10 +351,10 @@ const CategoryNews = () => {
                 role="article"
                 tabIndex="0"
                 aria-label={getLocalizedContent(featuredNews, "title")}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleReadMore(featuredNews._id);
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    handleReadMore(featuredNews._id)
                   }
                 }}
               >
@@ -340,7 +366,7 @@ const CategoryNews = () => {
                   <FeaturedNewsMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                     <img
                       src="/placeholder.svg?height=16&width=16"
-                      alt="Buzznies"
+                      alt="Buzznies logo"
                       style={{ width: "16px", height: "16px", marginRight: "4px" }}
                     />
                     <span>Buzznies</span> • <span>{getTimeAgo(featuredNews.createdTime)}</span>
@@ -363,14 +389,16 @@ const CategoryNews = () => {
             <RelatedArticlesWrapper role="list" aria-label="Related articles list">
               {relatedNews.length > 0 ? (
                 relatedNews.map((news) => (
-                  <RelatedArticleCard key={news._id} onClick={() => handleReadMore(news._id)}
+                  <RelatedArticleCard
+                    key={news._id}
+                    onClick={() => handleReadMore(news._id)}
                     role="listitem"
                     tabIndex="0"
                     aria-label={getLocalizedContent(news, "title")}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleReadMore(news._id);
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault()
+                        handleReadMore(news._id)
                       }
                     }}
                   >
@@ -383,13 +411,15 @@ const CategoryNews = () => {
                         {getLocalizedContent(news, "title")}
                       </RelatedArticleTitle>
                       <RelatedArticleMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                        <span>{getTimeAgo(news.createdTime)}</span> • <span>{news.readTime || "10 mins read"}</span>
+                        <span>{getTimeAgo(news.createdTime)}</span> • <span>{news.readTime || "3"}</span>
                       </RelatedArticleMeta>
                     </RelatedArticleContent>
                   </RelatedArticleCard>
                 ))
               ) : (
-                <div style={{ textAlign: "center", padding: "20px", color: "#666" }} role="status" aria-live="polite">No related articles available</div>
+                <div style={{ textAlign: "center", padding: "20px", color: "#666" }} role="status" aria-live="polite">
+                  No related articles available
+                </div>
               )}
             </RelatedArticlesWrapper>
           </>

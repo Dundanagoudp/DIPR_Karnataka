@@ -7,20 +7,19 @@ import {
   MagazineThumbnail,
   MagazineCard,
   MagazineDetails,
-  TabsContainer, // Keep TabsContainer for styling the single tab
-  Tab, // Keep Tab for styling the single tab
+  TabsContainer,
+  Tab, 
   SkeletonCard,
   SkeletonThumbnail,
   SkeletonTitle,
   SkeletonMeta,
-  ResultsInfo,
   PageWrapper,
   MagazineThumbnailWrapper,
   AuthorInfo,
   PublishTime,
-  SeeMoreButton, // New import for the "See more" button
+  SeeMoreButton, 
 } from "./MagzineShow.styles"
-import { getMagazines } from "../../../services/magazineApi/magazineService" // Only import getMagazines
+import { getMagazines } from "../../../services/magazineApi/magazineService" 
 import { FontSizeContext } from "../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../context/LanguageContext"
 import Cookies from "js-cookie"
