@@ -5,6 +5,7 @@ import {
 import Loader from "../../../components/apiloders/ApiLoders"; 
 import ExclusiveVideos from "../../components/exclusivecom/exclusivevideos/ExclusiveVideos";
 import Exclusiveshorts from "../../components/exclusivecom/exclusiveshorts/Exclusiveshorts";
+import Gallery from "../dynamicGallery/Gallery";
 
 const Exclusive = () => {
   const [isLoading, setIsLoading] = useState(true); 
@@ -23,14 +24,15 @@ const Exclusive = () => {
 
   return (
     <div role="main" aria-label="Exclusive content page">
-      <FlexContainer>
+      {/* <FlexContainer>
         <div role="region" aria-label="Exclusive videos section">
           <ExclusiveVideos />
         </div>
         <div role="region" aria-label="Exclusive shorts section">
           <Exclusiveshorts />
         </div>
-      </FlexContainer>
+      </FlexContainer> */}
+      <Gallery/>
     </div>
   );
 };
