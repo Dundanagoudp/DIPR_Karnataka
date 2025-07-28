@@ -383,22 +383,16 @@ const CategoryTabnews = () => {
                     {getLocalizedContent(featuredNews, "title")}
                   </FeaturedNewsTitle>
                   <FeaturedNewsMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    <img
-                      src="/placeholder.svg?height=16&width=16"
-                      alt="Buzznies logo"
-                      style={{ width: "16px", height: "16px", marginRight: "4px" }}
-                    />
-                    <span>Buzznies</span> • <span>{getTimeAgo(featuredNews.createdTime)}</span>
+                        <FeaturedNewsTag style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      {getLocalizedCategoryName(featuredNews.category)}
+                    </FeaturedNewsTag> • <span>{getTimeAgo(featuredNews.createdTime)}</span>
                   </FeaturedNewsMeta>
                   <FeaturedNewsDescription style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                     {getLocalizedContent(featuredNews, "description")}
                   </FeaturedNewsDescription>
                   <FeaturedNewsBottomTags>
-                    <FeaturedNewsTag style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                      {getLocalizedCategoryName(featuredNews.category)}
-                    </FeaturedNewsTag>
                     <FeaturedNewsReadTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                      {featuredNews.readTime || "10 mins read"}
+                      {featuredNews.readTime || ""}
                     </FeaturedNewsReadTime>
                   </FeaturedNewsBottomTags>
                 </FeaturedNewsContent>

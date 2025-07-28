@@ -290,7 +290,6 @@ export const FeaturedNewsTag = styled.span`
 `
 
 export const FeaturedNewsReadTime = styled.span`
-  background: ${theme.colors.gray[200]}; /* Light gray background */
   color: ${theme.colors.black}; /* Dark text */
   font-size: ${theme.spacing(1.25)};
   font-weight: 500;
