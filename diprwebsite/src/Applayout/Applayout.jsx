@@ -5,11 +5,10 @@ import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
 import ToolBar from "../components/ToolBar/ToolBar";
 import LoadingProgressBar from "../components/Progressloader/ProgressLoading";
-import Footer2 from "../components/Footer/Footer2";
 
 const Applayout = () => {
   return (
-    <LoadingProgressBar> {/* Wrap entire layout with Loading */}
+    <LoadingProgressBar> 
       <div style={{ paddingBottom: '30px' }} role="application" aria-label="DIPR Website">
         <Header />
         <CategoryTab />
@@ -18,7 +17,7 @@ const Applayout = () => {
         <main role="main" aria-label="Main content">
           <Outlet />
         </main>
-        <Footer2 />
+        <Footer />
       </div>
     </LoadingProgressBar>
   );
