@@ -238,7 +238,6 @@ const CategoryTabnews = () => {
             fontWeight: 600,
             cursor: 'pointer',
             transition: 'background 0.18s cubic-bezier(.4,0,.2,1)',
-            fontFamily: 'monospace',
             marginLeft: 12,
           }}
           onClick={() => navigate("/latestnews")}

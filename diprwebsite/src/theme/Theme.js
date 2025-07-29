@@ -40,11 +40,11 @@ const theme = {
     },
   },
   fonts: {
-    body: "'Inter', sans-serif",
-    heading: "'Roboto', sans-serif",
-    monospace: "'Inter', monospace",
-    accent: "'Inter', sans-serif",
-    display: "'Inter', sans-serif",
+    body: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    heading: "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    monospace: "'Inter', 'Roboto Mono', 'Courier New', monospace",
+    accent: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
+    display: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
   },
   fontSizes: {
     small: "12px",
