@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components"
-import theme from "../../../../theme/Theme"
+import theme from "../../../theme/Theme"
 
 // Shimmer animation for skeleton loading
 const shimmer = keyframes`
@@ -13,16 +13,16 @@ const shimmer = keyframes`
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1400px; /* Adjusted max-width to match other components */
+  max-width: 91%; /* Adjusted max-width to match other components */
   margin: 0 auto;
-  padding: ${theme.spacing(3)}; /* Adjusted padding */
+  padding: ${theme.spacing(2)}; /* Adjusted padding */
   background: ${theme.colors.background};
 
   .tabs-scroll-container {
     display: flex;
     align-items: center;
     position: relative;
-    margin-bottom: ${theme.spacing(3)}; /* Adjusted margin */
+    margin-bottom: ${theme.spacing(0)}; /* Adjusted margin */
   }
 
   .hide-scrollbar::-webkit-scrollbar {

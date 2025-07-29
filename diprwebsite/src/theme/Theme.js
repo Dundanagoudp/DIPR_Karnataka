@@ -25,10 +25,9 @@ const theme = {
     maincolor: "#372670",
     primaryVideo: "#ff0000",
     trcloure: "hsla(0, 0.00%, 100.00%, 0.20)",
-    // Add missing colors referenced in HomePage.styles.js
     lightgray: "#f1f1f1",
     lightText: "#666666",
-     gray: {
+    gray: {
       100: "#f5f5f5",
       200: "#e5e5e5",
       300: "#d4d4d4",
@@ -39,38 +38,34 @@ const theme = {
       800: "#262626",
       900: "#171717",
     },
-    
   },
   fonts: {
-    body: "'poppins', sans-serif",
-    heading: "'poppins', sans-serif",
-    monospace: "'Source Sans 3', monospace",
-    accent: "'Nunito', sans-serif",
-    display: "'Outfit', sans-serif",
+    body: "'Inter', sans-serif",
+    heading: "'Roboto', sans-serif",
+    monospace: "'Inter', monospace",
+    accent: "'Inter', sans-serif",
+    display: "'Inter', sans-serif",
   },
   fontSizes: {
     small: "12px",
     medium: "14px",
-    large: "16px"
-    
+    large: "16px",
   },
   breakpoints: {
     mobile: "480px",
     tablet: "768px",
     desktop: "1024px",
-        large: "1280px",
+    large: "1280px",
   },
   spacing: (factor) => `${factor * 8}px`,
   spacing1: (multiplier) => `${multiplier * 4}px`,
-
   borderRadius: {
     small: "4px",
     medium: "8px",
-    circle: "50%"
+    circle: "50%",
   },
   transitions: {
-    fast: "0.2s ease"
-  }
-};
-
-export default theme;
+    fast: "0.2s ease",
+  },
+}
+export default theme

@@ -8,7 +8,7 @@ import LoadingProgressBar from "../components/Progressloader/ProgressLoading";
 
 const Applayout = () => {
   return (
-    <LoadingProgressBar> {/* Wrap entire layout with Loading */}
+    <LoadingProgressBar> 
       <div style={{ paddingBottom: '30px' }} role="application" aria-label="DIPR Website">
         <Header />
         <CategoryTab />

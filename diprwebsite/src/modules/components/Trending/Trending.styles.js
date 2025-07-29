@@ -11,7 +11,7 @@ const shimmer = keyframes`
 `;
 
 export const CarouselContainer = styled.div`
-  width: 85%;
+  width: 90%;
   height: 450px;
   overflow: hidden;
   position: relative;

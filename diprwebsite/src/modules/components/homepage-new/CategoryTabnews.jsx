@@ -36,14 +36,14 @@ import {
   SkeletonRelatedTitle,
   SkeletonRelatedMeta,
   SkeletonTab,
-} from "./CategoryNews.styles"
-import { trackClick } from "../../../../services/newsApi/NewsApi"
-import { CategoryApi, NewsApi } from "../../../../services/categoryapi/CategoryApi"
-import { FontSizeContext } from "../../../../context/FontSizeProvider"
-import { LanguageContext } from "../../../../context/LanguageContext"
+} from "./CategoryTabnews.styles"
+import { trackClick } from "../../../services/newsApi/NewsApi"
+import { CategoryApi, NewsApi } from "../../../services/categoryapi/CategoryApi"
+import { FontSizeContext } from "../../../context/FontSizeProvider"
+import { LanguageContext } from "../../../context/LanguageContext"
 import Pagination from "@mui/material/Pagination"
 
-const CategoryNews = () => {
+const CategoryTabnews = () => {
   const [activeTab, setActiveTab] = useState(null)
   const [categories, setCategories] = useState([])
   const [newsData, setNewsData] = useState([])
@@ -224,9 +224,28 @@ const CategoryNews = () => {
       role="region"
       aria-label="Category news section"
     >
-      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-        {activeTab ? categories.find((c) => c._id === activeTab)?.name || "Category News" : "Latest All News"}
-      </Title>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+          Latest All News
+        </Title>
+        <button
+          style={{
+            background: '#fff',
+            color: '#2563eb',
+            border: 'none',
+            padding: '8px 18px',
+            fontSize: '1rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'background 0.18s cubic-bezier(.4,0,.2,1)',
+            fontFamily: 'monospace',
+            marginLeft: 12,
+          }}
+          onClick={() => navigate("/latestnews")}
+        >
+          View All &rarr;
+        </button>
+      </div>
       <div className="tabs-scroll-container">
         <ScrollButton
           direction="left"
@@ -364,22 +383,16 @@ const CategoryNews = () => {
                     {getLocalizedContent(featuredNews, "title")}
                   </FeaturedNewsTitle>
                   <FeaturedNewsMeta style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    <img
-                      src="/placeholder.svg?height=16&width=16"
-                      alt="Buzznies logo"
-                      style={{ width: "16px", height: "16px", marginRight: "4px" }}
-                    />
-                    <span>Buzznies</span> • <span>{getTimeAgo(featuredNews.createdTime)}</span>
+                        <FeaturedNewsTag style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      {getLocalizedCategoryName(featuredNews.category)}
+                    </FeaturedNewsTag> • <span>{getTimeAgo(featuredNews.createdTime)}</span>
                   </FeaturedNewsMeta>
                   <FeaturedNewsDescription style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
                     {getLocalizedContent(featuredNews, "description")}
                   </FeaturedNewsDescription>
                   <FeaturedNewsBottomTags>
-                    <FeaturedNewsTag style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                      {getLocalizedCategoryName(featuredNews.category)}
-                    </FeaturedNewsTag>
                     <FeaturedNewsReadTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                      {featuredNews.readTime || "10 mins read"}
+                      {featuredNews.readTime || ""}
                     </FeaturedNewsReadTime>
                   </FeaturedNewsBottomTags>
                 </FeaturedNewsContent>
@@ -428,21 +441,21 @@ const CategoryNews = () => {
 
       {!loading && newsData.length > 0 && (
         <PaginationWrapper role="navigation" aria-label="Category news pagination">
-                 <Pagination
-                   count={Math.ceil(newsData.length / itemsPerPage)}
-                   page={currentPage}
-                   onChange={handlePageChange}
-                   color="primary"
-                   size="large"
-                   variant="outlined"
-                   shape="rounded"
-                   aria-label="Category news pages"
-                   sx={{ justifyContent: 'flex-end', display: 'flex', width: '100%' }} // Ensure right alignment in MUI
-                 />
-               </PaginationWrapper>
+          <Pagination
+            count={Math.ceil(newsData.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+            size="large"
+            variant="outlined"
+            shape="rounded"
+            aria-label="Category news pages"
+            sx={{ justifyContent: 'flex-end', display: 'flex', width: '100%' }} // Ensure right alignment in MUI
+          />
+        </PaginationWrapper>
       )}
     </Container>
   )
 }
 
-export default CategoryNews
+export default CategoryTabnews
