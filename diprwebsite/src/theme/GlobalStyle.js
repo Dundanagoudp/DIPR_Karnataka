@@ -1,5 +1,4 @@
-import { createGlobalStyle } from "styled-components";
-import styled from "styled-components";
+import { createGlobalStyle } from "styled-components"
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -8,15 +7,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-
   h1, h2, h3, h4, h5, h6 {
     font-family: ${(props) => props.theme.fonts.heading};
   }
-
   .accent-text {
     font-family: ${(props) => props.theme.fonts.accent};
   }
-
   .display-text {
     font-family: ${(props) => props.theme.fonts.display};
   }
@@ -29,15 +25,13 @@ const GlobalStyle = createGlobalStyle`
         flex: 1;
         max-width: 1600px;
         margin-right: auto;
-    
-    }
+        }
     .content-wrapper2{
         flex: 1;
         max-width: 100vw;
         max-height: 100vh;
-
   transition: margin-left 0.3s ease, width 0.3s ease;
     }
-`;
+`
 
-export default GlobalStyle;
+export default GlobalStyle

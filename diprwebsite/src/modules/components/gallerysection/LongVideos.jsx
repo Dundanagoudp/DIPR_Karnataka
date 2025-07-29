@@ -253,7 +253,7 @@ const LongVideos = () => {
             <>
               <VideoWrapper>
                 <MainVideo
-                  key={selectedVideo._id} // Add key prop to force re-render
+                  key={selectedVideo._id} 
                   id={selectedVideo._id}
                   controls
                   autoPlay
@@ -301,7 +301,7 @@ const LongVideos = () => {
                         }
                       }}
                     >
-                      <FaShareAlt size={24} color="#6c757d" aria-hidden="true" />
+                      <FaShareAlt size={24} color="#000000" aria-hidden="true" />
                     </button>
                   </VideoActions>
                 </VideoStats>
@@ -341,7 +341,7 @@ const LongVideos = () => {
                           }
                         }}
                       >
-                        <FaRegComment size={24} color="#6c757d" aria-hidden="true" />
+                        <FaRegComment size={24} color="#000000" aria-hidden="true" />
                       </button>
                     </FlexContainer2>
                   </LikeContainer>
@@ -406,7 +406,7 @@ const LongVideos = () => {
                                 <CommentHeader>
                                   <Username>{comment.user?.displayName || "Anonymous User"}</Username>
                                   <CommentTime>
-                                    <IoIosTimer style={{ color: "#6c757d" }} aria-hidden="true" />{" "}
+                                    <IoIosTimer style={{ color: "#000000" }} aria-hidden="true" />{" "}
                                     {new Date(comment.createdTime).toLocaleTimeString()}
                                   </CommentTime>
                                 </CommentHeader>
@@ -430,7 +430,7 @@ const LongVideos = () => {
 
         <VideoSidebar role="complementary" aria-label="More Videos">
           <SidebarHeader>
-            <BiSolidMoviePlay style={{ color: "#1E88E5" }} aria-hidden="true" /> More Videos
+            <BiSolidMoviePlay style={{ color: "#000000" }} aria-hidden="true" /> More Videos
           </SidebarHeader>
           <VideoList role="list">
             {videosData.map((video) => (
