@@ -1,6 +1,7 @@
 import CategoryNews from "../../components/Latestnews/allrecommended/CategoryNews";
 import styled from "styled-components";
 import LatestTrending from "../../components/Latestnews/latesnewsapi/LatestTrending";
+import LatestDataSection from "../../components/Latestnews/latestdatasection/LatestData";
 
 const Container = styled.div`
   width: 100%;
@@ -24,6 +25,7 @@ export const LatestData = () => {
       {/* <LatestNewsRecommended /> */}
       <LatestTrending />
       <CategoryNews />
+      <LatestDataSection/>
     </Container>
   );
 };

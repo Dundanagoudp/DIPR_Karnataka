@@ -11,6 +11,7 @@ import ShortsCarousel from "../../../modules/components/homevideosection/ShortsC
 import Videos from "../../../modules/components/homevideosection/VideosHome";
 import Magzinehome from "../../components/homepage-new/MagzineShow";
 import CategoryTabnews from "../../components/homepage-new/CategoryTabnews";
+import LatestNewsSection from "../../components/homevideosection/homelatestnews/LatestNews";
 
 const Home = () => {
 
@@ -20,15 +21,17 @@ const Home = () => {
           <Trending />
           <Magzinehome/>
           <CategoryTabnews/>
+          <LatestNewsSection/>
+          <ShortsCarousel/>
           <ContentWrapper>
-            <NewsSection role="region" aria-label="News section">
+            {/* <NewsSection role="region" aria-label="News section">
               <Magzines2/>
             </NewsSection>
             <MagazineSection role="region" aria-label="Magazine section">
               <AllNewsData/>
-            </MagazineSection>       
-              <ShortsCarousel/>
-            <Videos/>
+            </MagazineSection>        */}
+              {/* <ShortsCarousel/> */}
+               <Videos/>
           </ContentWrapper>
         </>
     </HomeContainer>

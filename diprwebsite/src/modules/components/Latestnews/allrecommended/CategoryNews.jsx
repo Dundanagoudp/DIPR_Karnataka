@@ -428,17 +428,18 @@ const CategoryNews = () => {
 
       {!loading && newsData.length > 0 && (
         <PaginationWrapper role="navigation" aria-label="Category news pagination">
-          <Pagination
-            count={Math.ceil(newsData.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            color="primary"
-            size="large"
-            variant="outlined"
-            shape="rounded"
-            aria-label="Category news pages"
-          />
-        </PaginationWrapper>
+                 <Pagination
+                   count={Math.ceil(newsData.length / itemsPerPage)}
+                   page={currentPage}
+                   onChange={handlePageChange}
+                   color="primary"
+                   size="large"
+                   variant="outlined"
+                   shape="rounded"
+                   aria-label="Category news pages"
+                   sx={{ justifyContent: 'flex-end', display: 'flex', width: '100%' }} // Ensure right alignment in MUI
+                 />
+               </PaginationWrapper>
       )}
     </Container>
   )

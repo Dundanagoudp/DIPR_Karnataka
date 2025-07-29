@@ -290,7 +290,6 @@ export const FeaturedNewsTag = styled.span`
 `
 
 export const FeaturedNewsReadTime = styled.span`
-  background: ${theme.colors.gray[200]}; /* Light gray background */
   color: ${theme.colors.black}; /* Dark text */
   font-size: ${theme.spacing(1.25)};
   font-weight: 500;
@@ -303,16 +302,11 @@ export const FeaturedNewsReadTime = styled.span`
   }
 `
 
-// Related Articles (Right Column)
 export const RelatedArticlesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing(1.5)}; /* Gap between related articles */
-  padding: ${theme.spacing(1)}; /* Small padding inside the sidebar wrapper */
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: 0; /* No extra padding on tablet/mobile as it's already in MainContentWrapper */
-  }
+  padding: 0; /* No extra padding inside the sidebar wrapper */
 `
 
 export const RelatedArticleCard = styled.div`
@@ -322,19 +316,27 @@ export const RelatedArticleCard = styled.div`
   cursor: pointer;
   padding: ${theme.spacing(1)}; /* Padding for each card */
   border-radius: ${theme.spacing(0.5)};
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  background: ${theme.colors.white}; /* Ensure white background */
+  box-shadow: none; /* Remove explicit border and shadow */
+  border: none; /* Remove explicit border */
+  &:hover {
+    transform: translateY(-2px);
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
 `
 
 export const RelatedArticleImage = styled.img`
   width: 80px; /* Fixed width for thumbnail */
   height: 80px; /* Fixed height for thumbnail */
   object-fit: cover;
-  border-radius: ${theme.spacing(0.5)};
+  border-radius: 8px; /* More rounded corners */
   flex-shrink: 0; /* Prevent image from shrinking */
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for definition */
+  border: none; /* Remove explicit border */
   @media (max-width: ${theme.breakpoints.mobile}) {
     width: 70px;
     height: 70px;
@@ -349,7 +351,7 @@ export const RelatedArticleContent = styled.div`
 `
 
 export const RelatedArticleTitle = styled.h4`
-  font-size: ${theme.spacing(1.6)};
+  font-size: ${theme.spacing(2)};
   font-weight: 600;
   color: ${theme.colors.black};
   line-height: 1.3;
@@ -359,20 +361,18 @@ export const RelatedArticleTitle = styled.h4`
   -webkit-line-clamp: 2; /* Limit title to 2 lines */
   -webkit-box-orient: vertical;
   overflow: hidden;
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.4)};
   }
 `
 
 export const RelatedArticleMeta = styled.div`
-  font-size: ${theme.spacing(1.2)};
+  font-size: ${theme.spacing(1.6)};
   color: ${theme.colors.gray[500]}; /* Gray text for meta */
   font-family: ${theme.fonts.body};
   display: flex;
   align-items: center;
   gap: ${theme.spacing(0.5)};
-
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.1)};
   }
@@ -380,20 +380,32 @@ export const RelatedArticleMeta = styled.div`
 
 export const PaginationWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   margin: ${theme.spacing(3)} 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
 
   .MuiPagination-root {
     .MuiPaginationItem-root {
       font-family: ${theme.fonts.body};
-
+      min-width: 32px;
+      height: 32px;
+      margin: 0 2px;
+      border-radius: 50%;
+      border: none;
+      background: none;
+      color: ${theme.colors.black};
+      font-size: 1rem;
+      transition: background 0.2s;
       &.Mui-selected {
-        background-color: ${theme.colors.primary};
-        color: white;
-
-        &:hover {
-          background-color: ${theme.colors.primaryDark};
-        }
+        background: ${theme.colors.primary};
+        color: #fff;
+        font-weight: bold;
+      }
+      &:hover {
+        background: #f3f3f3;
       }
     }
   }
@@ -402,12 +414,11 @@ export const PaginationWrapper = styled.div`
   }
   @media (max-width: ${theme.breakpoints.mobile}) {
     margin: ${theme.spacing(2)} 0;
-
     .MuiPagination-root {
       .MuiPaginationItem-root {
-        min-width: 32px;
-        height: 32px;
-        font-size: 14px;
+        min-width: 28px;
+        height: 28px;
+        font-size: 0.95rem;
       }
     }
   }
