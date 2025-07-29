@@ -1,6 +1,6 @@
 import LatestCat from "../../components/Latestcat/LatestCat";
 import RecomMended from "../../components/Recommended/RecomMended";
-import LatestTab from "../../components/Latesttab/LatestTab";
+// import LatestTab from "../../components/Latesttab/LatestTab";
 
 const LatestNews = () => {
   return (
@@ -8,7 +8,7 @@ const LatestNews = () => {
         <>
           <LatestCat />
           <RecomMended />
-          <LatestTab />
+          {/* <LatestTab /> */}
         </>
     </div>
   );

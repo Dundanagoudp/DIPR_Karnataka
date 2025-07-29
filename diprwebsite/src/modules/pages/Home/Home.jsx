@@ -12,6 +12,7 @@ import Videos from "../../../modules/components/homevideosection/VideosHome";
 import Magzinehome from "../../components/homepage-new/MagzineShow";
 import CategoryTabnews from "../../components/homepage-new/CategoryTabnews";
 import LatestNewsSection from "../../components/homevideosection/homelatestnews/LatestNews";
+import HomeVideos from "../../components/homevideosection/home-longvideos/HomeLongvideos";
 
 const Home = () => {
 
@@ -23,6 +24,7 @@ const Home = () => {
           <CategoryTabnews/>
           <LatestNewsSection/>
           <ShortsCarousel/>
+          <HomeVideos/>
           <ContentWrapper>
             {/* <NewsSection role="region" aria-label="News section">
               <Magzines2/>
@@ -31,7 +33,7 @@ const Home = () => {
               <AllNewsData/>
             </MagazineSection>        */}
               {/* <ShortsCarousel/> */}
-               <Videos/>
+               {/* <Videos/> */}
           </ContentWrapper>
         </>
     </HomeContainer>
