@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { ChevronLeft, ChevronRight, Play } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { getVideos } from "../../../services/videoApi/videoApi"
 import {
   CarouselContainer,
@@ -13,8 +13,6 @@ import {
   PlayButton,
   VideoInfo,
   ChannelInfo,
-  ChannelName,
-  SubscribeButton,
   NavigationButton,
   VideoTitle,
   VideoPlayer,
@@ -23,8 +21,6 @@ import {
   ShimmerContainer,
   ShimmerThumbnail,
   ShimmerTitle,
-  ShimmerChannel,
-  ShimmerButton
 } from "../homevideosection/ShortsCarousel.styles"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 import { CarouselTitleWrapper } from "./ShortsCarousel.styles"
@@ -80,7 +76,6 @@ const ShortsCarousel = () => {
         setLoading(false)
       }
     }
-
     fetchVideos()
   }, [])
 
@@ -109,10 +104,8 @@ const ShortsCarousel = () => {
         setIsTablet(false)
       }
     }
-
     updateVisibleVideos()
     window.addEventListener("resize", updateVisibleVideos)
-
     return () => {
       window.removeEventListener("resize", updateVisibleVideos)
     }
@@ -129,7 +122,6 @@ const ShortsCarousel = () => {
         }
       }, 100)
     }
-
     return () => {
       if (interval) clearInterval(interval)
     }
@@ -183,14 +175,12 @@ const ShortsCarousel = () => {
     if (!isDragging) return
     e.preventDefault()
     const x = e.pageX - trackRef.current.offsetLeft
-    const walk = (x - startX) * 2 
+    const walk = (x - startX) * 2
     const newIndex = currentIndex - Math.sign(walk) * (Math.abs(walk) > 50 ? 1 : 0)
-
     if (newIndex >= 0 && newIndex <= videos.length - visibleVideos) {
       setCurrentIndex(newIndex)
       scrollToIndex(newIndex)
     }
-
     if (Math.abs(walk) > 50) {
       setIsDragging(false)
     }
@@ -201,12 +191,10 @@ const ShortsCarousel = () => {
     const x = e.touches[0].pageX - trackRef.current.offsetLeft
     const walk = (x - startX) * 2
     const newIndex = currentIndex - Math.sign(walk) * (Math.abs(walk) > 50 ? 1 : 0)
-
     if (newIndex >= 0 && newIndex <= videos.length - visibleVideos) {
       setCurrentIndex(newIndex)
       scrollToIndex(newIndex)
     }
-
     if (Math.abs(walk) > 50) {
       setIsDragging(false)
     }
@@ -225,39 +213,28 @@ const ShortsCarousel = () => {
         }
       }
     }
-
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [currentIndex, videos.length, visibleVideos])
 
   return (
-    <CarouselContainer 
-      ref={containerRef}
-      role="region" 
-      aria-label="Shorts videos carousel"
-      tabIndex="0"
-    >
+    <CarouselContainer ref={containerRef} role="region" aria-label="Shorts videos carousel" tabIndex="0">
       <CarouselHeader>
         <CarouselTitleWrapper>
           <CarouselTitle>View All</CarouselTitle>
-          <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} aria-hidden="true"/>
+          <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} aria-hidden="true" />
         </CarouselTitleWrapper>
       </CarouselHeader>
-
-      <CarouselWrapper
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchEnd={handleMouseUp}
-      >
+      <CarouselWrapper onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} onTouchEnd={handleMouseUp}>
         {!isMobile && (
-          <NavigationButton 
-            direction="left" 
-            onClick={handlePrev} 
+          <NavigationButton
+            direction="left"
+            onClick={handlePrev}
             disabled={currentIndex === 0 || loading}
             aria-label="Previous videos"
             tabIndex="0"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault()
                 handlePrev()
               }
@@ -266,7 +243,6 @@ const ShortsCarousel = () => {
             <ChevronLeft size={24} aria-hidden="true" />
           </NavigationButton>
         )}
-
         <CarouselTrack
           ref={trackRef}
           style={{ transform: `translateX(-${currentIndex * (100 / visibleVideos)}%)` }}
@@ -277,76 +253,83 @@ const ShortsCarousel = () => {
           role="list"
           aria-label="Video list"
         >
-          {loading ? (
-            Array(visibleVideos).fill().map((_, index) => (
-              <VideoCard key={`shimmer-${index}`} role="listitem" aria-hidden="true">
-                <ShimmerContainer>
-                  <ShimmerThumbnail />
+          {loading
+            ? Array(visibleVideos)
+                .fill()
+                .map((_, index) => (
+                  <VideoCard key={`shimmer-${index}`} role="listitem" aria-hidden="true">
+                    <ShimmerContainer>
+                      <ShimmerThumbnail />
+                      <VideoInfo>
+                        <ShimmerTitle />
+                        <ChannelInfo>
+                          {/* <ShimmerChannel /> */}
+                          {/* <ShimmerButton /> */}
+                        </ChannelInfo>
+                      </VideoInfo>
+                    </ShimmerContainer>
+                  </VideoCard>
+                ))
+            : videos.map((video, index) => (
+                <VideoCard key={video._id} role="listitem">
+                  {playingVideoId === video._id ? (
+                    <VideoPlayer>
+                      <video
+                        ref={videoRef}
+                        controls
+                        autoPlay
+                        loop
+                        src={
+                          video.video_url || "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                        }
+                        aria-label={`Playing: ${video.title || "Farmers' Empowerment"}`}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                      <ProgressBar
+                        role="progressbar"
+                        aria-label="Video progress"
+                        aria-valuenow={progress}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        <ProgressIndicator style={{ width: `${progress}%` }} />
+                      </ProgressBar>
+                    </VideoPlayer>
+                  ) : (
+                    <VideoThumbnail>
+                      <img
+                        src={video.thumbnail || "/placeholder.svg?height=400&width=225"}
+                        alt={video.title || "Video thumbnail"}
+                      />
+                      <VideoOverlay>
+                        <PlayButton
+                          onClick={() => handlePlayClick(video._id)}
+                          aria-label={`Play ${video.title || "video"}`}
+                          tabIndex="0"
+                          role="button"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault()
+                              handlePlayClick(video._id)
+                            }
+                          }}
+                        >
+                          <Play size={40} aria-hidden="true" />
+                        </PlayButton>
+                      </VideoOverlay>
+                    </VideoThumbnail>
+                  )}
                   <VideoInfo>
-                    <ShimmerTitle />
+                    <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
                     <ChannelInfo>
-                      {/* <ShimmerChannel /> */}
-                      {/* <ShimmerButton /> */}
+                      {/* <ChannelName>Channel Name</ChannelName> */}
+                      {/* <SubscribeButton>Subscribe</SubscribeButton> */}
                     </ChannelInfo>
                   </VideoInfo>
-                </ShimmerContainer>
-              </VideoCard>
-            ))
-          ) : (
-            videos.map((video, index) => (
-              <VideoCard key={video._id} role="listitem">
-                {playingVideoId === video._id ? (
-                  <VideoPlayer>
-                    <video
-                      ref={videoRef}
-                      controls
-                      autoPlay
-                      loop
-                      src={
-                        video.video_url || "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                      }
-                      aria-label={`Playing: ${video.title || "Farmers' Empowerment"}`}
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                    <ProgressBar role="progressbar" aria-label="Video progress" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100">
-                      <ProgressIndicator style={{ width: `${progress}%` }} />
-                    </ProgressBar>
-                  </VideoPlayer>
-                ) : (
-                  <VideoThumbnail>
-                    <img src={video.thumbnail || "/placeholder.svg?height=400&width=225"} alt={video.title || "Video thumbnail"} />
-                    <VideoOverlay>
-                      <PlayButton 
-                        onClick={() => handlePlayClick(video._id)}
-                        aria-label={`Play ${video.title || "video"}`}
-                        tabIndex="0"
-                        role="button"
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault()
-                            handlePlayClick(video._id)
-                          }
-                        }}
-                      >
-                        <Play size={40} aria-hidden="true" />
-                      </PlayButton>
-                    </VideoOverlay>
-                  </VideoThumbnail>
-                )}
-
-                <VideoInfo>
-                  <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
-                  <ChannelInfo>
-                    {/* <ChannelName>Channel Name</ChannelName> */}
-                    {/* <SubscribeButton>Subscribe</SubscribeButton> */}
-                  </ChannelInfo>
-                </VideoInfo>
-              </VideoCard>
-            ))
-          )}
+                </VideoCard>
+              ))}
         </CarouselTrack>
-
         {!isMobile && (
           <NavigationButton
             direction="right"
@@ -355,7 +338,7 @@ const ShortsCarousel = () => {
             aria-label="Next videos"
             tabIndex="0"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault()
                 handleNext()
               }

@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
-import { FaMapMarkerAlt, FaEnvelope } from 'react-icons/fa';
-import { ContactFormContainer, ContactItem, ContactIcon } from './ContactForm.styles';
-import { FontSizeContext } from '../../../../context/FontSizeProvider';
-import { LanguageContext } from '../../../../context/LanguageContext'; // Import LanguageContext
+import { useContext } from "react"
+import { FaMapMarkerAlt, FaEnvelope } from "react-icons/fa"
+import { ContactFormContainer, ContactItem, ContactIcon } from "./ContactForm.styles"
+import { FontSizeContext } from "../../../../context/FontSizeProvider"
+import { LanguageContext } from "../../../../context/LanguageContext" 
 
 // Translation object for English, Hindi, and Kannada
 const translations = {
   English: {
     title: "Get In Touch With Us",
-    description: "For any inquiries or information, please reach out to the Karnataka Directorate of Information and Public Relations at the following address:",
+    description:
+      "For any inquiries or information, please reach out to the Karnataka Directorate of Information and Public Relations at the following address:",
     directorate: "Directorate of Information and Public Relations, Karnataka",
     address: "Bengaluru, Karnataka, 560001",
     mailTitle: "Email",
@@ -33,14 +34,14 @@ const translations = {
     mail1: "dipr.karnataka@gmail.com",
     mail2: "info.dipr@karnataka.gov.in",
   },
-};
+}
 
 const ContactForm = () => {
-  const { fontSize } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext); // Get current language from context
+  const { fontSize } = useContext(FontSizeContext)
+  const { language } = useContext(LanguageContext) // Get current language from context
 
   // Get translations for the current language
-  const t = translations[language] || translations.English;
+  const t = translations[language] || translations.English
 
   return (
     <ContactFormContainer role="region" aria-label="Contact information">
@@ -48,12 +49,9 @@ const ContactForm = () => {
       <p style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>{t.description}</p>
       <div className="contact-info" role="list" aria-label="Contact details">
         {/* Address Section */}
-        <ContactItem 
-          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
-          role="listitem"
-        >
-          <ContactIcon 
-            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} 
+        <ContactItem style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} role="listitem">
+          <ContactIcon
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
             as={FaMapMarkerAlt}
             aria-hidden="true"
           />
@@ -62,49 +60,21 @@ const ContactForm = () => {
             <p>{t.address}</p>
           </div>
         </ContactItem>
-
-        {/* Email Section 1 */}
-        <ContactItem 
-          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
-          role="listitem"
-        >
-          <ContactIcon 
-            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} 
+        {/* Email Section */}
+        <ContactItem style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} role="listitem">
+          <ContactIcon
+            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
             as={FaEnvelope}
             aria-hidden="true"
           />
           <div style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             <h4>{t.mailTitle}</h4>
             <p>
-              <a 
-                href={`mailto:${t.mail1}`}
-                aria-label={`Send email to ${t.mail1}`}
-                tabIndex="0"
-              >
+              <a href={`mailto:${t.mail1}`} aria-label={`Send email to ${t.mail1}`} tabIndex="0">
                 {t.mail1}
               </a>
-            </p>
-          </div>
-        </ContactItem>
-
-        {/* Email Section 2 */}
-        <ContactItem 
-          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
-          role="listitem"
-        >
-          <ContactIcon 
-            style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined} 
-            as={FaEnvelope}
-            aria-hidden="true"
-          />
-          <div style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-            <h4>{t.mailTitle}</h4>
-            <p>
-              <a 
-                href={`mailto:${t.mail2}`}
-                aria-label={`Send email to ${t.mail2}`}
-                tabIndex="0"
-              >
+              {" / "}
+              <a href={`mailto:${t.mail2}`} aria-label={`Send email to ${t.mail2}`} tabIndex="0">
                 {t.mail2}
               </a>
             </p>
@@ -112,7 +82,7 @@ const ContactForm = () => {
         </ContactItem>
       </div>
     </ContactFormContainer>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm

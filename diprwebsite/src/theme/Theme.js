@@ -25,7 +25,6 @@ const theme = {
     maincolor: "#372670",
     primaryVideo: "#ff0000",
     trcloure: "hsla(0, 0.00%, 100.00%, 0.20)",
-    // Add missing colors referenced in HomePage.styles.js
     lightgray: "#f1f1f1",
     lightText: "#666666",
     gray: {
