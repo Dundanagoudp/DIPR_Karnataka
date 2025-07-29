@@ -79,6 +79,7 @@ const ShortsCarousel2 = () => {
   const [activeVideoId, setActiveVideoId] = useState(null)
   const [userId, setUserId] = useState(null)
   const [debouncingLike, setDebouncingLike] = useState(false)
+  const [submittingComment, setSubmittingComment] = useState(false) // <-- add this
 
   useEffect(() => {
     // Get user ID from cookies
@@ -287,16 +288,15 @@ const ShortsCarousel2 = () => {
   // Submit a new comment
   const handleSubmitComment = async (event) => {
     event.preventDefault()
-
+    if (submittingComment) return // prevent double submit
     if (!userId) {
       alert("Please login to comment")
       return
     }
-
     if (!commentInput?.trim()) {
       return
     }
-
+    setSubmittingComment(true)
     try {
       // Call API to add comment
       const response = await ShortVideoaddComment({
@@ -304,20 +304,39 @@ const ShortsCarousel2 = () => {
         videoId: activeVideoId,
         userId,
       })
-
-      // Update comments state with new comment
+      // After adding, refetch comments for this video
       if (response && response.comment) {
-        setComments((prev) => ({
-          ...prev,
-          [activeVideoId]: [...(prev[activeVideoId] || []), response.comment],
-        }))
-
-        // Clear input field
-        setCommentInput("")
+        try {
+          const videosResponse = await getVideos();
+          if (videosResponse.success && Array.isArray(videosResponse.data)) {
+            const video = videosResponse.data.find(v => v._id === activeVideoId);
+            setComments((prev) => ({
+              ...prev,
+              [activeVideoId]: video?.Comments || [],
+            }));
+          }
+        } catch (fetchErr) {
+          // fallback: just append the comment if fetch fails
+          setComments((prev) => {
+            const prevList = prev[activeVideoId] || [];
+            if (prevList.some(c => c._id === response.comment._id)) {
+              return prev;
+            }
+            return {
+              ...prev,
+              [activeVideoId]: [...prevList, response.comment],
+            };
+          });
+        }
+        setCommentInput("");
+        setShowCommentPopup(false); // Close the popup after adding
+        setActiveVideoId(null);
       }
     } catch (error) {
       console.error("Error adding comment:", error)
       alert("Failed to add comment. Please try again.")
+    } finally {
+      setSubmittingComment(false)
     }
   }
 
@@ -546,7 +565,7 @@ const ShortsCarousel2 = () => {
                   onChange={(e) => setCommentInput(e.target.value)}
                   onClick={(e) => e.stopPropagation()}
                 />
-                <CommentSubmitButton type="submit" disabled={!commentInput?.trim()}>
+                <CommentSubmitButton type="submit" disabled={!commentInput?.trim() || submittingComment}>
                   <Send size={20} />
                 </CommentSubmitButton>
               </form>

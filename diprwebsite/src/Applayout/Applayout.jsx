@@ -5,6 +5,7 @@ import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
 import ToolBar from "../components/ToolBar/ToolBar";
 import LoadingProgressBar from "../components/Progressloader/ProgressLoading";
+import Footer2 from "../components/Footer/Footer2";
 
 const Applayout = () => {
   return (
@@ -17,7 +18,7 @@ const Applayout = () => {
         <main role="main" aria-label="Main content">
           <Outlet />
         </main>
-        <Footer />
+        <Footer2 />
       </div>
     </LoadingProgressBar>
   );
