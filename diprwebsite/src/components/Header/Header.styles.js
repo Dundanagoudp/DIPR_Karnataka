@@ -4,10 +4,12 @@ import theme from '../../theme/Theme';
 export const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
+  max-width: 100%;
   align-items: center;
   background-color: ${theme.colors.background};
   padding: ${theme.spacing(0)} ${theme.spacing(4)};
-  border-bottom: 2px solid ${theme.colors.primary};
+   width: 95%;
+  margin: 0 auto;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     padding: ${theme.spacing(2)};

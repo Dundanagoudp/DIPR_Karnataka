@@ -288,6 +288,7 @@ const CategoryTab = () => {
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
             aria-haspopup="true"
+            $isScrolled={isScrolled}
           >
             {isMenuOpen ? <FaTimes size={24} aria-hidden="true" /> : <FaBars size={24} aria-hidden="true" />}
           </HamburgerMenu>
@@ -309,7 +310,7 @@ const CategoryTab = () => {
                   tabIndex={activeTab === tab.path ? 0 : -1}
                 >
                   {getLocalizedTabName(tab)}
-                  {activeTab === tab.path && <TabIndicator />}
+                  {activeTab === tab.path && <TabIndicator $isScrolled={isScrolled} />}
                 </TabItem>
               </Link>
             ))}
@@ -355,7 +356,7 @@ const CategoryTab = () => {
         )}
         <RightControls>
           <Link to="/login" aria-label="Login" style={{ textDecoration: "none" }}>
-            <LoginButton>Login</LoginButton>
+            <LoginButton $isScrolled={isScrolled}>Login</LoginButton>
           </Link>
         </RightControls>
       </TabContainer>

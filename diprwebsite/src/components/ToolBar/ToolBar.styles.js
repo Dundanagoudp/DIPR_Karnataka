@@ -5,10 +5,10 @@ export const ToolbarContainer = styled.div`
   display: flex;
   align-items: center;
   background: ${theme.colors.white};
-  padding: ${theme.spacing(1)} ${theme.spacing(2)};
+  padding: ${theme.spacing(2)} ${theme.spacing(2)};
   border-radius: 8px;
   gap: ${theme.spacing(2)};
-  max-width: 100%;
+  max-width: 92%;
   margin: 0 auto;
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;
@@ -24,34 +24,36 @@ export const ToolbarContainer = styled.div`
 export const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  background: ${theme.colors.light};
-  padding: ${theme.spacing(0.75)};
+  background: #f5f5f5;
+  padding: ${theme.spacing(0.75)} ${theme.spacing(1.25)};
   border-radius: 8px;
-  width: 100%;
-  border: 1px solid ${theme.colors.info};
+  flex: 1;
+  max-width: 800px;
+  border: 1px solid #e0e0e0;
   position: relative;
-  @media (max-width: ${theme.breakpoints.desktop}) {
-    max-width: 100%;
-  }
+  
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 100%;
+    max-width: 100%;
   }
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(0.5)};
+    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
   }
 `
 
 export const SearchIcon = styled.div`
-  color: ${theme.colors.textgray};
+  color: #666666;
   font-size: 18px;
   margin-right: ${theme.spacing(1)};
   cursor: pointer;
-  /* Focus style for keyboard navigation */
+  
   &:focus-visible {
     outline: 2px solid ${theme.colors.primary};
     outline-offset: 2px;
     border-radius: 4px;
   }
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 16px;
     margin-right: ${theme.spacing(0.5)};
@@ -64,14 +66,16 @@ export const SearchInput = styled.input`
   outline: none;
   font-size: 14px;
   background: transparent;
-  color: ${theme.colors.text};
+  color: #333333;
+  
   &::placeholder {
-    color: ${theme.colors.textgray};
+    color: #666666;
   }
-  /* Focus style for keyboard navigation */
+  
   &:focus-visible {
-
+    outline: none;
   }
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 12px;
   }
@@ -160,48 +164,93 @@ export const SuggestionDate = styled.div`
 export const FontControls = styled.div`
   display: flex;
   align-items: center;
-  gap: ${theme.spacing(1)};
-  background: ${theme.colors.bggrey};
-  padding: ${theme.spacing(1)};
+  gap: ${theme.spacing(0.75)};
+  background: #E0F7FA;
+  padding: ${theme.spacing(0.75)} ${theme.spacing(1.25)};
   border-radius: 8px;
-  width: 100%;
-  max-width: 310px;
+  min-width: 260px;
+  
   span {
     font-size: 14px;
-    color: ${theme.colors.text};
+    color: #333333;
+    font-weight: 500;
+    margin-right: ${theme.spacing(0.75)};
   }
+  
   button {
-    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
-    border: 1px solid ${theme.colors.info};
+    padding: ${theme.spacing(0.4)} ${theme.spacing(0.6)};
+    border: 1px solid #cccccc;
     background: ${theme.colors.white};
     cursor: pointer;
     border-radius: 4px;
     font-family: ${theme.fonts.body};
-    color: ${theme.colors.text};
+    color: #333333;
+    font-size: 12px;
+    min-width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     &:hover {
-      background: ${theme.colors.backgray};
+      background: #f0f0f0;
     }
-    /* Focus style for keyboard navigation */
+    
     &:focus-visible {
       outline: 2px solid ${theme.colors.primary};
       outline-offset: 2px;
     }
+    
+    &:last-child {
+      background: #007BFF;
+      color: white;
+      border-color: #007BFF;
+      padding: ${theme.spacing(0.4)} ${theme.spacing(0.8)};
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      
+      &:hover {
+        background: #0056b3;
+      }
+    }
   }
+  
+  b {
+    font-size: 14px;
+    color: #333333;
+    margin: 0 ${theme.spacing(0.4)};
+  }
+  
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 100%;
-    max-width: 100%;
     justify-content: center;
+    min-width: auto;
   }
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
     span {
       font-size: 12px;
     }
+    
     button {
-      padding: ${theme.spacing(0.25)} ${theme.spacing(0.75)};
+      padding: ${theme.spacing(0.25)} ${theme.spacing(0.4)};
+      font-size: 11px;
+      min-width: 20px;
+      height: 20px;
+      
+      &:last-child {
+        font-size: 11px;
+        padding: ${theme.spacing(0.25)} ${theme.spacing(0.6)};
+      }
+    }
+    
+    b {
       font-size: 12px;
     }
   }
 `
+
 
 export const Select = styled.select`
   padding: ${theme.spacing(0.75)} ${theme.spacing(1.5)};
