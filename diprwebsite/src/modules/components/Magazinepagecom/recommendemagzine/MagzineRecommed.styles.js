@@ -170,12 +170,12 @@ export const PaginationWrapper = styled.div`
 `
 
 export const ResultsInfo = styled.div`
-  font-size: ${theme.spacing(1.6)};
+  font-size: inherit;
   color: ${theme.colors.textLight};
   margin-bottom: ${theme.spacing(2)};
   
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.4)};
+    font-size: inherit;
   }
 `
 

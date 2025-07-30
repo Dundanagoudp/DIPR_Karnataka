@@ -85,21 +85,21 @@ const ComMents = () => {
                 src="https://via.placeholder.com/50"
                 alt={`Profile picture of ${comment.user.displayName}`}
               />
-              <CommentContent style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+              <CommentContent>
                 <UserHeader>
                   <UserInfo>
-                    <Username style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                    <Username>
                       {comment.user.displayName}
                     </Username>
                     {comment.user.verified && (
                       <VerifiedIcon aria-label="Verified user" title="Verified user">✔</VerifiedIcon>
                     )}
                   </UserInfo>
-                  <Time style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                  <Time>
                     {new Date(comment.createdTime).toLocaleTimeString()}
                   </Time>
                 </UserHeader>
-                <CommentText style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                <CommentText>
                   {comment.comment}
                 </CommentText>
                 <Actions role="group" aria-label="Comment actions">

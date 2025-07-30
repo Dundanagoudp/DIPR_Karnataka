@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const FontSizeContext = createContext();
 
@@ -9,11 +9,16 @@ const FontSizeProvider = ({ children }) => {
     setFontSize((prevSize) => Math.max(50, Math.min(200, prevSize + amount)));
   };
 
+  // Apply font size globally to the entire website
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--global-font-size', `${fontSize}%`);
+    root.style.fontSize = `${fontSize}%`;
+  }, [fontSize]);
+
   return (
     <FontSizeContext.Provider value={{ fontSize, changeFontSize }}>
-      <div style={{ fontSize: `${fontSize}%` }}>
-        {children}
-      </div>
+      {children}
     </FontSizeContext.Provider>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Container, Title, Paragraph } from "../aboutustexts/AboutUstextpage.styles";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
-import { LanguageContext } from "../../../../context/LanguageContext"; // Import LanguageContext
+import { LanguageContext } from "../../../../context/LanguageContext";
 
 // Translation object for English, Hindi, and Kannada
 const translations = {
@@ -36,24 +36,40 @@ const translations = {
 
 const AboutUsText = () => {
   const { fontSize = 100 } = useContext(FontSizeContext);
-  const { language } = useContext(LanguageContext); // Get the current language
+  const { language } = useContext(LanguageContext);
 
   // Get translations for the current language
   const t = translations[language] || translations.English;
 
   return (
-    <Container role="region" aria-label="About us information">
-      {/* Apply fontSize only if it's explicitly set, otherwise use theme's default */}
-      <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+    <Container 
+      role="region" 
+      aria-label={language === 'Hindi' ? 'हमारे बारे में जानकारी' : 
+                  language === 'Kannada' ? 'ನಮ್ಮ ಬಗ್ಗೆ ಮಾಹಿತಿ' : 
+                  'About us information'}
+    >
+      <Title 
+        style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+        tabIndex="0" // Make title focusable for screen readers
+      >
         {t.title}
       </Title>
-      <Paragraph style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+      <Paragraph 
+        style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+        tabIndex="0"
+      >
         {t.paragraph1}
       </Paragraph>
-      <Paragraph style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+      <Paragraph 
+        style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+        tabIndex="0"
+      >
         {t.paragraph2}
       </Paragraph>
-      <Paragraph style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+      <Paragraph 
+        style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+        tabIndex="0"
+      >
         {t.paragraph3}
       </Paragraph>
     </Container>

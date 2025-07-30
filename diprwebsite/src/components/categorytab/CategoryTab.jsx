@@ -276,7 +276,6 @@ const CategoryTab = () => {
       <MobileMenuOverlay ref={overlayRef} $isOpen={isMenuOpen} onClick={closeMenu} aria-hidden={!isMenuOpen} />
 
       <TabContainer
-        style={{ fontSize: `${fontSize}%` }}
         $isScrolled={isScrolled}
         role="navigation"
         aria-label="Main navigation"
