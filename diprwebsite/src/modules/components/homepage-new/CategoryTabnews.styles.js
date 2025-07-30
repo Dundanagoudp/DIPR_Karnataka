@@ -19,8 +19,7 @@ export const Container = styled.div`
   background: ${theme.colors.background};
 
   .tabs-scroll-container {
-    display: flex;
-    align-items: center;
+    display: block;
     position: relative;
     margin-bottom: ${theme.spacing(0)}; /* Adjusted margin */
   }
@@ -77,6 +76,7 @@ export const TabsContainer = styled.div`
 `
 
 export const ScrollButton = styled.button`
+  display: none; /* Hide scroll buttons */
   background: ${theme.colors.light};
   border: none;
   border-radius: 50%;
@@ -120,8 +120,8 @@ export const TabIcon = styled.img`
 export const Tab = styled.button`
   display: flex;
   align-items: center;
-  background: ${(props) => (props.active ? '#f5f7fa' : '#f3f3f3')};
-  border: 1px solid ${(props) => (props.active ? '#b3d4fc' : '#e0e0e0')};
+  background: #f3f3f3; /* Same background for all tabs */
+  border: 1px solid #e0e0e0; /* Same border for all tabs */
   font-size: ${theme.spacing(1.75)};
   cursor: pointer;
   color: ${(props) => (props.active ? '#2563eb' : theme.colors.black)};
@@ -129,7 +129,7 @@ export const Tab = styled.button`
   padding: 6px 18px;
   font-weight: 600;
   font-family: ${theme.fonts.monospace};
-  box-shadow: ${(props) => (props.active ? '0 2px 8px rgba(37,99,235,0.08)' : 'none')};
+  box-shadow: none; /* Remove shadow for all tabs */
   transition: all 0.18s cubic-bezier(.4,0,.2,1);
   white-space: nowrap;
   flex-shrink: 0;

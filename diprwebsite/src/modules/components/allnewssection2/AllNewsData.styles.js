@@ -218,12 +218,12 @@ export const ReadMore = styled.a`
 `
 
 export const NewsText = styled.p`
-font-size: ${theme.spacing(2)};
+font-size: inherit;
 color: ${theme.colors.black};
 margin-top: ${theme.spacing(2.5)};
 font-family: ${theme.fonts.body};
 @media (max-width: ${theme.breakpoints.mobile}) {
-  font-size: ${theme.spacing(1.75)};
+  font-size: inherit;
 }
 `
 

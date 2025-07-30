@@ -211,7 +211,7 @@ export const TabItem = styled.div`
   padding: ${theme.spacing(1.2)} ${theme.spacing(2)};
   cursor: pointer;
   font-family: ${theme.fonts.heading};
-  font-size: 16px;
+  font-size: inherit;
   font-weight: bold;
   white-space: nowrap;
   color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.background)};
@@ -274,7 +274,7 @@ export const LoginButton = styled.button`
   padding: ${theme.spacing(1)} ${theme.spacing(2)};
   border-radius: 10px; /* Rounded corners from image */
   font-family: ${theme.fonts.heading};
-  font-size: 16px;
+  font-size: inherit;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease-in-out;

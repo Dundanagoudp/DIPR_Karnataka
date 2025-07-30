@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AboutUsText from "../../components/aboutuscom/aboutustexts/AboutUsTextpage";
-import AboutUsRecommendeds from "../../components/aboutuscom/aboutRecommended/RecommendedNews";
-import AboutusAllnews from "../../components/aboutuscom/aboutusnews/AboutAllNews";
 import {
   PageContainer,
-  ContentContainer,
-  RecommendedContainer,
-  AllNewsContainer,
 } from "../aboutuspage/AboutUspage.styles";
 import Loader from "../../../components/loder/Loder"; 
 
@@ -16,8 +11,8 @@ const AboutUspage = () => {
   useEffect(() => {
     // Simulate a 3-second loading time
     const timer = setTimeout(() => {
-      setIsLoading(false); // Set loading to false after 3 seconds
-    }, 3000);
+      setIsLoading(false); 
+    }, 1000);
 
     // Cleanup the timer when the component unmounts
     return () => clearTimeout(timer);
@@ -31,14 +26,6 @@ const AboutUspage = () => {
   return (
     <PageContainer role="main" aria-label="About us page">
       <AboutUsText />
-     {/* <ContentContainer>
-        <RecommendedContainer>
-          <AboutUsRecommendeds />
-        </RecommendedContainer>
-        <AllNewsContainer>
-          <AboutusAllnews />
-        </AllNewsContainer> 
-      </ContentContainer> */}
     </PageContainer>
   );
 };

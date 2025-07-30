@@ -209,7 +209,7 @@ export const NewsTitle = styled.h2`
 `
 
 export const NewsText = styled.p`
-  font-size: ${theme.spacing(1.75)};
+  font-size: inherit;
   color: ${theme.colors.black};
   margin-top: ${theme.spacing(1.5)};
   margin-bottom: ${theme.spacing(1.5)};
@@ -217,13 +217,13 @@ export const NewsText = styled.p`
   line-height: 1.5;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: ${theme.spacing(1.6)};
+    font-size: inherit;
     margin-top: ${theme.spacing(1.25)};
     margin-bottom: ${theme.spacing(1.25)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.5)};
+    font-size: inherit;
     margin-top: ${theme.spacing(1)};
     margin-bottom: ${theme.spacing(1)};
   }
