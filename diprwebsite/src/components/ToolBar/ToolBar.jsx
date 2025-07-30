@@ -322,15 +322,6 @@ const ToolBar = ({ onSearch }) => {
           <option value="Kannada">Kannada</option>
         </Select>
       </ToolbarContainer>
-      {/* 
-        IMPORTANT: Ensure your PDFModal component (Searchmodal.jsx)
-        implements proper accessibility for modals, including:
-        - role="dialog"
-        - aria-modal="true"
-        - Focus trapping within the modal when open
-        - Closing on Escape key
-        - Managing focus when the modal opens and closes (return focus to the element that opened it)
-      */}
       <PDFModal isOpen={modalOpen} onClose={closePdfModal} pdfUrl={selectedPdf} title={selectedTitle} />
     </>
   )

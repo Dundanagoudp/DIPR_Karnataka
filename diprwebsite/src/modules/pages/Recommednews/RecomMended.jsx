@@ -10,7 +10,7 @@ const LatestNews1 = () => {
         <>
           <LatestCat />
           <RecomMended />
-          <LatestTab />
+          {/* <LatestTab /> */}
         </>
     </div>
   );
