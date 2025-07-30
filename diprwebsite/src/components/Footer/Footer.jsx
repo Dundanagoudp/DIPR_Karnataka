@@ -1,3 +1,5 @@
+"use client"
+
 import { useContext, useEffect, useState, useCallback } from "react"
 import { FaClock, FaUsers, FaCodeBranch } from "react-icons/fa"
 import { IoIosArrowDroprightCircle } from "react-icons/io"
@@ -25,7 +27,7 @@ import { GetTotalVisitorApi, RegisterVisitorApi } from "../../services/viewsapi/
 
 const translations = {
   English: {
-    disclaimerTitle: "Disclaimer :",
+    disclaimerTitle: "Disclaimer:",
     disclaimerText:
       "This website is managed by the Karnataka State Government's Directorate of Information and Public Relations (DIPR). Please note that this page provides links to the websites/web pages of various Government Ministries, Departments, and Organizations of Karnataka.",
     websitePoliciesTitle: "Website Policies",
@@ -44,9 +46,9 @@ const translations = {
       "Designed, Developed and Hosted by: Digi9 - Web Portal, Government of Karnataka © 2025, All Rights Reserved.",
   },
   Hindi: {
-    disclaimerTitle: "अस्वीकरण :",
+    disclaimerTitle: "अस्वीकरण:",
     disclaimerText:
-      "यह वेबसाइट कर्नाटक राज्य सरकार के सूचना और जनसंपर्क निदेशालय (डीआईपीआर) द्वारा प्रबंधित की जाती है। कृपया ध्यान दें कि यह पृष्ठ कर्नಾಟके के विभिन्न सरकारी मंत्रालयों, विभागों और संगठनों की वेबसाइटों/वेब पृष्ठों के लिंक प्रदान करता है।",
+      "यह वेबसाइट कर्नाटक राज्य सरकार के सूचना और जनसंपर्क निदेशालय (डीआईपीआर) द्वारा प्रबंधित की जाती है। कृपया ध्यान दें कि यह पृष्ठ कर्नाटक के विभिन्न सरकारी मंत्रालयों, विभागों और संगठनों की वेबसाइटों/वेब पृष्ठों के लिंक प्रदान करता है।",
     websitePoliciesTitle: "वेबसाइट नीतियां",
     copyrightPolicy: "कॉपीराइट नीति",
     hyperlinkingPolicy: "हाइपरलिंकिंग नीति",
@@ -62,7 +64,7 @@ const translations = {
     footerStripText: "डिज़ाइन, विकसित और होस्ट किया गया: ई-गवर्नेंस केंद्र - वेब पोर्टल, कर्नाटक सरकार © 2025, सर्वाधिकार सुरक्षित।",
   },
   Kannada: {
-    disclaimerTitle: "ದೂರವಾಣಿ :",
+    disclaimerTitle: "ದೂರವಾಣಿ:",
     disclaimerText:
       "ಈ ವೆಬ್‌ಸೈಟ್ ಅನ್ನು ಕರ್ನಾಟಕ ರಾಜ್ಯ ಸರ್ಕಾರದ ಮಾಹಿತಿ ಮತ್ತು ಜನಸಂಪರ್ಕ ನಿರ್ದೇಶನಾಲಯ (ಡಿಐಪಿಆರ್) ನಿರ್ವಹಿಸುತ್ತದೆ. ದಯವಿಟ್ಟು ಗಮನಿಸಿ: ಈ ಪುಟವು ಕರ್ನಾಟಕದ ವಿವಿಧ ಸರ್ಕಾರಿ ಸಚಿವಾಲಯಗಳು, ವಿಭಾಗಗಳು ಮತ್ತು ಸಂಸ್ಥೆಗಳ ವೆಬ್‌ಸೈಟ್/ವೆಬ್ ಪುಟಗಳಿಗೆ ಲಿಂಕ್‌ಗಳನ್ನು ಒದಗಿಸುತ್ತದೆ.",
     websitePoliciesTitle: "ವೆಬ್‌ಸೈಟ್ ನೀತಿಗಳು",
@@ -87,6 +89,7 @@ const Footer = () => {
   const { language } = useContext(LanguageContext)
   const [visitorData, setVisitorData] = useState({ lastUpdated: "", totalVisitors: 0 })
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString())
+
   const t = translations[language] || translations.English
 
   const fetchVisitorData = useCallback(async () => {
@@ -112,7 +115,6 @@ const Footer = () => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date().toLocaleString())
     }, 60000)
-
     return () => clearInterval(intervalId)
   }, [fetchVisitorData])
 
@@ -125,10 +127,12 @@ const Footer = () => {
           <LogoSection>
             <Logo src={logo2} alt="Government of Karnataka Logo" />
           </LogoSection>
+
           <Section style={fontSizeStyle}>
             <Title style={fontSizeStyle}>{t.disclaimerTitle}</Title>
             <Text style={fontSizeStyle}>{t.disclaimerText}</Text>
           </Section>
+
           <Section style={fontSizeStyle}>
             <Title style={fontSizeStyle}>{t.websitePoliciesTitle}</Title>
             <nav aria-label="Website policies">
@@ -152,6 +156,7 @@ const Footer = () => {
               </LinksList>
             </nav>
           </Section>
+
           <VisitorsSection style={fontSizeStyle}>
             <Title style={fontSizeStyle}>{t.visitorsTitle}</Title>
             <Text style={fontSizeStyle}>
@@ -170,6 +175,7 @@ const Footer = () => {
           </VisitorsSection>
         </FooterContent>
       </FooterSection>
+
       <FooterStripContainer style={fontSizeStyle}>
         <FooterStrip>
           <StripText style={fontSizeStyle}>{t.footerStripText}</StripText>
