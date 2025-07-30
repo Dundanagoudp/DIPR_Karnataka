@@ -2,7 +2,6 @@ import { useState, useEffect, useContext, useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { FaBars, FaTimes } from "react-icons/fa" 
 import { gsap } from "gsap"
-
 import {
   TabContainer,
   TabsWrapper,
@@ -14,11 +13,10 @@ import {
   CloseButton,
   MobileMenuContent,
   RightControls,
-  LoginButton, // Added LoginButton
+  LoginButton, 
 } from "./CategoryTab.styles"
 
 // Removed ProfileImage import
-
 import { FontSizeContext } from "../../context/FontSizeProvider"
 import { LanguageContext } from "../../context/LanguageContext"
 

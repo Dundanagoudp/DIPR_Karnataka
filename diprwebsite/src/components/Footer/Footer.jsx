@@ -1,5 +1,3 @@
-"use client"
-
 import { useContext, useEffect, useState, useCallback } from "react"
 import { FaClock, FaUsers, FaCodeBranch } from "react-icons/fa"
 import { IoIosArrowDroprightCircle } from "react-icons/io"
@@ -87,7 +85,10 @@ const translations = {
 const Footer = () => {
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
-  const [visitorData, setVisitorData] = useState({ lastUpdated: "", totalVisitors: 0 })
+  const [visitorData, setVisitorData] = useState({
+    lastUpdated: "",
+    totalVisitors: 0,
+  })
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString())
 
   const t = translations[language] || translations.English
@@ -111,7 +112,7 @@ const Footer = () => {
 
   useEffect(() => {
     fetchVisitorData()
-    // Update time every minute instead of every second for better performance
+    // Update time every minute for better performance
     const intervalId = setInterval(() => {
       setCurrentTime(new Date().toLocaleString())
     }, 60000)
@@ -120,35 +121,39 @@ const Footer = () => {
 
   const fontSizeStyle = { fontSize: `${fontSize}%` }
 
+  const policyLinks = [
+    { path: "/copyright-policy", text: t.copyrightPolicy },
+    { path: "/hyperlinking-policy", text: t.hyperlinkingPolicy },
+    { path: "/security-policy", text: t.securityPolicy },
+    { path: "/guidelines", text: t.guidelines },
+    { path: "/terms-and-conditions", text: t.termsAndConditions },
+    { path: "/privacy-policy", text: t.privacyPolicy },
+    { path: "/help", text: t.help },
+  ]
+
   return (
     <FooterContainer style={fontSizeStyle} role="contentinfo" aria-label="Site footer">
       <FooterSection>
-        <FooterContent style={fontSizeStyle}>
+        <FooterContent>
           <LogoSection>
+            {/* Informative image with descriptive alt text */}
             <Logo src={logo2} alt="Government of Karnataka Logo" />
           </LogoSection>
 
-          <Section style={fontSizeStyle}>
-            <Title style={fontSizeStyle}>{t.disclaimerTitle}</Title>
-            <Text style={fontSizeStyle}>{t.disclaimerText}</Text>
+          <Section>
+            <Title>{t.disclaimerTitle}</Title>
+            <Text>{t.disclaimerText}</Text>
           </Section>
 
-          <Section style={fontSizeStyle}>
-            <Title style={fontSizeStyle}>{t.websitePoliciesTitle}</Title>
+          <Section>
+            <Title>{t.websitePoliciesTitle}</Title>
             <nav aria-label="Website policies">
               <LinksList role="list">
-                {[
-                  { path: "/copyright-policy", text: t.copyrightPolicy },
-                  { path: "/hyperlinking-policy", text: t.hyperlinkingPolicy },
-                  { path: "/security-policy", text: t.securityPolicy },
-                  { path: "/guidelines", text: t.guidelines },
-                  { path: "/terms-and-conditions", text: t.termsAndConditions },
-                  { path: "/privacy-policy", text: t.privacyPolicy },
-                  { path: "/help", text: t.help },
-                ].map((link, index) => (
-                  <LinkItem key={index} style={fontSizeStyle} role="listitem">
+                {policyLinks.map((link, index) => (
+                  <LinkItem key={index} role="listitem">
+                    {/* Decorative icon with aria-hidden */}
                     <IoIosArrowDroprightCircle aria-hidden="true" />
-                    <Link style={{ color: "inherit", ...fontSizeStyle }} to={link.path} aria-label={link.text}>
+                    <Link to={link.path} aria-label={link.text}>
                       {link.text}
                     </Link>
                   </LinkItem>
@@ -157,18 +162,21 @@ const Footer = () => {
             </nav>
           </Section>
 
-          <VisitorsSection style={fontSizeStyle}>
-            <Title style={fontSizeStyle}>{t.visitorsTitle}</Title>
-            <Text style={fontSizeStyle}>
+          <VisitorsSection>
+            <Title>{t.visitorsTitle}</Title>
+            <Text>
+              {/* Decorative icon with aria-hidden */}
               <FaClock aria-hidden="true" />
               <span aria-live="polite">{currentTime}</span>
             </Text>
-            <Text style={fontSizeStyle}>
+            <Text>
+              {/* Decorative icon with aria-hidden */}
               <FaUsers aria-hidden="true" />
               {t.visitorsCounter}
               <span aria-live="polite">{visitorData.totalVisitors}</span>
             </Text>
-            <Text style={fontSizeStyle}>
+            <Text>
+              {/* Decorative icon with aria-hidden */}
               <FaCodeBranch aria-hidden="true" />
               {t.version}
             </Text>
@@ -176,9 +184,9 @@ const Footer = () => {
         </FooterContent>
       </FooterSection>
 
-      <FooterStripContainer style={fontSizeStyle}>
+      <FooterStripContainer>
         <FooterStrip>
-          <StripText style={fontSizeStyle}>{t.footerStripText}</StripText>
+          <StripText>{t.footerStripText}</StripText>
         </FooterStrip>
       </FooterStripContainer>
     </FooterContainer>
