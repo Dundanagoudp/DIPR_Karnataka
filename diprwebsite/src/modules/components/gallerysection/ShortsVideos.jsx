@@ -53,6 +53,7 @@ import {
 } from "./ShortsVideos.styles"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 import Cookies from "js-cookie"
+import { Helmet } from "react-helmet"
 
 const ShortsCarousel2 = () => {
   const [videos, setVideos] = useState([])
@@ -416,6 +417,21 @@ const ShortsCarousel2 = () => {
   }
 
   return (
+    <>
+    <Helmet>
+  <title>Short Videos | Karnataka Varthe</title>
+  <meta name="description" content="Watch short and engaging videos on topics ranging from news, culture, empowerment and more." />
+  <meta property="og:title" content="Short Videos | Karnataka Varthe" />
+  <meta property="og:description" content="Explore trending short videos recommended just for you." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/default-short-video-thumbnail.jpg" />
+  <meta property="og:url" content={window.location.href} />
+  {/* <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Short Videos | Karnataka Varthe" />
+  <meta name="twitter:description" content="Explore trending short videos recommended just for you." />
+  <meta name="twitter:image" content="/default-short-video-thumbnail.jpg" /> */}
+</Helmet>
+
     <CarouselContainer ref={containerRef}>
       <CarouselHeader>
         <CarouselTitleWrapper>
@@ -574,7 +590,8 @@ const ShortsCarousel2 = () => {
         </CommentPopupOverlay>
       )}
     </CarouselContainer>
+    </>
   )
 }
 
-export default ShortsCarousel2
+export default ShortsCarousel2;
