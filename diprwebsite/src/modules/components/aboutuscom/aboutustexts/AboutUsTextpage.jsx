@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Container, Title, Paragraph } from "../aboutustexts/AboutUstextpage.styles";
 import { FontSizeContext } from "../../../../context/FontSizeProvider";
 import { LanguageContext } from "../../../../context/LanguageContext";
