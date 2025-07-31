@@ -9,6 +9,10 @@ import AllNewsData from "../../../modules/components/allnewssection2/AllNewsData
 import Magzines2 from "../../../modules/components/magzinemodal/MagzinewithModal";
 import ShortsCarousel from "../../../modules/components/homevideosection/ShortsCarousel";
 import Videos from "../../../modules/components/homevideosection/VideosHome";
+import Magzinehome from "../../components/homepage-new/MagzineShow";
+import CategoryTabnews from "../../components/homepage-new/CategoryTabnews";
+import LatestNewsSection from "../../components/homevideosection/homelatestnews/LatestNews";
+import HomeVideos from "../../components/homevideosection/home-longvideos/HomeLongvideos";
 
 const Home = () => {
 
@@ -16,15 +20,20 @@ const Home = () => {
     <HomeContainer role="main" aria-label="Home page">
         <>
           <Trending />
+          <Magzinehome/>
+          <CategoryTabnews/>
+          <LatestNewsSection/>
+          <ShortsCarousel/>
+          <HomeVideos/>
           <ContentWrapper>
-            <NewsSection role="region" aria-label="News section">
+            {/* <NewsSection role="region" aria-label="News section">
               <Magzines2/>
             </NewsSection>
             <MagazineSection role="region" aria-label="Magazine section">
               <AllNewsData/>
-            </MagazineSection>       
-              <ShortsCarousel/>
-            <Videos/>
+            </MagazineSection>        */}
+              {/* <ShortsCarousel/> */}
+               {/* <Videos/> */}
           </ContentWrapper>
         </>
     </HomeContainer>

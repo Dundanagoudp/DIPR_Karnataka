@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components"
-import theme from "../../../../theme/Theme"
+import theme from "../../../theme/Theme"
 
 const shimmer = keyframes`
   0% {
@@ -16,9 +16,9 @@ export const PageWrapper = styled.div`
 `
 
 export const Container = styled.div`
-  max-width: 100%;
+  max-width: 90%;
   margin: 0 auto;
-  padding: ${theme.spacing(1)};
+  padding: ${theme.spacing(3)};
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
   border-radius: 12px;
@@ -60,6 +60,11 @@ export const MagazineCard = styled.div`
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Subtle shadow on hover */
   }
+
+  &:focus-visible { /* Added focus-visible for keyboard navigation */
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
 `
 
 export const MagazineThumbnailWrapper = styled.div`
@@ -75,20 +80,6 @@ export const MagazineThumbnail = styled.img`
   height: 100%;
   object-fit: cover;
 `
-
-export const MagazineFlag = styled.div`
-  position: absolute;
-  top: 0;
-  right: 15px; /* Adjust position as needed */
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 15px 15px 15px; /* Creates a triangle shape */
-  border-color: transparent transparent ${theme.colors.primary} transparent; /* Blue color */
-  transform: rotate(180deg); /* Flips it to point down */
-  z-index: 10;
-`
-
 export const MagazineDetails = styled.div`
   display: flex;
   flex-direction: column;
@@ -97,9 +88,10 @@ export const MagazineDetails = styled.div`
 `
 
 export const Title = styled.h4`
-  font-size: ${theme.spacing(2)};
+  font-size: ${theme.spacing(3.2)};
   color: ${theme.colors.black};
   margin: 0;
+  margin-bottom: ${theme.spacing(1.5)};
   font-weight: 600;
   line-height: 1.3;
   display: -webkit-box;
@@ -115,11 +107,8 @@ export const Title = styled.h4`
 export const AuthorInfo = styled.div`
   display: flex;
   align-items: center;
-  /* Removed gap as content is now a single span */
   margin-top: ${theme.spacing(0.5)};
 `
-
-// Removed AuthorAvatar, AuthorName, CategoryAndPages, CategoryText, PagesText styles
 
 export const PublishTime = styled.span`
   font-size: ${theme.spacing(1.4)};
@@ -156,28 +145,35 @@ export const Tab = styled.button`
   font-weight: bold;
   font-family: ${theme.fonts.body};
   
+  &:focus-visible { /* Added focus-visible for keyboard navigation */
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(2)};
     padding: ${theme.spacing(0.75)} 0;
   }
 `
 
-export const PaginationWrapper = styled.div`
-  display: flex;
-  justify-content: left;
-  margin-top: ${theme.spacing(3)};
-  padding: ${theme.spacing(2)};
-`
+// Removed PaginationWrapper as per request
+// export const PaginationWrapper = styled.div`
+//   display: flex;
+//   justify-content: left;
+//   margin-top: ${theme.spacing(3)};
+//   padding: ${theme.spacing(2)};
+// `
 
 export const ResultsInfo = styled.div`
-  font-size: inherit;
+  font-size: ${theme.spacing(1.6)};
   color: ${theme.colors.textLight};
   margin-bottom: ${theme.spacing(2)};
   
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: inherit;
+    font-size: ${theme.spacing(1.4)};
   }
 `
+
 
 // Skeleton loading styles
 export const SkeletonCard = styled.div`
@@ -230,3 +226,25 @@ export const SkeletonButton = styled.div`
   border-radius: 20px;
   margin-top: 16px;
 `
+
+export const SeeMoreButton = styled.button`
+  background: none;
+  border: none;
+  color: #2196f3;
+  font-weight: bold;
+  font-size: ${theme.spacing(2.2)};
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 0;
+  transition: color 0.2s;
+  &:hover {
+    color: #1565c0;
+    text-decoration: underline;
+  }
+  svg {
+    margin-left: 4px;
+    font-size: 1.1em;
+  }
+`;

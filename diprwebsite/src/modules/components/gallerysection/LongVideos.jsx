@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react"
 import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
-import { FaRegComment, FaHeart, FaComment, FaRetweet, FaComments } from "react-icons/fa"
-import { AiOutlineLike } from "react-icons/ai"
+import { FaHeart, FaRegComment, FaShareAlt } from "react-icons/fa"
 import { motion, AnimatePresence } from "framer-motion"
-import { SlCalender } from "react-icons/sl";
+import { SlCalender } from "react-icons/sl"
 import { getLongVideos, likeLongVideo, LongVideoaddComment } from "../../../services/videoApi/videoApi"
 import {
   Container,
@@ -19,7 +18,6 @@ import {
   VideoDescription,
   CommentsContainer,
   CommentsHeader,
-  CommentInputContainer,
   CommentInput,
   CommentButton,
   ErrorMessage,
@@ -31,8 +29,6 @@ import {
   Username,
   CommentTime,
   CommentText,
-  CommentActions,
-  CommentAction,
   NoComments,
   VideoSidebar,
   SidebarHeader,
@@ -40,7 +36,6 @@ import {
   VideoItem,
   ThumbnailContainer,
   Thumbnail,
-  VideoDuration,
   VideoItemInfo,
   VideoItemTitle,
   VideoItemViews,
@@ -49,11 +44,12 @@ import {
   LikeContainer,
   FlexContainer2,
   LikeCount,
+  CommentInputWrapper,
+  CommentIcon,
 } from "./LongVideos.styles"
-import { IoIosTimer } from "react-icons/io";
-import { BiSolidMoviePlay } from "react-icons/bi";
-import { User } from 'lucide-react';
-
+import { IoIosTimer } from "react-icons/io"
+import { BiSolidMoviePlay } from "react-icons/bi"
+import { User } from "lucide-react" 
 
 const LongVideos = () => {
   const [videosData, setVideosData] = useState([])
@@ -86,7 +82,6 @@ const LongVideos = () => {
             setSelectedVideo(response.data[0])
             setPlayingVideoId(response.data[0]._id)
           }
-
           // Initialize like counts and comments
           const initialLikeCounts = {}
           const initialComments = {}
@@ -113,7 +108,6 @@ const LongVideos = () => {
         setLoading(false)
       }
     }
-
     fetchVideos()
   }, [])
 
@@ -121,13 +115,12 @@ const LongVideos = () => {
     setSelectedVideo(video)
     setPlayingVideoId(video._id)
     setOpenCommentSection(null)
-    
     // Force the video to load and play
     setTimeout(() => {
       const videoElement = document.getElementById(video._id)
       if (videoElement) {
         videoElement.load() // Reload the video source
-        videoElement.play().catch(error => {
+        videoElement.play().catch((error) => {
           console.log("Auto-play prevented:", error)
         })
       }
@@ -140,21 +133,16 @@ const LongVideos = () => {
       navigate("/login")
       return
     }
-
     if (debouncingLike) return
-
     setDebouncingLike(true)
-
     setTimeout(async () => {
       try {
         const isLiked = likedVideos.has(videoId)
         const likeData = { longVideoId: videoId, userId }
         const response = await likeLongVideo(likeData)
-
         const newLikedVideos = new Set(likedVideos)
         isLiked ? newLikedVideos.delete(videoId) : newLikedVideos.add(videoId)
         setLikedVideos(newLikedVideos)
-
         setLikeCounts((prevCounts) => ({
           ...prevCounts,
           [videoId]: response.data?.total_Likes || prevCounts[videoId] + (isLiked ? -1 : 1),
@@ -180,29 +168,23 @@ const LongVideos = () => {
       navigate("/login")
       return
     }
-
     const commentText = newComments[videoId]?.trim()
     if (!commentText) {
       alert("Please enter a comment.")
       return
     }
-
     const commentData = { text: commentText, videoId, userId }
-
     try {
       const response = await LongVideoaddComment(commentData)
       const newComment = response.data?.comment
-
       setComments((prevComments) => ({
         ...prevComments,
         [videoId]: [...(prevComments[videoId] || []), newComment],
       }))
-
       setNewComments((prevComments) => ({
         ...prevComments,
         [videoId]: "",
       }))
-
       setError("")
       window.location.reload()
     } catch (err) {
@@ -216,30 +198,7 @@ const LongVideos = () => {
       navigate("/login")
       return
     }
-
     setOpenCommentSection(openCommentSection === videoId ? null : videoId)
-  }
-
-  const handleLikeComment = async (commentId, videoId) => {
-    if (!userId) {
-      Cookies.set("redirectUrl", window.location.pathname)
-      navigate("/login")
-      return
-    }
-
-    try {
-      const likeData = { commentId, userId }
-      const response = await likeLongVideo(likeData)
-
-      setComments((prevComments) => ({
-        ...prevComments,
-        [videoId]: prevComments[videoId].map((comment) =>
-          comment._id === commentId ? { ...comment, likes: response.data?.total_Likes || comment.likes + 1 } : comment,
-        ),
-      }))
-    } catch (error) {
-      console.error("Error liking comment:", error)
-    }
   }
 
   // Skeleton Loader Component
@@ -251,30 +210,25 @@ const LongVideos = () => {
           <ShimmerEffect height="32px" width="70%" marginBottom="12px" />
           <ShimmerEffect height="20px" width="40%" marginBottom="16px" />
           <ShimmerEffect height="80px" width="100%" marginBottom="24px" />
-          
           <InteractionContainer>
             <ShimmerEffect height="40px" width="200px" />
             <ShimmerEffect height="40px" width="300px" />
           </InteractionContainer>
-          
           <ShimmerEffect height="24px" width="30%" marginBottom="16px" />
-          
           {[1, 2, 3].map((item) => (
-            <div key={item} style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
-              {/* <ShimmerEffect height="44px" width="44px" style={{ borderRadius: '50%' }} /> */}
+            <div key={item} style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
+              <ShimmerEffect height="44px" width="44px" style={{ borderRadius: "50%" }} />
               <div style={{ flex: 1 }}>
                 <ShimmerEffect height="16px" width="60%" marginBottom="8px" />
                 <ShimmerEffect height="40px" width="100%" marginBottom="8px" />
-                {/* <ShimmerEffect height="16px" width="30%" /> */}
               </div>
             </div>
           ))}
         </VideoPlayerContainer>
-
         <VideoSidebar>
           <ShimmerEffect height="28px" width="50%" marginBottom="20px" />
           {[1, 2, 3, 4].map((item) => (
-            <div key={item} style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
+            <div key={item} style={{ display: "flex", gap: "12px", marginBottom: "12px" }}>
               <ShimmerEffect height="78px" width="140px" />
               <div style={{ flex: 1 }}>
                 <ShimmerEffect height="16px" width="100%" marginBottom="8px" />
@@ -292,30 +246,63 @@ const LongVideos = () => {
   }
 
   return (
-    <Container>
+    <Container role="main" aria-label="Long Videos Section">
       <MainContent>
         <VideoPlayerContainer>
           {selectedVideo && (
             <>
               <VideoWrapper>
-                <MainVideo 
-                  key={selectedVideo._id} // Add key prop to force re-render
-                  id={selectedVideo._id} 
-                  controls 
+                <MainVideo
+                  key={selectedVideo._id} 
+                  id={selectedVideo._id}
+                  controls
                   autoPlay
                   onLoadStart={() => console.log("Video loading started")}
                   onCanPlay={() => console.log("Video can play")}
+                  aria-label={`Main video: ${selectedVideo.title}`}
                 >
                   <source src={selectedVideo.video_url} type="video/mp4" />
                   Your browser does not support the video tag.
                 </MainVideo>
               </VideoWrapper>
-
               <VideoInfo>
                 <VideoTitle>{selectedVideo.title}</VideoTitle>
                 <VideoStats>
-                  <span><SlCalender style={{color: "#000000", marginRight: "5px"}} /> {new Date(selectedVideo.createdAt).toLocaleDateString()}</span>
+                  <span aria-label={`Published on ${new Date(selectedVideo.createdAt).toLocaleDateString()}`}>
+                    <SlCalender style={{ color: "#000000", marginRight: "5px" }} aria-hidden="true" />
+                    {new Date(selectedVideo.createdAt).toLocaleDateString()}
+                  </span>
                   <VideoActions>
+                    <button
+                      onClick={() => handleLikeClick(selectedVideo._id)}
+                      aria-label={likedVideos.has(selectedVideo._id) ? "Unlike video" : "Like video"}
+                      tabIndex="0"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault()
+                          handleLikeClick(selectedVideo._id)
+                        }
+                      }}
+                    >
+                      <FaHeart
+                        size={24}
+                        color={likedVideos.has(selectedVideo._id) ? "#e74c3c" : "#6c757d"}
+                        aria-hidden="true"
+                      />
+                    </button>
+                    <button
+                      onClick={() => alert("Share functionality coming soon!")}
+                      aria-label="Share video"
+                      tabIndex="0"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault()
+                          alert("Share functionality coming soon!")
+                        }
+                      }}
+                    >
+                      <FaShareAlt size={24} color="#000000" aria-hidden="true" />
+                    </button>
                   </VideoActions>
                 </VideoStats>
                 <VideoDescription>{selectedVideo.description}</VideoDescription>
@@ -325,37 +312,65 @@ const LongVideos = () => {
                 <InteractionContainer>
                   <LikeContainer>
                     <FlexContainer2>
-                      <AiOutlineLike
-                        size={28}
-                        color={likedVideos.has(selectedVideo._id) ? "#667eea" : "#6c757d"}
+                      <button
                         onClick={() => handleLikeClick(selectedVideo._id)}
-                        style={{ cursor: "pointer" }}
-                      />
+                        aria-label={likedVideos.has(selectedVideo._id) ? "Unlike video" : "Like video"}
+                        tabIndex="0"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault()
+                            handleLikeClick(selectedVideo._id)
+                          }
+                        }}
+                      >
+                        <FaHeart
+                          size={28}
+                          color={likedVideos.has(selectedVideo._id) ? "#e74c3c" : "#6c757d"}
+                          aria-hidden="true"
+                        />
+                      </button>
                       <LikeCount>{likeCounts[selectedVideo._id] || 0}</LikeCount>
-                      <FaRegComment
-                        size={24}
-                        color="#6c757d"
+                      <button
                         onClick={() => toggleCommentSection(selectedVideo._id)}
-                        style={{ cursor: "pointer" }}
-                      />
+                        aria-label={openCommentSection === selectedVideo._id ? "Hide comments" : "Show comments"}
+                        tabIndex="0"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault()
+                            toggleCommentSection(selectedVideo._id)
+                          }
+                        }}
+                      >
+                        <FaRegComment size={24} color="#000000" aria-hidden="true" />
+                      </button>
                     </FlexContainer2>
                   </LikeContainer>
-
-                  <CommentInputContainer>
+                  <CommentInputWrapper>
+                    <CommentIcon aria-hidden="true" />
                     <CommentInput
                       type="text"
                       value={newComments[selectedVideo._id] || ""}
                       onChange={(e) => handleCommentChange(selectedVideo._id, e)}
-                      placeholder="Share your thoughts..."
+                      placeholder="Write a Comments"
+                      aria-label="Write a comment"
+                      tabIndex="0"
                     />
-                    <CommentButton onClick={() => handleAddComment(selectedVideo._id)}>
-                      <FaComments /> Comment
+                    <CommentButton
+                      onClick={() => handleAddComment(selectedVideo._id)}
+                      aria-label="Send comment"
+                      tabIndex="0"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault()
+                          handleAddComment(selectedVideo._id)
+                        }
+                      }}
+                    >
+                      Send
                     </CommentButton>
-                  </CommentInputContainer>
+                  </CommentInputWrapper>
                 </InteractionContainer>
-
-                {error && <ErrorMessage>⚠️ {error}</ErrorMessage>}
-
+                {error && <ErrorMessage role="alert">⚠️ {error}</ErrorMessage>}
                 <AnimatePresence>
                   {openCommentSection === selectedVideo._id && (
                     <motion.div
@@ -363,44 +378,44 @@ const LongVideos = () => {
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.4, ease: "easeInOut" }}
+                      role="region"
+                      aria-label="Comments section"
                     >
                       <CommentsHeader>
-                        <FaComments /> Comments ({comments[selectedVideo._id]?.length || 0})
+                        <FaRegComment aria-hidden="true" /> Comments ({comments[selectedVideo._id]?.length || 0})
                       </CommentsHeader>
-                      <CommentsList>
+                      <CommentsList role="list">
                         {comments[selectedVideo._id]?.length > 0 ? (
-                          comments[selectedVideo._id].map((comment) => (
-                            <Comment key={comment._id}>
-                                  <User />
+                          comments[selectedVideo._id].map((comment, index) => (
+                            <Comment
+                              key={comment._id}
+                              isEven={index % 2 === 0}
+                              role="listitem"
+                              tabIndex="0"
+                              aria-label={`Comment by ${comment.user?.displayName || "Anonymous User"}: ${comment.comment}`}
+                            >
+                              {comment.user?.profileImage ? (
+                                <UserAvatar
+                                  src={comment.user?.profileImage}
+                                  alt={`${comment.user?.displayName}'s profile picture`}
+                                />
+                              ) : (
+                                <User size={44} color="#6c757d" aria-hidden="true" /> // Placeholder icon
+                              )}
                               <CommentContent>
                                 <CommentHeader>
-                                  <Username>
-                                     {comment.user?.displayName || "Anonymous User"}
-                                  </Username>
+                                  <Username>{comment.user?.displayName || "Anonymous User"}</Username>
                                   <CommentTime>
-                                    <IoIosTimer style={{color: "#6c757d"}}/> {new Date(comment.createdTime).toLocaleTimeString()}
+                                    <IoIosTimer style={{ color: "#000000" }} aria-hidden="true" />{" "}
+                                    {new Date(comment.createdTime).toLocaleTimeString()}
                                   </CommentTime>
                                 </CommentHeader>
                                 <CommentText>{comment.comment}</CommentText>
-                                {/* <CommentActions>
-                                  <CommentAction onClick={() => handleLikeComment(comment._id, selectedVideo._id)}>
-                                    <FaHeart color="#e74c3c" />
-                                    <span>{comment.likes || 0}</span>
-                                  </CommentAction>
-                                  <CommentAction>
-                                    <FaRetweet color="#17a2b8" />
-                                    <span>Share</span>
-                                  </CommentAction>
-                                  <CommentAction>
-                                    <FaComment color="#6c757d" />
-                                    <span>Reply</span>
-                                  </CommentAction>
-                                </CommentActions> */}
                               </CommentContent>
                             </Comment>
                           ))
                         ) : (
-                          <NoComments>
+                          <NoComments role="status" aria-live="polite">
                             💭 No comments yet. Be the first to share your thoughts!
                           </NoComments>
                         )}
@@ -413,9 +428,11 @@ const LongVideos = () => {
           )}
         </VideoPlayerContainer>
 
-        <VideoSidebar>
-          <SidebarHeader><BiSolidMoviePlay style={{color: "#1E88E5"}} /> More Videos</SidebarHeader>
-          <VideoList>
+        <VideoSidebar role="complementary" aria-label="More Videos">
+          <SidebarHeader>
+            <BiSolidMoviePlay style={{ color: "#000000" }} aria-hidden="true" /> More Videos
+          </SidebarHeader>
+          <VideoList role="list">
             {videosData.map((video) => (
               <VideoItem
                 key={video._id}
@@ -424,18 +441,27 @@ const LongVideos = () => {
                   console.log("Video selected:", video.title) // Debug log
                   handleVideoSelect(video)
                 }}
-                style={{ cursor: 'pointer' }} // Ensure cursor shows it's clickable
+                tabIndex="0"
+                role="button"
+                aria-label={`Play video: ${video.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    handleVideoSelect(video)
+                  }
+                }}
               >
                 <ThumbnailContainer>
-                  <Thumbnail 
-                    src={video.thumbnail || "/placeholder.svg?height=78&width=140"} 
-                    alt={video.title}
+                  <Thumbnail
+                    src={video.thumbnail || "/placeholder.svg?height=78&width=140&query=video thumbnail"}
+                    alt={`Thumbnail for ${video.title}`}
                   />
                 </ThumbnailContainer>
                 <VideoItemInfo>
                   <VideoItemTitle>{video.title}</VideoItemTitle>
                   <VideoItemViews>
-                    <SlCalender style={{color: "#000000"}} /> {new Date(video.createdAt).toLocaleDateString()}
+                    <SlCalender style={{ color: "#000000" }} aria-hidden="true" />{" "}
+                    {new Date(video.createdAt).toLocaleDateString()}
                   </VideoItemViews>
                 </VideoItemInfo>
               </VideoItem>

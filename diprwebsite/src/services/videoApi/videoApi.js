@@ -51,7 +51,6 @@ export const LongVideoaddComment = async (commentData) => {
 };
 
 // videos by id
-
 export const getVideoById = async (id) => {
   try {
     if (!id) throw new Error("Invalid video ID");
@@ -98,7 +97,6 @@ export const getVideoById = async (id) => {
 };
 
 // short videos like
-
 export const ShortlikeVideo = async (likeData) => {
   try {
     console.log("Liking video with data:", likeData);
@@ -112,7 +110,6 @@ export const ShortlikeVideo = async (likeData) => {
 };
 
 // short video add comment
-
 export const ShortVideoaddComment = async (commentData) => {
   try {
     console.log("Request URL:", "/api/video/addComment");

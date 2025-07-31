@@ -7,13 +7,14 @@ export const Container = styled.div`
   padding: ${theme.spacing(0.5)};
   background-color: ${theme.colors.background};
   color: ${theme.colors.text};
+  margin-bottom: ${theme.spacing(6)};
 `;
 
 export const Title = styled.h1`
   font-family: ${theme.fonts.heading};
   font-size: ${theme.spacing(3)};
   font-weight: bold;
-  margin-bottom: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(5)};
 `;
 
 export const Paragraph = styled.p`
