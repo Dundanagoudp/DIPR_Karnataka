@@ -8,162 +8,121 @@ export const FooterContainer = styled.footer`
   padding: 0;
   overflow: hidden;
   width: 100%;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(1)} 0;
-  }
-`
-
-export const FooterSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: ${theme.spacing(1)};
-  padding: ${theme.spacing(2)};
-  width: 100%;
-  box-sizing: border-box;
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: ${theme.spacing(2)};
-  }
-
-  @media (max-width: 1024px) and (min-width: 770px) {
-    padding: ${theme.spacing(2)};
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(1)};
-  }
 `
 
 export const FooterContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  max-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: ${theme.spacing(4)};
+  padding: ${theme.spacing(4)} ${theme.spacing(6)};
+  max-width: 1200px;
   margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
+  align-items: start;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: ${theme.spacing(3)};
-  }
-`
-
-export const Section = styled.div`
-  flex: 2;
-  padding: 0 ${theme.spacing(5)};
-  text-align: justify;
-  border-right: 1px solid ${theme.colors.white};
-  display: flex;
-  flex-direction: column;
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    border-right: none;
-    padding: 0 ${theme.spacing(2)};
-    margin-bottom: ${theme.spacing(2)};
+    padding: ${theme.spacing(3)} ${theme.spacing(2)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 0 ${theme.spacing(1)};
-  }
-
-  @media (max-width: 1024px) and (min-width: 770px) {
-    padding: 0 ${theme.spacing(3)};
-  }
-`
-
-export const VisitorsSection = styled(Section)`
-  border-right: none;
-`
-
-export const Title = styled.h3`
-  font-size: ${theme.spacing(2)};
-  font-weight: bold;
-  margin-bottom: ${theme.spacing(2)};
-  background-color: ${theme.colors.Footerstrip};
-  padding: ${theme.spacing(1.9)};
-  border-radius: 0 13px 0 13px;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.75)};
-    padding: ${theme.spacing(1)};
-  }
-
-  @media (max-width: 1024px) and (min-width: 770px) {
-    font-size: ${theme.spacing(2)};
+    padding: ${theme.spacing(2)} ${theme.spacing(1)};
+    gap: ${theme.spacing(2)};
   }
 `
 
 export const LogoSection = styled.div`
-  flex: 1;
-  text-align: center;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${theme.spacing(2)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    margin-top: ${theme.spacing(2)};
+    align-items: center;
+    text-align: center;
   }
 `
 
 export const Logo = styled.img`
-  max-width: ${theme.spacing(28)};
+  width: ${theme.spacing(20)};
   height: auto;
+  object-fit: contain;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    max-width: ${theme.spacing(20)};
-  }
-
-  @media (max-width: 1024px) and (min-width: 770px) {
-    max-width: ${theme.spacing(25)};
+    width: ${theme.spacing(16)};
   }
 `
 
-export const Text = styled.p`
+export const DisclaimerText = styled.p`
   font-size: ${theme.spacing(1.75)};
-  margin: ${theme.spacing(1)} 0;
-  display: flex;
-  align-items: center;
-  gap: ${theme.spacing(1)};
+  line-height: 1.5;
+  margin: 0;
+  color: ${theme.colors.white};
+  text-align: justify;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
+    text-align: left;
   }
 `
 
-export const LinksList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: ${theme.spacing(2)} ${theme.spacing(1)};
+export const PoliciesSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(2)};
+`
+
+export const SectionTitle = styled.h3`
+  font-size: ${theme.spacing(2.25)};
+  font-weight: bold;
+  margin: 0 0 ${theme.spacing(1)} 0;
   color: ${theme.colors.white};
+  font-family: ${theme.fonts.heading};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
-  }
-
-  @media (max-width: 1024px) and (min-width: 770px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: ${theme.spacing(2)};
+    font-size: ${theme.spacing(2)};
   }
 `
 
-export const LinkItem = styled.div`
+export const PolicyLink = styled.div`
+  margin-bottom: ${theme.spacing(1)};
+
+  a {
+    color: ${theme.colors.white};
+    text-decoration: none;
+    font-size: ${theme.spacing(1.75)};
+    line-height: 1.4;
+    transition: all ${theme.transitions.fast};
+    display: block;
+
+    &:hover {
+      text-decoration: underline;
+      opacity: 0.9;
+    }
+
+    &:focus {
+      outline: 2px solid ${theme.colors.white};
+      outline-offset: 2px;
+    }
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    a {
+      font-size: ${theme.spacing(1.5)};
+    }
+  }
+`
+
+export const VisitorsSection = styled.div`
   display: flex;
-  align-items: center;
-  gap: ${theme.spacing(1)};
+  flex-direction: column;
+  gap: ${theme.spacing(1.5)};
+`
+
+export const VisitorInfo = styled.div`
   font-size: ${theme.spacing(1.75)};
   color: ${theme.colors.white};
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-    opacity: 0.9;
-  }
+  line-height: 1.4;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};
@@ -171,32 +130,27 @@ export const LinkItem = styled.div`
 `
 
 export const FooterStripContainer = styled.div`
-  padding: ${theme.spacing(1)} 0;
-  text-align: center;
   background-color: ${theme.colors.Footerstrip};
+  padding: ${theme.spacing(2)} 0;
+  text-align: center;
   width: 100%;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(0.5)} 0;
+    padding: ${theme.spacing(1.5)} 0;
   }
 `
 
 export const FooterStrip = styled.div`
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 0 ${theme.spacing(2)};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 0 ${theme.spacing(1)};
-  }
 `
 
 export const StripText = styled.p`
   margin: 0;
   font-size: ${theme.spacing(1.75)};
   color: ${theme.colors.white};
+  line-height: 1.4;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: ${theme.spacing(1.5)};

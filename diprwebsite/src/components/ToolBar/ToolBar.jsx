@@ -32,6 +32,8 @@ const translations = {
     resultsCount: "results found",
     searching: "Searching...",
     viewPdf: "View PDF",
+    newsLabel: "News",
+    magazineLabel: "Magazine",
   },
   Hindi: {
     searchPlaceholder: "समाचार खोजें",
@@ -41,6 +43,8 @@ const translations = {
     resultsCount: "परिणाम मिले",
     searching: "खोज रहा है...",
     viewPdf: "पीडीएफ देखें",
+    newsLabel: "समाचार",
+    magazineLabel: "पत्रिका",
   },
   Kannada: {
     searchPlaceholder: "ಸುದ್ದಿ ಹುಡುಕಿ",
@@ -50,6 +54,8 @@ const translations = {
     resultsCount: "ಫಲಿತಾಂಶಗಳು ಕಂಡುಬಂದಿವೆ",
     searching: "ಹುಡುಕುತ್ತಿದೆ...",
     viewPdf: "PDF ನೋಡಿ",
+    newsLabel: "ಸುದ್ದಿ",
+    magazineLabel: "ಮ್ಯಾಗಜಿನ್",
   },
 }
 
@@ -92,12 +98,51 @@ const ToolBar = ({ onSearch }) => {
       setShowSuggestions(true)
       try {
         const response = await SearchMagazineApi(query)
+        
+        // Process the new API response structure
+        const allResults = []
+        
+        // Add news articles
+        if (response.data?.news && Array.isArray(response.data.news)) {
+          response.data.news.forEach(news => {
+            allResults.push({
+              ...news,
+              type: 'news',
+              displayTitle: news[language]?.title || news.title || 'Untitled',
+              displayDate: news.createdTime || news.publishedAt || news.date
+            })
+          })
+        }
+        
+        // Add magazine1 results
+        if (response.data?.magazine1 && Array.isArray(response.data.magazine1)) {
+          response.data.magazine1.forEach(magazine => {
+            allResults.push({
+              ...magazine,
+              type: 'magazine1',
+              displayTitle: magazine.title || 'Untitled Magazine',
+              displayDate: magazine.createdTime || magazine.publishedAt || magazine.date
+            })
+          })
+        }
+        
+        // Add magazine2 results
+        if (response.data?.magazine2 && Array.isArray(response.data.magazine2)) {
+          response.data.magazine2.forEach(magazine => {
+            allResults.push({
+              ...magazine,
+              type: 'magazine2',
+              displayTitle: magazine.title || 'Untitled Magazine',
+              displayDate: magazine.createdTime || magazine.publishedAt || magazine.date
+            })
+          })
+        }
+        
         // Sort results by date (newest first)
-        const sortedResults = Array.isArray(response.data)
-          ? [...response.data].sort(
-              (a, b) => new Date(b.createdTime || b.date || 0) - new Date(a.createdTime || a.date || 0),
-            )
-          : []
+        const sortedResults = allResults.sort(
+          (a, b) => new Date(b.displayDate || 0) - new Date(a.displayDate || 0)
+        )
+        
         setSuggestions(sortedResults)
         setSelectedSuggestionIndex(-1)
         onSearch?.(sortedResults)
@@ -110,7 +155,7 @@ const ToolBar = ({ onSearch }) => {
         setIsSearching(false)
       }
     },
-    [onSearch],
+    [onSearch, language],
   )
 
   const debouncedSearch = useCallback(debounce(handleSearch, 300), [handleSearch])
@@ -120,8 +165,13 @@ const ToolBar = ({ onSearch }) => {
   }, [searchText, debouncedSearch])
 
   const handleSuggestionClick = (suggestion) => {
-    // Open the specific PDF in modal
-    openPdfModal(suggestion.magazinePdf, suggestion.title)
+    if (suggestion.type === 'news') {
+      // Navigate to news detail page
+      navigate(`/news/${suggestion._id}`)
+    } else if (suggestion.type === 'magazine1' || suggestion.type === 'magazine2') {
+      // Open the specific PDF in modal
+      openPdfModal(suggestion.magazinePdf || suggestion.pdfUrl, suggestion.displayTitle)
+    }
   }
 
   // Function to open PDF modal
@@ -192,6 +242,16 @@ const ToolBar = ({ onSearch }) => {
     const date = new Date(dateString)
     if (isNaN(date.getTime())) return ""
     return date.toLocaleDateString()
+  }
+
+  // Get content type label
+  const getContentTypeLabel = (suggestion) => {
+    if (suggestion.type === 'news') {
+      return t.newsLabel
+    } else if (suggestion.type === 'magazine1' || suggestion.type === 'magazine2') {
+      return t.magazineLabel
+    }
+    return ''
   }
 
   // Close suggestions when clicking outside
@@ -268,7 +328,7 @@ const ToolBar = ({ onSearch }) => {
                     {suggestions.map((suggestion, index) => (
                       <SuggestionItem
                         as={motion.div}
-                        key={index}
+                        key={`${suggestion.type}-${suggestion._id || index}`}
                         id={`suggestion-${index}`}
                         onClick={() => handleSuggestionClick(suggestion)}
                         whileHover={{ backgroundColor: "rgba(0,0,0,0.05)" }}
@@ -284,8 +344,20 @@ const ToolBar = ({ onSearch }) => {
                         }}
                       >
                         <SuggestionContent>
-                          <SuggestionTitle>{suggestion.title}</SuggestionTitle>
-                          <SuggestionDate>{formatDate(suggestion.createdTime || suggestion.date)}</SuggestionDate>
+                          <SuggestionTitle>
+                            {suggestion.displayTitle}
+                            <span style={{ 
+                              fontSize: '10px', 
+                              color: '#666', 
+                              marginLeft: '8px',
+                              backgroundColor: suggestion.type === 'news' ? '#e3f2fd' : '#fff3e0',
+                              padding: '2px 6px',
+                              borderRadius: '4px'
+                            }}>
+                              {getContentTypeLabel(suggestion)}
+                            </span>
+                          </SuggestionTitle>
+                          <SuggestionDate>{formatDate(suggestion.displayDate)}</SuggestionDate>
                         </SuggestionContent>
                       </SuggestionItem>
                     ))}
@@ -322,15 +394,6 @@ const ToolBar = ({ onSearch }) => {
           <option value="Kannada">Kannada</option>
         </Select>
       </ToolbarContainer>
-      {/* 
-        IMPORTANT: Ensure your PDFModal component (Searchmodal.jsx)
-        implements proper accessibility for modals, including:
-        - role="dialog"
-        - aria-modal="true"
-        - Focus trapping within the modal when open
-        - Closing on Escape key
-        - Managing focus when the modal opens and closes (return focus to the element that opened it)
-      */}
       <PDFModal isOpen={modalOpen} onClose={closePdfModal} pdfUrl={selectedPdf} title={selectedTitle} />
     </>
   )

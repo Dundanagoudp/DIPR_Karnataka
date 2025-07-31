@@ -26,23 +26,17 @@ export const TabContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${theme.colors.primary};
+  background-color: ${({ $isScrolled }) => $isScrolled ? theme.colors.primary : '#ffffff'};
   padding: ${theme.spacing(0.5)} ${theme.spacing(4)};
   position: sticky;
   top: 0;
   z-index: 998;
-  width: 100%;
+  width: ${({ $isScrolled }) => $isScrolled ? '100%' : '95%'};
+  margin: ${({ $isScrolled }) => $isScrolled ? '0' : '0 auto'};
   box-sizing: border-box;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ $isScrolled }) => $isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.15)' : 'none'};
 
-  ${({ $isScrolled }) =>
-    $isScrolled &&
-    css`
-      background-color: ${theme.colors.primary};
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      padding: ${theme.spacing(0.5)} ${theme.spacing(4)};
-    `}
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(1)} ${theme.spacing(2)};
     justify-content: space-between;
@@ -98,7 +92,7 @@ export const CloseButton = styled.button`
 
 export const HamburgerMenu = styled.button`
   cursor: pointer;
-  color: ${theme.colors.background};
+  color: ${({ $isScrolled }) => $isScrolled ? theme.colors.background : '#333333'};
   padding: ${theme.spacing(1)};
   z-index: 101;
   transition: transform 0.3s ease;
@@ -193,7 +187,7 @@ export const TabIndicator = styled.div`
   left: 0;
   right: 0;
   height: 3px;
-  background-color: ${theme.colors.background};
+  background-color: ${({ $isScrolled }) => $isScrolled ? theme.colors.background : '#007BFF'};
   border-radius: 3px;
 
   ${({ $isMobile }) =>
@@ -211,11 +205,21 @@ export const TabItem = styled.div`
   padding: ${theme.spacing(1.2)} ${theme.spacing(2)};
   cursor: pointer;
   font-family: ${theme.fonts.heading};
-  font-size: 16px;
+  font-size: inherit;
   font-weight: bold;
   white-space: nowrap;
-  color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.background)};
-  background-color: ${({ $active }) => ($active ? theme.colors.background : "transparent")};
+  color: ${({ $active, $isScrolled }) => {
+    if ($active) {
+      return $isScrolled ? theme.colors.primary : '#ffffff';
+    }
+    return $isScrolled ? theme.colors.background : '#666666';
+  }};
+  background-color: ${({ $active, $isScrolled }) => {
+    if ($active) {
+      return $isScrolled ? theme.colors.background : '#007BFF';
+    }
+    return 'transparent';
+  }};
   border-radius: ${theme.spacing(1.3)};
   transition: all 0.25s ease;
   display: flex;
@@ -231,8 +235,13 @@ export const TabItem = styled.div`
       padding: ${theme.spacing(1)} ${theme.spacing(1.5)};
     `}
   &:hover {
-    background-color: ${({ $active }) => ($active ? theme.colors.background : theme.colors.background)};
-    color: ${theme.colors.primary};
+    background-color: ${({ $active, $isScrolled }) => {
+      if ($active) {
+        return $isScrolled ? theme.colors.background : '#007BFF';
+      }
+      return $isScrolled ? theme.colors.background : '#f0f0f0';
+    }};
+    color: ${({ $isScrolled }) => $isScrolled ? theme.colors.primary : '#333333'};
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
@@ -264,21 +273,18 @@ export const TabItem = styled.div`
     }
   `}
 `
-
-// Removed ProfileIcon and ProfilePlaceholder styled components
-
 export const LoginButton = styled.button`
-  background-color: #E0F7FA; /* Light blue from image */
-  border: 1px solid #007BFF; /* Blue border from image */
-  color: #007BFF; /* Blue text from image */
+  background-color: ${({ $isScrolled }) => $isScrolled ? '#E0F7FA' : 'transparent'};
+  border: 1px solid #007BFF;
+  color: #007BFF;
   padding: ${theme.spacing(1)} ${theme.spacing(2)};
-  border-radius: 10px; /* Rounded corners from image */
+  border-radius: 10px;
   font-family: ${theme.fonts.heading};
-  font-size: 16px;
+  font-size: inherit;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,9 +292,11 @@ export const LoginButton = styled.button`
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #E0F7FA;
   }
 
   &:active {
     transform: translateY(0);
   }
 `
+

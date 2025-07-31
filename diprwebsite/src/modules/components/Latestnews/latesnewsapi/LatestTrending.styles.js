@@ -10,9 +10,9 @@ const shimmer = keyframes`
 `
 
 export const Container = styled.div`
-//   max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: ${theme.spacing(4)} ${theme.spacing(3)};
+  padding: ${theme.spacing(1)} ${theme.spacing(3)};
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
 

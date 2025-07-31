@@ -152,7 +152,7 @@ export const VideoMetacat = styled.span`
 `;
 
 export const Title = styled.h4`
-  font-size: ${theme.spacing(2.2)};
+  font-size: inherit;
   font-weight: 600;
   color: ${theme.colors.textDark};
   margin-bottom: ${theme.spacing(1)};
@@ -160,18 +160,18 @@ export const Title = styled.h4`
   line-height: 1.4;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: ${theme.spacing(2)};
+    font-size: inherit;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.spacing(1.8)};
+    font-size: inherit;
     margin-bottom: ${theme.spacing(0.5)};
     line-height: 1.2;
   }
 
   // Adjust for foldable devices
   @media (max-width: 768px) and (min-aspect-ratio: 1/1) {
-    font-size: ${theme.spacing(2)};
+    font-size: inherit;
   }
 `;
 

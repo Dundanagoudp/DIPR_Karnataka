@@ -12,7 +12,7 @@ const shimmer = keyframes`
 
 export const Container = styled.div`
   margin: auto;
-  max-width: 1400px;
+  max-width: 94%;
   margin-top: ${theme.spacing(5)};
   padding: 0 ${theme.spacing(5)};
   display: flex;

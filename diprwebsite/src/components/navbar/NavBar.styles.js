@@ -15,7 +15,7 @@ export const NavTitle = styled.h1`
   font-family: ${theme.fonts.heading};
   font-size: 1.2rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 500;
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 1rem;
@@ -23,14 +23,11 @@ export const NavTitle = styled.h1`
 `
 
 export const NavContainer = styled.div`
-background-color: ${theme.colors.error};
-  padding: ${theme.spacing(0.8)} 0;
+  background-color: ${theme.colors.error};
+  padding: ${theme.spacing(1.1)} 0;
   overflow: hidden;
   white-space: nowrap;
-  position: fixed;
-  bottom: 0;
   width: 100%;
-  z-index: 1000;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${theme.breakpoints.mobile}) {

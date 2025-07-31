@@ -7,7 +7,7 @@ const spin = keyframes`
 `
 
 export const MagazineViewContainer = styled.div`
-  max-width: 1400px;
+  max-width: 92%;
   margin: 0 auto;
   padding: ${theme.spacing(3)};
   background: ${theme.colors.background}; /* Very light grey/white background */

@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import Cookies from "js-cookie"
 import {
   Container,
@@ -23,7 +22,6 @@ import {
   RelatedArticleContent,
   RelatedArticleTitle,
   RelatedArticleMeta,
-  ScrollButton,
   PaginationWrapper,
   SkeletonFeaturedNewsCard,
   SkeletonFeaturedImage,
@@ -57,16 +55,16 @@ const CategoryNews = () => {
   const { language } = useContext(LanguageContext)
 
   // Scroll tabs left or right
-  const scrollTabs = (direction) => {
-    if (tabsRef.current) {
-      const scrollAmount = 200
-      if (direction === "left") {
-        tabsRef.current.scrollLeft -= scrollAmount
-      } else {
-        tabsRef.current.scrollLeft += scrollAmount
-      }
-    }
-  }
+  // const scrollTabs = (direction) => {
+  //   if (tabsRef.current) {
+  //     const scrollAmount = 200
+  //     if (direction === "left") {
+  //       tabsRef.current.scrollLeft -= scrollAmount
+  //     } else {
+  //       tabsRef.current.scrollLeft += scrollAmount
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -228,21 +226,6 @@ const CategoryNews = () => {
         {activeTab ? categories.find((c) => c._id === activeTab)?.name || "Category News" : "Latest All News"}
       </Title>
       <div className="tabs-scroll-container">
-        <ScrollButton
-          direction="left"
-          onClick={() => scrollTabs("left")}
-          aria-label="Scroll categories left"
-          tabIndex="0"
-          role="button"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault()
-              scrollTabs("left")
-            }
-          }}
-        >
-          <FaChevronLeft aria-hidden="true" />
-        </ScrollButton>
         <TabsContainer
           ref={tabsRef}
           style={{
@@ -317,21 +300,6 @@ const CategoryNews = () => {
             </>
           )}
         </TabsContainer>
-        <ScrollButton
-          direction="right"
-          onClick={() => scrollTabs("right")}
-          aria-label="Scroll categories right"
-          tabIndex="0"
-          role="button"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault()
-              scrollTabs("right")
-            }
-          }}
-        >
-          <FaChevronRight aria-hidden="true" />
-        </ScrollButton>
       </div>
       <MainContentWrapper id="news-grid">
         {loading ? (
