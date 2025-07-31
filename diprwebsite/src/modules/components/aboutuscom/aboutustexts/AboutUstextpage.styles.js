@@ -2,12 +2,12 @@ import styled from "styled-components";
 import theme from "../../../../theme/Theme";
 
 export const Container = styled.div`
-  max-width: ${theme.spacing(150)};
+  max-width: 90%;
   margin: 0 auto;
   padding: ${theme.spacing(0.5)};
   background-color: ${theme.colors.background};
   color: ${theme.colors.text};
-  margin-bottom: ${theme.spacing(6)};
+  margin-bottom: ${theme.spacing(10)};
 `;
 
 export const Title = styled.h1`
