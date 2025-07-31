@@ -18,6 +18,7 @@ import { LanguageContext } from "../../../context/LanguageContext"
 import { getRecommendations } from "../../../services/recommened/RecommenedApis"
 import { Link } from "react-router-dom"
 import { ShimmerCard, ShimmerThumbnail, ShimmerTitle, ShimmerMeta } from "./RecomMended.styles"
+import { Helmet } from "react-helmet"
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -139,6 +140,33 @@ const RecomMended = () => {
   }
 
   return (
+    <>
+    return (
+  <>
+    <Helmet>
+      <title>Recommended News | Karnataka Varthe</title>
+      <meta name="description" content="Discover personalized and trending news articles tailored to your interests." />
+      <meta property="og:title" content="Recommended News | Karnataka Varthe" />
+      <meta property="og:description" content="Stay updated with top recommended stories based on your reading history." />
+      <meta property="og:type" content="website" />
+      <meta property="og:image" content="/default-news-thumbnail.jpg" />
+      <meta property="og:url" content={window.location.href} />
+      {/* <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Recommended News | Karnataka Varthe" />
+      <meta name="twitter:description" content="Stay informed with news articles tailored for you." />
+      <meta name="twitter:image" content="/default-news-thumbnail.jpg" /> */}
+    </Helmet>
+
+    <Container 
+      style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+      role="region"
+      aria-label="Recommended news section"
+    >
+      ...
+    </Container>
+  </>
+)
+
     <Container 
       style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
       role="region"
@@ -192,7 +220,8 @@ const RecomMended = () => {
         )}
       </Content>
     </Container>
+    </>
   )
 }
 
-export default RecomMended
+export default RecomMended;

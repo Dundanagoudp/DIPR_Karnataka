@@ -40,6 +40,7 @@ import { CategoryApi, NewsApi } from "../../../../services/categoryapi/CategoryA
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../../context/LanguageContext"
 import Pagination from "@mui/material/Pagination"
+import { Helmet } from "react-helmet"
 
 const CategoryNews = () => {
   const [activeTab, setActiveTab] = useState(null)
@@ -217,6 +218,54 @@ const CategoryNews = () => {
   )
 
   return (
+    <>
+    {featuredNews && (
+      <Helmet>
+  <title>
+    {featuredNews
+      ? `${getLocalizedContent(featuredNews, "title")} | ${getLocalizedCategoryName(featuredNews.category)} - Karnataka Varthe`
+      : "Latest Category News | Karnataka Varthe"}
+  </title>
+  <meta
+    name="description"
+    content={
+      featuredNews
+        ? getLocalizedContent(featuredNews, "description")?.slice(0, 160)
+        : "Explore the latest news across categories on Karnataka Varthe."
+    }
+  />
+  <meta property="og:title" content={featuredNews ? getLocalizedContent(featuredNews, "title") : "Category News"} />
+  <meta
+    property="og:description"
+    content={
+      featuredNews
+        ? getLocalizedContent(featuredNews, "description")?.slice(0, 160)
+        : "Browse trending and latest category-wise news updates."
+    }
+  />
+  <meta property="og:type" content="article" />
+  <meta
+    property="og:image"
+    content={featuredNews?.newsImage || "/placeholder.svg?height=400&width=800&query=news thumbnail"}
+  />
+  <meta property="og:url" content={window.location.href} />
+  {/* <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={featuredNews ? getLocalizedContent(featuredNews, "title") : "Category News"} />
+  <meta
+    name="twitter:description"
+    content={
+      featuredNews
+        ? getLocalizedContent(featuredNews, "description")?.slice(0, 160)
+        : "Catch the latest updates from Karnataka Varthe's news categories."
+    }
+  />
+  <meta
+    name="twitter:image"
+    content={featuredNews?.newsImage || "/placeholder.svg?height=400&width=800&query=news thumbnail"}
+  /> */}
+</Helmet>
+
+    )}
     <Container
       style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
       role="region"
@@ -410,6 +459,7 @@ const CategoryNews = () => {
                </PaginationWrapper>
       )}
     </Container>
+    </>
   )
 }
 

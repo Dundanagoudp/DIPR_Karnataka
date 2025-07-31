@@ -14,6 +14,7 @@ import {
 } from "./Magazineview.styles"
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import MagzineRecommed from "../recommendemagzine/MagzineRecommed"
+import { Helmet } from "react-helmet"
 
 const Magazineview = () => {
   const { id } = useParams()
@@ -65,6 +66,25 @@ const Magazineview = () => {
 
   return (
     <MagazineViewContainer style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Magazine PDF viewer">
+        <Helmet>
+        <title>{title} | Karnataka Varthe</title>
+        <meta
+          name="description"
+          content={`Read the latest edition: ${title}`}
+        />
+        <meta property="og:title" content={title} />
+        <meta
+          property="og:description"
+          content={`Digital magazine: ${title}`}
+        />
+        <meta property="og:type" content="article" />
+        <meta
+          property="og:image"
+          content="/default-magazine-cover.jpg"
+        />
+        <meta property="og:url" content={window.location.href} />
+      </Helmet>
+      
       <Header>
         <Title>{title}</Title>
         <DownloadButton onClick={handleDownload} disabled={!pdfUrl}

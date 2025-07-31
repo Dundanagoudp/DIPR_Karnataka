@@ -25,6 +25,7 @@ import {
 import { LanguageContext } from "../../../../context/LanguageContext"
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { getLatestNews } from "../../../../services/newsApi/NewsApi"
+import { Helmet } from "react-helmet"
 
 const LatestTrending = () => {
   const [latestNews, setLatestNews] = useState(null)
@@ -109,6 +110,8 @@ const LatestTrending = () => {
 
   if (loading || !latestNews) {
     return (
+      
+      
       <Container style={{ fontSize: `${fontSize}%` }}>
         <NewsCard>
           <ShimmerImage />
@@ -136,6 +139,23 @@ const LatestTrending = () => {
   }
 
   return (
+     <>
+    {latestNews && (
+      <Helmet>
+        <title>{getLocalizedContent(latestNews, "title")} | Karnataka Varthe</title>
+        <meta name="description" content={getLocalizedContent(latestNews, "description").slice(0, 160)} />
+        <meta property="og:title" content={getLocalizedContent(latestNews, "title")} />
+        <meta property="og:description" content={getLocalizedContent(latestNews, "description").slice(0, 160)} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content={latestNews.newsImage || "/placeholder.svg?height=400&width=800&query=trending news"} />
+        <meta property="og:url" content={window.location.href} />
+        {/* <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={getLocalizedContent(latestNews, "title")} />
+        <meta name="twitter:description" content={getLocalizedContent(latestNews, "description").slice(0, 160)} />
+        <meta name="twitter:image" content={latestNews.newsImage || "/placeholder.svg?height=400&width=800&query=trending news"} /> */}
+      </Helmet>
+    )}
+
     <Container style={{ fontSize: `${fontSize}%` }}>
       <NewsCard>
         <NewsImageWrapper>
@@ -170,6 +190,7 @@ const LatestTrending = () => {
         </ContentWrapper>
       </NewsCard>
     </Container>
+    </>
   )
 }
 

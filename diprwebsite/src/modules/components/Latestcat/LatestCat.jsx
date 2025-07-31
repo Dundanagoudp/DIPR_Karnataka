@@ -37,6 +37,7 @@ import AddComments from "../comments/AddComments"
 import { FontSizeContext } from "../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../context/LanguageContext"
 import { logReadingHistory } from "../../../services/recommened/RecommenedApis"
+import { Helmet } from "react-helmet"
 
 const LatestCat = () => {
   const { id } = useParams()
@@ -233,6 +234,22 @@ const LatestCat = () => {
   const audioSrc = getLocalizedContent(news, "audio_description")
 
   return (
+    <>
+      <Helmet>
+      <title>{getLocalizedContent(news, "title")} | Karnataka Varthe</title>
+      <meta name="description" content={getLocalizedContent(news, "description")?.slice(0, 150)} />
+      <meta property="og:title" content={getLocalizedContent(news, "title")} />
+      <meta property="og:description" content={getLocalizedContent(news, "description")?.slice(0, 150)} />
+      <meta property="og:image" content={news.newsImage || "/default-news-thumbnail.jpg"} />
+      <meta property="og:type" content="article" />
+      <meta property="og:url" content={window.location.href} />
+      {/* <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={getLocalizedContent(news, "title")} />
+      <meta name="twitter:description" content={getLocalizedContent(news, "description")?.slice(0, 150)} />
+      <meta name="twitter:image" content={news.newsImage || "/default-news-thumbnail.jpg"} /> */}
+    </Helmet>
+
+   
     <Container role="main" aria-label="News article">
       <MainContentWrapper>
         <NewsCardWrapper key={news._id} role="article">
@@ -399,7 +416,8 @@ const LatestCat = () => {
         )}
       </SidebarWrapper>
     </Container>
+     </>
   )
 }
 
-export default LatestCat
+export default LatestCat;

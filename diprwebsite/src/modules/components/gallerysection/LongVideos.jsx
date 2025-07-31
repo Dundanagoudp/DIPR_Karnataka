@@ -50,6 +50,7 @@ import {
 import { IoIosTimer } from "react-icons/io"
 import { BiSolidMoviePlay } from "react-icons/bi"
 import { User } from "lucide-react" 
+import { Helmet } from "react-helmet"
 
 const LongVideos = () => {
   const [videosData, setVideosData] = useState([])
@@ -246,6 +247,22 @@ const LongVideos = () => {
   }
 
   return (
+      <>
+    {selectedVideo && (
+      <Helmet>
+        <title>{selectedVideo.title} | Karnataka Varthe</title>
+        <meta name="description" content={selectedVideo.description?.slice(0, 160) || "Watch in-depth stories and documentaries on Karnataka Varthe."} />
+        <meta property="og:title" content={selectedVideo.title} />
+        <meta property="og:description" content={selectedVideo.description?.slice(0, 160) || "Watch in-depth stories and documentaries on Karnataka Varthe."} />
+        <meta property="og:type" content="video.other" />
+        <meta property="og:image" content={selectedVideo.thumbnail || "/default-longvideo-thumb.jpg"} />
+        <meta property="og:url" content={window.location.href} />
+        {/* <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={selectedVideo.title} />
+        <meta name="twitter:description" content={selectedVideo.description?.slice(0, 160) || "Watch engaging long-form videos."} />
+        <meta name="twitter:image" content={selectedVideo.thumbnail || "/default-longvideo-thumb.jpg"} /> */}
+      </Helmet>
+    )}
     <Container role="main" aria-label="Long Videos Section">
       <MainContent>
         <VideoPlayerContainer>
@@ -470,6 +487,7 @@ const LongVideos = () => {
         </VideoSidebar>
       </MainContent>
     </Container>
+    </>
   )
 }
 
