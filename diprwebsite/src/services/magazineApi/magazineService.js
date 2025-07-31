@@ -25,7 +25,7 @@ export const MarchMagazines = async () => {
 // get magazine by id
 export const getMagazineById = async (id) => {
   try {
-    const response = await apiClient.get(`/api/magazine/${id}`);
+    const response = await apiClient.get(`/api/magazine/getMagazineById/${id}`);
     console.log("Received data:", response.data);
     return response.data;
   } catch (error) {

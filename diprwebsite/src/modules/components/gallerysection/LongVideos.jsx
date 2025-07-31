@@ -49,7 +49,7 @@ import {
 } from "./LongVideos.styles"
 import { IoIosTimer } from "react-icons/io"
 import { BiSolidMoviePlay } from "react-icons/bi"
-import { User } from "lucide-react" // Lucide React icon for placeholder avatar
+import { User } from "lucide-react" 
 
 const LongVideos = () => {
   const [videosData, setVideosData] = useState([])

@@ -16,9 +16,9 @@ export const PageWrapper = styled.div`
 `
 
 export const Container = styled.div`
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: ${theme.spacing(3)};
+  padding: ${theme.spacing(1)};
   background: ${theme.colors.background};
   font-family: ${theme.fonts.body};
   border-radius: 12px;

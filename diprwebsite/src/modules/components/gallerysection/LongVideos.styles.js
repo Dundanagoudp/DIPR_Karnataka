@@ -61,7 +61,7 @@ export const Container = styled.div`
 export const MainContent = styled.div`
   display: flex;
   gap: ${theme.spacing(3)};
-  max-width: ${theme.spacing(175)};
+  max-width:92%;
   margin: 0 auto;
   animation: ${fadeIn} 0.6s ease-out;
   @media (max-width: ${theme.breakpoints.desktop}) {
