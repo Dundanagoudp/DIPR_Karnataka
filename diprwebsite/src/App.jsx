@@ -30,6 +30,7 @@ import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
 import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Magazineview";
 import { ToastProvider } from "./context/ToastContext";
 import SignUppage from "./screens/signuppage/SignUp";
+import Error404 from "./components/Error404/Error404";
 
 
 const App = () => {
@@ -93,6 +94,7 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/otp" element={<Otp />} />
                 <Route path="/signup" element={<SignUppage />} />
+                <Route path="*" element={<Error404 />} />
               </Routes>
             </Router>
           </ToastProvider>
