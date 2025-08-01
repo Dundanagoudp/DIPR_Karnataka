@@ -210,6 +210,7 @@ export const InteractionContainer = styled.div`
     flex-direction: column;
     align-items: stretch;
     gap: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(1.5)};
   }
 `
 
@@ -217,6 +218,9 @@ export const LikeContainer = styled.div`
   display: flex;
   align-items: center;
   gap: ${theme.spacing(2)};
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(1.5)};
+  }
 `
 
 export const FlexContainer2 = styled.div`
@@ -243,6 +247,12 @@ export const FlexContainer2 = styled.div`
       outline-offset: 2px;
     }
   }
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(1.5)};
+    button {
+      padding: ${theme.spacing(0.375)};
+    }
+  }
 `
 
 export const LikeCount = styled.span`
@@ -266,6 +276,9 @@ export const CommentInputWrapper = styled.div`
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   @media (max-width: ${theme.breakpoints.tablet}) {
     width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: ${theme.spacing(0.5)};
   }
 `
 
@@ -274,6 +287,10 @@ export const CommentIcon = styled(FaComments)`
   font-size: 1.2rem;
   margin-left: ${theme.spacing(1.5)};
   flex-shrink: 0;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    margin-left: ${theme.spacing(1)};
+    font-size: 1rem;
+  }
 `
 
 export const CommentInput = styled.input`
@@ -284,9 +301,15 @@ export const CommentInput = styled.input`
   background: transparent;
   outline: none;
   color: ${theme.colors.black};
+  min-width: 0;
   &::placeholder {
     color: ${theme.colors.black};
     opacity: 0.7;
+  }
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: 0.9rem;
+    padding: ${theme.spacing(0.75)} ${theme.spacing(1)};
+    min-width: 120px;
   }
 `
 
@@ -311,6 +334,11 @@ export const CommentButton = styled.button`
   &:focus-visible {
     outline: 2px solid #2196f3; /* Blue outline */
     outline-offset: 2px;
+  }
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(0.75)} ${theme.spacing(1.5)};
+    font-size: 0.85rem;
+    white-space: nowrap;
   }
 `
 
