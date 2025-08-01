@@ -26,10 +26,37 @@ export const PopupContainer = styled.div`
   width: 90%; /* Responsive width */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); /* Subtle shadow */
   font-family: ${theme.fonts.body};
+  position: relative; /* For positioning the close button */
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing(3)};
     border-radius: 12px;
+  }
+`
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: ${theme.colors.white};
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
   }
 `
 
