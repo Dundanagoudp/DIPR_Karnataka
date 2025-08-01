@@ -12,12 +12,15 @@ import {
   AuthorAvatar,
   AuthorName,
   PublishTime,
+  HeaderContainer,
+  ViewAllButton,
 } from "./LatestNews.styles"
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../../context/LanguageContext"
 import { getLatestNews } from "../../../../services/newsApi/NewsApi"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { ShimmerCard, ShimmerThumbnail, ShimmerTitle, ShimmerMeta } from "./LatestNews.styles"
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -41,6 +44,7 @@ const LatestNewsSection = () => {
   const [loading, setLoading] = useState(true)
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -135,7 +139,15 @@ const LatestNewsSection = () => {
       role="region"
       aria-label="Recommended news section"
     >
-      <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Most Readied</Header>
+      <HeaderContainer>
+        <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Most Readied</Header>
+        <ViewAllButton
+          onClick={() => navigate("/latestnews")}
+          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+        >
+          View All <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} />
+        </ViewAllButton>
+      </HeaderContainer>
       {console.log("Rendering videosData:", videosData)}
       <Content role="list" aria-label="Recommended news articles">
         {loading ? (

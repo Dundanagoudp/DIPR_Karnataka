@@ -34,12 +34,15 @@ import {
   SkeletonRelatedTitle,
   SkeletonRelatedMeta,
   SkeletonTab,
+  HeaderContainer,
+  ViewAllButton,
 } from "./CategoryTabnews.styles"
 import { trackClick } from "../../../services/newsApi/NewsApi"
 import { CategoryApi, NewsApi } from "../../../services/categoryapi/CategoryApi"
 import { FontSizeContext } from "../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../context/LanguageContext"
 import Pagination from "@mui/material/Pagination"
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 
 const CategoryTabnews = () => {
   const [activeTab, setActiveTab] = useState(null)
@@ -210,27 +213,17 @@ const CategoryTabnews = () => {
       role="region"
       aria-label="Category news section"
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+      <HeaderContainer>
         <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
           Latest All News
         </Title>
-        <button
-          style={{
-            background: '#fff',
-            color: '#2563eb',
-            border: 'none',
-            padding: '8px 18px',
-            fontSize: '1rem',
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'background 0.18s cubic-bezier(.4,0,.2,1)',
-            marginLeft: 12,
-          }}
+        <ViewAllButton
           onClick={() => navigate("/latestnews")}
+          style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
         >
-          View All &rarr;
-        </button>
-      </div>
+          View All <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} />
+        </ViewAllButton>
+      </HeaderContainer>
       <div className="tabs-scroll-container">
         <TabsContainer
           ref={tabsRef}

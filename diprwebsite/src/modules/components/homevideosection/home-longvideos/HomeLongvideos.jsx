@@ -26,6 +26,7 @@ import {
   ViewAllButton,
 } from "./HomeLongvideos.styles"
 import { BiSolidMoviePlay } from "react-icons/bi"
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 
 const HomeVideos = () => {
   const [videosData, setVideosData] = useState([])
@@ -113,7 +114,7 @@ const HomeVideos = () => {
       <TopBar>
         <span style={{ fontWeight: 700, fontSize: 25, marginLeft: 50 }}>Karnataka Varthe</span>
         <ViewAllButton onClick={handleViewAll}>
-          View All <span style={{ fontSize: 18, marginLeft: 18, marginRight: 30 }}>→</span>
+          View All <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} />
         </ViewAllButton>
       </TopBar>
       <MainContent>
