@@ -51,6 +51,7 @@ import { IoIosTimer } from "react-icons/io"
 import { BiSolidMoviePlay } from "react-icons/bi"
 import { User } from "lucide-react" 
 import { Helmet } from "react-helmet"
+import LoginPopup from "../loginpopup/LoginPopup"
 
 const LongVideos = () => {
   const [videosData, setVideosData] = useState([])
@@ -65,7 +66,26 @@ const LongVideos = () => {
   const [debouncingLike, setDebouncingLike] = useState(false)
   const [openCommentSection, setOpenCommentSection] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
   const navigate = useNavigate()
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
+  }
 
   useEffect(() => {
     const storedUserId = Cookies.get("userId")
@@ -129,9 +149,8 @@ const LongVideos = () => {
   }
 
   const handleLikeClick = async (videoId) => {
-    if (!userId) {
-      Cookies.set("redirectUrl", window.location.pathname)
-      navigate("/login")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
     if (debouncingLike) return
@@ -164,9 +183,8 @@ const LongVideos = () => {
   }
 
   const handleAddComment = async (videoId) => {
-    if (!userId) {
-      Cookies.set("redirectUrl", window.location.pathname)
-      navigate("/login")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
     const commentText = newComments[videoId]?.trim()
@@ -194,9 +212,8 @@ const LongVideos = () => {
   }
 
   const toggleCommentSection = (videoId) => {
-    if (!userId) {
-      Cookies.set("redirectUrl", window.location.pathname)
-      navigate("/login")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
     setOpenCommentSection(openCommentSection === videoId ? null : videoId)
@@ -486,6 +503,14 @@ const LongVideos = () => {
           </VideoList>
         </VideoSidebar>
       </MainContent>
+      
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        title="Access Video Features?"
+        subtitle="Login to like and comment on videos."
+      />
     </Container>
     </>
   )

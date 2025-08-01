@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import Cookies from "js-cookie"
 import {
   Container,
   NewsCard,
@@ -26,12 +27,44 @@ import { LanguageContext } from "../../../../context/LanguageContext"
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { getLatestNews } from "../../../../services/newsApi/NewsApi"
 import { Helmet } from "react-helmet"
+import LoginPopup from "../../loginpopup/LoginPopup"
 
 const LatestTrending = () => {
   const [latestNews, setLatestNews] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
+  const navigate = useNavigate()
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
+
+  const handleNewsClick = (newsId) => {
+    // Check if user is logged in
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
+      return
+    }
+    
+    // If logged in, navigate to news page
+    navigate(`/newsdetails/${newsId}`)
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
+  }
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -183,12 +216,20 @@ const LatestTrending = () => {
             <p style={{ fontSize: `${fontSize}%` }}>
               {getLocalizedContent(latestNews, "description").substring(0, 200)}...
             </p>
-            <Link to={`/newsdetails/${latestNews._id}`}>
-              <ReadMoreButton>Read Full Articles</ReadMoreButton>
-            </Link>
+            <ReadMoreButton onClick={() => handleNewsClick(latestNews._id)}>
+              Read Full Articles
+            </ReadMoreButton>
           </RightColumn>
         </ContentWrapper>
       </NewsCard>
+      
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        title="Access News?"
+        subtitle="Login to read this news article."
+      />
     </Container>
     </>
   )

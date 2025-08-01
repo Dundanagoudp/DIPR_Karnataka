@@ -43,6 +43,7 @@ import { FontSizeContext } from "../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../context/LanguageContext"
 import Pagination from "@mui/material/Pagination"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
+import LoginPopup from "../loginpopup/LoginPopup"
 
 const CategoryTabnews = () => {
   const [activeTab, setActiveTab] = useState(null)
@@ -51,11 +52,18 @@ const CategoryTabnews = () => {
   const [loading, setLoading] = useState(true)
   const [categoriesLoading, setCategoriesLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
   const itemsPerPage = 5 // 1 featured + 4 related
   const tabsRef = useRef(null)
   const navigate = useNavigate()
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -114,6 +122,12 @@ const CategoryTabnews = () => {
   }
 
   const handleReadMore = async (newsId) => {
+    // Check if user is logged in
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
+      return
+    }
+
     const userId = Cookies.get("userId")
     try {
       if (userId) {
@@ -125,6 +139,18 @@ const CategoryTabnews = () => {
       console.error("Error registering click:", error)
       navigate(`/news/${newsId}`)
     }
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
   }
 
   const getTimeAgo = (dateString) => {
@@ -402,6 +428,14 @@ const CategoryTabnews = () => {
           />
         </PaginationWrapper>
       )}
+      
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        title="Access News?"
+        subtitle="Login to read this news article."
+      />
     </Container>
   )
 }
