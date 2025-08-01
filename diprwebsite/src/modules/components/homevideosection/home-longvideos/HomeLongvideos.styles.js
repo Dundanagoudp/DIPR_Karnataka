@@ -393,7 +393,9 @@ export const CarouselTitle = styled.h2`
   })}
   font-weight: 600;
   color: ${theme.colors.black};
+    font-size: 1.7rem;
   margin: 0;
+  
   font-family: ${theme.fonts.heading};
 `
 

@@ -158,6 +158,7 @@ export const CarouselTitle = styled.h2`
     tablet: "1.2rem",
   })}
   font-weight: 600;
+  font-size: 1.7rem;
   color: ${theme.colors.black};
   margin: 0;
   font-family: ${theme.fonts.heading};
