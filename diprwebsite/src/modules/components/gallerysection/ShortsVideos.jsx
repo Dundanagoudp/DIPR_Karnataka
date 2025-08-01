@@ -622,6 +622,7 @@ const ShortsCarousel2 = () => {
       <LoginPopup 
         isOpen={showLoginPopup} 
         onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
         title="Access Video Features?"
         subtitle="Login to like and comment on videos."
       />

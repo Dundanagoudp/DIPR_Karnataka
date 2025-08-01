@@ -285,6 +285,7 @@ const Magzinehome = () => {
       <LoginPopup 
         isOpen={showLoginPopup} 
         onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
         title="Access Magazine?"
         subtitle="Login to read this magazine content."
       />

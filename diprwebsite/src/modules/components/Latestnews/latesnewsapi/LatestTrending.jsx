@@ -227,6 +227,7 @@ const LatestTrending = () => {
       <LoginPopup 
         isOpen={showLoginPopup} 
         onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
         title="Access News?"
         subtitle="Login to read this news article."
       />
