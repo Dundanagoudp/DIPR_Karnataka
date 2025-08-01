@@ -26,7 +26,8 @@ import Cookies from "js-cookie"
 import { logReadingHistory } from "../../../services/recommened/RecommenedApis"
 import { useNavigate } from "react-router-dom"
 import PDFModal from "../magzinemodal/PDFModal"
-import theme from "../../../theme/Theme";
+import theme from "../../../theme/Theme"
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 
 const Magzinehome = () => {
   const [activeTab, setActiveTab] = useState("Topics")
@@ -242,7 +243,7 @@ const Magzinehome = () => {
               </Tab>
             </div>
             <SeeMoreButton onClick={() => navigate('/magazinepages')}>
-              See more <span style={{ display: 'inline-block', marginLeft: 4 }}>&rarr;</span>
+              View All <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} />
             </SeeMoreButton>
           </TabsContainer>
           <Content style={{ fontSize: `${fontSize}%` }} role="list" aria-label="Magazine list">

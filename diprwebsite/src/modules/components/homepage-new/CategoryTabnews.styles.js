@@ -583,3 +583,49 @@ export const SkeletonTab = styled.div`
     height: 28px;
   }
 `
+
+export const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${theme.spacing(3)};
+  padding: 0 ${theme.spacing(2)};
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    margin-bottom: ${theme.spacing(2.5)};
+    padding: 0 ${theme.spacing(1.5)};
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-bottom: ${theme.spacing(2)};
+    padding: 0 ${theme.spacing(1)};
+  }
+`
+
+export const ViewAllButton = styled.button`
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(0.5)};
+  transition: color 0.2s ease;
+  padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+  border-radius: ${theme.spacing(0.5)};
+  
+  &:hover {
+    color: #1d4ed8;
+  }
+  
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.9rem;
+  }
+`

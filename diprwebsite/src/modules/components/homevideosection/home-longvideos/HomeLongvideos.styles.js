@@ -308,15 +308,27 @@ export const TopBar = styled.div`
 export const ViewAllButton = styled.button`
   background: none;
   border: none;
-  color: #1976d2;
+  color: #2563eb;
   font-weight: 600;
   font-size: 1.4rem;
-//   cursor: pointer;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
-  transition: color 0.2s;
+  gap: ${theme.spacing(0.5)};
+  transition: color 0.2s ease;
+  padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+  border-radius: ${theme.spacing(0.5)};
+  
   &:hover {
-    color: ${theme.colors.primary};
+    color: #1d4ed8;
+  }
+  
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 1.2rem;
   }
 `
