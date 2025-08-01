@@ -612,6 +612,7 @@ export const ViewAllButton = styled.button`
   display: flex;
   align-items: center;
   gap: ${theme.spacing(0.5)};
+    font-size: ${theme.spacing(2.5)};
   transition: color 0.2s ease;
   padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
   border-radius: ${theme.spacing(0.5)};

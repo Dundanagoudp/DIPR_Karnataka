@@ -232,7 +232,7 @@ export const SeeMoreButton = styled.button`
   border: none;
   color: #2563eb;
   font-weight: 600;
-  font-size: ${theme.spacing(2.2)};
+  font-size: ${theme.spacing(2.5)};
   display: flex;
   align-items: center;
   gap: ${theme.spacing(0.5)};
