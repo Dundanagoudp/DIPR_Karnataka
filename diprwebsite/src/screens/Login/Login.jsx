@@ -1,7 +1,6 @@
 import  { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebaseConfig";
-import { LoginApi, startSession } from "../../services/LoginApi";
 import Cookies from "js-cookie";
 import {
   LoginContainer,
@@ -21,6 +20,7 @@ import Logowithtitle from "../../components/Logowithtitle/Logowithtitle";
 import Loader from "../../components/apiloders/ApiLoders";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useToast } from "../../context/ToastContext";
+import { LoginApi, startSession } from "../../services/auth/LoginApi";
 const Login = () => {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");

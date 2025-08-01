@@ -26,7 +26,7 @@ import FontSizeProvider from "./context/FontSizeProvider";
 import Signupnumber from "./screens/signuppage/SignUpNumber";
 import { LanguageProvider } from "./context/LanguageContext";
 import Cookies from "js-cookie";
-import { endSession } from "./services/LoginApi"; 
+import { endSession } from "./services/auth/LoginApi"; 
 import Gallery from "./modules/pages/dynamicGallery/Gallery";
 import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
 import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Magazineview";

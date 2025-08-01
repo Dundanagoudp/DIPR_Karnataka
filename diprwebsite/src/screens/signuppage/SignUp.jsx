@@ -10,7 +10,7 @@ import {
   LinkText,
 } from "../signuppage/Signup.styles";
 import Logowithtitle from "../../components/Logowithtitle/Logowithtitle";
-import { SignupApi } from "../../services/SignupApi";
+import { SignupApi } from "../../services/auth/SignupApi";
 import { FaMobileAlt } from "react-icons/fa";
 import Cookies from "js-cookie"; 
 

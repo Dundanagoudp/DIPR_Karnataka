@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { FaBars, FaTimes, FaUser, FaSignOutAlt } from "react-icons/fa" 
 import { gsap } from "gsap"
 import Cookies from "js-cookie"
-import { endSession } from "../../services/LoginApi"
 import {
   TabContainer,
   TabsWrapper,
@@ -26,6 +25,7 @@ import {
 // Removed ProfileImage import
 import { FontSizeContext } from "../../context/FontSizeProvider"
 import { LanguageContext } from "../../context/LanguageContext"
+import { endSession } from "../../services/auth/LoginApi"
 
 const tabs = [
   {
