@@ -300,3 +300,132 @@ export const LoginButton = styled.button`
   }
 `
 
+export const UserMenu = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`
+
+export const UserButton = styled.button`
+  background-color: ${({ $isScrolled }) => $isScrolled ? '#E0F7FA' : 'transparent'};
+  border: 1px solid #007BFF;
+  color: #007BFF;
+  padding: ${theme.spacing(1)} ${theme.spacing(2)};
+  border-radius: 10px;
+  font-family: ${theme.fonts.heading};
+  font-size: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${theme.spacing(0.5)};
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #E0F7FA;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+`
+
+export const UserDropdown = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: ${theme.colors.background};
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+  z-index: 1000;
+  margin-top: ${theme.spacing(0.5)};
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s ease-in-out;
+
+  ${UserMenu}:hover & {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+`
+
+export const UserMenuItem = styled.button`
+  width: 100%;
+  padding: ${theme.spacing(1)} ${theme.spacing(2)};
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(0.5)};
+  color: #333;
+  font-family: ${theme.fonts.heading};
+  font-size: inherit;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  &:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: #f0f0f0;
+  }
+`
+
+export const LogoutButton = styled.button`
+  background-color: #dc3545;
+  border: 1px solid #dc3545;
+  color: white;
+  padding: ${theme.spacing(1)} ${theme.spacing(2)};
+  border-radius: 10px;
+  font-family: ${theme.fonts.heading};
+  font-size: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${theme.spacing(0.5)};
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+    background-color: #c82333;
+    border-color: #c82333;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+  }
+`
+
