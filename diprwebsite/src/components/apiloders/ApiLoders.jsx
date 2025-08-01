@@ -1,5 +1,5 @@
 import React from "react";
-import { ClipLoader, ScaleLoader } from "react-spinners";
+import { CircleLoader, ClipLoader, ScaleLoader } from "react-spinners";
 import { LoaderContainer } from "./ApiLoders.styles";
 
 const Loader = () => {
@@ -9,7 +9,7 @@ const Loader = () => {
       aria-label="Loading content"
       aria-live="polite"
     >
-      <ScaleLoader  color="#1E88E5" size={40} />
+      <CircleLoader  color="#1E88E5" size={50} />
     </LoaderContainer>
   );
 };
