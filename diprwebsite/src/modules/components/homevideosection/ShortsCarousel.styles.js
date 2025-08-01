@@ -141,12 +141,13 @@ export const CarouselContainer = styled.div`
 
 export const CarouselHeader = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: ${theme.spacing(1.25)} 0;
   margin-bottom: ${theme.spacing(1.25)};
-    @media (min-width: ${theme.breakpoints.tablet}) {
-    justify-content: flex-end;
+  
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    justify-content: space-between;
     padding: ${theme.spacing(1.25)} ${theme.spacing(2.5)};
   }
 `
@@ -154,7 +155,7 @@ export const CarouselHeader = styled.div`
 export const CarouselTitle = styled.h2`
   ${responsive("font-size", {
     default: "1.25rem",
-    tablet: "1.125rem",
+    tablet: "1.2rem",
   })}
   font-weight: 600;
   color: ${theme.colors.black};
@@ -167,9 +168,19 @@ export const CarouselTitleWrapper = styled.div`
   align-items: center;
   gap: ${theme.spacing(0.625)};
   cursor: pointer;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: ${theme.spacing(2.5)};
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #1d4ed8;
+  }
+  
   @media (max-width: ${theme.breakpoints.tablet}) {
     gap: ${theme.spacing(0.5)};
   }
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
     margin-left: auto;
   }

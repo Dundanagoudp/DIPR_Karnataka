@@ -4,7 +4,7 @@ import {
   RightSection,
   OtpBox,
   OtpHeader,
-  
+
   OtpSubheader,
   OtpInputs,
   OtpInput,

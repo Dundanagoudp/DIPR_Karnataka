@@ -18,6 +18,7 @@ import { LanguageContext } from "../../../context/LanguageContext"
 import { getRecommendations } from "../../../services/recommened/RecommenedApis"
 import { Link } from "react-router-dom"
 import { ShimmerCard, ShimmerThumbnail, ShimmerTitle, ShimmerMeta } from "./RecomMended.styles"
+import { Helmet } from "react-helmet"
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -139,60 +140,76 @@ const RecomMended = () => {
   }
 
   return (
-    <Container 
-      style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
-      role="region"
-      aria-label="Recommended news section"
-    >
-      <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Recommended News</Header>
-      {console.log("Rendering videosData:", videosData)}
-      <Content role="list" aria-label="Recommended news articles">
-        {loading ? (
-          renderSkeleton()
-        ) : Array.isArray(videosData) && videosData.length > 0 ? (
-          videosData.slice(0, 6).map((video) => (
-            <Link 
-              to={`/newsdetails/${video._id}`} 
-              key={video._id} 
-              style={{ textDecoration: "none", color: "inherit" }}
-              aria-label={`Read article: ${getLocalizedContent(video, "title")}`}
+    <>
+      <Helmet>
+        <title>Recommended News | Karnataka Varthe</title>
+        <meta name="description" content="Discover personalized and trending news articles tailored to your interests." />
+        <meta property="og:title" content="Recommended News | Karnataka Varthe" />
+        <meta property="og:description" content="Stay updated with top recommended stories based on your reading history." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/default-news-thumbnail.jpg" />
+        <meta property="og:url" content={window.location.href} />
+        {/* <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Recommended News | Karnataka Varthe" />
+        <meta name="twitter:description" content="Stay informed with news articles tailored for you." />
+        <meta name="twitter:image" content="/default-news-thumbnail.jpg" /> */}
+      </Helmet>
+
+      <Container 
+        style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
+        role="region"
+        aria-label="Recommended news section"
+      >
+        <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Recommended News</Header>
+        {console.log("Rendering videosData:", videosData)}
+        <Content role="list" aria-label="Recommended news articles">
+          {loading ? (
+            renderSkeleton()
+          ) : Array.isArray(videosData) && videosData.length > 0 ? (
+            videosData.slice(0, 6).map((video) => (
+              <Link 
+                to={`/newsdetails/${video._id}`} 
+                key={video._id} 
+                style={{ textDecoration: "none", color: "inherit" }}
+                aria-label={`Read article: ${getLocalizedContent(video, "title")}`}
+              >
+                <VideoCard1 role="listitem">
+                  <VideoThumbnail
+                    src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
+                    alt={getLocalizedContent(video, "title")}
+                  />
+                  <VideoDetails>
+                    <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                      {getLocalizedContent(video, "title")}
+                    </Title>
+                    <AuthorInfo>
+                      <AuthorAvatar aria-label={`Author: ${video.author || "AthleteAdmirer"}`}>
+                        {getAuthorInitials(video.author || "AthleteAdmirer")}
+                      </AuthorAvatar>
+                      <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                        {video.author || "AthleteAdmirer"}
+                      </AuthorName>
+                      <PublishTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                        • {getLocalizedCategory(video.category)} • {getTimeAgo(video.createdTime || video.publishedAt)}
+                      </PublishTime>
+                    </AuthorInfo>
+                  </VideoDetails>
+                </VideoCard1>
+              </Link>
+            ))
+          ) : (
+            <div 
+              style={{ padding: "1rem", textAlign: "center", color: "#888" }} 
+              role="status" 
+              aria-live="polite"
             >
-              <VideoCard1 role="listitem">
-                <VideoThumbnail
-                  src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
-                  alt={getLocalizedContent(video, "title")}
-                />
-                <VideoDetails>
-                  <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    {getLocalizedContent(video, "title")}
-                  </Title>
-                  <AuthorInfo>
-                    <AuthorAvatar aria-label={`Author: ${video.author || "AthleteAdmirer"}`}>
-                      {getAuthorInitials(video.author || "AthleteAdmirer")}
-                    </AuthorAvatar>
-                    <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                      {video.author || "AthleteAdmirer"}
-                    </AuthorName>
-                    <PublishTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                      • {getLocalizedCategory(video.category)} • {getTimeAgo(video.createdTime || video.publishedAt)}
-                    </PublishTime>
-                  </AuthorInfo>
-                </VideoDetails>
-              </VideoCard1>
-            </Link>
-          ))
-        ) : (
-          <div 
-            style={{ padding: "1rem", textAlign: "center", color: "#888" }} 
-            role="status" 
-            aria-live="polite"
-          >
-            No recommended news found.
-          </div>
-        )}
-      </Content>
-    </Container>
+              No recommended news found.
+            </div>
+          )}
+        </Content>
+      </Container>
+    </>
   )
 }
 
-export default RecomMended
+export default RecomMended;

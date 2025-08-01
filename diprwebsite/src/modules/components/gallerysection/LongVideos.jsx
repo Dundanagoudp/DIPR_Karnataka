@@ -50,6 +50,8 @@ import {
 import { IoIosTimer } from "react-icons/io"
 import { BiSolidMoviePlay } from "react-icons/bi"
 import { User } from "lucide-react" 
+import { Helmet } from "react-helmet"
+import LoginPopup from "../loginpopup/LoginPopup"
 
 const LongVideos = () => {
   const [videosData, setVideosData] = useState([])
@@ -64,7 +66,26 @@ const LongVideos = () => {
   const [debouncingLike, setDebouncingLike] = useState(false)
   const [openCommentSection, setOpenCommentSection] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
   const navigate = useNavigate()
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
+  }
 
   useEffect(() => {
     const storedUserId = Cookies.get("userId")
@@ -128,9 +149,8 @@ const LongVideos = () => {
   }
 
   const handleLikeClick = async (videoId) => {
-    if (!userId) {
-      Cookies.set("redirectUrl", window.location.pathname)
-      navigate("/login")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
     if (debouncingLike) return
@@ -163,9 +183,8 @@ const LongVideos = () => {
   }
 
   const handleAddComment = async (videoId) => {
-    if (!userId) {
-      Cookies.set("redirectUrl", window.location.pathname)
-      navigate("/login")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
     const commentText = newComments[videoId]?.trim()
@@ -193,9 +212,8 @@ const LongVideos = () => {
   }
 
   const toggleCommentSection = (videoId) => {
-    if (!userId) {
-      Cookies.set("redirectUrl", window.location.pathname)
-      navigate("/login")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
     setOpenCommentSection(openCommentSection === videoId ? null : videoId)
@@ -246,6 +264,22 @@ const LongVideos = () => {
   }
 
   return (
+      <>
+    {selectedVideo && (
+      <Helmet>
+        <title>{selectedVideo.title} | Karnataka Varthe</title>
+        <meta name="description" content={selectedVideo.description?.slice(0, 160) || "Watch in-depth stories and documentaries on Karnataka Varthe."} />
+        <meta property="og:title" content={selectedVideo.title} />
+        <meta property="og:description" content={selectedVideo.description?.slice(0, 160) || "Watch in-depth stories and documentaries on Karnataka Varthe."} />
+        <meta property="og:type" content="video.other" />
+        <meta property="og:image" content={selectedVideo.thumbnail || "/default-longvideo-thumb.jpg"} />
+        <meta property="og:url" content={window.location.href} />
+        {/* <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={selectedVideo.title} />
+        <meta name="twitter:description" content={selectedVideo.description?.slice(0, 160) || "Watch engaging long-form videos."} />
+        <meta name="twitter:image" content={selectedVideo.thumbnail || "/default-longvideo-thumb.jpg"} /> */}
+      </Helmet>
+    )}
     <Container role="main" aria-label="Long Videos Section">
       <MainContent>
         <VideoPlayerContainer>
@@ -469,7 +503,17 @@ const LongVideos = () => {
           </VideoList>
         </VideoSidebar>
       </MainContent>
+      
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
+        title="Access Video Features?"
+        subtitle="Login to like and comment on videos."
+      />
     </Container>
+    </>
   )
 }
 

@@ -127,7 +127,7 @@ export const AuthorAvatar = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #FF69B4;
+  background: #1E88E5;
   display: flex;
   align-items: center;
   justify-content: center;

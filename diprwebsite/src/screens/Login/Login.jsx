@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   auth,
@@ -31,7 +31,7 @@ const Login = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [confirmationResult, setConfirmationResult] = useState(null);
-  const [showLoader, setShowLoader] = useState(true); 
+  const [showLoader, setShowLoader] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -235,3 +235,233 @@ const Login = () => {
 };
 
 export default Login;
+
+// src/components/Login.jsx
+
+
+
+
+// import React, { useState, useEffect } from "react";
+// import { auth } from "../../config/firebaseConfig";
+// import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+// import Cookies from "js-cookie";
+// import { LoginApi, startSession } from "../../services/LoginApi";
+// import { useNavigate } from "react-router-dom";
+
+// const Login = () => {
+//   const [phone, setPhone] = useState("");
+//   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+//   const [confirmationResult, setConfirmationResult] = useState(null);
+//   const [error, setError] = useState("");
+//   const [loading, setLoading] = useState(false);
+//   const [cooldown, setCooldown] = useState(0);
+
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     let timer;
+//     if (cooldown > 0) {
+//       timer = setTimeout(() => setCooldown(cooldown - 1), 1000);
+//     }
+//     return () => clearTimeout(timer);
+//   }, [cooldown]);
+
+// const setupRecaptcha = () => {
+//   if (!window.grecaptcha) {
+//     console.warn("grecaptcha not loaded yet. Retrying...");
+//     setTimeout(setupRecaptcha, 500); // Retry after delay
+//     return;
+//   }
+
+//   if (!window.recaptchaVerifier) {
+//     try {
+//       window.recaptchaVerifier = new RecaptchaVerifier(
+//         "recaptcha-container",
+//         {
+//           size: "normal",
+//           callback: (response) => {
+//             console.log("reCAPTCHA passed:", response);
+//           },
+//           "expired-callback": () => {
+//             console.warn("reCAPTCHA expired");
+//           },
+//         },
+//         auth
+//       );
+
+//       window.recaptchaVerifier.render().then((widgetId) => {
+//         console.log("reCAPTCHA rendered:", widgetId);
+//       });
+//     } catch (err) {
+//       console.error("RecaptchaVerifier init failed:", err);
+//     }
+//   }
+// };
+
+
+//   const sendOTP = async () => {
+//     if (cooldown > 0) {
+//       setError(`Wait ${cooldown} seconds before resending`);
+//       return;
+//     }
+
+//     if (!phone || phone.length < 10) {
+//       setError("Please enter a valid phone number");
+//       return;
+//     }
+
+//     setLoading(true);
+//     setError("");
+
+//     try {
+//       const fullPhone = phone.startsWith("+") ? phone : `+91${phone}`;
+//       setupRecaptcha();
+
+//       const appVerifier = window.recaptchaVerifier;
+
+//       if (!auth) throw new Error("Firebase Auth is not initialized.");
+//       if (!appVerifier) throw new Error("reCAPTCHA not initialized properly.");
+
+//       const confirmation = await signInWithPhoneNumber(
+//         auth,
+//         fullPhone,
+//         appVerifier
+//       );
+
+//       setConfirmationResult(confirmation);
+//       setCooldown(30);
+//     } catch (err) {
+//       console.error("sendOTP error:", err);
+//       if (err.code === "auth/invalid-app-credential") {
+//         setError("Security verification failed. Please refresh the page.");
+//       } else if (err.code === "auth/too-many-requests") {
+//         setError("Too many attempts. Please wait and try again.");
+//       } else if (err.code === "auth/argument-error") {
+//         setError("Internal setup issue. Please refresh and try again.");
+//       } else {
+//         setError(err.message || "Failed to send OTP.");
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const verifyOTP = async () => {
+//     const otpCode = otp.join("");
+//     if (otpCode.length !== 6) {
+//       setError("Enter a 6-digit OTP.");
+//       return;
+//     }
+
+//     setLoading(true);
+//     try {
+//       const result = await confirmationResult.confirm(otpCode);
+//       const idToken = await result.user.getIdToken();
+
+//       const loginResponse = await LoginApi(idToken);
+//       if (loginResponse.success) {
+//         Cookies.set("sessionToken", loginResponse.token, {
+//           secure: true,
+//           expires: 7,
+//         });
+//         Cookies.set("userId", loginResponse.userId, {
+//           secure: true,
+//           expires: 7,
+//         });
+
+//         await startSession(loginResponse.userId, "web");
+
+//         const redirectUrl = Cookies.get("redirectUrl");
+//         Cookies.remove("redirectUrl");
+
+//         navigate(redirectUrl || "/");
+//       } else {
+//         setError("Login failed. Try again.");
+//       }
+//     } catch (err) {
+//       console.error("verifyOTP error:", err);
+//       setError("Invalid OTP. Please try again.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleOtpChange = (index, value) => {
+//     if (isNaN(value)) return;
+//     const newOtp = [...otp];
+//     newOtp[index] = value;
+//     setOtp(newOtp);
+
+//     if (value && index < 5) {
+//       document.getElementById(`otp-input-${index + 1}`)?.focus();
+//     }
+//   };
+
+//   return (
+//     <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+//       <h2>Login with Phone</h2>
+
+//       <input
+//         type="tel"
+//         placeholder="Enter phone number"
+//         value={phone}
+//         onChange={(e) => setPhone(e.target.value)}
+//         disabled={loading || !!confirmationResult}
+//         style={{ padding: "10px", width: "100%", marginBottom: "10px" }}
+//       />
+
+//       {!confirmationResult ? (
+//         <button
+//           onClick={sendOTP}
+//           disabled={loading}
+//           style={{ padding: "10px", width: "100%" }}
+//         >
+//           {loading ? "Sending OTP..." : "Send OTP"}
+//         </button>
+//       ) : (
+//         <>
+//           <div
+//             style={{
+//               display: "flex",
+//               justifyContent: "center",
+//               gap: "8px",
+//               margin: "20px 0",
+//             }}
+//           >
+//             {otp.map((digit, index) => (
+//               <input
+//                 key={index}
+//                 id={`otp-input-${index}`}
+//                 type="text"
+//                 maxLength="1"
+//                 value={digit}
+//                 onChange={(e) => handleOtpChange(index, e.target.value)}
+//                 style={{
+//                   width: "40px",
+//                   height: "40px",
+//                   fontSize: "20px",
+//                   textAlign: "center",
+//                   border: "1px solid #ccc",
+//                   borderRadius: "4px",
+//                 }}
+//               />
+//             ))}
+//           </div>
+//           <button
+//             onClick={verifyOTP}
+//             disabled={loading}
+//             style={{ padding: "10px", width: "100%" }}
+//           >
+//             {loading ? "Verifying..." : "Verify & Login"}
+//           </button>
+//         </>
+//       )}
+
+//       <div id="recaptcha-container" style={{ marginTop: "20px" }} />
+
+//       {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+//     </div>
+//   );
+// };
+
+// export default Login;

@@ -22,10 +22,15 @@ import {
   VideoItemTitle,
   VideoItemViews,
   ShimmerEffect,
+  CarouselHeader,
+    CarouselTitle,
+    CarouselTitleWrapper,
   TopBar,
   ViewAllButton,
+  SeeMoreButton
 } from "./HomeLongvideos.styles"
 import { BiSolidMoviePlay } from "react-icons/bi"
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 
 const HomeVideos = () => {
   const [videosData, setVideosData] = useState([])
@@ -110,12 +115,12 @@ const HomeVideos = () => {
 
   return (
     <Container role="main" aria-label="Long Videos Section">
-      <TopBar>
-        <span style={{ fontWeight: 700, fontSize: 25, marginLeft: 50 }}>Karnataka Varthe</span>
-        <ViewAllButton onClick={handleViewAll}>
-          View All <span style={{ fontSize: 18, marginLeft: 18, marginRight: 30 }}>→</span>
-        </ViewAllButton>
-      </TopBar>
+           <CarouselHeader>
+             <CarouselTitle>Karnataka Varthe</CarouselTitle>
+             <CarouselTitleWrapper onClick={() => navigate("/gallery")}>
+               View All <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} aria-hidden="true" />
+             </CarouselTitleWrapper>
+           </CarouselHeader>
       <MainContent>
         <VideoPlayerContainer>
           {selectedVideo && (

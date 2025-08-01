@@ -53,6 +53,9 @@ import {
 } from "./ShortsVideos.styles"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 import Cookies from "js-cookie"
+import { Helmet } from "react-helmet"
+import LoginPopup from "../loginpopup/LoginPopup"
+import { useNavigate } from "react-router-dom"
 
 const ShortsCarousel2 = () => {
   const [videos, setVideos] = useState([])
@@ -79,7 +82,26 @@ const ShortsCarousel2 = () => {
   const [activeVideoId, setActiveVideoId] = useState(null)
   const [userId, setUserId] = useState(null)
   const [debouncingLike, setDebouncingLike] = useState(false)
-  const [submittingComment, setSubmittingComment] = useState(false) // <-- add this
+  const [submittingComment, setSubmittingComment] = useState(false)
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
+  }
 
   useEffect(() => {
     // Get user ID from cookies
@@ -242,9 +264,8 @@ const ShortsCarousel2 = () => {
     // Prevent event from bubbling up to parent elements
     event.stopPropagation()
 
-    if (!userId) {
-      // Redirect to login or show login prompt
-      alert("Please login to like videos")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
 
@@ -281,6 +302,12 @@ const ShortsCarousel2 = () => {
   // Toggle comment section visibility
   const handleCommentClick = (videoId, event) => {
     event.stopPropagation()
+    
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
+      return
+    }
+    
     setActiveVideoId(videoId)
     setShowCommentPopup(true)
   }
@@ -289,8 +316,8 @@ const ShortsCarousel2 = () => {
   const handleSubmitComment = async (event) => {
     event.preventDefault()
     if (submittingComment) return // prevent double submit
-    if (!userId) {
-      alert("Please login to comment")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
     if (!commentInput?.trim()) {
@@ -415,7 +442,24 @@ const ShortsCarousel2 = () => {
     return `${(count / 1000000).toFixed(1)}M`
   }
 
+  const navigate = useNavigate()
+
   return (
+    <>
+    <Helmet>
+  <title>Short Videos | Karnataka Varthe</title>
+  <meta name="description" content="Watch short and engaging videos on topics ranging from news, culture, empowerment and more." />
+  <meta property="og:title" content="Short Videos | Karnataka Varthe" />
+  <meta property="og:description" content="Explore trending short videos recommended just for you." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/default-short-video-thumbnail.jpg" />
+  <meta property="og:url" content={window.location.href} />
+  {/* <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Short Videos | Karnataka Varthe" />
+  <meta name="twitter:description" content="Explore trending short videos recommended just for you." />
+  <meta name="twitter:image" content="/default-short-video-thumbnail.jpg" /> */}
+</Helmet>
+
     <CarouselContainer ref={containerRef}>
       <CarouselHeader>
         <CarouselTitleWrapper>
@@ -573,8 +617,18 @@ const ShortsCarousel2 = () => {
           </CommentPopupContent>
         </CommentPopupOverlay>
       )}
+      
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
+        title="Access Video Features?"
+        subtitle="Login to like and comment on videos."
+      />
     </CarouselContainer>
+    </>
   )
 }
 
-export default ShortsCarousel2
+export default ShortsCarousel2;

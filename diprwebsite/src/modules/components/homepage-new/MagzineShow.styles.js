@@ -230,21 +230,28 @@ export const SkeletonButton = styled.div`
 export const SeeMoreButton = styled.button`
   background: none;
   border: none;
-  color: #2196f3;
-  font-weight: bold;
-  font-size: ${theme.spacing(2.2)};
+  color: #2563eb;
+  font-weight: 600;
+  font-size: ${theme.spacing(2.5)};
   display: flex;
   align-items: center;
+  gap: ${theme.spacing(0.5)};
   cursor: pointer;
   margin-left: auto;
-  padding: 0;
-  transition: color 0.2s;
+  padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+  border-radius: ${theme.spacing(0.5)};
+  transition: color 0.2s ease;
+  
   &:hover {
-    color: #1565c0;
-    text-decoration: underline;
+    color: #1d4ed8;
   }
-  svg {
-    margin-left: 4px;
-    font-size: 1.1em;
+  
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
   }
-`;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(2)};
+  }
+`

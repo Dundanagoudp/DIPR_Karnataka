@@ -24,8 +24,9 @@ import {
 } from "../homevideosection/ShortsCarousel.styles"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 import { CarouselTitleWrapper } from "./ShortsCarousel.styles"
+import { useNavigate } from "react-router-dom"
 
-const ShortsCarousel = () => {
+const  ShortsCarousel = () => {
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -40,6 +41,7 @@ const ShortsCarousel = () => {
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -220,29 +222,13 @@ const ShortsCarousel = () => {
   return (
     <CarouselContainer ref={containerRef} role="region" aria-label="Shorts videos carousel" tabIndex="0">
       <CarouselHeader>
-        <CarouselTitleWrapper>
-          <CarouselTitle>View All</CarouselTitle>
-          <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} aria-hidden="true" />
+        <CarouselTitle>Shorts</CarouselTitle>
+        <CarouselTitleWrapper onClick={() => navigate("/gallery")}>
+          View All <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} aria-hidden="true" />
         </CarouselTitleWrapper>
       </CarouselHeader>
       <CarouselWrapper onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} onTouchEnd={handleMouseUp}>
-        {!isMobile && (
-          <NavigationButton
-            direction="left"
-            onClick={handlePrev}
-            disabled={currentIndex === 0 || loading}
-            aria-label="Previous videos"
-            tabIndex="0"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault()
-                handlePrev()
-              }
-            }}
-          >
-            <ChevronLeft size={24} aria-hidden="true" />
-          </NavigationButton>
-        )}
+        {/* Hide navigation buttons for consistent design */}
         <CarouselTrack
           ref={trackRef}
           style={{ transform: `translateX(-${currentIndex * (100 / visibleVideos)}%)` }}
@@ -323,30 +309,12 @@ const ShortsCarousel = () => {
                   <VideoInfo>
                     <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
                     <ChannelInfo>
-                      {/* <ChannelName>Channel Name</ChannelName> */}
-                      {/* <SubscribeButton>Subscribe</SubscribeButton> */}
+              
                     </ChannelInfo>
                   </VideoInfo>
                 </VideoCard>
               ))}
         </CarouselTrack>
-        {!isMobile && (
-          <NavigationButton
-            direction="right"
-            onClick={handleNext}
-            disabled={currentIndex >= videos.length - visibleVideos || loading}
-            aria-label="Next videos"
-            tabIndex="0"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault()
-                handleNext()
-              }
-            }}
-          >
-            <ChevronRight size={24} aria-hidden="true" />
-          </NavigationButton>
-        )}
       </CarouselWrapper>
     </CarouselContainer>
   )

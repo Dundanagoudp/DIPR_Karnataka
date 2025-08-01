@@ -40,6 +40,8 @@ import { CategoryApi, NewsApi } from "../../../../services/categoryapi/CategoryA
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
 import { LanguageContext } from "../../../../context/LanguageContext"
 import Pagination from "@mui/material/Pagination"
+import { Helmet } from "react-helmet"
+import LoginPopup from "../../loginpopup/LoginPopup"
 
 const CategoryNews = () => {
   const [activeTab, setActiveTab] = useState(null)
@@ -48,11 +50,18 @@ const CategoryNews = () => {
   const [loading, setLoading] = useState(true)
   const [categoriesLoading, setCategoriesLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
   const itemsPerPage = 5 // 1 featured + 4 related
   const tabsRef = useRef(null)
   const navigate = useNavigate()
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
 
   // Scroll tabs left or right
   // const scrollTabs = (direction) => {
@@ -123,6 +132,12 @@ const CategoryNews = () => {
   }
 
   const handleReadMore = async (newsId) => {
+    // Check if user is logged in
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
+      return
+    }
+
     const userId = Cookies.get("userId")
     try {
       if (userId) {
@@ -134,6 +149,18 @@ const CategoryNews = () => {
       console.error("Error registering click:", error)
       navigate(`/news/${newsId}`)
     }
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
   }
 
   const getTimeAgo = (dateString) => {
@@ -217,6 +244,54 @@ const CategoryNews = () => {
   )
 
   return (
+    <>
+    {featuredNews && (
+      <Helmet>
+  <title>
+    {featuredNews
+      ? `${getLocalizedContent(featuredNews, "title")} | ${getLocalizedCategoryName(featuredNews.category)} - Karnataka Varthe`
+      : "Latest Category News | Karnataka Varthe"}
+  </title>
+  <meta
+    name="description"
+    content={
+      featuredNews
+        ? getLocalizedContent(featuredNews, "description")?.slice(0, 160)
+        : "Explore the latest news across categories on Karnataka Varthe."
+    }
+  />
+  <meta property="og:title" content={featuredNews ? getLocalizedContent(featuredNews, "title") : "Category News"} />
+  <meta
+    property="og:description"
+    content={
+      featuredNews
+        ? getLocalizedContent(featuredNews, "description")?.slice(0, 160)
+        : "Browse trending and latest category-wise news updates."
+    }
+  />
+  <meta property="og:type" content="article" />
+  <meta
+    property="og:image"
+    content={featuredNews?.newsImage || "/placeholder.svg?height=400&width=800&query=news thumbnail"}
+  />
+  <meta property="og:url" content={window.location.href} />
+  {/* <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={featuredNews ? getLocalizedContent(featuredNews, "title") : "Category News"} />
+  <meta
+    name="twitter:description"
+    content={
+      featuredNews
+        ? getLocalizedContent(featuredNews, "description")?.slice(0, 160)
+        : "Catch the latest updates from Karnataka Varthe's news categories."
+    }
+  />
+  <meta
+    name="twitter:image"
+    content={featuredNews?.newsImage || "/placeholder.svg?height=400&width=800&query=news thumbnail"}
+  /> */}
+</Helmet>
+
+    )}
     <Container
       style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
       role="region"
@@ -409,7 +484,17 @@ const CategoryNews = () => {
                  />
                </PaginationWrapper>
       )}
+      
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
+        title="Access News?"
+        subtitle="Login to read this news article."
+      />
     </Container>
+    </>
   )
 }
 
