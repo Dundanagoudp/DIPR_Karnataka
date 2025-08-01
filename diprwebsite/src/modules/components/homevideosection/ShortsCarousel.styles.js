@@ -155,9 +155,10 @@ export const CarouselHeader = styled.div`
 export const CarouselTitle = styled.h2`
   ${responsive("font-size", {
     default: "1.25rem",
-    tablet: "1.125rem",
+    tablet: "1.2rem",
   })}
   font-weight: 600;
+  font-size: 1.7rem;
   color: ${theme.colors.black};
   margin: 0;
   font-family: ${theme.fonts.heading};
@@ -170,6 +171,7 @@ export const CarouselTitleWrapper = styled.div`
   cursor: pointer;
   color: #2563eb;
   font-weight: 600;
+  font-size: ${theme.spacing(2.5)};
   transition: color 0.2s ease;
   
   &:hover {

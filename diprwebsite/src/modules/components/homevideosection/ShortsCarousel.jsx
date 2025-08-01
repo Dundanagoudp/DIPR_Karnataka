@@ -26,7 +26,7 @@ import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 import { CarouselTitleWrapper } from "./ShortsCarousel.styles"
 import { useNavigate } from "react-router-dom"
 
-const ShortsCarousel = () => {
+const  ShortsCarousel = () => {
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -309,8 +309,7 @@ const ShortsCarousel = () => {
                   <VideoInfo>
                     <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
                     <ChannelInfo>
-                      {/* <ChannelName>Channel Name</ChannelName> */}
-                      {/* <SubscribeButton>Subscribe</SubscribeButton> */}
+              
                     </ChannelInfo>
                   </VideoInfo>
                 </VideoCard>

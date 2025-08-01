@@ -28,6 +28,7 @@ import PDFModal from "./ModalPdf"
 import Cookies from "js-cookie"
 import { logReadingHistory } from "../../../../services/recommened/RecommenedApis"
 import { useNavigate } from "react-router-dom"
+import LoginPopup from "../../loginpopup/LoginPopup"
 
 const MagazinePdf2 = () => {
   const [activeTab, setActiveTab] = useState("Topics")
@@ -38,6 +39,7 @@ const MagazinePdf2 = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedPdf, setSelectedPdf] = useState("")
   const [selectedTitle, setSelectedTitle] = useState("")
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
   const itemsPerPageDesktop = 10
   const itemsPerPageMobile = 4
 
@@ -45,6 +47,12 @@ const MagazinePdf2 = () => {
   const { language } = useContext(LanguageContext)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const navigate = useNavigate()
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -108,14 +116,21 @@ const MagazinePdf2 = () => {
   }
 
   const handleReadMoreClick = (pdfUrl, title, magazineId) => {
-    // Instead of opening modal, navigate to the magazine page by id, with source param
+    // Check if user is logged in
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
+      return
+    }
+
+    // If user is logged in, proceed with navigation
     navigate(`/magazine/${magazineId}?source=${encodeURIComponent(activeTab)}`)
-    // Optionally, log reading history as before
+    
+    // Log reading history
     const userId = Cookies.get("userId")
     if (userId && magazineId) {
       const historyData = {
         userId,
-        contentId: magazineId, // Correct key for backend
+        contentId: magazineId,
         contentType: "magazine",
       }
       logReadingHistory(historyData)
@@ -124,6 +139,18 @@ const MagazinePdf2 = () => {
 
   const closeModal = () => {
     setModalOpen(false)
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
   }
 
   const getLocalizedContent = (item, field) => {
@@ -233,10 +260,12 @@ const MagazinePdf2 = () => {
                 )}
                 page={currentPage}
                 onChange={handlePageChange}
+                color="primary"
+                size="large"
                 variant="outlined"
                 shape="rounded"
-                color="primary"
                 aria-label="Magazine pages"
+                sx={{ justifyContent: 'flex-end', display: 'flex', width: '100%' }} // Ensure right alignment in MUI
               />
             </PaginationWrapper>
           )}
@@ -244,6 +273,14 @@ const MagazinePdf2 = () => {
       </Container>
       {/* PDF Modal */}
       <PDFModal isOpen={modalOpen} onClose={closeModal} pdfUrl={selectedPdf} title={selectedTitle} />
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
+        title="Access Magazine?"
+        subtitle="Login to read this magazine content."
+      />
     </PageWrapper>
   )
 }

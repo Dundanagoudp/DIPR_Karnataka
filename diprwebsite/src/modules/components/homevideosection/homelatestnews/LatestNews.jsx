@@ -21,6 +21,8 @@ import { getLatestNews } from "../../../../services/newsApi/NewsApi"
 import { Link, useNavigate } from "react-router-dom"
 import { ShimmerCard, ShimmerThumbnail, ShimmerTitle, ShimmerMeta } from "./LatestNews.styles"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
+import Cookies from "js-cookie"
+import LoginPopup from "../../loginpopup/LoginPopup"
 
 // Helper function to get cookies by name
 const getCookie = (name) => {
@@ -42,9 +44,39 @@ const getAuthorInitials = (authorName) => {
 const LatestNewsSection = () => {
   const [videosData, setVideosData] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
   const navigate = useNavigate()
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
+
+  const handleNewsClick = (newsId) => {
+    // Check if user is logged in
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
+      return
+    }
+    
+    // If logged in, navigate to news page
+    navigate(`/news/${newsId}`)
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
+  }
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -154,35 +186,40 @@ const LatestNewsSection = () => {
           renderSkeleton()
         ) : Array.isArray(videosData) && videosData.length > 0 ? (
           videosData.slice(0, 6).map((video) => (
-            <Link 
-              to={`/news/${video._id}`} 
-              key={video._id} 
-              style={{ textDecoration: "none", color: "inherit" }}
+            <VideoCard1 
+              key={video._id}
+              onClick={() => handleNewsClick(video._id)}
+              role="listitem"
+              tabIndex="0"
               aria-label={`Read article: ${getLocalizedContent(video, "title")}`}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault()
+                  handleNewsClick(video._id)
+                }
+              }}
             >
-              <VideoCard1 role="listitem">
-                <VideoThumbnail
-                  src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
-                  alt={getLocalizedContent(video, "title")}
-                />
-                <VideoDetails>
-                  <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                    {getLocalizedContent(video, "title")}
-                  </Title>
-                  <AuthorInfo>
-                    <AuthorAvatar aria-label={`Author: ${video.author || "AthleteAdmirer"}`}>
-                      {getAuthorInitials(video.author || "AthleteAdmirer")}
-                    </AuthorAvatar>
-                    <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                      {video.author || "AthleteAdmirer"}
-                    </AuthorName>
-                    <PublishTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
-                      • {getLocalizedCategory(video.category)} • {getTimeAgo(video.createdTime || video.publishedAt)}
-                    </PublishTime>
-                  </AuthorInfo>
-                </VideoDetails>
-              </VideoCard1>
-            </Link>
+              <VideoThumbnail
+                src={video.newsImage || "/placeholder.svg?height=220&width=300&query=news article"}
+                alt={getLocalizedContent(video, "title")}
+              />
+              <VideoDetails>
+                <Title style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                  {getLocalizedContent(video, "title")}
+                </Title>
+                <AuthorInfo>
+                  <AuthorAvatar aria-label={`Author: ${video.author || "AthleteAdmirer"}`}>
+                    {getAuthorInitials(video.author || "AthleteAdmirer")}
+                  </AuthorAvatar>
+                  <AuthorName style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                    {video.author || "AthleteAdmirer"}
+                  </AuthorName>
+                  <PublishTime style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
+                    • {getLocalizedCategory(video.category)} • {getTimeAgo(video.createdTime || video.publishedAt)}
+                  </PublishTime>
+                </AuthorInfo>
+              </VideoDetails>
+            </VideoCard1>
           ))
         ) : (
           <div 
@@ -194,6 +231,15 @@ const LatestNewsSection = () => {
           </div>
         )}
       </Content>
+      
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
+        title="Access News?"
+        subtitle="Login to read this news article."
+      />
     </Container>
   )
 }

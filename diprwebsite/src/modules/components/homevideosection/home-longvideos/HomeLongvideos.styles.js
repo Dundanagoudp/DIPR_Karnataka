@@ -41,6 +41,17 @@ const pulse = keyframes`
     transform: scale(1);
   }
 `
+const responsive = (prop, values) => {
+  return `
+    ${prop}: ${values.desktop || values.default};
+        @media (max-width: ${theme.breakpoints.desktop}) {
+      ${prop}: ${values.tablet || values.desktop || values.default};
+    }
+        @media (max-width: ${theme.breakpoints.tablet}) {
+      ${prop}: ${values.mobile || values.tablet || values.desktop || values.default};
+    }
+  `
+}
 
 // Main Container
 export const Container = styled.div`
@@ -302,7 +313,7 @@ export const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${theme.spacing(3)};
+  margin-bottom: ${theme.spacing(1)};
 `
 
 export const ViewAllButton = styled.button`
@@ -330,5 +341,83 @@ export const ViewAllButton = styled.button`
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 1.2rem;
+  }
+`
+export const SeeMoreButton = styled.button`
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: ${theme.spacing(2)};
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(0.5)};
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: ${theme.spacing(8)};
+  padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+  border-radius: ${theme.spacing(0.5)};
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #1d4ed8;
+  }
+  
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.spacing(2)};
+  }
+`
+// title for the video section
+export const CarouselHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${theme.spacing(1.25)} 0;
+  margin-bottom: ${theme.spacing(1.25)};
+  
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    justify-content: space-between;
+    padding: ${theme.spacing(3)} ${theme.spacing(6)};
+  }
+`
+
+export const CarouselTitle = styled.h2`
+  ${responsive("font-size", {
+    default: "1.25rem",
+    tablet: "1.2rem",
+  })}
+  font-weight: 600;
+  color: ${theme.colors.black};
+    font-size: 1.7rem;
+  margin: 0;
+  
+  font-family: ${theme.fonts.heading};
+`
+
+export const CarouselTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(0.625)};
+  cursor: pointer;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: ${theme.spacing(2.5)};
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #1d4ed8;
+  }
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(0.5)};
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-left: auto;
   }
 `

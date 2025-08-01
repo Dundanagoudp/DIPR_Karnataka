@@ -26,7 +26,7 @@ export const TabContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${({ $isScrolled }) => $isScrolled ? theme.colors.primary : '#ffffff'};
+  background-color: ${({ $isScrolled }) => $isScrolled ? theme.colors.primary : 'transparent'};
   padding: ${theme.spacing(0.5)} ${theme.spacing(4)};
   position: sticky;
   top: 0;

@@ -54,6 +54,8 @@ import {
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 import Cookies from "js-cookie"
 import { Helmet } from "react-helmet"
+import LoginPopup from "../loginpopup/LoginPopup"
+import { useNavigate } from "react-router-dom"
 
 const ShortsCarousel2 = () => {
   const [videos, setVideos] = useState([])
@@ -80,7 +82,26 @@ const ShortsCarousel2 = () => {
   const [activeVideoId, setActiveVideoId] = useState(null)
   const [userId, setUserId] = useState(null)
   const [debouncingLike, setDebouncingLike] = useState(false)
-  const [submittingComment, setSubmittingComment] = useState(false) // <-- add this
+  const [submittingComment, setSubmittingComment] = useState(false)
+  const [showLoginPopup, setShowLoginPopup] = useState(false)
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    const userId = Cookies.get("userId")
+    return !!userId
+  }
+
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false)
+  }
+
+  const handleLoginRedirect = () => {
+    // Store current page URL in cookie for redirect after login
+    const currentUrl = window.location.pathname + window.location.search
+    Cookies.set("redirectUrl", currentUrl, { expires: 1 }) // Expires in 1 day
+    closeLoginPopup()
+    navigate('/login')
+  }
 
   useEffect(() => {
     // Get user ID from cookies
@@ -243,9 +264,8 @@ const ShortsCarousel2 = () => {
     // Prevent event from bubbling up to parent elements
     event.stopPropagation()
 
-    if (!userId) {
-      // Redirect to login or show login prompt
-      alert("Please login to like videos")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
 
@@ -282,6 +302,12 @@ const ShortsCarousel2 = () => {
   // Toggle comment section visibility
   const handleCommentClick = (videoId, event) => {
     event.stopPropagation()
+    
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
+      return
+    }
+    
     setActiveVideoId(videoId)
     setShowCommentPopup(true)
   }
@@ -290,8 +316,8 @@ const ShortsCarousel2 = () => {
   const handleSubmitComment = async (event) => {
     event.preventDefault()
     if (submittingComment) return // prevent double submit
-    if (!userId) {
-      alert("Please login to comment")
+    if (!isUserLoggedIn()) {
+      setShowLoginPopup(true)
       return
     }
     if (!commentInput?.trim()) {
@@ -415,6 +441,8 @@ const ShortsCarousel2 = () => {
     if (count < 1000000) return `${(count / 1000).toFixed(1)}K`
     return `${(count / 1000000).toFixed(1)}M`
   }
+
+  const navigate = useNavigate()
 
   return (
     <>
@@ -589,6 +617,15 @@ const ShortsCarousel2 = () => {
           </CommentPopupContent>
         </CommentPopupOverlay>
       )}
+      
+      {/* Login Popup */}
+      <LoginPopup 
+        isOpen={showLoginPopup} 
+        onClose={handleLoginRedirect} 
+        onCloseOnly={closeLoginPopup}
+        title="Access Video Features?"
+        subtitle="Login to like and comment on videos."
+      />
     </CarouselContainer>
     </>
   )
