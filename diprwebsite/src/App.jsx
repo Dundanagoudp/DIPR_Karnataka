@@ -30,6 +30,7 @@ import { endSession } from "./services/LoginApi";
 import Gallery from "./modules/pages/dynamicGallery/Gallery";
 import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
 import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Magazineview";
+import { ToastProvider } from "./context/ToastContext";
 
 
 const App = () => {
@@ -67,34 +68,36 @@ const App = () => {
       <LanguageProvider>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <Router>
-            <Routes>
-              <Route path="/" element={<Applayout />}>
-                <Route index element={<Home />} />
-                <Route path="/news/:id" element={<LatestNews />} />
-                <Route path="/newsdetails/:id" element={<LatestNews1 />} />
-                <Route path="/magazinepages" element={<MagaZinepages />} />
-                <Route path="/Gallery" element={<Exclusive />} />
-                <Route path="/aboutuspage" element={<AboutUspage />} />
-                <Route path="/contactus" element={<ContactUs />} />
-                <Route path="/latestnews" element={<LatestData />} />
-                <Route path="/copyright-policy" element={<CopyrightPolicy />} />
-                <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
-                <Route path="/security-policy" element={<SecurityPolicy />} />
-                <Route path="/guidelines" element={<Guidelines />} />
-                <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/help" element={<Help />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/gallerysection" element={<Gallery />} />
-                <Route path="/magazine/:id" element={<Magazineview />} />
-              </Route>
-              <Route path="/login" element={<Login />} />
-              <Route path="/otp" element={<Otp />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/signupnumber" element={<Signupnumber />} />
-            </Routes>
-          </Router>
+          <ToastProvider>
+            <Router>
+              <Routes>
+                <Route path="/" element={<Applayout />}>
+                  <Route index element={<Home />} />
+                  <Route path="/news/:id" element={<LatestNews />} />
+                  <Route path="/newsdetails/:id" element={<LatestNews1 />} />
+                  <Route path="/magazinepages" element={<MagaZinepages />} />
+                  <Route path="/Gallery" element={<Exclusive />} />
+                  <Route path="/aboutuspage" element={<AboutUspage />} />
+                  <Route path="/contactus" element={<ContactUs />} />
+                  <Route path="/latestnews" element={<LatestData />} />
+                  <Route path="/copyright-policy" element={<CopyrightPolicy />} />
+                  <Route path="/hyperlinking-policy" element={<HyperlinkingPolicy />} />
+                  <Route path="/security-policy" element={<SecurityPolicy />} />
+                  <Route path="/guidelines" element={<Guidelines />} />
+                  <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="/help" element={<Help />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/gallerysection" element={<Gallery />} />
+                  <Route path="/magazine/:id" element={<Magazineview />} />
+                </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/otp" element={<Otp />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/signupnumber" element={<Signupnumber />} />
+              </Routes>
+            </Router>
+          </ToastProvider>
         </ThemeProvider>
       </LanguageProvider>
     </FontSizeProvider>

@@ -20,6 +20,7 @@ import {
 import Logowithtitle from "../../components/Logowithtitle/Logowithtitle";
 import Loader from "../../components/apiloders/ApiLoders";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { useToast } from "../../context/ToastContext";
 const Login = () => {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
@@ -29,6 +30,7 @@ const Login = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [showLoader, setShowLoader] = useState(true);
   const navigate = useNavigate();
+  const { showSuccess, showError, showWarning } = useToast();
 
   useEffect(() => {
     // Set a timeout to hide the loader after 3 seconds
@@ -103,10 +105,12 @@ console.log("Sending OTP...");
     
     setConfirmationResult(confirmation);
     setOtpSent(true);
-    alert("OTP sent successfully!");
+    showSuccess("OTP Sent", "OTP has been sent successfully to your phone number!");
   } catch (err) {
     console.error("Error sending OTP:", err);
-    setError(err.message || "Failed to send OTP. Try again.");
+    const errorMessage = err.message || "Failed to send OTP. Try again.";
+    setError(errorMessage);
+    showError("OTP Error", errorMessage);
     
     // Reset recaptcha on error
     if (window.recaptchaVerifier) {
@@ -152,7 +156,7 @@ console.log("Sending OTP...");
         const sessionResponse = await startSession(loginResponse.userId, "web");
         console.log("Session Start API Response:", sessionResponse); // Log session response
 
-        alert("Login successful!");
+        showSuccess("Login Successful", "Welcome! You have been logged in successfully.");
 
         // Check for stored redirect URL
         const redirectUrl = Cookies.get("redirectUrl");
@@ -163,11 +167,15 @@ console.log("Sending OTP...");
           navigate("/"); // Default redirect if no URL is stored
         }
       } else {
-        setError("Login failed. Please try again.");
+        const errorMessage = "Login failed. Please try again.";
+        setError(errorMessage);
+        showError("Login Failed", errorMessage);
       }
     } catch (err) {
       console.error("Error verifying OTP:", err.message);
-      setError("Invalid OTP. Please try again.");
+      const errorMessage = "Invalid OTP. Please try again.";
+      setError(errorMessage);
+      showError("OTP Verification Failed", errorMessage);
     } finally {
       setLoading(false);
     }
