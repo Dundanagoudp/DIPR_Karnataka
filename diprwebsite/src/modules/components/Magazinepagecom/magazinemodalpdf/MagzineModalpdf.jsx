@@ -260,10 +260,12 @@ const MagazinePdf2 = () => {
                 )}
                 page={currentPage}
                 onChange={handlePageChange}
+                color="primary"
+                size="large"
                 variant="outlined"
                 shape="rounded"
-                color="primary"
                 aria-label="Magazine pages"
+                sx={{ justifyContent: 'flex-end', display: 'flex', width: '100%' }} // Ensure right alignment in MUI
               />
             </PaginationWrapper>
           )}

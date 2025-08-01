@@ -237,10 +237,12 @@ const MagzineRecommed = () => {
                 count={Math.ceil(filteredMagazines.length / itemsPerPage)}
                 page={currentPage}
                 onChange={handlePageChange}
+                color="primary"
+                size="large"
                 variant="outlined"
                 shape="rounded"
-                color="primary"
                 aria-label="Recommended magazine pages"
+                sx={{ justifyContent: 'flex-end', display: 'flex', width: '100%' }} // Ensure right alignment in MUI
               />
             </PaginationWrapper>
           )}
