@@ -5,7 +5,6 @@ import GlobalStyle from "./theme/GlobalStyle";
 import theme from "./theme/Theme";
 import Login from "./screens/Login/Login";
 import Otp from "./screens/otp/Otp";
-import Signup from "./screens/signuppage/SignUp";
 import Applayout from "./Applayout/Applayout";
 import Home from "./modules/pages/Home/Home";
 import LatestNews from "./modules/pages/Latestnews/LatestNews";
@@ -23,7 +22,6 @@ import Help from "./components/WebsitePolicies/Help/Help";
 import LatestData from "./modules/pages/Latest/LatestData";
 import Profile from "./components/Profile/Profile";
 import FontSizeProvider from "./context/FontSizeProvider";
-import Signupnumber from "./screens/signuppage/SignUpNumber";
 import { LanguageProvider } from "./context/LanguageContext";
 import Cookies from "js-cookie";
 import { endSession } from "./services/auth/LoginApi"; 
@@ -31,6 +29,7 @@ import Gallery from "./modules/pages/dynamicGallery/Gallery";
 import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
 import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Magazineview";
 import { ToastProvider } from "./context/ToastContext";
+import SignUppage from "./screens/signuppage/SignUp";
 
 
 const App = () => {
@@ -93,8 +92,7 @@ const App = () => {
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/otp" element={<Otp />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/signupnumber" element={<Signupnumber />} />
+                <Route path="/signup" element={<SignUppage />} />
               </Routes>
             </Router>
           </ToastProvider>

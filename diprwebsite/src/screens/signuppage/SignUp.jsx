@@ -11,44 +11,59 @@ import {
 } from "../signuppage/Signup.styles";
 import Logowithtitle from "../../components/Logowithtitle/Logowithtitle";
 import { SignupApi } from "../../services/auth/SignupApi";
-import { FaMobileAlt } from "react-icons/fa";
-import Cookies from "js-cookie"; 
+import { CiMail } from "react-icons/ci";
+import Cookies from "js-cookie"; // Import js-cookie
+import { useToast } from "../../context/ToastContext";
 
-const Signup = () => {
+const SignUppage = () => {
   const navigate = useNavigate();
+  const { showSuccess, showError } = useToast();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    phone_Number: "",
     email: "",
-    city: "",
+    password: "",
+    role: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
+    phone_Number: "",
     email: "",
-    city: "",
+    password: "",
+    role: "",
   });
 
   const validateField = (name, value) => {
     let errorMsg = "";
-
     if (value.trim() === "") {
       errorMsg = `${name} is required.`;
+    } else if (name === "phone_Number") {
+      const phoneRegex = /^\d{10,15}$/;
+      if (!phoneRegex.test(value)) {
+        errorMsg = "Enter a valid phone number (10-15 digits).";
+      }
     } else if (name === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
         errorMsg = "Enter a valid email address.";
       }
+    } else if (name === "password") {
+      if (value.length < 8) {
+        errorMsg = "Password must be at least 8 characters.";
+      }
     }
-
     setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMsg }));
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
     validateField(name, value);
   };
 
@@ -56,49 +71,41 @@ const Signup = () => {
     return (
       formData.firstName.trim() &&
       formData.lastName.trim() &&
+      formData.phone_Number.trim() &&
       formData.email.trim() &&
+      formData.password.trim() &&
+      formData.role.trim() &&
       !errors.firstName &&
       !errors.lastName &&
-      !errors.email
+      !errors.phone_Number &&
+      !errors.email &&
+      !errors.password &&
+      !errors.role
     );
   };
 
   const handleSignup = async () => {
     if (!isFormValid()) return;
-
+    setIsLoading(true);
     const userData = {
       displayName: `${formData.firstName} ${formData.lastName}`,
+      phone_Number: formData.phone_Number,
       email: formData.email,
-      profileImage: "yoyoyhoneySingh", // Replace with actual profile image logic
+      password: formData.password,
+      role: formData.role,
     };
-
     try {
       const response = await SignupApi(userData);
-      console.log("Signup API Response:", response);
-
       if (response.success) {
-        // Store session token and user ID in cookies
-        Cookies.set("sessionToken", response.token, {
-          expires: 7, 
-          secure: true, 
-        });
-        Cookies.set("userId", response.userId, {
-          expires: 7,
-          secure: true,
-        });
-
-        console.log("Cookies set successfully:", {
-          sessionToken: Cookies.get("sessionToken"),
-          userId: Cookies.get("userId"),
-        });
-
-        // Navigate to the dashboard
-        navigate("/");
+        showSuccess("Signup successful!", "Please login.");
+        navigate("/login");
       } else {
-        console.error("Signup failed:", response.message);
+        showError("Signup failed", response.message || "Signup failed.");
       }
     } catch (err) {
-      console.error("Signup API Error:", err);
+      showError("Signup API Error", "Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -107,14 +114,11 @@ const Signup = () => {
       <LeftSection>
         <Logowithtitle />
       </LeftSection>
-
       <RightSection>
         <SignupBox>
           <h2>Sign up</h2>
-
-          <label htmlFor="firstName">First name</label>
+          <label>First name</label>
           <Input
-            id="firstName"
             type="text"
             name="firstName"
             placeholder="Enter your first name"
@@ -123,9 +127,8 @@ const Signup = () => {
           />
           {errors.firstName && <p>{errors.firstName}</p>}
 
-          <label htmlFor="lastName">Last name</label>
+          <label>Last name</label>
           <Input
-            id="lastName"
             type="text"
             name="lastName"
             placeholder="Enter your last name"
@@ -134,9 +137,18 @@ const Signup = () => {
           />
           {errors.lastName && <p>{errors.lastName}</p>}
 
-          <label htmlFor="email">Email</label>
+          <label>Phone Number</label>
           <Input
-            id="email"
+            type="text"
+            name="phone_Number"
+            placeholder="Enter your phone number"
+            value={formData.phone_Number}
+            onChange={handleChange}
+          />
+          {errors.phone_Number && <p>{errors.phone_Number}</p>}
+
+          <label>Email</label>
+          <Input
             type="email"
             name="email"
             placeholder="Enter your email"
@@ -145,22 +157,53 @@ const Signup = () => {
           />
           {errors.email && <p>{errors.email}</p>}
 
-          <label htmlFor="city">City</label>
+          <label>Password</label>
           <Input
-            id="city"
-            type="text"
-            name="city"
-            placeholder="Enter your city"
-            value={formData.city}
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            value={formData.password}
             onChange={handleChange}
           />
-          {errors.city && <p>{errors.city}</p>}
+          {errors.password && <p>{errors.password}</p>}
 
-          <Button disabled={!isFormValid()} onClick={handleSignup}>
-            Sign Up
-          </Button>
-          <Button onClick={() => navigate("/signupnumber")}>
-            <FaMobileAlt style={{ marginRight: "10px", alignItems: "center" }} /> Sign Up with Phone
+          <label>Role</label>
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            style={{
+              width: "100%",
+              padding: "12px 16px",
+              border: "1px solid #e1e5e9",
+              borderRadius: "8px",
+              fontSize: "16px",
+              marginBottom: "10px",
+              backgroundColor: "#ffffff",
+              color: "#333333",
+              cursor: "pointer",
+              outline: "none",
+              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+              fontFamily: "inherit"
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = "#007bff";
+              e.target.style.boxShadow = "0 0 0 2px rgba(0, 123, 255, 0.25)";
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = "#e1e5e9";
+              e.target.style.boxShadow = "none";
+            }}
+          >
+            <option value="" disabled>Select your role</option>
+            <option value="admin">Admin</option>
+            <option value="moderator">Moderator</option>
+            <option value="content">Content</option>
+          </select>
+          {errors.role && <p>{errors.role}</p>}
+
+          <Button disabled={!isFormValid() || isLoading} onClick={handleSignup}>
+            {isLoading ? "Signing Up..." : "Sign Up"}
           </Button>
 
           <p>
@@ -172,4 +215,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignUppage;
