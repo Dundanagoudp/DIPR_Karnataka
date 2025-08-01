@@ -382,7 +382,7 @@ export const CarouselHeader = styled.div`
   
   @media (min-width: ${theme.breakpoints.tablet}) {
     justify-content: space-between;
-    padding: ${theme.spacing(1.25)} ${theme.spacing(2.5)};
+    padding: ${theme.spacing(3)} ${theme.spacing(6)};
   }
 `
 
