@@ -164,9 +164,48 @@ export const Tab = styled.button`
 
 export const PaginationWrapper = styled.div`
   display: flex;
-  justify-content: left;
-  margin-top: ${theme.spacing(3)};
-  padding: ${theme.spacing(2)};
+  justify-content: flex-end;
+  margin: ${theme.spacing(3)} 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+
+  .MuiPagination-root {
+    .MuiPaginationItem-root {
+      font-family: ${theme.fonts.body};
+      min-width: 32px;
+      height: 32px;
+      margin: 0 2px;
+      border-radius: 50%;
+      border: none;
+      background: none;
+      color: ${theme.colors.black};
+      font-size: 1rem;
+      transition: background 0.2s;
+      &.Mui-selected {
+        background: ${theme.colors.primary};
+        color: #fff;
+        font-weight: bold;
+      }
+      &:hover {
+        background: #f3f3f3;
+      }
+    }
+  }
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    margin: ${theme.spacing(2.5)} 0;
+  }
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin: ${theme.spacing(2)} 0;
+    .MuiPagination-root {
+      .MuiPaginationItem-root {
+        min-width: 28px;
+        height: 28px;
+        font-size: 0.95rem;
+      }
+    }
+  }
 `
 
 export const ResultsInfo = styled.div`
