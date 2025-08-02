@@ -52,7 +52,6 @@ const MagazineDownloadPdf = () => {
 
         setTrendingNews(formattedData);
       } catch (error) {
-        console.error("Error fetching banner data:", error);
       } finally {
         setLoading(false);
       }
@@ -142,7 +141,6 @@ const MagazineDownloadPdf = () => {
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Error downloading the PDF:", error);
     }
   };
 

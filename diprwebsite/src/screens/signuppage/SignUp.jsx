@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   SignupContainer,
@@ -24,7 +24,6 @@ const SignUppage = () => {
     phone_Number: "",
     email: "",
     password: "",
-    role: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +33,6 @@ const SignUppage = () => {
     phone_Number: "",
     email: "",
     password: "",
-    role: "",
   });
 
   const validateField = (name, value) => {
@@ -71,12 +69,10 @@ const SignUppage = () => {
       formData.phone_Number.trim() &&
       formData.email.trim() &&
       formData.password.trim() &&
-      formData.role.trim() &&
       !errors.displayName &&
       !errors.phone_Number &&
       !errors.email &&
-      !errors.password &&
-      !errors.role
+      !errors.password
     );
   };
 
@@ -88,7 +84,6 @@ const SignUppage = () => {
       phone_Number: formData.phone_Number,
       email: formData.email,
       password: formData.password,
-      role: formData.role,
     };
     try {
       const response = await SignupApi(userData);
@@ -152,41 +147,6 @@ const SignUppage = () => {
             onChange={handleChange}
           />
           {errors.password && <p>{errors.password}</p>}
-
-          <label>Role</label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "12px 16px",
-              border: "1px solid #e1e5e9",
-              borderRadius: "8px",
-              fontSize: "16px",
-              marginBottom: "10px",
-              backgroundColor: "#ffffff",
-              color: "#333333",
-              cursor: "pointer",
-              outline: "none",
-              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
-              fontFamily: "inherit"
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = "#007bff";
-              e.target.style.boxShadow = "0 0 0 2px rgba(0, 123, 255, 0.25)";
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = "#e1e5e9";
-              e.target.style.boxShadow = "none";
-            }}
-          >
-            <option value="" disabled>Select your role</option>
-            <option value="admin">Admin</option>
-            <option value="moderator">Moderator</option>
-            <option value="content">Content</option>
-          </select>
-          {errors.role && <p>{errors.role}</p>}
 
           <Button disabled={!isFormValid() || isLoading} onClick={handleSignup}>
             {isLoading ? "Signing Up..." : "Sign Up"}

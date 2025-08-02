@@ -72,7 +72,6 @@ const HomeVideos = () => {
       if (videoElement) {
         videoElement.load() // Reload the video source
         videoElement.play().catch((error) => {
-          console.log("Auto-play prevented:", error)
         })
       }
     }, 100)
@@ -131,8 +130,8 @@ const HomeVideos = () => {
                   id={selectedVideo._id}
                   controls
                   autoPlay
-                  onLoadStart={() => console.log("Video loading started")}
-                  onCanPlay={() => console.log("Video can play")}
+                  // onLoadStart={() => console.log("Video loading started")}
+                  // onCanPlay={() => console.log("Video can play")}
                   aria-label={`Main video: ${selectedVideo.title}`}
                 >
                   <source src={selectedVideo.video_url} type="video/mp4" />
@@ -162,7 +161,6 @@ const HomeVideos = () => {
                 key={video._id}
                 className={selectedVideo?._id === video._id ? "active" : ""}
                 onClick={() => {
-                  console.log("Video selected:", video.title) // Debug log
                   handleVideoSelect(video)
                 }}
                 tabIndex="0"

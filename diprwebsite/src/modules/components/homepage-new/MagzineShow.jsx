@@ -68,11 +68,8 @@ const Magzinehome = () => {
     const fetchMagazines = async () => {
       setLoading(true)
       try {
-        console.log("Fetching magazines for tab:", activeTab)
         const result = activeTab === "Topics" ? await getMagazines() : await MarchMagazines()
-        console.log("API result:", result)
         const data = result.success && Array.isArray(result.data) ? result.data : []
-        console.log("Processed data:", data)
         if (activeTab === "Topics") {
           setMagazinesData(data)
         } else {
@@ -172,12 +169,7 @@ const Magzinehome = () => {
     activeTab === "Topics"
       ? magazinesData.slice(indexOfFirstItem, indexOfLastItem)
       : marchMagazinesData.slice(indexOfFirstItem, indexOfLastItem)
-  
-  // Debug logging
-  console.log("Active tab:", activeTab)
-  console.log("Magazines data length:", magazinesData.length)
-  console.log("March magazines data length:", marchMagazinesData.length)
-  console.log("Current magazines to display:", currentMagazines.length)
+
   const handlePageChange = (event, value) => {
     setCurrentPage(value)
   }

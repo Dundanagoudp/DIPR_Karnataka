@@ -61,11 +61,9 @@ const LatestCat = () => {
         if (result.success && result.data) {
           setNews(result.data)
         } else {
-          console.warn("No news data found")
           setNews(null)
         }
       } catch (error) {
-        console.error("Error fetching news:", error)
         setNews(null)
       } finally {
         setLoading(false)
@@ -93,7 +91,6 @@ const LatestCat = () => {
           setRelatedArticles([])
         }
       } catch (error) {
-        console.error("Error fetching related articles:", error)
         setRelatedArticles([])
       } finally {
         setSidebarLoading(false)
@@ -123,7 +120,6 @@ const LatestCat = () => {
         })
       }
     } catch (error) {
-      console.error("Error liking/unliking news:", error)
     }
   }
 
@@ -170,7 +166,6 @@ const LatestCat = () => {
         contentId: news._id,
         contentType: "news",
       }
-      console.log("Logging reading history:", historyData)
       logReadingHistory(historyData)
     }
   }, [news, userId])

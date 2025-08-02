@@ -23,7 +23,6 @@ export const LatestData = () => {
 
   return (
     <Container role="main" aria-label="Latest news page">
-      {/* <LatestNewsRecommended /> */}
       <LatestTrending />
       <CategoryNews />
       <LatestDataSection/>

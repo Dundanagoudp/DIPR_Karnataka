@@ -180,7 +180,6 @@ const LatestNewsSection = () => {
           View All <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} />
         </ViewAllButton>
       </HeaderContainer>
-      {console.log("Rendering videosData:", videosData)}
       <Content role="list" aria-label="Recommended news articles">
         {loading ? (
           renderSkeleton()

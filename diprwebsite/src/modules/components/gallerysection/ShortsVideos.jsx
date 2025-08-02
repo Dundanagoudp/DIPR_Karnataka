@@ -151,7 +151,6 @@ const ShortsCarousel2 = () => {
           setVideos(placeholderVideos)
         }
       } catch (error) {
-        console.error("Error fetching videos:", error)
         // Create placeholder data on error
         const placeholderVideos = Array(10)
           .fill()
@@ -286,7 +285,6 @@ const ShortsCarousel2 = () => {
       // Call API to update like status
       await ShortlikeVideo({ videoId, userId })
     } catch (error) {
-      console.error("Error liking video:", error)
       // Revert UI changes on error
       setLikedVideos((prev) => ({ ...prev, [videoId]: !prev[videoId] }))
       setLikeCounts((prev) => ({
@@ -360,7 +358,6 @@ const ShortsCarousel2 = () => {
         setActiveVideoId(null);
       }
     } catch (error) {
-      console.error("Error adding comment:", error)
       alert("Failed to add comment. Please try again.")
     } finally {
       setSubmittingComment(false)
