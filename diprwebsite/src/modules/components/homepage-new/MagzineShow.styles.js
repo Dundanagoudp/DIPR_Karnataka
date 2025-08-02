@@ -16,7 +16,7 @@ export const PageWrapper = styled.div`
 `
 
 export const Container = styled.div`
-  max-width: 90%;
+  width: 92%;
   margin: 0 auto;
   padding: ${theme.spacing(3)};
   background: ${theme.colors.background};
