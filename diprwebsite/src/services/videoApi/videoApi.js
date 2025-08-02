@@ -4,10 +4,8 @@ import apiClient from "../apiClient";
 export const getVideos = async () => {
   try {
     const response = await apiClient.get("/api/video");
-    console.log("Received videos data:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error loading videos:", error);
     throw error;
   }
 };
@@ -16,10 +14,8 @@ export const getVideos = async () => {
 export const getLongVideos = async () => {
   try {
     const response = await apiClient.get("/api/longVideo");
-    console.log("Received long videos data:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error loading long videos:", error);
     throw error;
   }
 };
@@ -27,12 +23,9 @@ export const getLongVideos = async () => {
 // Like a long video
 export const likeLongVideo = async (commentData) => {
   try {
-    console.log("Liking video with data:", commentData);
     const response = await apiClient.post("/api/comments/likeLongVideo", commentData);
-    console.log("Like response received:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error liking video:", error);
     throw error;
   }
 };
@@ -40,13 +33,11 @@ export const likeLongVideo = async (commentData) => {
 // Add a comment to a long video
 export const LongVideoaddComment = async (commentData) => {
   try {
-    console.log("Request URL:", "/api/longVideo/addComment");
     const response = await apiClient.post("/api/longVideo/addComment", commentData);
-    console.log("Received comment response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error adding comment:", error);
     throw error;
+
   }
 };
 
@@ -99,9 +90,7 @@ export const getVideoById = async (id) => {
 // short videos like
 export const ShortlikeVideo = async (likeData) => {
   try {
-    console.log("Liking video with data:", likeData);
     const response = await apiClient.post("/api/comments/likeVideo", likeData);
-    console.log("Like response received:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error liking video:", error);
@@ -112,9 +101,7 @@ export const ShortlikeVideo = async (likeData) => {
 // short video add comment
 export const ShortVideoaddComment = async (commentData) => {
   try {
-    console.log("Request URL:", "/api/video/addComment");
     const response = await apiClient.post("/api/video/addComment", commentData);
-    console.log("Received comment response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error adding comment:", error);

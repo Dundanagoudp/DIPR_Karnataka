@@ -21,7 +21,6 @@ const LoginPopup = ({ isOpen, onClose, onCloseOnly, title = "Like this content?"
       try {
         onClose()
       } catch (error) {
-        console.log('Close button clicked - popup should close')
       }
     }
   }
