@@ -1,21 +1,15 @@
 import Trending from "../../../modules/components/Trending/Trending";
 import {
   HomeContainer,
-  ContentWrapper,
-  NewsSection,
-  MagazineSection,
 } from "./Home.styles";
-import AllNewsData from "../../../modules/components/allnewssection2/AllNewsData";
-import Magzines2 from "../../../modules/components/magzinemodal/MagzinewithModal";
 import ShortsCarousel from "../../../modules/components/homevideosection/ShortsCarousel";
-import Videos from "../../../modules/components/homevideosection/VideosHome";
 import Magzinehome from "../../components/homepage-new/MagzineShow";
 import CategoryTabnews from "../../components/homepage-new/CategoryTabnews";
 import LatestNewsSection from "../../components/homevideosection/homelatestnews/LatestNews";
 import HomeVideos from "../../components/homevideosection/home-longvideos/HomeLongvideos";
+import HomeRecommedNews from "../../components/homevideosection/homerecommed/HomeRecommed";
 
 const Home = () => {
-
   return (
     <HomeContainer role="main" aria-label="Home page">
         <>
@@ -25,16 +19,7 @@ const Home = () => {
           <LatestNewsSection/>
           <ShortsCarousel/>
           <HomeVideos/>
-          <ContentWrapper>
-            {/* <NewsSection role="region" aria-label="News section">
-              <Magzines2/>
-            </NewsSection>
-            <MagazineSection role="region" aria-label="Magazine section">
-              <AllNewsData/>
-            </MagazineSection>        */}
-              {/* <ShortsCarousel/> */}
-               {/* <Videos/> */}
-          </ContentWrapper>
+          <HomeRecommedNews />
         </>
     </HomeContainer>
   );
