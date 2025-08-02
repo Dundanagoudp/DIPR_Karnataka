@@ -50,17 +50,14 @@ const RecomMended = () => {
         setLoading(true) // Set loading to true before fetching
         try {
           const result = await getRecommendations(userId)
-          console.log("Received videos data:", result)
           if (result && Array.isArray(result.news) && result.news.length > 0) {
             setVideosData(result.news)
           } else if (result && Array.isArray(result) && result.length > 0) {
             setVideosData(result)
           } else {
-            console.warn("No video data found in response:", result)
             setVideosData([])
           }
         } catch (error) {
-          console.error("Error fetching videos:", error)
           setVideosData([])
         } finally {
           // Simulate a network delay for the shimmer effect
@@ -71,7 +68,6 @@ const RecomMended = () => {
       }
       fetchVideos()
     } else {
-      console.error("No userId found in cookies.")
       setLoading(false) // Ensure loading is false if no userId
     }
   }, [language])
@@ -161,7 +157,6 @@ const RecomMended = () => {
         aria-label="Recommended news section"
       >
         <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Recommended News</Header>
-        {console.log("Rendering videosData:", videosData)}
         <Content role="list" aria-label="Recommended news articles">
           {loading ? (
             renderSkeleton()

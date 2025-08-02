@@ -84,7 +84,6 @@ const CategoryNews = () => {
           setCategories(response.data)
         }
       } catch (error) {
-        console.error("Error fetching categories:", error)
       } finally {
         setTimeout(() => {
           setCategoriesLoading(false)
@@ -103,11 +102,9 @@ const CategoryNews = () => {
           setNewsData(response.data)
           setCurrentPage(1) // Reset to first page when changing categories
         } else {
-          console.warn("Empty news API response.")
           setNewsData([])
         }
       } catch (error) {
-        console.error("Error fetching news:", error)
         setNewsData([])
       } finally {
         setTimeout(() => {
@@ -142,11 +139,9 @@ const CategoryNews = () => {
     try {
       if (userId) {
         await trackClick({ newsId, userId })
-        console.log("Click registered successfully!")
       }
       navigate(`/news/${newsId}`)
     } catch (error) {
-      console.error("Error registering click:", error)
       navigate(`/news/${newsId}`)
     }
   }

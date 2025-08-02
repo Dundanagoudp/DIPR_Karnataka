@@ -42,7 +42,6 @@ const Magazineview = () => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching magazine:", error)
         setPdfUrl("")
         setTitle("Error Loading Magazine")
       })

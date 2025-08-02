@@ -43,14 +43,10 @@ const App = () => {
       if (userId) {
         try {
           const response = await endSession(userId, "web"); 
-          console.log("Session End API Response:", response); 
           if (response.success) {
-            console.log("Session ended successfully.");
           } else {
-            console.error("Failed to end session:", response.message);
           }
         } catch (err) {
-          console.error("Error ending session:", err);
         }
       }
     };
