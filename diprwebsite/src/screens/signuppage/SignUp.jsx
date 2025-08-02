@@ -20,8 +20,7 @@ const SignUppage = () => {
   const { showSuccess, showError } = useToast();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    displayName: "",
     phone_Number: "",
     email: "",
     password: "",
@@ -31,8 +30,7 @@ const SignUppage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
+    displayName: "",
     phone_Number: "",
     email: "",
     password: "",
@@ -69,14 +67,12 @@ const SignUppage = () => {
 
   const isFormValid = () => {
     return (
-      formData.firstName.trim() &&
-      formData.lastName.trim() &&
+      formData.displayName.trim() &&
       formData.phone_Number.trim() &&
       formData.email.trim() &&
       formData.password.trim() &&
       formData.role.trim() &&
-      !errors.firstName &&
-      !errors.lastName &&
+      !errors.displayName &&
       !errors.phone_Number &&
       !errors.email &&
       !errors.password &&
@@ -88,7 +84,7 @@ const SignUppage = () => {
     if (!isFormValid()) return;
     setIsLoading(true);
     const userData = {
-      displayName: `${formData.firstName} ${formData.lastName}`,
+      displayName: formData.displayName,
       phone_Number: formData.phone_Number,
       email: formData.email,
       password: formData.password,
@@ -117,25 +113,15 @@ const SignUppage = () => {
       <RightSection>
         <SignupBox>
           <h2>Sign up</h2>
-          <label>First name</label>
+          <label>Full Name</label>
           <Input
             type="text"
-            name="firstName"
-            placeholder="Enter your first name"
-            value={formData.firstName}
+            name="displayName"
+            placeholder="Enter your full name"
+            value={formData.displayName}
             onChange={handleChange}
           />
-          {errors.firstName && <p>{errors.firstName}</p>}
-
-          <label>Last name</label>
-          <Input
-            type="text"
-            name="lastName"
-            placeholder="Enter your last name"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-          {errors.lastName && <p>{errors.lastName}</p>}
+          {errors.displayName && <p>{errors.displayName}</p>}
 
           <label>Phone Number</label>
           <Input
