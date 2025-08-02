@@ -172,7 +172,7 @@ const LatestNewsSection = () => {
       aria-label="Recommended news section"
     >
       <HeaderContainer>
-        <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Most Readied</Header>
+        <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Most Read Articles</Header>
         <ViewAllButton
           onClick={() => navigate("/latestnews")}
           style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}

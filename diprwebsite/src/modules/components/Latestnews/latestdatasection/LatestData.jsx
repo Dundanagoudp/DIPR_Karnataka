@@ -235,8 +235,7 @@ const LatestDataSection = () => {
         <Header
           style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
         >
-          Most Readied
-        </Header>
+Most Read Articles        </Header>
         <Content role="list" aria-label="Recommended news articles">
           {loading ? (
             renderSkeleton()
