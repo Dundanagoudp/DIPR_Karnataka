@@ -59,12 +59,76 @@ const Login = () => {
 
   const handleOtpChange = (index, value) => {
     const newOtp = [...otp];
+    
+    // Check if the value is longer than 1 character (pasted OTP)
+    if (value.length > 1) {
+      // Extract only digits from the pasted value
+      const digits = value.replace(/\D/g, '').slice(0, 6);
+      
+      // Fill the OTP array with the pasted digits
+      const filledOtp = [...newOtp];
+      for (let i = 0; i < 6; i++) {
+        filledOtp[i] = digits[i] || '';
+      }
+      setOtp(filledOtp);
+      
+      // Focus on the last filled input or the next empty one
+      const lastFilledIndex = Math.min(digits.length - 1, 5);
+      if (lastFilledIndex < 5) {
+        document.getElementById(`otp-input-${lastFilledIndex + 1}`).focus();
+      }
+      return;
+    }
+    
+    // Single digit input (normal behavior)
     newOtp[index] = value;
     setOtp(newOtp);
 
     // Auto-focus to next input
     if (value && index < 5) {
       document.getElementById(`otp-input-${index + 1}`).focus();
+    }
+  };
+
+  const handleOtpKeyDown = (index, e) => {
+    // Handle backspace
+    if (e.key === "Backspace") {
+      const newOtp = [...otp];
+      
+      // If current input is empty and we're not at the first input, go to previous input
+      if (newOtp[index] === "" && index > 0) {
+        document.getElementById(`otp-input-${index - 1}`).focus();
+        return;
+      }
+      
+      // Clear current input
+      newOtp[index] = "";
+      setOtp(newOtp);
+      
+      // If we're not at the first input, go to previous input
+      if (index > 0) {
+        document.getElementById(`otp-input-${index - 1}`).focus();
+      }
+    }
+  };
+
+  const handleOtpPaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text');
+    const digits = pastedData.replace(/\D/g, '').slice(0, 6);
+    
+    if (digits.length > 0) {
+      const newOtp = [...otp];
+      for (let i = 0; i < 6; i++) {
+        newOtp[i] = digits[i] || '';
+      }
+      setOtp(newOtp);
+      
+      // Focus on the last filled input or the next empty one
+      const lastFilledIndex = Math.min(digits.length - 1, 5);
+      if (lastFilledIndex < 5) {
+        document.getElementById(`otp-input-${lastFilledIndex + 1}`).focus();
+      }
     }
   };
 
@@ -234,10 +298,12 @@ const sendOTP = async () => {
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => {
+                    handleOtpKeyDown(index, e);
                     if (e.key === "Enter" && index === otp.length - 1) {
                       verifyOTP();
                     }
                   }}
+                  onPaste={handleOtpPaste}
                 />
               ))}
             </OtpInputs>
