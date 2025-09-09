@@ -12,12 +12,12 @@ import {
   AuthorAvatar,
   AuthorName,
   PublishTime,
-} from "./RecomMended.styles"
-import { FontSizeContext } from "../../../context/FontSizeProvider"
-import { LanguageContext } from "../../../context/LanguageContext"
-import { getRecommendations } from "../../../services/recommened/RecommenedApis"
+} from "./LatestRecommed.styles"
+import { FontSizeContext } from "../../../../context/FontSizeProvider"
+import { LanguageContext } from "../../../../context/LanguageContext"
+import { getRecommendations } from "../../../../services/recommened/RecommenedApis"
 import { Link } from "react-router-dom"
-import { ShimmerCard, ShimmerThumbnail, ShimmerTitle, ShimmerMeta } from "./RecomMended.styles"
+import { ShimmerCard, ShimmerThumbnail, ShimmerTitle, ShimmerMeta } from "./LatestRecommed.styles"
 import { Helmet } from "react-helmet"
 
 // Helper function to get cookies by name
@@ -37,15 +37,17 @@ const getAuthorInitials = (authorName) => {
     .slice(0, 2)
 }
 
-const RecomMended = () => {
+const LatestRecomMended = () => {
   const [videosData, setVideosData] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
 
   useEffect(() => {
     const userId = getCookie("userId")
     if (userId) {
+      setIsUserLoggedIn(true)
       const fetchVideos = async () => {
         setLoading(true) // Set loading to true before fetching
         try {
@@ -68,6 +70,7 @@ const RecomMended = () => {
       }
       fetchVideos()
     } else {
+      setIsUserLoggedIn(false)
       setLoading(false) // Ensure loading is false if no userId
     }
   }, [language])
@@ -133,6 +136,11 @@ const RecomMended = () => {
         </VideoDetails>
       </ShimmerCard>
     ))
+  }
+
+  // Don't render anything if user is not logged in
+  if (!isUserLoggedIn) {
+    return null
   }
 
   return (
@@ -207,4 +215,4 @@ const RecomMended = () => {
   )
 }
 
-export default RecomMended;
+export default LatestRecomMended;

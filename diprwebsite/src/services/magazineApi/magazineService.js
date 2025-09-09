@@ -3,10 +3,8 @@ import apiClient from "../apiClient";
 export const getMagazines = async () => {
   try {
     const response = await apiClient.get("/api/magazine");
-    console.log("Received data:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error loading data:", error);
     throw error;
   }
 };
@@ -14,10 +12,8 @@ export const getMagazines = async () => {
 export const MarchMagazines = async () => {
   try {
     const response = await apiClient.get("/api/magazine2");
-    console.log("Received data:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error loading data:", error);
     throw error;
   }
 };
@@ -26,10 +22,8 @@ export const MarchMagazines = async () => {
 export const getMagazineById = async (id) => {
   try {
     const response = await apiClient.get(`/api/magazine/getMagazineById/${id}`);
-    console.log("Received data:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error loading data:", error);
     throw error;
   }
 };
@@ -38,10 +32,8 @@ export const getMagazineById = async (id) => {
 export const getMagazine2ById = async (id) => {
   try {
     const response = await apiClient.get(`/api/magazine2/${id}`);
-    console.log("Received data:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error loading data:", error);
     throw error;
   }
 };

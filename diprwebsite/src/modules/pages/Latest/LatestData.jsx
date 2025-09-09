@@ -2,6 +2,7 @@ import CategoryNews from "../../components/Latestnews/allrecommended/CategoryNew
 import styled from "styled-components";
 import LatestTrending from "../../components/Latestnews/latesnewsapi/LatestTrending";
 import LatestDataSection from "../../components/Latestnews/latestdatasection/LatestData";
+import LatestRecomMended from "../../components/Latestnews/Latestrecommened/LatestRecommed";
 
 const Container = styled.div`
   width: 100%;
@@ -22,10 +23,10 @@ export const LatestData = () => {
 
   return (
     <Container role="main" aria-label="Latest news page">
-      {/* <LatestNewsRecommended /> */}
       <LatestTrending />
       <CategoryNews />
       <LatestDataSection/>
+      <LatestRecomMended />
     </Container>
   );
 };

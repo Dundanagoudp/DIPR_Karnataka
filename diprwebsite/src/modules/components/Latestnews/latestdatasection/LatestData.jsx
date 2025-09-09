@@ -89,11 +89,9 @@ const LatestDataSection = () => {
         if (result && Array.isArray(result.data) && result.data.length > 0) {
           setVideosData(result.data);
         } else {
-          console.warn("No video data found in response:", result);
           setVideosData([]);
         }
       } catch (error) {
-        console.error("Error fetching videos:", error);
         setVideosData([]);
       } finally {
         setTimeout(() => {
@@ -237,9 +235,7 @@ const LatestDataSection = () => {
         <Header
           style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
         >
-          Most Readied
-        </Header>
-        {console.log("Rendering videosData:", videosData)}
+Most Read Articles        </Header>
         <Content role="list" aria-label="Recommended news articles">
           {loading ? (
             renderSkeleton()

@@ -74,11 +74,9 @@ const LatestTrending = () => {
         if (result.success && Array.isArray(result.data) && result.data.length > 0) {
           setLatestNews(result.data[0]) // Display only the first latest news item
         } else {
-          console.warn("No latest news data found")
           setLatestNews(null)
         }
       } catch (error) {
-        console.error("Error fetching latest news:", error)
         setLatestNews(null)
       } finally {
         setTimeout(() => {

@@ -139,10 +139,10 @@ export const Input = styled.input`
   }
 
   &:focus {
-    outline: 2px solid ${theme.colors.secondary};
-    outline-offset: 2px;
-    border-bottom: 2px solid ${theme.colors.secondary};
-    box-shadow: 0 0 0 2px ${theme.colors.secondary}33;
+    // outline: 2px solid ${theme.colors.secondary};
+    // outline-offset: 2px;
+    // border-bottom: 2px solid ${theme.colors.secondary};
+    // box-shadow: 0 0 0 2px ${theme.colors.secondary}33;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {

@@ -12,8 +12,8 @@ const shimmer = keyframes`
 `
 
 export const Container = styled.div`
-  width: 100%;
-  max-width: 91%; /* Adjusted max-width to match other components */
+  width: 92%;
+  // max-width: 91%; /* Adjusted max-width to match other components */
   margin: 0 auto;
   padding: ${theme.spacing(2)}; /* Adjusted padding */
   background: ${theme.colors.background};

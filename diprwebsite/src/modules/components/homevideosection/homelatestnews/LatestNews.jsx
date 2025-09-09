@@ -172,7 +172,7 @@ const LatestNewsSection = () => {
       aria-label="Recommended news section"
     >
       <HeaderContainer>
-        <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Most Readied</Header>
+        <Header style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>Most Read Articles</Header>
         <ViewAllButton
           onClick={() => navigate("/latestnews")}
           style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}
@@ -180,7 +180,6 @@ const LatestNewsSection = () => {
           View All <MdOutlineKeyboardDoubleArrowRight style={{ fontSize: "1.5rem" }} />
         </ViewAllButton>
       </HeaderContainer>
-      {console.log("Rendering videosData:", videosData)}
       <Content role="list" aria-label="Recommended news articles">
         {loading ? (
           renderSkeleton()

@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext, useRef } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { FaBars, FaTimes } from "react-icons/fa" 
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { FaBars, FaTimes, FaUser, FaSignOutAlt } from "react-icons/fa" 
 import { gsap } from "gsap"
+import Cookies from "js-cookie"
 import {
   TabContainer,
   TabsWrapper,
@@ -13,12 +14,18 @@ import {
   CloseButton,
   MobileMenuContent,
   RightControls,
-  LoginButton, 
+  LoginButton,
+  UserMenu,
+  UserButton,
+  LogoutButton,
+  UserDropdown,
+  UserMenuItem,
 } from "./CategoryTab.styles"
 
 // Removed ProfileImage import
 import { FontSizeContext } from "../../context/FontSizeProvider"
 import { LanguageContext } from "../../context/LanguageContext"
+import { endSession } from "../../services/auth/LoginApi"
 
 const tabs = [
   {
@@ -79,6 +86,7 @@ const CategoryTab = () => {
   const { fontSize } = useContext(FontSizeContext)
   const { language } = useContext(LanguageContext)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const navigate = useNavigate()
 
   // Refs for elements and animations
   const menuRef = useRef(null)
@@ -271,6 +279,23 @@ const CategoryTab = () => {
     }
   }, [])
 
+  const handleLogout = async () => {
+    try {
+      const userId = Cookies.get("userId");
+      if (userId) {
+        await endSession(userId, "web");
+      }
+      Cookies.remove("sessionToken");
+      Cookies.remove("userId");
+      navigate("/login");
+      closeMenu();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  const isAuthenticated = !!Cookies.get("userId");
+
   return (
     <>
       <MobileMenuOverlay ref={overlayRef} $isOpen={isMenuOpen} onClick={closeMenu} aria-hidden={!isMenuOpen} />
@@ -355,9 +380,24 @@ const CategoryTab = () => {
           </TabsWrapper>
         )}
         <RightControls>
-          <Link to="/login" aria-label="Login" style={{ textDecoration: "none" }}>
-            <LoginButton $isScrolled={isScrolled}>Login</LoginButton>
-          </Link>
+          {isAuthenticated ? (
+            <UserMenu>
+              <UserButton $isScrolled={isScrolled}>
+                <FaUser size={20} aria-hidden="true" />
+                <span>User</span>
+              </UserButton>
+              <UserDropdown>
+                <UserMenuItem onClick={handleLogout}>
+                  <FaSignOutAlt size={16} aria-hidden="true" />
+                  <span>Logout</span>
+                </UserMenuItem>
+              </UserDropdown>
+            </UserMenu>
+          ) : (
+            <Link to="/login" aria-label="Login" style={{ textDecoration: "none" }}>
+              <LoginButton $isScrolled={isScrolled}>Login</LoginButton>
+            </Link>
+          )}
         </RightControls>
       </TabContainer>
     </>

@@ -132,7 +132,6 @@ const CategoryTabnews = () => {
     try {
       if (userId) {
         await trackClick({ newsId, userId })
-        console.log("Click registered successfully!")
       }
       navigate(`/news/${newsId}`)
     } catch (error) {
