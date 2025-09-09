@@ -11,7 +11,8 @@ import {
   CMImage,
 } from './Header.styles';
 import logo2 from '../../assets/logo2.png';
-import cm from '../../assets/cm.png';
+import cm from '../../assets/karnatakacm.jpg';
+import dcm from "../../assets/karnatakadcm.jpg"
 import { FontSizeContext } from '../../context/FontSizeProvider';
 
 const Header = () => {
@@ -36,6 +37,7 @@ const Header = () => {
       </LogoSection>
       <CMSection>
         <CMImage src={cm} alt="Chief Minister Siddaramaiah" />
+        <CMImage src={dcm} alt="Deputy Chief Minister D K Shivakumar" />
       </CMSection>
     </HeaderContainer>
   );
