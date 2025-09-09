@@ -33,7 +33,7 @@ const Header = () => {
           <Subtitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
             Government of Karnataka
           </Subtitle>
-        </TitleSection>
+        </TitleSection>     
       </LogoSection>
       <CMSection>
         <CMImage src={cm} alt="Chief Minister Siddaramaiah" />
