@@ -17,6 +17,7 @@ import {
   SideItem,
   SideDate,
   SideTitle,
+  SideExcerpt,
   SeeMoreWrap,
   SeeMoreBtn,
 } from "./Tabsection.styles"
@@ -82,11 +83,51 @@ export default function TabSection() {
   const featured = posts.slice(0, 2)
   const secondary = posts.slice(2, 4)
   const sideList = [
-    { date: "March 15, 2025", title: "World Leaders Gather for Climate Summit in Paris" },
-    { date: "March 09, 2025", title: "State Congress Passes $1 Trillion Infrastructure Bill" },
-    { date: "March 07, 2025", title: "Climate Change Protesters Clash with Police in City L" },
-    { date: "February 28, 2025", title: "Administration to Introduce Climate Change Legislation" },
-    { date: "February 15, 2025", title: "The Changing Landscape of Political Power" },
+    { 
+      date: "March 15, 2025", 
+      title: "World Leaders Gather for Climate Summit in Paris",
+      excerpt: "Global leaders from over 50 countries convened in Paris to discuss urgent climate action and set new emission reduction targets."
+    },
+    { 
+      date: "March 05, 2025", 
+      title: "State Congress Passes $1 Trillion Infrastructure Bill",
+      excerpt: "The landmark infrastructure bill includes funding for roads, bridges, broadband, and clean energy projects across the state."
+    },
+    { 
+      date: "March 01, 2025", 
+      title: "Climate Change Protesters Clash with Police in City L",
+      excerpt: "Thousands of environmental activists took to the streets demanding immediate action on climate change policies."
+    },
+    { 
+      date: "February 28, 2025", 
+      title: "Administration to Introduce Climate Change Legislation",
+      excerpt: "New comprehensive climate legislation aims to reduce carbon emissions by 50% over the next decade."
+    },
+    { 
+      date: "February 15, 2025", 
+      title: "The Changing Landscape of Political Power",
+      excerpt: "Analysis of shifting political dynamics and emerging leadership trends in global governance structures."
+    },
+    { 
+      date: "March 05, 2025", 
+      title: "State Congress Passes $1 Trillion Infrastructure Bill",
+      excerpt: "The landmark infrastructure bill includes funding for roads, bridges, broadband, and clean energy projects across the state."
+    },
+    { 
+      date: "March 01, 2025", 
+      title: "Climate Change Protesters Clash with Police in City L",
+      excerpt: "Thousands of environmental activists took to the streets demanding immediate action on climate change policies."
+    },
+    { 
+      date: "February 28, 2025", 
+      title: "Administration to Introduce Climate Change Legislation",
+      excerpt: "New comprehensive climate legislation aims to reduce carbon emissions by 50% over the next decade."
+    },
+    { 
+      date: "February 15, 2025", 
+      title: "The Changing Landscape of Political Power",
+      excerpt: "Analysis of shifting political dynamics and emerging leadership trends in global governance structures."
+    },
   ]
 
   return (
