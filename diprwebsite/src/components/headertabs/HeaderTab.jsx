@@ -24,7 +24,7 @@ const HeaderTab = () => {
     { name: "Vartha Janapada", path: "/vartha-janapada" },
     { name: "March of karnataka", path: "/" },
     { name: "State", path: "/state" },
-    { name: "District news", path: "/district-news" },
+    { name: "District news", path: "/district" },
     { name: "Special news", path: "/special-news" },
     { name: "News", path: "/news" },
   ];

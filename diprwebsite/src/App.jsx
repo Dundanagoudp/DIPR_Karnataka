@@ -32,6 +32,7 @@ import { ToastProvider } from "./context/ToastContext";
 import SignUppage from "./screens/signuppage/SignUp";
 import Error404 from "./components/Error404/Error404";
 import StateNews from "./modules/pages/state/StateNews";
+import DistrictNewspage from "./modules/pages/districtNewspage/DistrictNewspage";
 
 
 const App = () => {
@@ -88,6 +89,7 @@ const App = () => {
                   <Route path="/gallerysection" element={<Gallery />} />
                   <Route path="/magazine/:id" element={<Magazineview />} />
                   <Route path="/state" element={<StateNews />} />
+                  <Route path="/district" element={<DistrictNewspage />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/otp" element={<Otp />} />
