@@ -31,6 +31,7 @@ import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Mag
 import { ToastProvider } from "./context/ToastContext";
 import SignUppage from "./screens/signuppage/SignUp";
 import Error404 from "./components/Error404/Error404";
+import StateNews from "./modules/pages/state/StateNews";
 
 
 const App = () => {
@@ -86,6 +87,7 @@ const App = () => {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/gallerysection" element={<Gallery />} />
                   <Route path="/magazine/:id" element={<Magazineview />} />
+                  <Route path="/state" element={<StateNews />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/otp" element={<Otp />} />
