@@ -10,8 +10,6 @@ import {
   CMSection,
   CMImage,
 } from './Header.styles';
-import cm from '../../assets/karnatakacm.jpg';
-import dcm from "../../assets/karnatakadcm.jpg"
 import { FontSizeContext } from '../../context/FontSizeProvider';
 
 const Header = () => {
@@ -35,8 +33,8 @@ const Header = () => {
         </TitleSection>     
       </LogoSection>
       <CMSection>
-        <CMImage src={cm} alt="Chief Minister Siddaramaiah" />
-        <CMImage src={dcm} alt="Deputy Chief Minister D K Shivakumar" />
+        <CMImage src="/header/cm.png" alt="Chief Minister Siddaramaiah" />
+        <CMImage src="/header/dcm.png" alt="Deputy Chief Minister D K Shivakumar" />
       </CMSection>
     </HeaderContainer>
   );
