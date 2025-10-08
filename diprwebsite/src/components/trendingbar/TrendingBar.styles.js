@@ -4,7 +4,7 @@ const theme = {
   colors: {
     primary: "#1E88E5",
     error: "#DD403C",
-    info: "#DEDEDE",
+    info: "#D9D9D9",
     text: "#262524",
     white: "#ffffff",
   },
@@ -17,7 +17,7 @@ export const TrendingWrapper = styled.div`
 `;
 
 export const TrendingContainer = styled.div`
-  width: 94%;
+  width: 92%;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -42,18 +42,14 @@ export const TrendingContent = styled.div`
   overflow-x: auto;
   flex: 1;
   
+  /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
-    height: 4px;
+    display: none;
   }
   
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 `;
 
 export const TrendingItem = styled.span`

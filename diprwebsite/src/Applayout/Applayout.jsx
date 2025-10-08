@@ -16,7 +16,7 @@ const Applayout = () => {
         <Header />
         <LanguageNavbar />
         <HeaderTab />
-                <TrendingBar />
+        <TrendingBar />
         {/* <CategoryTab /> */}
         {/* <NavBar /> */}
         {/* <ToolBar /> */}
