@@ -3,6 +3,7 @@ import HeroNews from './modules/herosection/HeroNews'
 import NewsSidebar from './modules/herosection/news-sidebar'
 import FeaturedNewsSection from './modules/featured/featured-news'
 import styled from 'styled-components'
+import TabSection from './modules/tabsection/Tabsection'
 
 const PageLayout = styled.div`
   display: grid;
@@ -35,6 +36,7 @@ export default function Statenewspage() {
         <NewsSidebar />
       </PageLayout>
       <FeaturedNewsSection />
+            <TabSection />
     </>
   )
 }
