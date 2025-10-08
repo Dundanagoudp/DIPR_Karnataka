@@ -10,7 +10,6 @@ import {
   CMSection,
   CMImage,
 } from './Header.styles';
-import logo2 from '../../assets/logo2.png';
 import cm from '../../assets/karnatakacm.jpg';
 import dcm from "../../assets/karnatakadcm.jpg"
 import { FontSizeContext } from '../../context/FontSizeProvider';
@@ -21,7 +20,7 @@ const Header = () => {
     <HeaderContainer role="banner" aria-label="Site header">
       <LogoSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         <Link to="/" aria-label="Go to homepage">
-          <Logo src={logo2} alt="Government of Karnataka Logo" />
+          <Logo src="/header/karntaka.png" alt="Karnataka State Emblem" />
         </Link>
         <TitleSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         <Subtitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>

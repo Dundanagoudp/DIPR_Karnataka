@@ -5,12 +5,14 @@ import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
 import ToolBar from "../components/ToolBar/ToolBar";
 import LoadingProgressBar from "../components/Progressloader/ProgressLoading";
+import LanguageNavbar from "../components/languagetranslation/LanguageNavbar";
 
 const Applayout = () => {
   return (
     <LoadingProgressBar> 
       <div role="application" aria-label="DIPR Website">
         <Header />
+        {/* <LanguageNavbar /> */}
         <CategoryTab />
         <NavBar />
         <ToolBar />
