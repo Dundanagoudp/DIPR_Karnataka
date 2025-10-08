@@ -40,6 +40,7 @@ export const OverlayCard = styled.div`
   background: #ffffff;
   padding: 60px 24px 50px 24px;
   min-height: 300px;
+  margin: 0 10px;
   z-index: 10;
 
   @media (max-width: 1024px) {

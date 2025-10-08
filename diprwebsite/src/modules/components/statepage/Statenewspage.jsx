@@ -1,6 +1,7 @@
 import React from 'react'
 import HeroNews from './modules/herosection/HeroNews'
 import NewsSidebar from './modules/herosection/news-sidebar'
+import FeaturedNewsSection from './modules/featured/featured-news'
 import styled from 'styled-components'
 
 const PageLayout = styled.div`
@@ -28,9 +29,12 @@ const PageLayout = styled.div`
 
 export default function Statenewspage() {
   return (
-    <PageLayout>
-      <HeroNews />
-      <NewsSidebar />
-    </PageLayout>
+    <>
+      <PageLayout>
+        <HeroNews />
+        <NewsSidebar />
+      </PageLayout>
+      <FeaturedNewsSection />
+    </>
   )
 }
