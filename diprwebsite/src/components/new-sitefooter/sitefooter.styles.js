@@ -1,67 +1,131 @@
 import styled from "styled-components"
+import theme from "../../theme/Theme"
 
 export const FooterWrapper = styled.footer`
-  background: #ffffff;
-  color: #0f172a; /* slate-900 */
-  border-top: 1px solid #e5e7eb; /* gray-200 */
+  color: ${theme.colors.text};
   width: 100%;
-  font-family: var(--font-sans, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+  background: ${theme.colors.background};
+  font-family: ${theme.fonts.body};
 `
 
 export const FooterContainer = styled.div`
-  max-width: 1200px;
+  max-width: 90%;
   margin: 0 auto;
-  padding: 32px 16px;
+  background: ${theme.colors.white};
+  padding: ${theme.spacing(3)} ${theme.spacing(2)};
+  
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    padding: ${theme.spacing(3.5)} ${theme.spacing(2.5)}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    padding: ${theme.spacing(4)} ${theme.spacing(3)}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    padding: ${theme.spacing(4)} ${theme.spacing(2)}; 
+  }
 `
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr;
+  gap: ${theme.spacing(2.5)};
+  align-items: center;
+  padding-left: ${theme.spacing(15)};
 
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr 1fr;
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    gap: ${theme.spacing(3)}; 
   }
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-    gap: 24px;
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    grid-template-columns: 1fr 1fr;
+    gap: ${theme.spacing(3.5)}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: ${theme.spacing(4)}; 
   }
 `
 
 export const Left = styled.div`
-  display: grid;
-  grid-template-columns: 96px 1fr;
-  gap: 16px;
-  align-items: start;
+  flex-direction: column;
+  gap: ${theme.spacing(2.5)};
+  align-items: center;
 
-  @media (max-width: 640px) {
-    grid-template-columns: 72px 1fr;
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    gap: ${theme.spacing(2.5)}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    flex-direction: row;
+    gap: ${theme.spacing(2.5)}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    flex-direction: row;
+    gap: ${theme.spacing(2.5)}; 
   }
 `
 
 export const Emblem = styled.img`
-  width: 96px;
+  width: 140px;
   height: auto;
   object-fit: contain;
 
-  @media (max-width: 640px) {
-    width: 72px;
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    width: 160px; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    width: 180px; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    width: 200px; 
   }
 `
 
 export const Note = styled.p`
   margin: 0;
-  font-size: 14px;
+  font-size: ${theme.fontSizes.medium};
   line-height: 1.6;
-  color: #334155; /* slate-600 */
+  font-family: ${theme.fonts.body};
+  color: ${theme.colors.gray[600]};
+  
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    font-size: ${theme.fontSizes.medium}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    font-size: ${theme.fontSizes.medium}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    font-size: ${theme.fontSizes.medium}; 
+  }
 `
 
 export const ColTitle = styled.h3`
-  margin: 0 0 12px 0;
-  font-size: 20px;
+  margin: 0 0 ${theme.spacing(1.5)} 0;
+  font-size: 18px;
   line-height: 1.3;
   font-weight: 700;
-  color: #111827; /* gray-900 */
+  font-family: ${theme.fonts.heading};
+  color: ${theme.colors.text};
+  
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    font-size: 19px; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    font-size: 20px; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    font-size: 20px; 
+  }
 `
 
 export const LinkList = styled.ul`
@@ -69,44 +133,59 @@ export const LinkList = styled.ul`
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 10px;
+  gap: ${theme.spacing(1.25)};
 `
 
 export const LinkItem = styled.li``
 
 export const LinkA = styled.a`
-  font-size: 14px;
-  color: #374151; /* gray-700 */
+  font-size: ${theme.fontSizes.medium};
+  font-family: ${theme.fonts.body};
+  color: ${theme.colors.gray[700]};
   text-decoration: none;
-  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+  transition: ${theme.transitions.fast};
 
   &:hover {
-    color: #be123c; /* rose-700 as subtle accent */
+    color: ${theme.colors.primary};
     text-decoration: underline;
-    text-decoration-color: #be123c;
+    text-decoration-color: ${theme.colors.primary};
   }
 `
 
 export const Meta = styled.div`
   display: grid;
-  gap: 10px;
-  font-size: 14px;
-  color: #374151; /* gray-700 */
+  gap: ${theme.spacing(1.25)};
+  font-size: ${theme.fontSizes.medium};
+  font-family: ${theme.fonts.body};
+  color: ${theme.colors.gray[700]};
 `
 
 export const Divider = styled.hr`
-  margin: 24px 0 0 0;
+  margin: ${theme.spacing(3)} 0 0 0;
   border: none;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid ${theme.colors.gray[400]};
 `
 
 export const BottomBar = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 14px 16px 28px;
+  padding: ${theme.spacing(1.75)} ${theme.spacing(2)} ${theme.spacing(3.5)};
   text-align: center;
-  color: #6b7280; /* gray-500 */
-  font-size: 13px;
+  color: ${theme.colors.gray[500]};
+  font-size: ${theme.fontSizes.small};
+  font-family: ${theme.fonts.body};
+  
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    padding: ${theme.spacing(2)} ${theme.spacing(2.5)} ${theme.spacing(4)};
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    padding: ${theme.spacing(2)} ${theme.spacing(3)} ${theme.spacing(4)};
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    padding: ${theme.spacing(1.75)} ${theme.spacing(2)} ${theme.spacing(3.5)};
+  }
 `
 
 export const SrOnly = styled.span`

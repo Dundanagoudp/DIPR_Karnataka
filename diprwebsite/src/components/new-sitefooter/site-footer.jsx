@@ -30,7 +30,7 @@ export default function SiteFooter({
     count: "559",
     version: "C64/KBN",
   },
-  emblemSrc = "/images/emblem.png",
+  emblemSrc = "/header/karntaka.png",
 }) {
   return (
     <FooterWrapper role="contentinfo" aria-label="Site footer">
