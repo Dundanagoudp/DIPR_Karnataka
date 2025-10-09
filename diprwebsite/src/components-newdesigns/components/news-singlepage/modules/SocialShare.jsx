@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaWhatsapp, FaCopy } from "react-icons/fa"
 import {
   SocialShareContainer,
   ShareTitle,
@@ -42,27 +43,37 @@ const SocialShare = () => {
       <ShareTitle>Share this article</ShareTitle>
       <ShareButtons>
         <ShareButton onClick={shareToFacebook} style={{ backgroundColor: '#1877F2' }}>
-          <ShareIcon>📘</ShareIcon>
+          <ShareIcon>
+            <FaFacebookF />
+          </ShareIcon>
           <ShareText>Facebook</ShareText>
         </ShareButton>
         
         <ShareButton onClick={shareToTwitter} style={{ backgroundColor: '#1DA1F2' }}>
-          <ShareIcon>🐦</ShareIcon>
+          <ShareIcon>
+            <FaTwitter />
+          </ShareIcon>
           <ShareText>Twitter</ShareText>
         </ShareButton>
         
         <ShareButton onClick={shareToLinkedIn} style={{ backgroundColor: '#0077B5' }}>
-          <ShareIcon>💼</ShareIcon>
+          <ShareIcon>
+            <FaLinkedinIn />
+          </ShareIcon>
           <ShareText>LinkedIn</ShareText>
         </ShareButton>
         
         <ShareButton onClick={shareToWhatsApp} style={{ backgroundColor: '#25D366' }}>
-          <ShareIcon>💬</ShareIcon>
+          <ShareIcon>
+            <FaWhatsapp />
+          </ShareIcon>
           <ShareText>WhatsApp</ShareText>
         </ShareButton>
         
         <ShareButton onClick={copyToClipboard} style={{ backgroundColor: '#6B7280' }}>
-          <ShareIcon>📋</ShareIcon>
+          <ShareIcon>
+            <FaCopy />
+          </ShareIcon>
           <ShareText>Copy Link</ShareText>
         </ShareButton>
       </ShareButtons>

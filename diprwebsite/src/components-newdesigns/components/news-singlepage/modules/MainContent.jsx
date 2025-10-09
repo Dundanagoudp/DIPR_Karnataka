@@ -129,19 +129,6 @@ const MainContent = () => {
         {/* Inline Advertisement/Related Content */}
         <InlineAd>
           <AdContent>
-            <div style={{ 
-              backgroundColor: '#FFD700', 
-              padding: '16px', 
-              borderRadius: '8px',
-              marginBottom: '12px'
-            }}>
-              <h4 style={{ margin: '0 0 8px 0', color: '#333' }}>
-                IBENCY WON' IDRA KUSHW
-              </h4>
-              <p style={{ margin: '0', color: '#555', fontSize: '14px' }}>
-                Discover more about Karnataka's heritage and culture
-              </p>
-            </div>
             <AdImage>
               <img 
                 src="/header/dcm.png" 
@@ -154,6 +141,19 @@ const MainContent = () => {
                 }} 
               />
             </AdImage>
+            <div style={{ 
+              backgroundColor: '#FFD700', 
+              padding: '16px', 
+              borderRadius: '8px',
+              marginTop: '12px'
+            }}>
+              <h4 style={{ margin: '0 0 8px 0', color: '#333', fontSize: '18px', fontWeight: 'bold' }}>
+                IBENCY WON IDRA KUSHW
+              </h4>
+              <p style={{ margin: '0', color: '#555', fontSize: '14px' }}>
+                Discover more about Karnataka's heritage and culture
+              </p>
+            </div>
           </AdContent>
         </InlineAd>
         
@@ -188,8 +188,7 @@ const MainContent = () => {
       
       {/* Social Share */}
       <SocialShare />   
-      {/* Comment Section */}
-      <CommentSection />
+
     </MainContentContainer>
   )
 }
