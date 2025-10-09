@@ -36,6 +36,7 @@ import DistrictNewspage from "./components-newdesigns/pages/districtNewspage/Dis
 import SpecialNews from "./components-newdesigns/pages/specialnewspage/SpecialNews";
 import News from "./components-newdesigns/pages/newspage/News";
 import Marchofkarnataka from "./components-newdesigns/pages/marchofkarnataka/Marchofkarnataka";
+import NewsId from "./components-newdesigns/pages/newsid/NewsId";
 
 
 const App = () => {
@@ -75,7 +76,7 @@ const App = () => {
                 <Route path="/" element={<Applayout />}>
                   <Route index element={<Home />} />
                   <Route path="/news/:id" element={<LatestNews />} />
-                  <Route path="/newsdetails/:id" element={<LatestNews1 />} />
+                  {/* <Route path="/newsdetails/:id" element={<LatestNews1 />} /> */}
                   <Route path="/magazinepages" element={<MagaZinepages />} />
                   <Route path="/Gallery" element={<Exclusive />} />
                   <Route path="/aboutuspage" element={<AboutUspage />} />
@@ -96,6 +97,7 @@ const App = () => {
                   <Route path="/specialnews" element={<SpecialNews />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/marchofkarnataka" element={<Marchofkarnataka />} />
+                  <Route path="/newsdetails/:id" element={<NewsId />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/otp" element={<Otp />} />
