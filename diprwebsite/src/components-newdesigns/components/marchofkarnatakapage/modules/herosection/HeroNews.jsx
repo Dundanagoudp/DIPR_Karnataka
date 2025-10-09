@@ -1,3 +1,4 @@
+
 import React from "react"
 import { IoChevronBack, IoChevronForward } from "react-icons/io5"
 import {
@@ -17,24 +18,24 @@ import {
 const FALLBACK_ITEMS = [
   {
     title:
-      "Karnataka's Journey of Progress: From Ancient Heritage to Modern Development",
+      "The first-ever double-decker flyover built in South India has been opened for traffic on an experimental basis.",
     excerpt:
-      "Explore the remarkable transformation of Karnataka, showcasing its rich cultural heritage and rapid modernization across various sectors.",
+      "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.",
     image: "/state/state.jpg",
   },
   {
-    title: "Karnataka's IT Revolution: Silicon Valley of India",
-    excerpt: "Discover how Karnataka became the technology hub of India, driving innovation and digital transformation.",
+    title: "City unveils new riverfront walkway for weekend crowds.",
+    excerpt: "Quisque aliquet velit sit amet sem interdum, ac facilisis massa aliquet.",
     image: "/state/sidebar.jpg",
   },
   {
-    title: "Karnataka's Educational Excellence: Nurturing Future Leaders",
-    excerpt: "Learn about Karnataka's world-class educational institutions and their contribution to national development.",
+    title: "University announces scholarship program for rural students.",
+    excerpt: "Mauris non tempor quam, et lacinia sapien. Maecenas ac est sit amet augue pharetra.",
     image: "/state/sidebar2.jpg",
   },
 ]
 
-export default function NewsHero({ items = FALLBACK_ITEMS }) {
+export default function MarchNewsHero({ items = FALLBACK_ITEMS }) {
   const [index, setIndex] = React.useState(0)
   const len = items.length
 
@@ -45,12 +46,12 @@ export default function NewsHero({ items = FALLBACK_ITEMS }) {
   const current = items[index]
 
   return (
-    <HeroWrap aria-roledescription="carousel" aria-label="March of Karnataka stories">
+    <HeroWrap aria-roledescription="carousel" aria-label="Top stories">
       <HeroMedia>
         {/* Background image */}
         <img src={current.image || "/placeholder.svg"} alt="" aria-hidden="true" />
         {/* Overlay card */}
-
+ 
       </HeroMedia>
       <OverlayCard>
           <Title>{current.title}</Title>
