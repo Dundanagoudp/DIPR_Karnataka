@@ -3,6 +3,7 @@ import {
   FooterContainer,
   Grid,
   Left,
+  RightColumn,
   Emblem,
   Note,
   ColTitle,
@@ -45,36 +46,38 @@ export default function SiteFooter({
             </Note>
           </Left>
 
-          <div>
-            <ColTitle>Website Policies</ColTitle>
-            <nav aria-label="Website policies">
-              <LinkList>
-                {policies.map((p, idx) => (
-                  <LinkItem key={idx}>
-                    <LinkA href={p.href}>{p.label}</LinkA>
-                  </LinkItem>
-                ))}
-              </LinkList>
-            </nav>
-          </div>
+          <RightColumn>
+            <div>
+              <ColTitle>Website Policies</ColTitle>
+              <nav aria-label="Website policies">
+                <LinkList>
+                  {policies.map((p, idx) => (
+                    <LinkItem key={idx}>
+                      <LinkA href={p.href}>{p.label}</LinkA>
+                    </LinkItem>
+                  ))}
+                </LinkList>
+              </nav>
+            </div>
 
-          <div>
-            <ColTitle>Visitors</ColTitle>
-            <Meta>
-              <div>
-                <strong>Date/Time: </strong>
-                <span>{visitors.dateTime}</span>
-              </div>
-              <div>
-                <strong>Visitors Counter: </strong>
-                <span>{visitors.count}</span>
-              </div>
-              <div>
-                <strong>Version: </strong>
-                <span>{visitors.version}</span>
-              </div>
-            </Meta>
-          </div>
+            <div>
+              <ColTitle>Visitors</ColTitle>
+              <Meta>
+                <div>
+                  <strong>Date/Time: </strong>
+                  <span>{visitors.dateTime}</span>
+                </div>
+                <div>
+                  <strong>Visitors Counter: </strong>
+                  <span>{visitors.count}</span>
+                </div>
+                <div>
+                  <strong>Version: </strong>
+                  <span>{visitors.version}</span>
+                </div>
+              </Meta>
+            </div>
+          </RightColumn>
         </Grid>
 
         <Divider />

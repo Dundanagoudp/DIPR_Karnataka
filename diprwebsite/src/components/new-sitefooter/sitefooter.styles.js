@@ -9,20 +9,23 @@ export const FooterWrapper = styled.footer`
 `
 
 export const FooterContainer = styled.div`
-  max-width: 90%;
+  max-width: 100%;
   margin: 0 auto;
   background: ${theme.colors.white};
-  padding: ${theme.spacing(3)} ${theme.spacing(2)};
+  padding: ${theme.spacing(2)} ${theme.spacing(1.5)};
   
   @media (min-width: ${theme.breakpoints.mobile}) { 
-    padding: ${theme.spacing(3.5)} ${theme.spacing(2.5)}; 
+    max-width: 95%;
+    padding: ${theme.spacing(3)} ${theme.spacing(2)}; 
   }
   
   @media (min-width: ${theme.breakpoints.tablet}) { 
-    padding: ${theme.spacing(4)} ${theme.spacing(3)}; 
+    max-width: 90%;
+    padding: ${theme.spacing(3.5)} ${theme.spacing(2.5)}; 
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) { 
+    max-width: 90%;
     padding: ${theme.spacing(4)} ${theme.spacing(2)}; 
   }
 `
@@ -31,21 +34,24 @@ export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: ${theme.spacing(2.5)};
-  align-items: center;
-  padding-left: ${theme.spacing(15)};
+  align-items: start;
+  padding-left: ${theme.spacing(2)};
 
   @media (min-width: ${theme.breakpoints.mobile}) { 
-    gap: ${theme.spacing(3)}; 
+    gap: ${theme.spacing(3)};
+    padding-left: ${theme.spacing(3)};
   }
   
   @media (min-width: ${theme.breakpoints.tablet}) { 
     grid-template-columns: 1fr 1fr;
-    gap: ${theme.spacing(3.5)}; 
+    gap: ${theme.spacing(3.5)};
+    padding-left: ${theme.spacing(4)};
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) { 
     grid-template-columns: 1.2fr 1fr 1fr;
-    gap: ${theme.spacing(4)}; 
+    gap: ${theme.spacing(4)};
+    padding-left: ${theme.spacing(15)};
   }
 `
 
@@ -53,6 +59,7 @@ export const Left = styled.div`
   flex-direction: column;
   gap: ${theme.spacing(2.5)};
   align-items: center;
+  text-align: center;
 
   @media (min-width: ${theme.breakpoints.mobile}) { 
     gap: ${theme.spacing(2.5)}; 
@@ -60,26 +67,48 @@ export const Left = styled.div`
   
   @media (min-width: ${theme.breakpoints.tablet}) { 
     flex-direction: row;
+    text-align: left;
     gap: ${theme.spacing(2.5)}; 
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) { 
     flex-direction: row;
+    text-align: left;
     gap: ${theme.spacing(2.5)}; 
   }
 `
 
+export const RightColumn = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${theme.spacing(2.5)};
+  
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    gap: ${theme.spacing(3)}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: ${theme.spacing(3.5)}; 
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    display: contents;
+  }
+`
+
 export const Emblem = styled.img`
-  width: 140px;
+  width: 120px;
   height: auto;
   object-fit: contain;
 
   @media (min-width: ${theme.breakpoints.mobile}) { 
-    width: 160px; 
+    width: 140px; 
   }
   
   @media (min-width: ${theme.breakpoints.tablet}) { 
-    width: 180px; 
+    width: 160px; 
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) { 
@@ -89,42 +118,50 @@ export const Emblem = styled.img`
 
 export const Note = styled.p`
   margin: 0;
-  font-size: ${theme.fontSizes.medium};
-  line-height: 1.6;
+  font-size: ${theme.fontSizes.small};
+  line-height: 1.5;
   font-family: ${theme.fonts.body};
   color: ${theme.colors.gray[600]};
+  text-align: center;
   
   @media (min-width: ${theme.breakpoints.mobile}) { 
-    font-size: ${theme.fontSizes.medium}; 
+    font-size: ${theme.fontSizes.medium};
+    text-align: center;
   }
   
   @media (min-width: ${theme.breakpoints.tablet}) { 
-    font-size: ${theme.fontSizes.medium}; 
+    font-size: ${theme.fontSizes.medium};
+    text-align: left;
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) { 
-    font-size: ${theme.fontSizes.medium}; 
+    font-size: ${theme.fontSizes.medium};
+    text-align: left;
   }
 `
 
 export const ColTitle = styled.h3`
   margin: 0 0 ${theme.spacing(1.5)} 0;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.3;
   font-weight: 700;
   font-family: ${theme.fonts.heading};
   color: ${theme.colors.text};
+  text-align: left;
   
   @media (min-width: ${theme.breakpoints.mobile}) { 
-    font-size: 19px; 
+    font-size: 18px;
+    text-align: left;
   }
   
   @media (min-width: ${theme.breakpoints.tablet}) { 
-    font-size: 20px; 
+    font-size: 19px;
+    text-align: left;
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) { 
-    font-size: 20px; 
+    font-size: 20px;
+    text-align: left;
   }
 `
 
@@ -134,6 +171,19 @@ export const LinkList = styled.ul`
   margin: 0;
   display: grid;
   gap: ${theme.spacing(1.25)};
+  text-align: left;
+  
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    text-align: left;
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    text-align: left;
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    text-align: left;
+  }
 `
 
 export const LinkItem = styled.li``
@@ -155,9 +205,25 @@ export const LinkA = styled.a`
 export const Meta = styled.div`
   display: grid;
   gap: ${theme.spacing(1.25)};
-  font-size: ${theme.fontSizes.medium};
+  font-size: ${theme.fontSizes.small};
   font-family: ${theme.fonts.body};
   color: ${theme.colors.gray[700]};
+  text-align: left;
+  
+  @media (min-width: ${theme.breakpoints.mobile}) { 
+    font-size: ${theme.fontSizes.medium};
+    text-align: left;
+  }
+  
+  @media (min-width: ${theme.breakpoints.tablet}) { 
+    font-size: ${theme.fontSizes.medium};
+    text-align: left;
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) { 
+    font-size: ${theme.fontSizes.medium};
+    text-align: left;
+  }
 `
 
 export const Divider = styled.hr`
@@ -167,23 +233,26 @@ export const Divider = styled.hr`
 `
 
 export const BottomBar = styled.div`
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: ${theme.spacing(1.75)} ${theme.spacing(2)} ${theme.spacing(3.5)};
+  padding: ${theme.spacing(1.5)} ${theme.spacing(1)} ${theme.spacing(2)};
   text-align: center;
   color: ${theme.colors.gray[500]};
   font-size: ${theme.fontSizes.small};
   font-family: ${theme.fonts.body};
   
   @media (min-width: ${theme.breakpoints.mobile}) { 
-    padding: ${theme.spacing(2)} ${theme.spacing(2.5)} ${theme.spacing(4)};
+    max-width: 95%;
+    padding: ${theme.spacing(1.75)} ${theme.spacing(2)} ${theme.spacing(3)};
   }
   
   @media (min-width: ${theme.breakpoints.tablet}) { 
-    padding: ${theme.spacing(2)} ${theme.spacing(3)} ${theme.spacing(4)};
+    max-width: 90%;
+    padding: ${theme.spacing(2)} ${theme.spacing(2.5)} ${theme.spacing(3.5)};
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) { 
+    max-width: 1200px;
     padding: ${theme.spacing(1.75)} ${theme.spacing(2)} ${theme.spacing(3.5)};
   }
 `

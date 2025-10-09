@@ -5,14 +5,14 @@ export const Container = styled.div`
   max-width: 100%;
   margin: 0 auto;
   background: ${theme.colors.background};
-  padding: ${theme.spacing(2)} ${theme.spacing(1.5)};
+  padding: ${theme.spacing(4)} 0;
 
   @media (min-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(4)} ${theme.spacing(3)};
+    padding: ${theme.spacing(4)} 0;
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) {
-    padding: ${theme.spacing(5)} ${theme.spacing(4)};
+    padding: ${theme.spacing(5)} 0;
   }
 `
 
@@ -49,7 +49,6 @@ export const FeaturedCard = styled.article`
 
 export const FeaturedImage = styled.div`
   position: relative;
-  margin: 0 auto;
   width: 100%;
   aspect-ratio: 16 / 9;
   background: ${theme.colors.gray[100]};
@@ -66,14 +65,14 @@ export const FeaturedImage = styled.div`
 `
 
 export const FeaturedContent = styled.div`
-  padding: ${theme.spacing(1.5)};
+  padding: ${theme.spacing(1.5)} 0;
 
   @media (min-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(2.5)};
+    padding: ${theme.spacing(2.5)} 0;
   }
   
   @media (min-width: ${theme.breakpoints.desktop}) {
-    padding: ${theme.spacing(3)};
+    padding: ${theme.spacing(3)} 0;
   }
 `
 
@@ -153,7 +152,7 @@ export const NewsList = styled.div`
 
 export const NewsItem = styled.article`
   background: ${theme.colors.background};
-  padding: ${theme.spacing(1.5)};
+  padding: ${theme.spacing(1.5)} 0;
   transition: ${theme.transitions.fast};
   cursor: pointer;
 
@@ -162,7 +161,7 @@ export const NewsItem = styled.article`
   }
 
   @media (min-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(2)};
+    padding: ${theme.spacing(2)} 0;
   }
 
   p {
@@ -235,7 +234,7 @@ export const PopularItem = styled.article`
   display: flex;
   gap: ${theme.spacing(1)};
   background: ${theme.colors.background};
-  padding: ${theme.spacing(1)};
+  padding: ${theme.spacing(1)} 0;
   transition: ${theme.transitions.fast};
   cursor: pointer;
 
@@ -245,7 +244,7 @@ export const PopularItem = styled.article`
 
   @media (min-width: ${theme.breakpoints.tablet}) {
     gap: ${theme.spacing(1.5)};
-    padding: ${theme.spacing(1.25)};
+    padding: ${theme.spacing(1.25)} 0;
   }
 `
 
