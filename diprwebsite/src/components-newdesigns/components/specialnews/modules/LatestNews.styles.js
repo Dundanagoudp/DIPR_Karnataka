@@ -79,6 +79,14 @@ export const Title = styled.h2`
   margin: 0;
   text-align: left;
 
+  &:first-child {
+    text-align: left;
+  }
+
+  &:last-child {
+    text-align: right;
+  }
+
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 1rem;
     letter-spacing: 0.3px;
@@ -188,6 +196,7 @@ export const Headline = styled.h3`
   font-family: ${theme.fonts.heading};
   line-height: 1.3;
   color: ${theme.colors.black};
+  text-align: left;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 1rem;
