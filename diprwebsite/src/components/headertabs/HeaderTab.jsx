@@ -21,11 +21,11 @@ const HeaderTab = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { name: "Vartha Janapada", path: "/vartha-janapada" },
-    { name: "March of karnataka", path: "/" },
+    { name: "Vartha Janapada", path: "/" },
+    { name: "March of karnataka", path: "/marchofkarnataka" },
     { name: "State", path: "/state" },
     { name: "District news", path: "/district" },
-    { name: "Special news", path: "/special-news" },
+    { name: "Special news", path: "/specialnews" },
     { name: "News", path: "/news" },
   ];
 

@@ -31,8 +31,11 @@ import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Mag
 import { ToastProvider } from "./context/ToastContext";
 import SignUppage from "./screens/signuppage/SignUp";
 import Error404 from "./components/Error404/Error404";
-import StateNews from "./modules/pages/state/StateNews";
-import DistrictNewspage from "./modules/pages/districtNewspage/DistrictNewspage";
+import StateNews from "./components-newdesigns/pages/state/StateNews";
+import DistrictNewspage from "./components-newdesigns/pages/districtNewspage/DistrictNewspage";
+import SpecialNews from "./components-newdesigns/pages/specialnewspage/SpecialNews";
+import News from "./components-newdesigns/pages/newspage/News";
+import Marchofkarnataka from "./components-newdesigns/pages/marchofkarnataka/Marchofkarnataka";
 
 
 const App = () => {
@@ -90,6 +93,9 @@ const App = () => {
                   <Route path="/magazine/:id" element={<Magazineview />} />
                   <Route path="/state" element={<StateNews />} />
                   <Route path="/district" element={<DistrictNewspage />} />
+                  <Route path="/specialnews" element={<SpecialNews />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/marchofkarnataka" element={<Marchofkarnataka />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/otp" element={<Otp />} />
