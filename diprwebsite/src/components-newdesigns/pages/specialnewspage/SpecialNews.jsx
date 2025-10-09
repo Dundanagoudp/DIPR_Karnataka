@@ -1,7 +1,10 @@
 import React from 'react'
+import Specialnewssecion from '../../components/specialnews/Specialnewssecion'
 
 export default function SpecialNews() {
   return (
-    <div>SpecialNews</div>
+    <div>
+      <Specialnewssecion />
+    </div>
   )
 }
