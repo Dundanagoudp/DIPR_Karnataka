@@ -5,22 +5,22 @@ export const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: ${theme.colors.background};
-  padding: ${theme.spacing(0)} ${theme.spacing(4)};
-  width: 100%;
-  margin: 0 auto;
-  flex-wrap: wrap;
+  max-width: 100%;
+  padding-left: ${theme.spacing(10)};
+  padding-right: ${theme.spacing(6)};
+  background: ${theme.colors.background};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(2)};
+    padding: ${theme.spacing(2)} ${theme.spacing(3)};
     width: 100%;
+    gap: ${theme.spacing(2)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(1)};
+    padding: ${theme.spacing(2)} ${theme.spacing(1.5)};
     flex-direction: column;
     text-align: center;
-    gap: ${theme.spacing(2)};
+    gap: ${theme.spacing(1.5)};
   }
 `;
 
@@ -32,14 +32,15 @@ export const LogoSection = styled.div`
   min-width: 300px;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    min-width: 250px;
+    min-width: auto;
     gap: ${theme.spacing(1.5)};
+    flex: 0 1 auto;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     min-width: auto;
     flex-direction: column;
-    gap: ${theme.spacing(1)};
+    gap: ${theme.spacing(1.25)};
     width: 100%;
   }
 `;
@@ -71,19 +72,21 @@ export const Title = styled.h3`
   color: ${theme.colors.text};
   font-size: 1.4rem;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.3;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
+    line-height: 1.25;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-align: center;
+    line-height: 1.2;
   }
 
   @media (max-width: 480px) {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 `;
 
@@ -93,19 +96,21 @@ export const Subtitle = styled.h2`
   font-size: 1rem;
   font-weight: normal;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.3;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.25;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     text-align: center;
+    line-height: 1.2;
   }
 
   @media (max-width: 480px) {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 `;
 
@@ -115,16 +120,20 @@ export const CMSection = styled.div`
   justify-content: flex-end;
   flex: 1;
   min-width: 300px;
+  gap: ${theme.spacing(1)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    min-width: 250px;
+    min-width: auto;
+    flex: 0 1 auto;
+    gap: ${theme.spacing(0.5)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     min-width: auto;
     justify-content: center;
     width: 100%;
-    margin-top: ${theme.spacing(1)};
+    margin-top: 0;
+    gap: ${theme.spacing(0.5)};
   }
 `;
 
@@ -135,19 +144,20 @@ export const CMImage = styled.img`
   padding: ${theme.spacing(1.8)};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    max-width: ${theme.spacing(30)};
-    height: 80px;
+    max-width: ${theme.spacing(25)};
+    height: 75px;
     padding: ${theme.spacing(1)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    max-width: ${theme.spacing(30)};
-    height: 70px;
-    padding: ${theme.spacing(0.5)};
+    max-width: ${theme.spacing(22)};
+    height: 65px;
+    padding: ${theme.spacing(0.75)};
   }
 
   @media (max-width: 480px) {
-    max-width: ${theme.spacing(25)};
-    height: 60px;
+    max-width: ${theme.spacing(20)};
+    height: 55px;
+    padding: ${theme.spacing(0.5)};
   }
 `;

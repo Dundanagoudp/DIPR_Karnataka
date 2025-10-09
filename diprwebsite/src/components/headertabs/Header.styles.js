@@ -7,9 +7,10 @@ export const HeaderContainer = styled.header`
   top: 0;
   z-index: 50;
   width: 100%;
-  background-color: ${theme.colors.white};
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  border-bottom: 1px solid ${theme.colors.gray[200]};
+  background-color: ${theme.colors.background};
+  // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid ${theme.colors.gray[300]};
+  border-top: 1px solid ${theme.colors.gray[300]};
 `;
 
 export const Container = styled.div`

@@ -1,25 +1,26 @@
 import styled from 'styled-components';
+import theme from '../../theme/Theme';
 
 export const LanguageNavContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 12px 40px;
-  background-color: ${props => props.theme.colors.navbarBg || '#ffffff'};
-  border-bottom: 1px solid ${props => props.theme.colors.gray?.[200] || '#e5e7eb'};
+  padding: ${theme.spacing(1.5)} ${theme.spacing(5)};
+  background-color: ${theme.colors.background};
+  border-bottom: 1px solid ${theme.colors.gray[200]};
   width: 100%;
   box-sizing: border-box;
-  gap: 32px;
+  gap: ${theme.spacing(4)};
   position: relative;
 
-  @media (max-width: 768px) {
-    padding: 12px 24px;
-    gap: 24px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(1.5)} ${theme.spacing(3)};
+    gap: ${theme.spacing(3)};
   }
 
-  @media (max-width: 480px) {
-    padding: 10px 16px;
-    gap: 16px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(1.25)} ${theme.spacing(2)};
+    gap: ${theme.spacing(2)};
     justify-content: space-between;
   }
 `;
@@ -27,14 +28,14 @@ export const LanguageNavContainer = styled.div`
 export const SocialIcons = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: ${theme.spacing(2.5)};
 
-  @media (max-width: 768px) {
-    gap: 18px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(2.25)};
   }
 
-  @media (max-width: 480px) {
-    gap: 14px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(1.75)};
   }
 `;
 
@@ -42,24 +43,24 @@ export const SocialIcon = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.colors.gray?.[700] || '#374151'};
+  color: ${theme.colors.gray[700]};
   text-decoration: none;
-  transition: color ${props => props.theme.transitions?.fast || '0.2s ease'};
+  transition: color ${theme.transitions.fast};
   
   &:hover {
-    color: ${props => props.theme.colors.primary || '#3b82f6'};
+    color: ${theme.colors.primary};
   }
 
   svg {
     width: 22px;
     height: 22px;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${theme.breakpoints.tablet}) {
       width: 21px;
       height: 21px;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: ${theme.breakpoints.mobile}) {
       width: 20px;
       height: 20px;
     }
@@ -74,50 +75,50 @@ export const LanguageSelector = styled.div`
   button.language-button {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background-color: ${props => props.theme.colors.white || '#ffffff'};
-    border: 1px solid ${props => props.theme.colors.gray?.[300] || '#d1d5db'};
-    border-radius: ${props => props.theme.borderRadius?.medium || '6px'};
-    color: ${props => props.theme.colors.gray?.[700] || '#374151'};
-    font-size: ${props => props.theme.fontSizes?.medium || '14px'};
-    font-family: ${props => props.theme.fonts?.body || 'Arial, sans-serif'};
+    gap: ${theme.spacing(1)};
+    padding: ${theme.spacing(1)} ${theme.spacing(2)};
+    background-color: ${theme.colors.white};
+    border: 1px solid ${theme.colors.gray[300]};
+    border-radius: ${theme.borderRadius.medium};
+    color: ${theme.colors.gray[700]};
+    font-size: ${theme.fontSizes.medium};
+    font-family: ${theme.fonts.body};
     cursor: pointer;
-    transition: all ${props => props.theme.transitions?.fast || '0.2s ease'};
+    transition: all ${theme.transitions.fast};
     min-width: 160px;
     justify-content: space-between;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     font-weight: 500;
     
     &:hover {
-      background-color: ${props => props.theme.colors.white || '#ffffff'};
-      border-color: ${props => props.theme.colors.primary || '#3b82f6'};
+      background-color: ${theme.colors.white};
+      border-color: ${theme.colors.primary};
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     }
     
     &:focus {
-      outline: 2px solid ${props => props.theme.colors.primary || '#3b82f6'};
+      outline: 2px solid ${theme.colors.primary};
       outline-offset: 2px;
     }
     
     .arrow {
       font-size: 16px;
-      color: ${props => props.theme.colors.gray?.[500] || '#6b7280'};
-      transition: transform ${props => props.theme.transitions?.fast || '0.2s ease'};
+      color: ${theme.colors.gray[500]};
+      transition: transform ${theme.transitions.fast};
       transform: ${props => props.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: ${theme.breakpoints.tablet}) {
       min-width: 150px;
-      padding: 8px 14px;
+      padding: ${theme.spacing(1)} ${theme.spacing(1.75)};
       font-size: 13px;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: ${theme.breakpoints.mobile}) {
       min-width: 140px;
-      padding: 8px 12px;
+      padding: ${theme.spacing(1)} ${theme.spacing(1.5)};
       font-size: 13px;
-      gap: 8px;
+      gap: ${theme.spacing(1)};
     }
   }
 `;
@@ -126,9 +127,9 @@ export const LanguageDropdown = styled.div`
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
-  background-color: ${props => props.theme.colors.white || '#ffffff'};
-  border: 1px solid ${props => props.theme.colors.gray?.[300] || '#d1d5db'};
-  border-radius: ${props => props.theme.borderRadius?.medium || '6px'};
+  background-color: ${theme.colors.white};
+  border: 1px solid ${theme.colors.gray[300]};
+  border-radius: ${theme.borderRadius.medium};
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08);
   z-index: 1000;
   overflow: hidden;
@@ -146,68 +147,68 @@ export const LanguageDropdown = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     min-width: 170px;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     min-width: 160px;
     right: 0;
   }
   
   button {
     width: 100%;
-    padding: 12px 16px;
+    padding: ${theme.spacing(1.5)} ${theme.spacing(2)};
     border: none;
     background-color: transparent;
-    color: ${props => props.theme.colors.gray?.[700] || '#374151'};
-    font-size: ${props => props.theme.fontSizes?.medium || '14px'};
-    font-family: ${props => props.theme.fonts?.body || 'Arial, sans-serif'};
+    color: ${theme.colors.gray[700]};
+    font-size: ${theme.fontSizes.medium};
+    font-family: ${theme.fonts.body};
     text-align: left;
     cursor: pointer;
-    transition: all ${props => props.theme.transitions?.fast || '0.2s ease'};
+    transition: all ${theme.transitions.fast};
     border-radius: 0;
     min-width: auto;
     justify-content: flex-start;
     display: flex;
     align-items: center;
     font-weight: 400;
-    border-bottom: 1px solid ${props => props.theme.colors.gray?.[100] || '#f3f4f6'};
+    border-bottom: 1px solid ${theme.colors.gray[100]};
 
     &:last-child {
       border-bottom: none;
     }
     
     &:hover {
-      background-color: ${props => props.theme.colors.gray?.[50] || '#f9fafb'};
-      color: ${props => props.theme.colors.primary || '#3b82f6'};
-      padding-left: 20px;
+      background-color: ${theme.colors.gray[50]};
+      color: ${theme.colors.primary};
+      padding-left: ${theme.spacing(2.5)};
     }
     
     &.active {
-      background-color: ${props => props.theme.colors.primary || '#3b82f6'};
-      color: ${props => props.theme.colors.white || '#ffffff'};
+      background-color: ${theme.colors.primary};
+      color: ${theme.colors.white};
       font-weight: 500;
       
       &:hover {
-        background-color: ${props => props.theme.colors.primary || '#3b82f6'};
-        color: ${props => props.theme.colors.white || '#ffffff'};
-        padding-left: 16px;
+        background-color: ${theme.colors.primary};
+        color: ${theme.colors.white};
+        padding-left: ${theme.spacing(2)};
       }
     }
     
     &:focus {
-      outline: 2px solid ${props => props.theme.colors.primary || '#3b82f6'};
+      outline: 2px solid ${theme.colors.primary};
       outline-offset: -2px;
     }
 
-    @media (max-width: 768px) {
-      padding: 11px 16px;
+    @media (max-width: ${theme.breakpoints.tablet}) {
+      padding: ${theme.spacing(1.375)} ${theme.spacing(2)};
       font-size: 13px;
     }
 
-    @media (max-width: 480px) {
-      padding: 11px 14px;
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      padding: ${theme.spacing(1.375)} ${theme.spacing(1.75)};
       font-size: 13px;
     }
   }
@@ -226,26 +227,26 @@ export const Overlay = styled.div`
 export const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: ${theme.spacing(1)};
   cursor: pointer;
-  transition: color ${props => props.theme.transitions?.fast || '0.2s ease'};
-  padding: 8px 12px;
-  border-radius: ${props => props.theme.borderRadius?.medium || '6px'};
+  transition: color ${theme.transitions.fast};
+  padding: ${theme.spacing(1)} ${theme.spacing(1.5)};
+  border-radius: ${theme.borderRadius.medium};
   flex-shrink: 0;
   
   &:hover {
-    color: ${props => props.theme.colors.primary || '#3b82f6'};
-    background-color: ${props => props.theme.colors.gray?.[50] || '#f9fafb'};
+    color: ${theme.colors.primary};
+    background-color: ${theme.colors.gray[50]};
   }
 
-  @media (max-width: 768px) {
-    padding: 8px 10px;
-    gap: 7px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(1)} ${theme.spacing(1.25)};
+    gap: ${theme.spacing(0.875)};
   }
 
-  @media (max-width: 480px) {
-    padding: 8px 10px;
-    gap: 6px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(1)} ${theme.spacing(1.25)};
+    gap: ${theme.spacing(0.75)};
   }
 `;
 
@@ -259,12 +260,12 @@ export const SearchIcon = styled.div`
     width: 20px;
     height: 20px;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${theme.breakpoints.tablet}) {
       width: 19px;
       height: 19px;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: ${theme.breakpoints.mobile}) {
       width: 18px;
       height: 18px;
     }
@@ -272,17 +273,17 @@ export const SearchIcon = styled.div`
 `;
 
 export const SearchText = styled.span`
-  color: ${props => props.theme.colors.gray?.[600] || '#4b5563'};
-  font-size: ${props => props.theme.fontSizes?.medium || '14px'};
-  font-family: ${props => props.theme.fonts?.body || 'Arial, sans-serif'};
-  transition: color ${props => props.theme.transitions?.fast || '0.2s ease'};
+  color: ${theme.colors.gray[600]};
+  font-size: ${theme.fontSizes.medium};
+  font-family: ${theme.fonts.body};
+  transition: color ${theme.transitions.fast};
   font-weight: 500;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 13px;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 13px;
   }
 
