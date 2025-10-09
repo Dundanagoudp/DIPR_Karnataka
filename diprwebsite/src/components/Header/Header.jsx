@@ -10,9 +10,6 @@ import {
   CMSection,
   CMImage,
 } from './Header.styles';
-import logo2 from '../../assets/logo2.png';
-import cm from '../../assets/karnatakacm.jpg';
-import dcm from "../../assets/karnatakadcm.jpg"
 import { FontSizeContext } from '../../context/FontSizeProvider';
 
 const Header = () => {
@@ -21,7 +18,7 @@ const Header = () => {
     <HeaderContainer role="banner" aria-label="Site header">
       <LogoSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         <Link to="/" aria-label="Go to homepage">
-          <Logo src={logo2} alt="Government of Karnataka Logo" />
+          <Logo src="/header/karntaka.png" alt="Karnataka State Emblem" />
         </Link>
         <TitleSection style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
         <Subtitle style={fontSize !== 100 ? { fontSize: `${fontSize}%` } : undefined}>
@@ -36,8 +33,8 @@ const Header = () => {
         </TitleSection>     
       </LogoSection>
       <CMSection>
-        <CMImage src={cm} alt="Chief Minister Siddaramaiah" />
-        <CMImage src={dcm} alt="Deputy Chief Minister D K Shivakumar" />
+        <CMImage src="/header/cm.png" alt="Chief Minister Siddaramaiah" />
+        <CMImage src="/header/dcm.png" alt="Deputy Chief Minister D K Shivakumar" />
       </CMSection>
     </HeaderContainer>
   );

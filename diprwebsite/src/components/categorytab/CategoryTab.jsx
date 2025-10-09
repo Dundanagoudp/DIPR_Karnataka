@@ -70,6 +70,13 @@ const tabs = [
   },
   {
     name: {
+      English: "state",
+      Hindi: "राज्य",
+      Kannada: "ರಾಜ್ಯ",
+    },
+  },
+  {
+    name: {
       English: "Contact us",
       Hindi: "संपर्क करें",
       Kannada: "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
