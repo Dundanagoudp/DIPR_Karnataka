@@ -1,14 +1,15 @@
 "use client"
 import styled from "styled-components"
+import theme from "../../../../../theme/Theme"
 
 export const Section = styled.section`
   width: 100%;
-  padding: 24px 16px;
-  background: var(--background, #ffffff);
-  color: var(--foreground, #0a0a0a);
+  padding: ${theme.spacing(3)} ${theme.spacing(2)};
+  background: ${theme.colors.background};
+  color: ${theme.colors.text};
 
-  @media (min-width: 1024px) {
-    padding: 48px 32px;
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    padding: ${theme.spacing(6)} ${theme.spacing(4)};
   }
 `
 
@@ -17,17 +18,17 @@ export const Container = styled.div`
   max-width: 90%;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: ${theme.spacing(2.5)};
 
-  @media (min-width: 768px) and (max-width: 1023px) {
-    grid-template-columns: 1fr 1fr; /* tablet: image+content, sidebar */
-    gap: 24px;
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1023px) {
+    grid-template-columns: 1fr 1fr;
+    gap: ${theme.spacing(3)};
     max-width: 95%;
   }
 
-  @media (min-width: 1024px) {
-    grid-template-columns: 1fr 1fr 1fr; /* left image, main text, right list */
-    gap: 32px;
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: ${theme.spacing(4)};
   }
 `
 
@@ -36,16 +37,16 @@ export const LeftImageWrap = styled.div`
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: #ffffff;
+  background: ${theme.colors.white};
   border-radius: 0;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
+  margin-bottom: ${theme.spacing(2)};
+  padding-bottom: ${theme.spacing(2)};
   box-sizing: border-box;
 
-  @media (min-width: 768px) and (max-width: 1023px) {
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1023px) {
     aspect-ratio: 16 / 9;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
+    margin-bottom: ${theme.spacing(1.5)};
+    padding-bottom: ${theme.spacing(1.5)};
   }
 
   img {
@@ -60,18 +61,18 @@ export const LeftImageWrap = styled.div`
 export const MainContent = styled.article`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 8px 4px;
-  border-bottom: 1px solid #8C8C8C;
+  gap: ${theme.spacing(1.5)};
+  padding: ${theme.spacing(1)} ${theme.spacing(0.5)};
+  border-bottom: 1px solid ${theme.colors.gray[400]};
 
-  @media (min-width: 768px) and (max-width: 1023px) {
-    padding: 8px 8px;
-    gap: 14px;
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1023px) {
+    padding: ${theme.spacing(1)} ${theme.spacing(1)};
+    gap: ${theme.spacing(1.75)};
   }
 
-  @media (min-width: 1024px) {
-    padding: 8px 0;
-    gap: 16px;
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    padding: ${theme.spacing(1)} 0;
+    gap: ${theme.spacing(2)};
   }
 
   h2 {
@@ -79,19 +80,21 @@ export const MainContent = styled.article`
     line-height: 1.25;
     font-weight: 700;
     letter-spacing: -0.01em;
+    font-family: ${theme.fonts.heading};
 
-    @media (min-width: 768px) and (max-width: 1023px) {
+    @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1023px) {
       font-size: 1.5rem;
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: ${theme.breakpoints.desktop}) {
       font-size: 2rem;
     }
   }
 
   p {
-    color: var(--muted-foreground, #6b7280);
+    color: ${theme.colors.gray[500]};
     line-height: 1.65;
+    font-family: ${theme.fonts.body};
     max-width: 60ch;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -109,10 +112,10 @@ export const MetaRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: ${theme.spacing(1.25)};
 
   @media (max-width: 767px) {
-    gap: 8px;
+    gap: ${theme.spacing(1)};
   }
 `
 
@@ -120,22 +123,22 @@ export const Tag = styled.span`
   display: inline-flex;
   align-items: center;
   height: 26px;
-  padding: 0 10px;
-  background: var(--primary, #2563eb);
-  color: var(--primary-foreground, #ffffff);
-  font-size: 12px;
+  padding: 0 ${theme.spacing(1.25)};
+  background: ${theme.colors.primary};
+  color: ${theme.colors.white};
+  font-size: ${theme.fontSizes.small};
   font-weight: 600;
 
   @media (max-width: 767px) {
     height: 24px;
-    padding: 0 8px;
+    padding: 0 ${theme.spacing(1)};
     font-size: 11px;
   }
 `
 
 export const DateText = styled.time`
-  font-size: 12px;
-  color: var(--primary, #2563eb);
+  font-size: ${theme.fontSizes.small};
+  color: ${theme.colors.primary};
 
   @media (max-width: 767px) {
     font-size: 11px;
@@ -145,37 +148,37 @@ export const DateText = styled.time`
 export const Sidebar = styled.aside`
   display: grid;
   grid-template-rows: auto auto;
-  gap: 20px;
-  border-bottom: 1px solid #8C8C8C;
+  gap: ${theme.spacing(2.5)};
+  border-bottom: 1px solid ${theme.colors.gray[400]};
 
-  @media (min-width: 768px) and (max-width: 1023px) {
-    gap: 16px;
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1023px) {
+    gap: ${theme.spacing(2)};
   }
 
   @media (max-width: 767px) {
-    gap: 16px;
-    margin-top: 16px;
+    gap: ${theme.spacing(2)};
+    margin-top: ${theme.spacing(2)};
   }
 `
 
 export const SideCard = styled.article`
   display: grid;
   grid-template-columns: 120px 1fr;
-  gap: 14px;
+  gap: ${theme.spacing(1.75)};
   align-items: start;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--border, #e5e7eb);
+  padding-bottom: ${theme.spacing(2.25)};
+  border-bottom: 1px solid ${theme.colors.gray[200]};
 
-  @media (min-width: 768px) and (max-width: 1023px) {
+  @media (min-width: ${theme.breakpoints.tablet}) and (max-width: 1023px) {
     grid-template-columns: 100px 1fr;
-    gap: 12px;
-    padding-bottom: 16px;
+    gap: ${theme.spacing(1.5)};
+    padding-bottom: ${theme.spacing(2)};
   }
 
   @media (max-width: 767px) {
     grid-template-columns: 80px 1fr;
-    gap: 10px;
-    padding-bottom: 14px;
+    gap: ${theme.spacing(1.25)};
+    padding-bottom: ${theme.spacing(1.75)};
   }
 
   &:last-child {
@@ -187,9 +190,9 @@ export const SideCard = styled.article`
     width: 100%;
     aspect-ratio: 4 / 3;
     overflow: hidden;
-    background: #e5e7eb;
+    background: ${theme.colors.gray[200]};
     border-radius: 0;
-    border-bottom: 1px solid #6b7280;
+    border-bottom: 1px solid ${theme.colors.gray[500]};
 
     @media (max-width: 767px) {
       aspect-ratio: 3 / 2;
@@ -208,18 +211,20 @@ export const SideCard = styled.article`
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.3;
-    margin: 6px 0 4px;
+    margin: ${theme.spacing(0.75)} 0 ${theme.spacing(0.5)};
+    font-family: ${theme.fonts.heading};
 
     @media (max-width: 767px) {
       font-size: 0.9rem;
-      margin: 4px 0 3px;
+      margin: ${theme.spacing(0.5)} 0 ${theme.spacing(0.375)};
     }
   }
 
   p {
     font-size: 0.95rem;
-    color: var(--muted-foreground, #6b7280);
+    color: ${theme.colors.gray[500]};
     line-height: 1.6;
+    font-family: ${theme.fonts.body};
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;

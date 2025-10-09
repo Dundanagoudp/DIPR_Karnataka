@@ -1,25 +1,25 @@
 import styled from "styled-components"
+import theme from "../../../../../theme/Theme"
 
 export const Aside = styled.aside`
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: ${theme.spacing(3.5)};
 
-  @media (max-width: 1024px) {
-    gap: 24px;
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    gap: ${theme.spacing(3)};
   }
 
-  @media (max-width: 768px) {
-    gap: 20px;
-    margin-top: 20px;
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(2.5)};
+    margin-top: ${theme.spacing(2.5)};
   }
 `
 
 export const Divider = styled.hr`
   height: 1px;
   border: none;
-  background: #8C8C8C;
-  margin: 25px 0 0;
+  background: ${theme.colors.gray[400]};
+  margin: ${theme.spacing(3.125)} 0 0;
   width: 100%;
 `
-

@@ -1,58 +1,51 @@
 import styled from "styled-components"
-
-const COLORS = {
-  primary: "#1E88E5",
-  foreground: "#111111",
-  background: "#ffffff",
-  muted: "#F2F4F7",
-  accent: "#FFC107",
-}
+import theme from "../../../../../theme/Theme"
 
 export const Section = styled.section`
   width: 100%;
-  background: ${COLORS.background};
-  color: ${COLORS.foreground};
-  padding: 24px 16px;
+  background: ${theme.colors.background};
+  color: ${theme.colors.text};
+  padding: ${theme.spacing(3)} ${theme.spacing(2)};
 
-  @media (max-width: 480px) {
-    padding: 16px 12px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(2)} ${theme.spacing(1.5)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    padding: 20px 14px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(2.5)} ${theme.spacing(1.75)};
   }
 `
 
 export const Container = styled.div`
   max-width: 90%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 ${theme.spacing(2.5)};
 
-  @media (max-width: 480px) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     max-width: 100%;
-    padding: 0 12px;
+    padding: 0 ${theme.spacing(1.5)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
     max-width: 95%;
-    padding: 0 16px;
+    padding: 0 ${theme.spacing(2)};
   }
 `
 
 export const Tabs = styled.nav`
   display: flex;
   flex-wrap: wrap;
-  gap: 32px;
+  gap: ${theme.spacing(4)};
   align-items: center;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 12px;
-  margin-bottom: 32px;
+  border-bottom: 1px solid ${theme.colors.gray[200]};
+  padding-bottom: ${theme.spacing(1.5)};
+  margin-bottom: ${theme.spacing(4)};
 
-  @media (max-width: 480px) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     flex-wrap: nowrap;
-    gap: 16px;
-    padding-bottom: 8px;
-    margin-bottom: 20px;
+    gap: ${theme.spacing(2)};
+    padding-bottom: ${theme.spacing(1)};
+    margin-bottom: ${theme.spacing(2.5)};
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
@@ -64,11 +57,11 @@ export const Tabs = styled.nav`
     }
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
     flex-wrap: nowrap;
-    gap: 20px;
-    padding-bottom: 10px;
-    margin-bottom: 24px;
+    gap: ${theme.spacing(2.5)};
+    padding-bottom: ${theme.spacing(1.25)};
+    margin-bottom: ${theme.spacing(3)};
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
@@ -80,9 +73,9 @@ export const Tabs = styled.nav`
     }
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
+  @media (min-width: 769px) and (max-width: ${theme.breakpoints.desktop}) {
     flex-wrap: nowrap;
-    gap: 24px;
+    gap: ${theme.spacing(3)};
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
@@ -98,23 +91,23 @@ export const Tabs = styled.nav`
 export const TabButton = styled.button`
   background: transparent;
   border: 0;
-  padding: 12px 16px;
-  font-size: 16px;
+  padding: ${theme.spacing(1.5)} ${theme.spacing(2)};
+  font-size: ${theme.fontSizes.large};
   cursor: pointer;
   position: relative;
-  color: ${(p) => (p.$active ? "#000000" : "#4b5563")};
+  color: ${(p) => (p.$active ? theme.colors.black : theme.colors.gray[600])};
   outline: none;
   font-weight: 500;
   white-space: nowrap;
   flex-shrink: 0;
 
-  @media (max-width: 480px) {
-    padding: 8px 12px;
-    font-size: 14px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(1)} ${theme.spacing(1.5)};
+    font-size: ${theme.fontSizes.medium};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    padding: 10px 14px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(1.25)} ${theme.spacing(1.75)};
     font-size: 15px;
   }
 
@@ -125,64 +118,64 @@ export const TabButton = styled.button`
     bottom: -13px;
     height: 3px;
     width: ${(p) => (p.$active ? "100%" : "0")};
-    background: #000000;
-    transition: width 0.2s ease;
+    background: ${theme.colors.black};
+    transition: width ${theme.transitions.fast};
 
-    @media (max-width: 480px) {
+    @media (max-width: ${theme.breakpoints.mobile}) {
       bottom: -9px;
       height: 2px;
     }
   }
 
   &:hover {
-    color: ${COLORS.primary};
+    color: ${theme.colors.primary};
   }
 `
 
 export const Layout = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 32px;
+  gap: ${theme.spacing(4)};
 
-  @media (max-width: 480px) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: ${theme.spacing(2.5)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: ${theme.spacing(3)};
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
+  @media (min-width: 769px) and (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: ${theme.spacing(3.5)};
   }
 `
 
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  gap: ${theme.spacing(3.5)};
 
-  @media (max-width: 480px) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: ${theme.spacing(2)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: ${theme.spacing(2.5)};
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
+  @media (min-width: 769px) and (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: ${theme.spacing(3)};
   }
 `
 
 export const Card = styled.article`
-  background: ${COLORS.background};
+  background: ${theme.colors.background};
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -191,13 +184,13 @@ export const Card = styled.article`
 export const ImageWrap = styled.div`
   width: 100%;
   aspect-ratio: 5 / 5;
-  background: ${COLORS.muted};
+  background: ${theme.colors.gray[100]};
 
-  @media (max-width: 480px) {
+  @media (max-width: ${theme.breakpoints.mobile}) {
     aspect-ratio: 4 / 3;
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
     aspect-ratio: 16 / 9;
   }
 
@@ -210,82 +203,84 @@ export const ImageWrap = styled.div`
 `
 
 export const Content = styled.div`
-  padding: 20px 20px 24px;
+  padding: ${theme.spacing(2.5)} ${theme.spacing(2.5)} ${theme.spacing(3)};
 
-  @media (max-width: 480px) {
-    padding: 16px 16px 20px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(2.5)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    padding: 18px 18px 22px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(2.25)} ${theme.spacing(2.25)} ${theme.spacing(2.75)};
   }
 `
 
 export const DateText = styled.p`
-  color: ${COLORS.primary};
+  color: ${theme.colors.primary};
   font-size: 13px;
-  margin: 0 0 10px;
+  margin: 0 0 ${theme.spacing(1.25)};
   font-weight: 500;
 
-  @media (max-width: 480px) {
-    font-size: 12px;
-    margin: 0 0 8px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.fontSizes.small};
+    margin: 0 0 ${theme.spacing(1)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 12px;
-    margin: 0 0 9px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.fontSizes.small};
+    margin: 0 0 ${theme.spacing(1.125)};
   }
 `
 
 export const Title = styled.h3`
   font-size: 20px;
   line-height: 1.4;
-  margin: 0 0 12px;
+  margin: 0 0 ${theme.spacing(1.5)};
   font-weight: 600;
+  font-family: ${theme.fonts.heading};
 
-  @media (max-width: 480px) {
-    font-size: 16px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.fontSizes.large};
     line-height: 1.3;
-    margin: 0 0 10px;
+    margin: 0 0 ${theme.spacing(1.25)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
     font-size: 18px;
     line-height: 1.35;
-    margin: 0 0 11px;
+    margin: 0 0 ${theme.spacing(1.375)};
   }
 `
 
 export const Excerpt = styled.p`
   font-size: 15px;
-  color: #525252;
+  color: ${theme.colors.gray[600]};
   line-height: 1.6;
   margin: 0;
+  font-family: ${theme.fonts.body};
 
-  @media (max-width: 480px) {
-    font-size: 14px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.fontSizes.medium};
     line-height: 1.5;
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 14px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.fontSizes.medium};
     line-height: 1.55;
   }
 `
 
 export const Sidebar = styled.aside`
   border: none;
-  padding: 20px;
+  padding: ${theme.spacing(2.5)};
   height: fit-content;
   border-radius: 0;
 
-  @media (max-width: 480px) {
-    padding: 16px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(2)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    padding: 18px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(2.25)};
   }
 `
 
@@ -294,14 +289,14 @@ export const SideList = styled.ul`
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 20px;
+  gap: ${theme.spacing(2.5)};
 
-  @media (max-width: 480px) {
-    gap: 16px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(2)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    gap: 18px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(2.25)};
   }
 `
 
@@ -312,39 +307,40 @@ export const SideItem = styled.li`
 
 export const SideDate = styled.span`
   display: block;
-  color: ${COLORS.primary};
+  color: ${theme.colors.primary};
   font-size: 13px;
-  margin-bottom: 8px;
+  margin-bottom: ${theme.spacing(1)};
   font-weight: 500;
 
-  @media (max-width: 480px) {
-    font-size: 12px;
-    margin-bottom: 6px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.fontSizes.small};
+    margin-bottom: ${theme.spacing(0.75)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 12px;
-    margin-bottom: 7px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.fontSizes.small};
+    margin-bottom: ${theme.spacing(0.875)};
   }
 `
 
 export const SideTitle = styled.h4`
-  font-size: 16px;
+  font-size: ${theme.fontSizes.large};
   margin: 0;
-  color: ${COLORS.foreground};
+  color: ${theme.colors.text};
   line-height: 1.3;
   font-weight: 600;
+  font-family: ${theme.fonts.heading};
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  @media (max-width: 480px) {
-    font-size: 14px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.fontSizes.medium};
     line-height: 1.25;
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
     font-size: 15px;
     line-height: 1.28;
   }
@@ -352,60 +348,63 @@ export const SideTitle = styled.h4`
 
 export const SideExcerpt = styled.p`
   font-size: 13px;
-  color: #6b7280;
+  color: ${theme.colors.gray[500]};
   line-height: 1.4;
-  margin: 8px 0 0;
+  margin: ${theme.spacing(1)} 0 0;
+  font-family: ${theme.fonts.body};
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  @media (max-width: 480px) {
-    font-size: 12px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: ${theme.fontSizes.small};
     line-height: 1.35;
-    margin: 6px 0 0;
+    margin: ${theme.spacing(0.75)} 0 0;
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 12px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.fontSizes.small};
     line-height: 1.38;
-    margin: 7px 0 0;
+    margin: ${theme.spacing(0.875)} 0 0;
   }
 `
 
 export const SeeMoreWrap = styled.div`
-  margin-top: 16px;
+  margin-top: ${theme.spacing(2)};
   display: flex;
   justify-content: center;
 
-  @media (max-width: 480px) {
-    margin-top: 12px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: ${theme.spacing(1.5)};
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    margin-top: 14px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    margin-top: ${theme.spacing(1.75)};
   }
 `
 
 export const SeeMoreBtn = styled.button`
-  background: ${COLORS.primary};
-  color: ${COLORS.background};
+  background: ${theme.colors.primary};
+  color: ${theme.colors.white};
   border: 0;
-  margin-top: 30px;
-  padding: 12px 24px;
-  font-size: 14px;
+  margin-top: ${theme.spacing(3.75)};
+  padding: ${theme.spacing(1.5)} ${theme.spacing(3)};
+  font-size: ${theme.fontSizes.medium};
   cursor: pointer;
   width: 100%;
+  font-family: ${theme.fonts.body};
+  transition: ${theme.transitions.fast};
 
-  @media (max-width: 480px) {
-    margin-top: 20px;
-    padding: 10px 20px;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: ${theme.spacing(2.5)};
+    padding: ${theme.spacing(1.25)} ${theme.spacing(2.5)};
     font-size: 13px;
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    margin-top: 24px;
-    padding: 11px 22px;
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    margin-top: ${theme.spacing(3)};
+    padding: ${theme.spacing(1.375)} ${theme.spacing(2.75)};
     font-size: 13px;
   }
 
