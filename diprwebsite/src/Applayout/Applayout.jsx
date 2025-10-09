@@ -24,8 +24,8 @@ const Applayout = () => {
         <main role="main" aria-label="Main content">
         <Outlet />
         </main>
-        <Footer/>
-        {/* <SiteFooter /> */}
+        {/* <Footer/> */}
+        <SiteFooter />
       </div>
     </LoadingProgressBar>
   );

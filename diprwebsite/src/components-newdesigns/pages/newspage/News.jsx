@@ -1,7 +1,10 @@
 import React from 'react'
+import NewsSection from '../../components/news-section/NewsSection'
 
 export default function News() {
   return (
-    <div>News</div>
+    <div>
+      <NewsSection />
+    </div>
   )
 }
