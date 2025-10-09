@@ -106,19 +106,20 @@ export const SocialMediaAction = styled.span`
 `
 
 export const PopularNewsList = styled.div`
-  padding: 20px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 `
 
 export const PopularNewsItem = styled.div`
   display: flex;
   gap: 12px;
-  padding: 12px;
+  padding: 8px;
   border-radius: ${theme.borderRadius.small};
   transition: ${theme.transitions.fast};
   cursor: pointer;
+  min-height: 60px;
   
   &:hover {
     background: ${theme.colors.gray[100]};
@@ -126,49 +127,54 @@ export const PopularNewsItem = styled.div`
 `
 
 export const PopularNewsImage = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: ${theme.borderRadius.small};
   overflow: hidden;
   flex-shrink: 0;
+  order: 2;
 `
 
 export const PopularNewsContent = styled.div`
   flex: 1;
+  order: 1;
 `
 
 export const PopularNewsDate = styled.div`
-  font-size: ${theme.fontSizes.small};
-  color: ${theme.colors.gray[600]};
+  font-size: 0.875rem;
+  color: ${theme.colors.primary};
   margin-bottom: 4px;
+  font-weight: 500;
 `
 
 export const PopularNewsTitle = styled.h4`
   font-family: ${theme.fonts.heading};
-  font-size: ${theme.fontSizes.small};
+  font-size: 1rem;
   font-weight: 600;
   color: ${theme.colors.text};
-  line-height: 1.4;
+  line-height: 1.3;
   margin: 0;
 `
 
 export const TrendingList = styled.div`
-  padding: 20px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 `
 
 export const TrendingItem = styled.div`
   display: flex;
-  gap: 12px;
-  padding: 12px;
+  gap: 0;
+  padding: 0;
   border-radius: ${theme.borderRadius.small};
   transition: ${theme.transitions.fast};
   cursor: pointer;
   
   &:hover {
     background: ${theme.colors.gray[100]};
+    padding: 8px;
+    border-radius: ${theme.borderRadius.small};
   }
 `
 
@@ -188,20 +194,25 @@ export const TrendingNumber = styled.div`
 
 export const TrendingContent = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `
 
 export const TrendingTitle = styled.h4`
   font-family: ${theme.fonts.heading};
-  font-size: ${theme.fontSizes.small};
+  font-size: 1rem;
   font-weight: 600;
   color: ${theme.colors.text};
-  line-height: 1.4;
-  margin: 0 0 4px 0;
+  line-height: 1.3;
+  margin: 0;
 `
 
 export const TrendingDate = styled.div`
-  font-size: ${theme.fontSizes.small};
-  color: ${theme.colors.gray[600]};
+  font-size: 0.875rem;
+  color: ${theme.colors.primary};
+  font-weight: 500;
+  margin-bottom: 4px;
 `
 
 export const CategoryMenu = styled.div`
@@ -352,16 +363,17 @@ export const MostCommentedComments = styled.div`
 
 export const SeeMoreButton = styled.button`
   width: 100%;
-  padding: 16px;
+  padding: 12px 20px;
   background: ${theme.colors.primary};
   color: ${theme.colors.white};
   border: none;
-  border-radius: ${theme.borderRadius.medium};
+  border-radius: ${theme.borderRadius.small};
   font-size: ${theme.fontSizes.medium};
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: ${theme.transitions.fast};
-  margin-top: 8px;
+  margin: 16px 16px 0 16px;
+  align-self: flex-start;
   
   &:hover {
     background: ${theme.colors.Footerbg};

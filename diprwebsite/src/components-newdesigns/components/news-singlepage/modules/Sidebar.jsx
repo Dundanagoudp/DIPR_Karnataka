@@ -107,6 +107,12 @@ const Sidebar = () => {
         <SectionTitle>POPULAR NEWS</SectionTitle>
         <PopularNewsList>
           <PopularNewsItem>
+            <PopularNewsContent>
+              <PopularNewsDate>March 19, 2023</PopularNewsDate>
+              <PopularNewsTitle>
+                Golf Legend Santana Reeds Returns to Professional Competition After Long Layoff
+              </PopularNewsTitle>
+            </PopularNewsContent>
             <PopularNewsImage>
               <img 
                 src="/state/2ndimage.jpg" 
@@ -118,15 +124,15 @@ const Sidebar = () => {
                 }} 
               />
             </PopularNewsImage>
-            <PopularNewsContent>
-              <PopularNewsDate>March 10, 2024</PopularNewsDate>
-              <PopularNewsTitle>
-                Golf Legend Somana Reads Resume to Professional Competition After Long Layoff
-              </PopularNewsTitle>
-            </PopularNewsContent>
           </PopularNewsItem>
           
           <PopularNewsItem>
+            <PopularNewsContent>
+              <PopularNewsDate>March 18, 2023</PopularNewsDate>
+              <PopularNewsTitle>
+                Christian Garret Breaks Scoring Record in European Soccer League
+              </PopularNewsTitle>
+            </PopularNewsContent>
             <PopularNewsImage>
               <img 
                 src="/state/2ndsection.jpg" 
@@ -138,15 +144,15 @@ const Sidebar = () => {
                 }} 
               />
             </PopularNewsImage>
-            <PopularNewsContent>
-              <PopularNewsDate>March 9, 2024</PopularNewsDate>
-              <PopularNewsTitle>
-                Karnataka's New Wildlife Conservation Initiative Gains International Recognition
-              </PopularNewsTitle>
-            </PopularNewsContent>
           </PopularNewsItem>
           
           <PopularNewsItem>
+            <PopularNewsContent>
+              <PopularNewsDate>March 19, 2023</PopularNewsDate>
+              <PopularNewsTitle>
+                Tennis Star Dmitri Ivanov Wins Record Ninth Australian Open Title
+              </PopularNewsTitle>
+            </PopularNewsContent>
             <PopularNewsImage>
               <img 
                 src="/state/rightside.jpg" 
@@ -158,15 +164,15 @@ const Sidebar = () => {
                 }} 
               />
             </PopularNewsImage>
-            <PopularNewsContent>
-              <PopularNewsDate>March 8, 2024</PopularNewsDate>
-              <PopularNewsTitle>
-                Heritage Tourism Booms in Northern Karnataka Districts
-              </PopularNewsTitle>
-            </PopularNewsContent>
           </PopularNewsItem>
           
           <PopularNewsItem>
+            <PopularNewsContent>
+              <PopularNewsDate>March 18, 2023</PopularNewsDate>
+              <PopularNewsTitle>
+                NBA Announces All-Star Rosters, with Top Players Set to Compete in Las Vegas
+              </PopularNewsTitle>
+            </PopularNewsContent>
             <PopularNewsImage>
               <img 
                 src="/state/sidebar.jpg" 
@@ -178,15 +184,15 @@ const Sidebar = () => {
                 }} 
               />
             </PopularNewsImage>
-            <PopularNewsContent>
-              <PopularNewsDate>March 7, 2024</PopularNewsDate>
-              <PopularNewsTitle>
-                Community-Led Environmental Projects Transform Rural Karnataka
-              </PopularNewsTitle>
-            </PopularNewsContent>
           </PopularNewsItem>
           
           <PopularNewsItem>
+            <PopularNewsContent>
+              <PopularNewsDate>March 18, 2023</PopularNewsDate>
+              <PopularNewsTitle>
+                NFL Announces Major Expansion Plans for Global Reach
+              </PopularNewsTitle>
+            </PopularNewsContent>
             <PopularNewsImage>
               <img 
                 src="/state/sidebar2.jpg" 
@@ -198,61 +204,10 @@ const Sidebar = () => {
                 }} 
               />
             </PopularNewsImage>
-            <PopularNewsContent>
-              <PopularNewsDate>March 6, 2024</PopularNewsDate>
-              <PopularNewsTitle>
-                New Agricultural Technologies Boost Farmer Incomes in Karnataka
-              </PopularNewsTitle>
-            </PopularNewsContent>
           </PopularNewsItem>
         </PopularNewsList>
       </SidebarSection>
 
-      {/* Trending Now Section */}
-      <SidebarSection>
-        <SectionTitle>TRENDING NOW</SectionTitle>
-        <TrendingList>
-          <TrendingItem>
-            <TrendingNumber>1</TrendingNumber>
-            <TrendingContent>
-              <TrendingTitle>Karnataka's Green Revolution Reaches New Heights</TrendingTitle>
-              <TrendingDate>March 10, 2024</TrendingDate>
-            </TrendingContent>
-          </TrendingItem>
-          
-          <TrendingItem>
-            <TrendingNumber>2</TrendingNumber>
-            <TrendingContent>
-              <TrendingTitle>Heritage Sites See Record Tourist Footfall</TrendingTitle>
-              <TrendingDate>March 9, 2024</TrendingDate>
-            </TrendingContent>
-          </TrendingItem>
-          
-          <TrendingItem>
-            <TrendingNumber>3</TrendingNumber>
-            <TrendingContent>
-              <TrendingTitle>Wildlife Conservation Efforts Show Remarkable Results</TrendingTitle>
-              <TrendingDate>March 8, 2024</TrendingDate>
-            </TrendingContent>
-          </TrendingItem>
-          
-          <TrendingItem>
-            <TrendingNumber>4</TrendingNumber>
-            <TrendingContent>
-              <TrendingTitle>Community Development Programs Transform Rural Areas</TrendingTitle>
-              <TrendingDate>March 7, 2024</TrendingDate>
-            </TrendingContent>
-          </TrendingItem>
-          
-          <TrendingItem>
-            <TrendingNumber>5</TrendingNumber>
-            <TrendingContent>
-              <TrendingTitle>Technology Integration Boosts Agricultural Productivity</TrendingTitle>
-              <TrendingDate>March 6, 2024</TrendingDate>
-            </TrendingContent>
-          </TrendingItem>
-        </TrendingList>
-      </SidebarSection>
 
       {/* Don't Miss It Section */}
       <SidebarSection>
@@ -260,112 +215,46 @@ const Sidebar = () => {
         <TrendingList>
           <TrendingItem>
             <TrendingContent>
+              <TrendingDate>March 15, 2023</TrendingDate>
               <TrendingTitle>Strategies for Business Recovery and Growth</TrendingTitle>
-              <TrendingDate>March 10, 2024</TrendingDate>
             </TrendingContent>
           </TrendingItem>
           
           <TrendingItem>
             <TrendingContent>
-              <TrendingTitle>Innovation in Sustainable Development Practices</TrendingTitle>
-              <TrendingDate>March 9, 2024</TrendingDate>
+              <TrendingDate>March 05, 2023</TrendingDate>
+              <TrendingTitle>Adapting to New Trends and Technologies in the Digital Age</TrendingTitle>
             </TrendingContent>
           </TrendingItem>
           
           <TrendingItem>
             <TrendingContent>
-              <TrendingTitle>Digital Transformation in Government Services</TrendingTitle>
-              <TrendingDate>March 8, 2024</TrendingDate>
+              <TrendingDate>March 01, 2023</TrendingDate>
+              <TrendingTitle>Staying Ahead in a Rapidly Changing Business Environment</TrendingTitle>
             </TrendingContent>
           </TrendingItem>
           
           <TrendingItem>
             <TrendingContent>
-              <TrendingTitle>Youth Empowerment Through Skill Development</TrendingTitle>
-              <TrendingDate>March 7, 2024</TrendingDate>
+              <TrendingDate>February 28, 2023</TrendingDate>
+              <TrendingTitle>Embracing Environmental and Social Responsibility for Long-Term Success</TrendingTitle>
+            </TrendingContent>
+          </TrendingItem>
+          
+          <TrendingItem>
+            <TrendingContent>
+              <TrendingDate>February 15, 2023</TrendingDate>
+              <TrendingTitle>From Local to Global: Expanding Your Business into New Markets and Cultures</TrendingTitle>
             </TrendingContent>
           </TrendingItem>
         </TrendingList>
+        <SeeMoreButton>Read More</SeeMoreButton>
       </SidebarSection>
 
-      {/* Discover by Category */}
-      <SidebarSection>
-        <SectionTitle>DISCOVER BY CATEGORY</SectionTitle>
-        <CategoryMenu>
-          <CategoryItem>
-            <CategoryLink href="#">Nature</CategoryLink>
-          </CategoryItem>
-          <CategoryItem>
-            <CategoryLink href="#">Culture</CategoryLink>
-          </CategoryItem>
-          <CategoryItem>
-            <CategoryLink href="#">Travel</CategoryLink>
-          </CategoryItem>
-          <CategoryItem>
-            <CategoryLink href="#">Heritage</CategoryLink>
-          </CategoryItem>
-          <CategoryItem>
-            <CategoryLink href="#">Environment</CategoryLink>
-          </CategoryItem>
-          <CategoryItem>
-            <CategoryLink href="#">Tourism</CategoryLink>
-          </CategoryItem>
-        </CategoryMenu>
-      </SidebarSection>
 
-      {/* Most Commented */}
-      <SidebarSection>
-        <SectionTitle>MOST COMMENTED</SectionTitle>
-        <MostCommentedList>
-          <MostCommentedItem>
-            <MostCommentedTitle>Karnataka's Environmental Success Stories</MostCommentedTitle>
-            <MostCommentedComments>127 comments</MostCommentedComments>
-          </MostCommentedItem>
-          
-          <MostCommentedItem>
-            <MostCommentedTitle>Heritage Conservation Challenges and Solutions</MostCommentedTitle>
-            <MostCommentedComments>89 comments</MostCommentedComments>
-          </MostCommentedItem>
-          
-          <MostCommentedItem>
-            <MostCommentedTitle>Community Development in Rural Karnataka</MostCommentedTitle>
-            <MostCommentedComments>76 comments</MostCommentedComments>
-          </MostCommentedItem>
-        </MostCommentedList>
-      </SidebarSection>
 
-      {/* Today in History Calendar Widget */}
-      <SidebarSection>
-        <CalendarWidget>
-          <CalendarTitle>Today in History</CalendarTitle>
-          <CalendarDate>March 10, 2024</CalendarDate>
-          <CalendarEvent>
-            On this day in 1956, Karnataka was formed as a state, 
-            bringing together Kannada-speaking regions.
-          </CalendarEvent>
-        </CalendarWidget>
-      </SidebarSection>
 
-      {/* Newsletter Subscription */}
-      <SidebarSection>
-        <NewsletterBox>
-          <NewsletterTitle>Get Weekly Nature Stories</NewsletterTitle>
-          <NewsletterText>
-            Subscribe to our newsletter for the latest updates on Karnataka's 
-            environmental and heritage stories.
-          </NewsletterText>
-          <NewsletterForm>
-            <NewsletterInput 
-              type="email" 
-              placeholder="Enter your email address"
-            />
-            <NewsletterButton type="submit">Subscribe</NewsletterButton>
-          </NewsletterForm>
-        </NewsletterBox>
-      </SidebarSection>
 
-      {/* See More Button */}
-      <SeeMoreButton>See More</SeeMoreButton>
     </SidebarContainer>
   )
 }
