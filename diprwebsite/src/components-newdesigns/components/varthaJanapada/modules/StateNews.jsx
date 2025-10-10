@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import {
   Section,
   HeaderRow,
@@ -13,6 +14,7 @@ import {
   FeaturedTitle,
   FeaturedExcerpt,
   MetaBar,
+  MetaBarSmall,
   MetaItem,
   MiddleCol,
   SmallCard,
@@ -56,13 +58,8 @@ export default function StateNews({ featured = defaultFeatured, list = defaultLi
       <HeaderRow>
         <Title id="state-news-heading">State News</Title>
         <SeeMore
-          href="#"
-          onClick={(e) => {
-            if (onSeeMore) {
-              e.preventDefault()
-              onSeeMore()
-            }
-          }}
+          as={Link}
+          to="/state"
           aria-label="See more state news"
         >
           See more
@@ -85,7 +82,6 @@ export default function StateNews({ featured = defaultFeatured, list = defaultLi
           </ArrowIcon>
         </SeeMore>
       </HeaderRow>
-
       <PageLayout>
         {/* Left: Featured */}
         <FeaturedCard>
@@ -94,14 +90,16 @@ export default function StateNews({ featured = defaultFeatured, list = defaultLi
             <FeaturedContent>
               <Badge>{featured.category}</Badge>
               <FeaturedTitle>{featured.title}</FeaturedTitle>
-              <FeaturedExcerpt>{featured.excerpt}</FeaturedExcerpt>
             </FeaturedContent>
           </FeaturedImage>
           <MetaBar>
+            <FeaturedExcerpt>{featured.excerpt}</FeaturedExcerpt>
+          </MetaBar>
+          <MetaBarSmall>
             {featured.meta.map((m, i) => (
               <MetaItem key={i}>{m}</MetaItem>
             ))}
-          </MetaBar>
+          </MetaBarSmall>
         </FeaturedCard>
 
         {/* Middle: Stacked list */}
@@ -117,6 +115,7 @@ export default function StateNews({ featured = defaultFeatured, list = defaultLi
           ))}
         </MiddleCol>
       </PageLayout>
+
     </Section>
   )
 }

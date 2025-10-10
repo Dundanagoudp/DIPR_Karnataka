@@ -7,23 +7,19 @@ export const PageLayout = styled.div`
   gap: ${theme.spacing(7.5)};
   max-width: 100%;
   padding-left: ${theme.spacing(10)};
-  padding-right: ${theme.spacing(10)};
+  padding-right: ${theme.spacing(12)};
   padding-top: ${theme.spacing(2.5)};
   padding-bottom: ${theme.spacing(2.5)};
   background: ${theme.colors.background};
 
-  @media (max-width: ${theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr;
-    gap: ${theme.spacing(5)};
-    max-width: 95%;
-    padding: ${theme.spacing(2)};
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(4)};
+    padding: ${theme.spacing(3)} ${theme.spacing(3)};
   }
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    grid-template-columns: 1fr;
-    gap: ${theme.spacing(2.5)};
-    max-width: 100%;
-    padding: ${theme.spacing(1.5)};
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(3)};
+    padding: ${theme.spacing(2)} ${theme.spacing(2)};
   }
 `
 
@@ -45,18 +41,18 @@ export const FlexContainer = styled.div`
     max-width: 29%;
   }
 
-  @media (max-width: ${theme.breakpoints.desktop}) {
-    gap: ${theme.spacing(3)};
-  }
-
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;
     gap: ${theme.spacing(4)};
     
     > :first-child,
     > :last-child {
-      flex: 1;
+      flex: 1 1 auto;
       max-width: 100%;
     }
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(3)};
   }
 `

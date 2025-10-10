@@ -35,13 +35,15 @@ export const HeroLayout = styled.section`
   align-items: stretch;
   margin-bottom: ${theme.spacing1(4)};
 
-  @media (max-width: ${theme.breakpoints.desktop}) {
-    gap: ${theme.spacing1(4)};
-  }
-
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
+    gap: ${theme.spacing1(4)};
+    margin-bottom: ${theme.spacing1(3)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing1(3)};
+    margin-bottom: ${theme.spacing1(2)};
   }
 `
 
