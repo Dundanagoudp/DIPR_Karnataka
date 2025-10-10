@@ -1,6 +1,6 @@
 import React from 'react'
-import CommentSection from './CommentSection'
 import SocialShare from './SocialShare'
+import CommentsSection from './CommentsSection'
 import {
   MainContentContainer,
   DateTag,
@@ -53,27 +53,28 @@ const MainContent = () => {
           <img 
             src="/header/cm.png" 
             alt="Author" 
-            style={{ 
-              width: '100%', 
-              height: '100%', 
+            style={{
+              width: '100%',
+              height: '100%',
               objectFit: 'cover',
               borderRadius: '50%'
-            }} 
+            }}
           />
         </AuthorImage>
         <AuthorInfo>
           <AuthorName>By Ram Nath</AuthorName>
           <ArticleMeta>
             <MetaItem>
-              <span style={{ marginRight: '4px' }}>👁️</span>
-              1,452 views
-            </MetaItem>
-            <MetaItem>
-              <span style={{ marginRight: '4px' }}>💬</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
               0 Comments
             </MetaItem>
             <MetaItem>
-              <span style={{ marginRight: '4px' }}>⏱️</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
               5 min read
             </MetaItem>
           </ArticleMeta>
@@ -85,11 +86,12 @@ const MainContent = () => {
         <img 
           src="/state/state.jpg" 
           alt="Raichur's green transformation" 
-          style={{ 
-            width: '100%', 
-            height: '100%', 
-            objectFit: 'cover' 
-          }} 
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center"
+          }}
         />
         <ImageCaption>
           Raichur's green revival beckons nature lovers to explore its transformed landscapes
@@ -113,12 +115,39 @@ const MainContent = () => {
         </ArticleParagraph>
         
         {/* Quote Block */}
-        <QuoteBlock>
-          <QuoteText>
-            "The win was a testament to the team's hard work and dedication, as they overcame a 
-            formidable opponent to secure a crucial victory."
-          </QuoteText>
-        </QuoteBlock>
+        <div style={{
+          background: '#f2f2f2',
+          padding: '30px 40px',
+          margin: '30px 0',
+          position: 'relative',
+          textAlign: 'center'
+        }}>
+          <span style={{
+            position: 'absolute',
+            fontSize: '60px',
+            color: '#ffb6c1',
+            top: '10px',
+            left: '10px',
+            fontFamily: 'serif'
+          }}>"</span>
+          <p style={{
+            fontSize: '18px',
+            fontWeight: '500',
+            color: '#333',
+            margin: '0',
+            lineHeight: '1.6'
+          }}>
+            The win was a testament to the team's hard work and dedication, as they overcame a formidable opponent to secure a crucial victory.
+          </p>
+          <span style={{
+            position: 'absolute',
+            fontSize: '60px',
+            color: '#ffb6c1',
+            bottom: '-20px',
+            right: '10px',
+            fontFamily: 'serif'
+          }}>"</span>
+        </div>
         
         <ArticleParagraph>
           The success of this environmental restoration project has inspired similar initiatives 
@@ -129,31 +158,12 @@ const MainContent = () => {
         {/* Inline Advertisement/Related Content */}
         <InlineAd>
           <AdContent>
-            <AdImage>
-              <img 
-                src="/header/dcm.png" 
-                alt="Related content" 
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover',
-                  borderRadius: '4px'
-                }} 
-              />
-            </AdImage>
-            <div style={{ 
-              backgroundColor: '#FFD700', 
-              padding: '16px', 
-              borderRadius: '8px',
-              marginTop: '12px'
-            }}>
-              <h4 style={{ margin: '0 0 8px 0', color: '#333', fontSize: '18px', fontWeight: 'bold' }}>
-                IBENCY WON IDRA KUSHW
-              </h4>
-              <p style={{ margin: '0', color: '#555', fontSize: '14px' }}>
-                Discover more about Karnataka's heritage and culture
-              </p>
-            </div>
+            <img 
+              src="/header/dcm.png" 
+              alt="Related content" 
+              width="100%"
+              height="auto"
+            />
           </AdContent>
         </InlineAd>
         
@@ -189,7 +199,7 @@ const MainContent = () => {
       {/* Social Share */}
       <SocialShare />   
 
-    </MainContentContainer>
+      </MainContentContainer>
   )
 }
 

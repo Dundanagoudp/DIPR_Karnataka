@@ -11,6 +11,10 @@ export const MainContentContainer = styled.div`
     max-width: 100%;
     padding: 16px;
   }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 12px;
+  }
 `
 
 export const DateTag = styled.div`
@@ -43,10 +47,13 @@ export const ArticleTitle = styled.h1`
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 2rem;
+    line-height: 1.3;
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    margin-bottom: 12px;
   }
 `
 
@@ -55,9 +62,20 @@ export const AuthorCard = styled.div`
   align-items: center;
   gap: 16px;
   margin-bottom: 32px;
-  padding: 16px;
+  padding: 16px 20px;
   background: ${theme.colors.gray[100]};
   border-radius: ${theme.borderRadius.medium};
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    margin-bottom: 24px;
+    padding: 14px 16px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-bottom: 20px;
+    padding: 12px;
+    gap: 12px;
+  }
 `
 
 export const AuthorImage = styled.div`
@@ -66,6 +84,11 @@ export const AuthorImage = styled.div`
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 45px;
+    height: 45px;
+  }
 `
 
 export const AuthorInfo = styled.div`
@@ -77,13 +100,39 @@ export const AuthorName = styled.h3`
   font-size: ${theme.fontSizes.large};
   font-weight: 600;
   color: ${theme.colors.text};
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
+  position: relative;
+  display: inline-block;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: ${theme.colors.primary};
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 15px;
+    margin: 0 0 8px 0;
+    
+    &:after {
+      width: 30px;
+      height: 2px;
+    }
+  }
 `
 
 export const ArticleMeta = styled.div`
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: 10px;
+  }
 `
 
 export const MetaItem = styled.span`
@@ -91,6 +140,19 @@ export const MetaItem = styled.span`
   color: ${theme.colors.gray[600]};
   display: flex;
   align-items: center;
+  background-color: ${theme.colors.gray[200]};
+  padding: 4px 8px;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: ${theme.colors.gray[300]};
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 3px 6px;
+    font-size: 11px;
+  }
 `
 
 export const HeroImage = styled.div`
@@ -101,6 +163,17 @@ export const HeroImage = styled.div`
   overflow: hidden;
   margin-bottom: 32px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 350px;
+    margin-bottom: 24px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 250px;
+    margin-bottom: 20px;
+    border-radius: ${theme.borderRadius.small};
+  }
 `
 
 export const ImageCaption = styled.div`
@@ -113,6 +186,15 @@ export const ImageCaption = styled.div`
   padding: 24px 20px 16px;
   font-size: ${theme.fontSizes.medium};
   font-weight: 500;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 20px 16px 12px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 16px 12px 10px;
+    font-size: ${theme.fontSizes.small};
+  }
 `
 
 export const ArticleContent = styled.div`
@@ -129,6 +211,25 @@ export const ArticleParagraph = styled.p`
   &:first-child {
     font-size: 1.125rem;
     font-weight: 500;
+  }
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: 15px;
+    margin-bottom: 20px;
+    
+    &:first-child {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 14px;
+    margin-bottom: 16px;
+    text-align: left;
+    
+    &:first-child {
+      font-size: 0.95rem;
+    }
   }
 `
 
@@ -186,7 +287,6 @@ export const AdContent = styled.div`
 
 export const AdImage = styled.div`
   width: 100%;
-  height: 120px;
   border-radius: ${theme.borderRadius.small};
   overflow: hidden;
 `
@@ -198,6 +298,17 @@ export const ArticleTags = styled.div`
   margin: 40px 0;
   padding-top: 24px;
   border-top: 1px solid ${theme.colors.gray[200]};
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    margin: 32px 0;
+    padding-top: 20px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin: 24px 0;
+    padding-top: 16px;
+    gap: 6px;
+  }
 `
 
 export const Tag = styled.span`
@@ -212,6 +323,11 @@ export const Tag = styled.span`
   &:hover {
     background: ${theme.colors.Footerbg};
     cursor: pointer;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 4px 10px;
+    font-size: 11px;
   }
 `
 

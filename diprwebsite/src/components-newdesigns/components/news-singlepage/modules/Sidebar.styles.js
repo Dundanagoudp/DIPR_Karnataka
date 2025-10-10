@@ -13,11 +13,23 @@ export const SidebarContainer = styled.div`
     position: static;
     margin-top: 24px;
   }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: 16px;
+  }
 `
 
 export const SidebarSection = styled.div`
   margin-bottom: 24px;
   overflow: hidden;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-bottom: 16px;
+  }
 `
 
 export const SectionTitle = styled.h3`
@@ -30,6 +42,15 @@ export const SectionTitle = styled.h3`
   margin: 0;
   padding: 20px 20px 16px;
   background: ${theme.colors.gray[100]};
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 16px 16px 14px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 14px 14px 12px;
+    font-size: 0.9rem;
+  }
 `
 
 export const SocialMediaList = styled.div`
@@ -37,6 +58,15 @@ export const SocialMediaList = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 12px;
+    gap: 6px;
+  }
 `
 
 export const SocialMediaItem = styled.div`
@@ -63,6 +93,18 @@ export const SocialMediaButton = styled.button`
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 10px 12px;
+    min-height: 50px;
+    gap: 8px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 8px 10px;
+    min-height: 45px;
+    gap: 6px;
+  }
 `
 
 export const SocialMediaIcon = styled.div`
@@ -88,6 +130,14 @@ export const SocialMediaStats = styled.div`
   font-weight: 700;
   color: ${theme.colors.white};
   line-height: 1;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: 1rem;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.9rem;
+  }
 `
 
 export const SocialMediaName = styled.div`
@@ -96,6 +146,10 @@ export const SocialMediaName = styled.div`
   opacity: 0.9;
   color: ${theme.colors.white};
   line-height: 1.2;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.7rem;
+  }
 `
 
 export const SocialMediaAction = styled.span`
@@ -123,6 +177,15 @@ export const PopularNewsItem = styled.div`
   
   &:hover {
     background: ${theme.colors.gray[100]};
+  }
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    min-height: 50px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: 8px;
+    padding: 6px;
   }
 `
 
@@ -154,6 +217,16 @@ export const PopularNewsTitle = styled.h4`
   color: ${theme.colors.text};
   line-height: 1.3;
   margin: 0;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
 `
 
 export const TrendingList = styled.div`
@@ -161,6 +234,15 @@ export const TrendingList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: 16px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 12px;
+    gap: 12px;
+  }
 `
 
 export const TrendingItem = styled.div`
@@ -206,6 +288,16 @@ export const TrendingTitle = styled.h4`
   color: ${theme.colors.text};
   line-height: 1.3;
   margin: 0;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
 `
 
 export const TrendingDate = styled.div`
@@ -379,5 +471,16 @@ export const SeeMoreButton = styled.button`
     background: ${theme.colors.Footerbg};
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 10px 16px;
+    margin: 12px 12px 0 12px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 8px 14px;
+    margin: 10px 10px 0 10px;
+    font-size: ${theme.fontSizes.small};
   }
 `
