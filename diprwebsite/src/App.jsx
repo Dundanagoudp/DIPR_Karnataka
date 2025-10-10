@@ -38,6 +38,7 @@ import News from "./components-newdesigns/pages/newspage/News";
 import Marchofkarnataka from "./components-newdesigns/pages/marchofkarnataka/Marchofkarnataka";
 import NewsId from "./components-newdesigns/pages/newsid/NewsId";
 import VarthaJanapadasection from "./components-newdesigns/components/varthaJanapada/VarthaJanapadasection";
+import MagazinesVartha from "./components-newdesigns/pages/varthamagazines/MagazinesVartha";
 
 
 const App = () => {
@@ -97,6 +98,7 @@ const App = () => {
                   <Route path="/news" element={<News />} />
                   <Route path="/marchofkarnataka" element={<Marchofkarnataka />} />
                   <Route path="/newsdetails/:id" element={<NewsId />} />
+                  <Route path="/magazinesvartha" element={<MagazinesVartha />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/otp" element={<Otp />} />
