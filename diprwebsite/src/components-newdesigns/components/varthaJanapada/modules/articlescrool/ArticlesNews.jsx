@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   ArticlesSection,
   Container,
@@ -52,7 +52,31 @@ const defaultArticles = [
 
 export default function ArticlesNews({ articles = defaultArticles }) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const itemsPerPage = 3
+  
+  // Get items per page based on screen size
+  const getItemsPerPage = () => {
+    if (typeof window === 'undefined') return 3
+    const width = window.innerWidth
+    if (width <= 768) return 1 // Mobile
+    if (width <= 1024) return 2 // Tablet
+    return 3 // Desktop
+  }
+
+  const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage())
+
+  // Update items per page on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newItemsPerPage = getItemsPerPage()
+      setItemsPerPage(newItemsPerPage)
+      // Reset to first page if current index is out of bounds
+      setCurrentIndex(prev => Math.min(prev, Math.max(0, articles.length - newItemsPerPage)))
+    }
+    
+    handleResize() // Set initial value
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [articles.length])
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => Math.max(0, prev - 1))
