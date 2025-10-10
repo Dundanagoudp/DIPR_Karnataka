@@ -37,15 +37,13 @@ import SpecialNews from "./components-newdesigns/pages/specialnewspage/SpecialNe
 import News from "./components-newdesigns/pages/newspage/News";
 import Marchofkarnataka from "./components-newdesigns/pages/marchofkarnataka/Marchofkarnataka";
 import NewsId from "./components-newdesigns/pages/newsid/NewsId";
+import VarthaJanapadasection from "./components-newdesigns/components/varthaJanapada/VarthaJanapadasection";
 
 
 const App = () => {
   useEffect(() => {
-    // Get the userId from cookies
     const userId = Cookies.get("userId");
-    
-    // Function to call the endSession API
-    const handleBeforeUnload = async () => {
+        const handleBeforeUnload = async () => {
       if (userId) {
         try {
           const response = await endSession(userId, "web"); 
@@ -74,7 +72,8 @@ const App = () => {
             <Router>
               <Routes>
                 <Route path="/" element={<Applayout />}>
-                  <Route index element={<Home />} />
+                  {/* <Route index element={<Home />} /> */}
+                  <Route index element={<VarthaJanapadasection />} />
                   <Route path="/news/:id" element={<LatestNews />} />
                   {/* <Route path="/newsdetails/:id" element={<LatestNews1 />} /> */}
                   <Route path="/magazinepages" element={<MagaZinepages />} />
