@@ -1,10 +1,9 @@
-
-"use client"
 import {
   Section,
   HeaderRow,
   Title,
   SeeMore,
+  ArrowIcon,
   PageLayout,
   FeaturedCard,
   FeaturedImage,
@@ -21,15 +20,7 @@ import {
   SmallContent,
   SmallBadge,
   SmallTitle,
-  SidebarCard,
-  SidebarHeader,
-  SidebarList,
-  SidebarItem,
-  Avatar,
-  ItemLabel,
 } from "./StateNews.styles"
-
-const defaultImg = "/images/hero-meeting.png"
 
 const defaultFeatured = {
   category: "BUSINESS",
@@ -37,7 +28,7 @@ const defaultFeatured = {
     "The first-ever double-decker flyover built in South India has been opened for traffic on an experimental basis.",
   excerpt:
     "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est, a mattis tellus.",
-  image: defaultImg,
+  image: "/state/state.jpg",
   meta: ["james", "0", "June 19, 2025 06:00pm"],
 }
 
@@ -45,30 +36,21 @@ const defaultList = [
   {
     category: "BUSINESS",
     title: "City announces new infrastructure upgrades across districts.",
-    image: defaultImg,
+    image: "/state/2ndimage.jpg",
   },
   {
     category: "BUSINESS",
     title: "Local industries report stronger quarterly growth figures.",
-    image: defaultImg,
+    image: "/state/2ndsection.jpg",
   },
   {
     category: "BUSINESS",
     title: "Public transport pilot expands to two more corridors.",
-    image: defaultImg,
+    image: "/state/rightside.jpg",
   },
 ]
 
-const defaultSites = [
-  { label: "Departments", image: defaultImg },
-  { label: "Directorates", image: defaultImg },
-  { label: "Organizations & Boards List", image: defaultImg },
-  { label: "Universities", image: defaultImg },
-  { label: "Tenders", image: defaultImg },
-  { label: "Covid 19 Home Isolation App", image: defaultImg },
-]
-
-export default function StateNews({ featured = defaultFeatured, list = defaultList, sites = defaultSites, onSeeMore }) {
+export default function StateNews({ featured = defaultFeatured, list = defaultList, onSeeMore }) {
   return (
     <Section aria-labelledby="state-news-heading">
       <HeaderRow>
@@ -83,7 +65,24 @@ export default function StateNews({ featured = defaultFeatured, list = defaultLi
           }}
           aria-label="See more state news"
         >
-          See more →
+          See more
+          <ArrowIcon>
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M5 12H19M19 12L12 5M19 12L12 19" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+          </ArrowIcon>
         </SeeMore>
       </HeaderRow>
 
@@ -117,19 +116,6 @@ export default function StateNews({ featured = defaultFeatured, list = defaultLi
             </SmallCard>
           ))}
         </MiddleCol>
-
-        {/* Right: Websites */}
-        <SidebarCard aria-labelledby="state-sites-heading">
-          <SidebarHeader id="state-sites-heading">State Government Websites</SidebarHeader>
-          <SidebarList>
-            {sites.map((s, i) => (
-              <SidebarItem key={i}>
-                <Avatar $src={s.image} aria-hidden="true" />
-                <ItemLabel>{s.label}</ItemLabel>
-              </SidebarItem>
-            ))}
-          </SidebarList>
-        </SidebarCard>
       </PageLayout>
     </Section>
   )

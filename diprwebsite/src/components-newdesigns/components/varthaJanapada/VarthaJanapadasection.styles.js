@@ -26,3 +26,37 @@ export const PageLayout = styled.div`
     padding: ${theme.spacing(1.5)};
   }
 `
+
+export const FlexContainer = styled.div`
+  display: flex;
+  gap: ${theme.spacing(5)};
+  align-items: flex-start;
+  width: 100%;
+
+  /* StateNews takes 70% */
+  > :first-child {
+    flex: 0 0 70%;
+    max-width: 70%;
+  }
+
+  /* StateGovernmentWebsites takes 30% */
+  > :last-child {
+    flex: 0 0 30%;
+    max-width: 29%;
+  }
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    gap: ${theme.spacing(3)};
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    flex-direction: column;
+    gap: ${theme.spacing(4)};
+    
+    > :first-child,
+    > :last-child {
+      flex: 1;
+      max-width: 100%;
+    }
+  }
+`
