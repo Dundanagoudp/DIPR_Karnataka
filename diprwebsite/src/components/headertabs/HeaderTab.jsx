@@ -38,10 +38,13 @@ const HeaderTab = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // Check if Vartha Janapada tab should be active
-  const isVarthaJanapadaActive = (itemPath) => {
+  // Check if tab should be active
+  const isTabActive = (itemPath) => {
     if (itemPath === "/") {
       return location.pathname === "/" || location.pathname === "/magazinesvartha";
+    }
+    if (itemPath === "/marchofkarnataka") {
+      return location.pathname === "/marchofkarnataka" || location.pathname === "/marchofkarnatakmagzine";
     }
     return location.pathname === itemPath;
   };
@@ -68,10 +71,10 @@ const HeaderTab = () => {
               <NavItem key={item.path}>
                 <NavLinkStyled
                   to={item.path}
-                  className={isVarthaJanapadaActive(item.path) ? "active" : ""}
+                  className={isTabActive(item.path) ? "active" : ""}
                 >
                   {item.name}
-                  {isVarthaJanapadaActive(item.path) && <ActiveIndicator />}
+                  {isTabActive(item.path) && <ActiveIndicator />}
                 </NavLinkStyled>
               </NavItem>
             ))}
@@ -92,7 +95,7 @@ const HeaderTab = () => {
                   <MobileNavLink
                     to={item.path}
                     onClick={closeMobileMenu}
-                    className={isVarthaJanapadaActive(item.path) ? "active" : ""}
+                    className={isTabActive(item.path) ? "active" : ""}
                   >
                     {item.name}
                   </MobileNavLink>
