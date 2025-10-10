@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import {
   HeaderContainer,
@@ -19,6 +19,7 @@ import {
 
 const HeaderTab = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navItems = [
     { name: "Vartha Janapada", path: "/" },
@@ -35,6 +36,14 @@ const HeaderTab = () => {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  // Check if Vartha Janapada tab should be active
+  const isVarthaJanapadaActive = (itemPath) => {
+    if (itemPath === "/") {
+      return location.pathname === "/" || location.pathname === "/magazinesvartha";
+    }
+    return location.pathname === itemPath;
   };
 
   return (
@@ -59,14 +68,10 @@ const HeaderTab = () => {
               <NavItem key={item.path}>
                 <NavLinkStyled
                   to={item.path}
-                  className={({ isActive }) => (isActive ? "active" : "")}
+                  className={isVarthaJanapadaActive(item.path) ? "active" : ""}
                 >
-                  {({ isActive }) => (
-                    <>
-                      {item.name}
-                      {isActive && <ActiveIndicator />}
-                    </>
-                  )}
+                  {item.name}
+                  {isVarthaJanapadaActive(item.path) && <ActiveIndicator />}
                 </NavLinkStyled>
               </NavItem>
             ))}
@@ -87,7 +92,7 @@ const HeaderTab = () => {
                   <MobileNavLink
                     to={item.path}
                     onClick={closeMobileMenu}
-                    className={({ isActive }) => (isActive ? "active" : "")}
+                    className={isVarthaJanapadaActive(item.path) ? "active" : ""}
                   >
                     {item.name}
                   </MobileNavLink>

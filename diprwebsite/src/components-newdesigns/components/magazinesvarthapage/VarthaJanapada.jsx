@@ -1,7 +1,14 @@
 import React from 'react'
+import MagazineGallery from './modules/MagazineGallery'
+import { PageLayout } from './VarthaJanapada.styles'
 
-export default function VarthaJanapada() {
+export default function DistrictNews() {
   return (
-    <div>VarthaJanapada</div>
+    <>
+      <PageLayout>
+        <MagazineGallery />
+      </PageLayout>
+      
+    </>
   )
 }
