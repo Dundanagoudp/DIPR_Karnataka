@@ -28,19 +28,29 @@ export default function Varthahero({
   href = "#",
   imgSrc = "/public/home/home.png",
 }) {
-  const images = [
-    "/public/home/home.png",
-    "/public/state/state.jpg",
+  const carouselData = [
+    {
+      image: "/public/home/home.png",
+      title: "Latest Vartha Janapada Magazines",
+      subtitle: "",
+      link: "/magazinesvartha"
+    },
+    {
+      image: "/public/state/state.jpg",
+      title: "March of Karnataka Magazines",
+      subtitle: "",
+      link: "/marchofkarnatakmagzine"
+    }
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const handlePrevClick = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentImageIndex((prev) => (prev === 0 ? carouselData.length - 1 : prev - 1));
   };
   
   const handleNextClick = () => {
-    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentImageIndex((prev) => (prev === carouselData.length - 1 ? 0 : prev + 1));
   };
   
   const notifications = [
@@ -55,7 +65,7 @@ export default function Varthahero({
     <HeroLayout aria-label="Home hero">
       {/* Left: Image hero */}
       <HeroRoot aria-label="Featured content">
-        <HeroBackground aria-hidden="true" src={images[currentImageIndex]} />
+        <HeroBackground aria-hidden="true" src={carouselData[currentImageIndex].image} />
         <HeroOverlay aria-hidden="true" />
         <ArrowControls>
           <ArrowButton 
@@ -73,15 +83,15 @@ export default function Varthahero({
         </ArrowControls>
         <HeroContent>
           <HeroTitle className="text-balance">
-            {title}
+            {carouselData[currentImageIndex].title}
           </HeroTitle>
-          {subtitle ? (
+          {carouselData[currentImageIndex].subtitle ? (
             <HeroSubtitle className="text-pretty">
-              {subtitle}
+              {carouselData[currentImageIndex].subtitle}
             </HeroSubtitle>
           ) : null}
-          <HeroCta as={Link} to={href} aria-label={`${ctaLabel} - ${title}`}>
-            {ctaLabel}
+          <HeroCta as={Link} to={carouselData[currentImageIndex].link} aria-label={`View - ${carouselData[currentImageIndex].title}`}>
+            View
           </HeroCta>
         </HeroContent>
       </HeroRoot>
