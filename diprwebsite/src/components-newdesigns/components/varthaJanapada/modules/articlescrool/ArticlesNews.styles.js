@@ -47,21 +47,37 @@ export const Title = styled.h2`
     background: ${theme.colors.gray[700]};
   }
 
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: clamp(18px, 2.3vw, 20px);
+    
+    &::after {
+      width: 200px;
+    }
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: clamp(18px, 2.2vw, 22px);
+    font-size: clamp(16px, 2vw, 18px);
+    
+    &::after {
+      width: 150px;
+    }
   }
 `
 
 export const CarouselWrapper = styled.div`
   position: relative;
-  padding: 0 ${theme.spacing1(3)};
+  padding: 0 ${theme.spacing1(2)};
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
+  @media (max-width: ${theme.breakpoints.desktop}) {
     padding: 0 ${theme.spacing1(10)};
   }
 
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     padding: 0 ${theme.spacing1(8)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 0 ${theme.spacing1(6)};
   }
 `
 
@@ -115,15 +131,20 @@ export const ArticlesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: ${theme.spacing1(6)};
+  transition: all 0.3s ease;
 
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: ${theme.spacing1(4)};
+    gap: ${theme.spacing1(5)};
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
     gap: ${theme.spacing1(4)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing1(0)};
   }
 `
 
@@ -131,12 +152,17 @@ export const ArticleCard = styled.article`
   display: flex;
   flex-direction: column;
   background: transparent;
-  overflow: hidden;
+  overflow: visible;
   transition: ${theme.transitions.fast};
   cursor: pointer;
+  width: 100%;
 
   &:hover {
     transform: translateY(-2px);
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    max-width: 100%;
   }
 `
 
@@ -176,9 +202,18 @@ export const ImageOverlay = styled.div`
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.1) 100%
+    rgba(0, 0, 0, 0.15) 100%
   );
   z-index: 1;
+  transition: ${theme.transitions.fast};
+
+  ${ArticleCard}:hover & {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.25) 100%
+    );
+  }
 `
 
 export const ArticleNumber = styled.div`
@@ -188,21 +223,35 @@ export const ArticleNumber = styled.div`
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   border-radius: ${theme.borderRadius.circle};
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: ${theme.fonts.heading};
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  color: ${theme.colors.primary};
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: ${theme.colors.gray[800]};
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   z-index: 10;
+  transition: ${theme.transitions.fast};
+
+  ${ArticleCard}:hover & {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    bottom: ${theme.spacing1(2.5)};
+    right: ${theme.spacing1(2.5)};
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     font-size: 16px;
     bottom: ${theme.spacing1(2)};
     right: ${theme.spacing1(2)};
@@ -215,6 +264,11 @@ export const ArticleContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing1(1.5)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing1(2.5)} 0 0 0;
+    gap: ${theme.spacing1(1.2)};
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing1(2)} 0 0 0;
@@ -235,8 +289,14 @@ export const ArticleTitle = styled.h3`
   -webkit-box-orient: vertical;
   overflow: hidden;
 
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: clamp(15px, 1.7vw, 17px);
+    line-height: 1.4;
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: clamp(14px, 1.6vw, 16px);
+    line-height: 1.4;
   }
 `
 
@@ -246,8 +306,12 @@ export const ArticleDate = styled.p`
   color: ${theme.colors.gray[600]};
   margin: 0;
 
-  @media (max-width: ${theme.breakpoints.mobile}) {
+  @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 12px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 11px;
   }
 `
 

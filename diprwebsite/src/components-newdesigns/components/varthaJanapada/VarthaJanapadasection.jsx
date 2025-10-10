@@ -4,6 +4,10 @@ import Varthahero from './modules/Varthahero'
 import StateNews from './modules/StateNews'
 import StateGovernmentWebsites from './modules/StateGovernmentWebsites'
 import ArticlesNews from './modules/articlescrool/ArticlesNews'
+import LongVideos from './modules/longvideos/LongVideos'
+import GallerySection from './modules/gallery/GallerySection'
+import ShortsCarousel from './modules/shortvideos/ShortVideosSection'
+
 
 export default function VarthaJanapadasection() {
   return (
@@ -15,6 +19,9 @@ export default function VarthaJanapadasection() {
           <StateGovernmentWebsites />
         </FlexContainer>
         <ArticlesNews />
+        <LongVideos />
+        <ShortsCarousel />
+        {/* <GallerySection /> */}
       </PageLayout>
     </>
   )
