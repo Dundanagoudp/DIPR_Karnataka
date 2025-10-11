@@ -98,7 +98,7 @@ export default function MagzineIdview() {
           <Breadcrumb>2000 / {title}</Breadcrumb>
         </TitleWrapper>
         <YearFilterWrapper>
-          <YearFilter value={selectedYear} onChange={handleYearChange}>
+          <YearFilter value={selectedYear} onChange={handleYearChange} aria-label="Filter by year">
             <option value="">Select Year</option>
             <option value="2025">2025</option>
             <option value="2024">2024</option>
@@ -107,7 +107,7 @@ export default function MagzineIdview() {
             <option value="2021">2021</option>
             <option value="2020">2020</option>
           </YearFilter>
-          <YearFilterIcon>
+          <YearFilterIcon aria-hidden="true">
             <IoChevronDownOutline />
           </YearFilterIcon>
         </YearFilterWrapper>
@@ -115,8 +115,8 @@ export default function MagzineIdview() {
 
       <HeaderSection>
         <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 600, color: '#000', fontFamily: theme.fonts.body }}>{title}</h1>
-        <MainDownloadButton onClick={handleDownload}>
-          <MdOutlineFileDownload size={18} />
+        <MainDownloadButton onClick={handleDownload} aria-label={`Download ${title}`}>
+          <MdOutlineFileDownload size={18} aria-hidden="true" />
           Download
         </MainDownloadButton>
       </HeaderSection>
@@ -145,20 +145,20 @@ export default function MagzineIdview() {
       <RecommendedSection>
         <RecommendedHeader>
           <RecommendedTitle>Recommended Magazine</RecommendedTitle>
-          <SeeMoreButton>
+          <SeeMoreButton aria-label="See more recommended magazines">
             See more
-            <IoArrowForwardOutline />
+            <IoArrowForwardOutline aria-hidden="true" />
           </SeeMoreButton>
         </RecommendedHeader>
-        <MagazineGrid>
+        <MagazineGrid role="list" aria-label="Recommended magazines">
           {recommendedMagazines.map((magazine) => (
-            <MagazineCard key={magazine.id}>
+            <MagazineCard key={magazine.id} role="listitem">
               <MagazineImageWrapper>
-                <MagazineImage src={magazine.image} alt={magazine.title} />
+                <MagazineImage src={magazine.image} alt={magazine.title} loading="lazy" />
               </MagazineImageWrapper>
               
-              <DownloadButton onClick={() => handleRecommendedDownload(magazine.title)}>
-                <ImFolderDownload />
+              <DownloadButton onClick={() => handleRecommendedDownload(magazine.title)} aria-label={`Download ${magazine.title}`}>
+                <ImFolderDownload aria-hidden="true" />
                 Download
               </DownloadButton>
             </MagazineCard>
