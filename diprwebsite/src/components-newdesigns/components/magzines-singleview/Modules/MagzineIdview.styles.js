@@ -327,13 +327,26 @@ export const RecommendedSection = styled.div`
   }
 `
 
+export const RecommendedHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${theme.spacing(3)};
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${theme.spacing(1.5)};
+    margin-bottom: ${theme.spacing(2)};
+  }
+`
+
 export const RecommendedTitle = styled.h2`
   font-family: ${theme.fonts.heading};
   font-size: clamp(20px, 2.5vw, 20px);
   font-weight: 700;
   color: ${theme.colors.primary};
   margin: 0;
-  margin-bottom: ${theme.spacing(3)};
   position: relative;
 
   &::after {
@@ -348,7 +361,6 @@ export const RecommendedTitle = styled.h2`
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: clamp(18px, 2.3vw, 20px);
-    margin-bottom: ${theme.spacing(2.5)};
     
     &::after {
       width: 200px;
@@ -357,7 +369,6 @@ export const RecommendedTitle = styled.h2`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: clamp(16px, 2vw, 18px);
-    margin-bottom: ${theme.spacing(2)};
     
     &::after {
       width: 150px;
@@ -365,27 +376,71 @@ export const RecommendedTitle = styled.h2`
   }
 `
 
+export const SeeMoreButton = styled.button`
+  background: none;
+  border: none;
+  color: ${theme.colors.primary};
+  font-size: ${theme.fontSizes.medium};
+  font-weight: 500;
+  font-family: ${theme.fonts.body};
+  cursor: pointer;
+  padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+  transition: all ${theme.transitions.fast};
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(0.5)};
+  border-radius: ${theme.borderRadius.small};
+  
+  svg {
+    font-size: 18px;
+    transition: all ${theme.transitions.fast};
+  }
+  
+  &:hover {
+    color: ${theme.colors.secondary};
+    background-color: ${theme.colors.gray[100]};
+    
+    svg {
+      transform: translateX(2px);
+    }
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    align-self: flex-end;
+    font-size: ${theme.fontSizes.small};
+    padding: ${theme.spacing(0.4)} ${theme.spacing(0.8)};
+    
+    svg {
+      font-size: 16px;
+    }
+  }
+`
+
 export const MagazineGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: ${theme.spacing(4)} ${theme.spacing(3)};
+  grid-template-columns: repeat(4, 1fr);
+  gap: ${theme.spacing(3)} ${theme.spacing(2.5)};
   padding: 0 ${theme.spacing(3)};
   
   @media (max-width: ${theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: ${theme.spacing(3.5)} ${theme.spacing(2.5)};
+    grid-template-columns: repeat(3, 1fr);
+    gap: ${theme.spacing(3)} ${theme.spacing(2)};
     padding: 0 ${theme.spacing(2.5)};
   }
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: ${theme.spacing(3)} ${theme.spacing(2)};
+    gap: ${theme.spacing(2.5)} ${theme.spacing(2)};
     padding: 0 ${theme.spacing(2)};
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: ${theme.spacing(2.5)} ${theme.spacing(1.5)};
+    gap: ${theme.spacing(2)} ${theme.spacing(1.5)};
     padding: 0 ${theme.spacing(1.5)};
   }
 `

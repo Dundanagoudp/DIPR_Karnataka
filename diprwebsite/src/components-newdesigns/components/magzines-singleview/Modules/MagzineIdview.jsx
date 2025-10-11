@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react"
 import { MdOutlineFileDownload } from "react-icons/md"
 import { IoChevronDownOutline } from "react-icons/io5"
+import { IoArrowForwardOutline } from "react-icons/io5"
 import {
   MagazineViewContainer,
   SectionHeader,
@@ -15,7 +16,9 @@ import {
   ContentWrapper,
   MainPdfViewer,
   RecommendedSection,
+  RecommendedHeader,
   RecommendedTitle,
+  SeeMoreButton,
   MagazineGrid,
   MagazineCard,
   MagazineImageWrapper,
@@ -139,7 +142,13 @@ export default function MagzineIdview() {
       </ContentWrapper>
 
       <RecommendedSection>
-        <RecommendedTitle>Recommended Magazine</RecommendedTitle>
+        <RecommendedHeader>
+          <RecommendedTitle>Recommended Magazine</RecommendedTitle>
+          <SeeMoreButton>
+            See more
+            <IoArrowForwardOutline />
+          </SeeMoreButton>
+        </RecommendedHeader>
         <MagazineGrid>
           {recommendedMagazines.map((magazine) => (
             <MagazineCard key={magazine.id}>

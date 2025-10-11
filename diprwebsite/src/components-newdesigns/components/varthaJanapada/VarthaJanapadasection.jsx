@@ -21,7 +21,7 @@ export default function VarthaJanapadasection() {
         <ArticlesNews />
         <LongVideos />
         <ShortsCarousel />
-        {/* <GallerySection /> */}
+        <GallerySection />
       </PageLayout>
     </>
   )

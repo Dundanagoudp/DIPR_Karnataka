@@ -14,6 +14,16 @@ export const SectionHeader = styled.header`
   max-width: 1300px;
   margin: 0 auto ${theme.spacing(3)};
   padding: 0 ${theme.spacing(2)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 0 ${theme.spacing(2)};
+    margin-bottom: ${theme.spacing(2)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 0 ${theme.spacing(1.5)};
+    margin-bottom: ${theme.spacing(1.5)};
+  }
 `
 
 export const SectionTitle = styled.h2`
@@ -24,30 +34,122 @@ export const SectionTitle = styled.h2`
   color: ${theme.colors.text};
   border-bottom: 2px solid ${theme.colors.primary};
   padding-bottom: ${theme.spacing(0.5)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: 1.15rem;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 1.1rem;
+  }
 `
 
-// Layout (matches user's sample with responsive tweak)
-export const PageLayout = styled.div`
-  display: grid;
-  grid-template-columns: 1fr minmax(320px, 640px) 1fr;
+// Main gallery container with single row layout
+export const GalleryContainer = styled.div`
+  display: flex;
   align-items: center;
-  gap: ${theme.spacing(4)};
-  max-width: 1200px;
+  justify-content: center;
+  gap: ${theme.spacing(2)};
+  max-width: 1400px;
   margin: 0 auto;
   padding: ${theme.spacing(2.5)} ${theme.spacing(6)};
   background: ${theme.colors.background};
+  flex-wrap: nowrap;
 
   @media (max-width: ${theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr minmax(260px, 1fr) 1fr;
-    gap: ${theme.spacing(3)};
+    gap: ${theme.spacing(1.5)};
     max-width: 95%;
-    padding: ${theme.spacing(2)};
+    padding: ${theme.spacing(2)} ${theme.spacing(3)};
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    grid-template-columns: 1fr;
-    gap: ${theme.spacing(3)};
-    padding: ${theme.spacing(1.5)};
+    gap: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(2)} ${theme.spacing(2)};
+    max-width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    padding: ${theme.spacing(1.5)} ${theme.spacing(1)};
+    gap: 0;
+  }
+`
+
+
+// Individual static images (dynamically change with carousel)
+export const StaticImage = styled.img`
+  width: 200px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 0;
+  box-shadow: 0 4px 12px rgba(${theme.colors.primaryRgb}, 0.15);
+  transition: transform ${theme.transitions.fast}, 
+              box-shadow ${theme.transitions.fast},
+              opacity 0.4s ease-in-out;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0.85;
+  animation: fadeIn 0.5s ease-in-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 0.85;
+      transform: scale(1);
+    }
+  }
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(${theme.colors.primaryRgb}, 0.3);
+    opacity: 1;
+  }
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    width: 160px;
+    height: 180px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    /* Hide second images on each side for tablet */
+    &:nth-child(1),
+    &:nth-child(4) {
+      display: none;
+    }
+    width: 140px;
+    height: 160px;
+  }
+
+  @media (max-width: 768px) {
+    /* Hide all side images on mobile */
+    display: none;
+  }
+`
+
+// Central carousel container
+export const CentralCarousel = styled.div`
+  flex: 1;
+  max-width: 600px;
+  min-width: 400px;
+  flex-shrink: 0;
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    max-width: 500px;
+    min-width: 350px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    max-width: 100%;
+    min-width: 300px;
+    flex: 1;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    min-width: auto;
+    width: 100%;
   }
 `
 
@@ -55,16 +157,32 @@ export const PageLayout = styled.div`
 export const MainCard = styled.div`
   position: relative;
   background: ${theme.colors.white};
-  border-radius: ${theme.borderRadius.medium};
+  border-radius: 0;
   box-shadow: 0 8px 20px rgba(${theme.colors.primaryRgb}, 0.15);
   overflow: hidden;
-  height: 420px;
+  height: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
+  @media (max-width: ${theme.breakpoints.desktop}) {
     height: 320px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 280px;
+  }
+
+  @media (max-width: 768px) {
+    height: 300px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 240px;
+  }
+
+  @media (max-width: 480px) {
+    height: 220px;
   }
 `
 
@@ -77,53 +195,75 @@ export const MainImage = styled.img`
   cursor: ${(p) => (p.$zoomed ? "zoom-out" : "zoom-in")};
 `
 
-// Navigation buttons (simple, card-like)
+// Navigation arrow buttons with modern design
 export const NavButton = styled.button`
   position: absolute;
   top: 50%;
-  ${(p) => (p["data-pos"] === "left" ? "left: 12px;" : "right: 12px;")}
+  ${(p) => (p.$position === "left" ? "left: 16px;" : "right: 16px;")}
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border: none;
   border-radius: ${theme.borderRadius.circle};
-  background: ${theme.colors.white};
-  box-shadow: 0 4px 12px rgba(${theme.colors.primaryRgb}, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   color: ${theme.colors.primary};
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: transform ${theme.transitions.fast}, box-shadow ${theme.transitions.fast};
+  z-index: 10;
+  transition: all ${theme.transitions.fast};
+  backdrop-filter: blur(4px);
 
   &:hover {
-    transform: translateY(-50%) scale(1.05);
-    box-shadow: 0 6px 16px rgba(${theme.colors.primaryRgb}, 0.3);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 1);
   }
 
   &:active {
-    transform: translateY(-50%) scale(0.98);
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 40px;
+    height: 40px;
+    ${(p) => (p.$position === "left" ? "left: 12px;" : "right: 12px;")}
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 36px;
+    height: 36px;
+    ${(p) => (p.$position === "left" ? "left: 8px;" : "right: 8px;")}
   }
 `
 
-export const NavIcon = styled.span`
-  font-size: 22px;
-  line-height: 1;
-`
-
-// Thumbnails column (cards)
-export const ThumbsRail = styled.div`
+export const ArrowIcon = styled.div`
+  width: 24px;
+  height: 24px;
   display: flex;
-  gap: ${theme.spacing(2)};
   align-items: center;
   justify-content: center;
-  overflow-x: auto;
-  padding: ${theme.spacing(1)} 0;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  
+  svg {
+    width: 100%;
+    height: 100%;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 18px;
+    height: 18px;
+  }
 `
 
-export const LeftRail = styled(ThumbsRail)``
-export const RightRail = styled(ThumbsRail)``
 
 // Pagination dots (optional)
 export const DotsRow = styled.div`
@@ -148,65 +288,29 @@ export const Dot = styled.button`
   }
 `
 
-// Thumbnail item component
-export const ThumbItem = styled.div`
-  position: relative;
-  width: 100px;
-  height: 100px;
-  border-radius: ${theme.borderRadius.medium};
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform ${theme.transitions.fast}, box-shadow ${theme.transitions.fast};
-  border: 2px solid ${(p) => (p.$active ? theme.colors.primary : 'transparent')};
-  background: ${theme.colors.white};
-  box-shadow: ${(p) => 
-    p.$active 
-      ? `0 4px 12px rgba(${theme.colors.primaryRgb}, 0.3)` 
-      : `0 2px 8px rgba(0, 0, 0, 0.1)`
-  };
-  flex-shrink: 0;
 
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 16px rgba(${theme.colors.primaryRgb}, 0.2);
-  }
-
-  @media (max-width: ${theme.breakpoints.desktop}) {
-    width: 80px;
-    height: 80px;
-  }
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    width: 70px;
-    height: 70px;
-  }
-`
-
-// Thumbnail image component
-export const ThumbImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity ${theme.transitions.fast};
-
-  ${ThumbItem}:hover & {
-    opacity: 0.8;
-  }
-`
-
-// Caption component
+// Caption component (outside the card)
 export const Caption = styled.p`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-  color: ${theme.colors.white};
-  padding: ${theme.spacing(2)} ${theme.spacing(1.5)} ${theme.spacing(1)};
+  width: 100%;
+  background: ${theme.colors.background};
+  color: ${theme.colors.text};
+  padding: ${theme.spacing(1.5)} ${theme.spacing(2)};
   margin: 0;
   font-size: ${theme.fontSizes.medium};
   font-weight: 500;
   text-align: center;
   line-height: 1.4;
   font-family: ${theme.fonts.body};
+  border-top: 2px solid ${theme.colors.primary};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.fontSizes.small};
+    padding: ${theme.spacing(1.2)} ${theme.spacing(1.5)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.85rem;
+    padding: ${theme.spacing(1)} ${theme.spacing(1)};
+    line-height: 1.3;
+  }
 `
