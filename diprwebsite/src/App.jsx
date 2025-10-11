@@ -42,6 +42,8 @@ import MagazinesVartha from "./components-newdesigns/pages/varthamagazines/Magaz
 import MarchofKarnataka from "./components-newdesigns/pages/marchofkarnataka/Marchofkarnataka";
 import MarchofKarnatakMagzine from "./components-newdesigns/pages/marchofkarnatakmagzine/MarchofKarnatak";
 import MagzineIdpage from "./components-newdesigns/pages/magzineid/MagzineIdpage";
+import SignIn from "./components-newdesigns/auth/signin/Sign-In";
+import SignUp from "./components-newdesigns/auth/signup/SignUp-Page";
 
 
 const App = () => {
@@ -106,8 +108,10 @@ const App = () => {
                   <Route path="/magazinesview/:id" element={<MagzineIdpage />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
-                <Route path="/otp" element={<Otp />} />
-                <Route path="/signup" element={<SignUppage />} />
+                {/* <Route path="/otp" element={<Otp />} />
+                <Route path="/signup" element={<SignUppage />} /> */}
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
                 <Route path="*" element={<Error404 />} />
               </Routes>
             </Router>
