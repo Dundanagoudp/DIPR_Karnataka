@@ -13,9 +13,6 @@ import {
   YearFilterIcon,
   YearFilter,
   ContentWrapper,
-  Sidebar,
-  Thumbnail,
-  PageNumber,
   MainPdfViewer,
   RecommendedSection,
   RecommendedTitle,
@@ -23,9 +20,6 @@ import {
   MagazineCard,
   MagazineImageWrapper,
   MagazineImage,
-  MagazineInfo,
-  MagazineCardTitle,
-  MagazineEdition,
   DownloadButton
 } from "./MagzineIdview.styles"
 import { Helmet } from "react-helmet"
@@ -49,9 +43,7 @@ export default function MagzineIdview() {
   const { fontSize } = useContext(FontSizeContext)
   const [pdfUrl] = useState("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf") // Static PDF URL for demo
   const [title] = useState("Karnataka budget 2024 - 25")
-  const [currentPage, setCurrentPage] = useState(1)
   const [selectedYear, setSelectedYear] = useState('2024')
-  const totalPages = 2 // Show only 2 pages
 
   const handleDownload = () => {
     if (pdfUrl) {
@@ -127,23 +119,10 @@ export default function MagzineIdview() {
       </HeaderSection>
 
       <ContentWrapper>
-        <Sidebar>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <Thumbnail
-              key={page}
-              active={currentPage === page}
-              onClick={() => setCurrentPage(page)}
-            >
-              <img src={magazine1} alt={`Page ${page}`} />
-              <PageNumber>{page}</PageNumber>
-            </Thumbnail>
-          ))}
-        </Sidebar>
-        
         <MainPdfViewer>
           {pdfUrl ? (
             <iframe
-              src={`${pdfUrl}#page=${currentPage}`}
+              src={pdfUrl}
               width="100%"
               height="100%"
               style={{ border: "none" }}
@@ -167,10 +146,7 @@ export default function MagzineIdview() {
               <MagazineImageWrapper>
                 <MagazineImage src={magazine.image} alt={magazine.title} />
               </MagazineImageWrapper>
-              <MagazineInfo>
-                <MagazineCardTitle>{magazine.title}</MagazineCardTitle>
-                <MagazineEdition>{magazine.edition}</MagazineEdition>
-              </MagazineInfo>
+              
               <DownloadButton onClick={() => handleRecommendedDownload(magazine.title)}>
                 <ImFolderDownload />
                 Download

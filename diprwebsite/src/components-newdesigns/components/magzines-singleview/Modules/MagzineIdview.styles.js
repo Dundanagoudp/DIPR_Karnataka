@@ -7,17 +7,17 @@ const spin = keyframes`
 `
 
 export const MagazineViewContainer = styled.div`
-  max-width: 90%;
+  max-width: 100%;
   margin: 0 auto;
-  padding: ${theme.spacing(3)};
+  padding: ${theme.spacing(3)} ${theme.spacing(15)};
   background: ${theme.colors.gray[100]};
   font-family: ${theme.fonts.body};
   
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(2)};
+    padding: ${theme.spacing(2)} ${theme.spacing(6)};
   }
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(1.5)} ${theme.spacing(3)};
   }
 `
 
@@ -268,9 +268,8 @@ export const DownloadButton = styled.button`
 `
 
 export const ContentWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: ${theme.spacing(2)};
+  display: flex;
+  justify-content: center;
   background: ${theme.colors.white};
   border-radius: ${theme.spacing(1)};
   padding: ${theme.spacing(2)};
@@ -278,76 +277,11 @@ export const ContentWrapper = styled.div`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   
   @media (max-width: ${theme.breakpoints.tablet}) {
-    grid-template-columns: 120px 1fr;
     min-height: 500px;
   }
   @media (max-width: ${theme.breakpoints.mobile}) {
-    grid-template-columns: 80px 1fr;
     padding: ${theme.spacing(1.5)};
     min-height: 400px;
-    gap: ${theme.spacing(1)};
-  }
-`
-
-export const Sidebar = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing(1.5)};
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    gap: ${theme.spacing(1)};
-  }
-`
-
-export const Thumbnail = styled.div`
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  background: ${theme.colors.white};
-  border-radius: ${theme.spacing(0.5)};
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 3px solid ${props => props.active ? theme.colors.primary : theme.colors.gray[300]};
-  box-shadow: ${props => props.active ? '0 0 10px rgba(30, 136, 229, 0.5)' : '0 2px 4px rgba(0, 0, 0, 0.1)'};
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: ${props => props.active ? 1 : 0.8};
-  }
-  
-  &:hover {
-    transform: scale(1.05);
-    border-color: ${theme.colors.primary};
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    
-    img {
-      opacity: 1;
-    }
-  }
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    border-width: 2px;
-  }
-`
-
-export const PageNumber = styled.div`
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 2px 8px;
-  border-radius: 3px;
-  font-size: 12px;
-  font-weight: 600;
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 10px;
-    padding: 1px 6px;
   }
 `
 
@@ -433,26 +367,26 @@ export const RecommendedTitle = styled.h2`
 
 export const MagazineGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: ${theme.spacing(4)} ${theme.spacing(3)};
-  padding: ${theme.spacing(3)} ${theme.spacing(3)} 0;
+  padding: 0 ${theme.spacing(3)};
   
   @media (max-width: ${theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: ${theme.spacing(3.5)} ${theme.spacing(2.5)};
-    padding: ${theme.spacing(2.5)} ${theme.spacing(2.5)} 0;
+    padding: 0 ${theme.spacing(2.5)};
   }
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: repeat(2, 1fr);
     gap: ${theme.spacing(3)} ${theme.spacing(2)};
-    padding: ${theme.spacing(2)} ${theme.spacing(2)} 0;
+    padding: 0 ${theme.spacing(2)};
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: repeat(2, 1fr);
     gap: ${theme.spacing(2.5)} ${theme.spacing(1.5)};
-    padding: ${theme.spacing(1.5)} ${theme.spacing(1.5)} 0;
+    padding: 0 ${theme.spacing(1.5)};
   }
 `
 
@@ -474,7 +408,6 @@ export const MagazineImageWrapper = styled.div`
   overflow: hidden;
   background-color: ${theme.colors.gray[200]};
   position: relative;
-  cursor: pointer;
 `
 
 export const MagazineImage = styled.img`
@@ -485,58 +418,6 @@ export const MagazineImage = styled.img`
   
   ${MagazineCard}:hover & {
     transform: scale(1.05);
-  }
-`
-
-export const MagazineInfo = styled.div`
-  padding: ${theme.spacing(1.5)} ${theme.spacing(1)} ${theme.spacing(1)};
-  text-align: left;
-  
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(1.25)} ${theme.spacing(0.75)} ${theme.spacing(0.75)};
-  }
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(1)} ${theme.spacing(0.5)} ${theme.spacing(0.5)};
-  }
-`
-
-export const MagazineCardTitle = styled.h3`
-  font-size: ${theme.fontSizes.medium};
-  font-weight: 600;
-  color: ${theme.colors.text};
-  margin: 0 0 6px 0;
-  line-height: 1.4;
-  font-family: ${theme.fonts.heading};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: 14px;
-    margin: 0 0 4px 0;
-  }
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 12px;
-    margin: 0 0 3px 0;
-  }
-`
-
-export const MagazineEdition = styled.span`
-  font-size: ${theme.fontSizes.small};
-  color: ${theme.colors.lightText};
-  font-weight: 400;
-  display: block;
-  
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: 12px;
-  }
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 11px;
   }
 `
 
