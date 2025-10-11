@@ -20,7 +20,7 @@ export default function NewsSidebar({
   ],
 }) {
   return (
-    <Aside aria-label="Latest stories">
+    <Aside aria-label="Latest stories" role="complementary">
       {items.map((item, index) => (
         <SidebarCard key={index} {...item} />
       ))}

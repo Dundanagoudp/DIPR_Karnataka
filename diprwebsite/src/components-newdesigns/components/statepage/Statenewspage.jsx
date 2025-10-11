@@ -7,13 +7,13 @@ import { PageLayout } from './Statenewspage.styles'
 
 export default function Statenewspage() {
   return (
-    <>
+    <main aria-label="State news main content">
       <PageLayout>
         <HeroNews />
         <NewsSidebar />
       </PageLayout>
       <FeaturedNewsSection />
       <TabSection />
-    </>
+    </main>
   )
 }
