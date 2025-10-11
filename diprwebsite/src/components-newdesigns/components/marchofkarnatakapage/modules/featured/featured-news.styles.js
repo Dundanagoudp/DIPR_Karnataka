@@ -128,6 +128,11 @@ export const Tag = styled.span`
   font-size: ${theme.fontSizes.small};
   font-weight: 600;
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
+
   @media (max-width: 767px) {
     height: 24px;
     padding: 0 ${theme.spacing(1)};

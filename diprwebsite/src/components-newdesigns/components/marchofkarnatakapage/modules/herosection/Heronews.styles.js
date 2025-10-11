@@ -174,6 +174,11 @@ export const ArrowBtn = styled.button`
   place-items: center;
   cursor: pointer;
   font-size: ${theme.fontSizes.large};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
   transition: ${theme.transitions.fast};
 
   &:hover {

@@ -79,6 +79,32 @@ export default function TabSection() {
   const [active, setActive] = React.useState(TABS[0])
   const posts = POSTS[active] || []
 
+  // Keyboard navigation for tabs
+  const handleKeyDown = (e) => {
+    const currentIndex = TABS.indexOf(active)
+    
+    switch (e.key) {
+      case 'ArrowLeft':
+        e.preventDefault()
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : TABS.length - 1
+        setActive(TABS[prevIndex])
+        break
+      case 'ArrowRight':
+        e.preventDefault()
+        const nextIndex = currentIndex < TABS.length - 1 ? currentIndex + 1 : 0
+        setActive(TABS[nextIndex])
+        break
+      case 'Home':
+        e.preventDefault()
+        setActive(TABS[0])
+        break
+      case 'End':
+        e.preventDefault()
+        setActive(TABS[TABS.length - 1])
+        break
+    }
+  }
+
   // Layout: first 2 are featured (top), next 2 are secondary (bottom)
   const featured = posts.slice(0, 2)
   const secondary = posts.slice(2, 4)
@@ -132,7 +158,11 @@ export default function TabSection() {
           March of Karnataka tabs
         </h2>
 
-        <Tabs role="tablist" aria-label="March of Karnataka categories">
+        <Tabs 
+          role="tablist" 
+          aria-label="March of Karnataka categories"
+          onKeyDown={handleKeyDown}
+        >
           {TABS.map((tab) => (
             <TabButton
               key={tab}
@@ -141,6 +171,12 @@ export default function TabSection() {
               aria-controls={`panel-${tab}`}
               $active={active === tab}
               onClick={() => setActive(tab)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActive(tab);
+                }
+              }}
             >
               {tab}
             </TabButton>
@@ -149,11 +185,11 @@ export default function TabSection() {
 
         <Layout>
           <div id={`panel-${active}`} role="tabpanel" aria-labelledby={active} tabIndex={0}>
-            <Grid>
+            <Grid role="list" aria-label={`${active} articles`}>
               {featured.map((p) => (
-                <Card key={p.id}>
+                <Card key={p.id} role="listitem">
                   <ImageWrap>
-                    <img src={p.image || "/placeholder.svg"} alt={p.alt} />
+                    <img src={p.image || "/placeholder.svg"} alt={p.alt} loading="lazy" />
                   </ImageWrap>
                   <Content>
                     <DateText>{p.date}</DateText>
@@ -164,9 +200,9 @@ export default function TabSection() {
               ))}
 
               {secondary.map((p) => (
-                <Card key={p.id}>
+                <Card key={p.id} role="listitem">
                   <ImageWrap>
-                    <img src={p.image || "/placeholder.svg"} alt={p.alt} />
+                    <img src={p.image || "/placeholder.svg"} alt={p.alt} loading="lazy" />
                   </ImageWrap>
                   <Content>
                     <DateText>{p.date}</DateText>
@@ -179,16 +215,16 @@ export default function TabSection() {
           </div>
 
           <Sidebar aria-label="Latest Karnataka progress headlines">
-            <SideList>
+            <SideList role="list" aria-label="Latest headlines">
               {sideList.map((item, idx) => (
-                <SideItem key={idx}>
+                <SideItem key={idx} role="listitem">
                   <SideDate>{item.date}</SideDate>
                   <SideTitle>{item.title}</SideTitle>
                 </SideItem>
               ))}
             </SideList>
             <SeeMoreWrap>
-              <SeeMoreBtn type="button" onClick={() => alert("Load more Karnataka progress news...")}>
+              <SeeMoreBtn type="button" onClick={() => alert("Load more Karnataka progress news...")} aria-label="Load more Karnataka progress news">
                 See More
               </SeeMoreBtn>
             </SeeMoreWrap>

@@ -6,11 +6,11 @@ export default function SidebarCard({ title, excerpt, date, author, imageSrc, al
   
   return (
     <Card role="article" aria-label={title}>
-      <Thumb src={imageSrc} alt={alt} />
+      <Thumb src={imageSrc} alt={alt} loading="lazy" />
       <Title className="text-pretty">{title}</Title>
       <Excerpt>{truncatedExcerpt}</Excerpt>
       <Meta>
-        <time>{date}</time>
+        <time dateTime={date}>{date}</time>
         <Dot aria-hidden="true" />
         <span>{author}</span>
       </Meta>

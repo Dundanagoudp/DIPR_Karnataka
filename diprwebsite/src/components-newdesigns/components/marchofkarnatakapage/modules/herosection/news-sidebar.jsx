@@ -20,7 +20,7 @@ export default function NewsSidebar({
   ],
 }) {
   return (
-    <Aside aria-label="March of Karnataka stories">
+    <Aside aria-label="March of Karnataka stories" role="complementary">
       {items.map((item, index) => (
         <SidebarCard key={index} {...item} />
       ))}
