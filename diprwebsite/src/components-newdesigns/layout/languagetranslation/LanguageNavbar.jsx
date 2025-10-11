@@ -20,8 +20,6 @@ const LanguageNavbar = () => {
   const languages = [
     { code: 'kn', name: 'Kannada' },
     { code: 'en', name: 'English' },
-    { code: 'ta', name: 'Tamil' },
-    { code: 'te', name: 'Telugu' },
     { code: 'hi', name: 'Hindi' }
   ];
 

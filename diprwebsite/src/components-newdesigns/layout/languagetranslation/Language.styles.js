@@ -125,15 +125,15 @@ export const LanguageSelector = styled.div`
 
 export const LanguageDropdown = styled.div`
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   right: 0;
   background-color: ${theme.colors.white};
   border: 1px solid ${theme.colors.gray[300]};
   border-radius: ${theme.borderRadius.medium};
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 3px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   overflow: hidden;
-  min-width: 180px;
+  width: 160px;
   animation: dropdownSlide 0.2s ease-out;
 
   @keyframes dropdownSlide {
@@ -148,11 +148,11 @@ export const LanguageDropdown = styled.div`
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    min-width: 170px;
+    width: 150px;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    min-width: 160px;
+    width: 140px;
     right: 0;
   }
   
