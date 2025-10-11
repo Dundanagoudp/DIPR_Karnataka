@@ -4,22 +4,17 @@ import {
   Section,
   SectionHeader,
   SectionTitle,
-  PageLayout,
+  GalleryContainer,
+  StaticImage,
+  CentralCarousel,
   MainCard,
   MainImage,
   Caption,
   NavButton,
-  NavIcon,
-  ThumbsRail,
-  LeftRail,
-  RightRail,
-  ThumbItem,
-  ThumbImage,
-  DotsRow,
-  Dot,
+  ArrowIcon,
 } from "./GallerySection.styles"
 
-const images = [
+const carouselImages = [
   { src: "/state/state.jpg", alt: "Karnataka State Government Building" },
   { src: "/state/newsbaner.png", alt: "News Banner - Government Announcements" },
   { src: "/state/2ndimage.jpg", alt: "Government Office Complex" },
@@ -29,10 +24,17 @@ const images = [
   { src: "/state/sidebar2.jpg", alt: "Government Meeting Hall" },
 ]
 
+const staticImages = [
+  { src: "/state/sidebar.jpg", alt: "Government Conference Room" },
+  { src: "/state/sidebar2.jpg", alt: "Government Meeting Hall" },
+  { src: "/state/rightside.jpg", alt: "Government Department Office" },
+  { src: "/state/2ndsection.jpg", alt: "Administrative Building Section" },
+]
+
 export default function GallerySection() {
   const [index, setIndex] = useState(0)
   const [zoom, setZoom] = useState(false)
-  const total = images.length
+  const total = carouselImages.length
 
   const next = useCallback(() => {
     setZoom(false)
@@ -58,18 +60,20 @@ export default function GallerySection() {
     return () => window.removeEventListener("keydown", onKey)
   }, [next, prev])
 
-  const active = useMemo(() => images[index], [index])
+  const active = useMemo(() => carouselImages[index], [index])
 
-  // compute two prev and two next thumbnails for side rails
-  const idxMod = (n) => (n + total) % total
-  const leftThumbs = useMemo(
-    () => [idxMod(index - 2), idxMod(index - 1)].map((i) => ({ ...images[i], i })),
-    [index, total],
-  )
-  const rightThumbs = useMemo(
-    () => [idxMod(index + 1), idxMod(index + 2)].map((i) => ({ ...images[i], i })),
-    [index, total],
-  )
+  // Calculate side images based on current index
+  const leftImages = useMemo(() => {
+    const prevIndex1 = (index - 1 + total) % total
+    const prevIndex2 = (index - 2 + total) % total
+    return [carouselImages[prevIndex2], carouselImages[prevIndex1]]
+  }, [index, total])
+
+  const rightImages = useMemo(() => {
+    const nextIndex1 = (index + 1) % total
+    const nextIndex2 = (index + 2) % total
+    return [carouselImages[nextIndex1], carouselImages[nextIndex2]]
+  }, [index, total])
 
   return (
     <Section aria-label="Photo Gallery">
@@ -77,59 +81,71 @@ export default function GallerySection() {
         <SectionTitle>Photos</SectionTitle>
       </SectionHeader>
 
-      <PageLayout role="region" aria-label="Gallery single-row">
-        <LeftRail as={ThumbsRail} role="list" aria-label="Previous images">
-          {leftThumbs.map((img) => (
-            <ThumbItem
-              key={`left-${img.i}`}
-              role="listitem"
-              aria-label={`Show image ${img.i + 1}`}
-              $active={img.i === index}
-              onClick={() => goTo(img.i)}
-            >
-              <ThumbImage src={img.src} alt={img.alt} />
-            </ThumbItem>
-          ))}
-        </LeftRail>
-
-        <MainCard aria-live="polite">
-          <MainImage
-            src={active.src}
-            alt={active.alt}
-            $zoomed={zoom}
-            onClick={() => setZoom((z) => !z)}
-            aria-pressed={zoom}
+      <GalleryContainer role="region" aria-label="Gallery single row layout">
+        {/* Left side images - dynamically change with carousel */}
+        {leftImages.map((img, i) => (
+          <StaticImage 
+            key={`left-${index}-${i}`} 
+            src={img.src} 
+            alt={img.alt}
+            onClick={() => goTo((index - 2 + i + total) % total)}
           />
-          <Caption>{active.alt}</Caption>
-
-          <NavButton aria-label="Previous image" onClick={prev} data-pos="left">
-            <NavIcon>{"‹"}</NavIcon>
-          </NavButton>
-          <NavButton aria-label="Next image" onClick={next} data-pos="right">
-            <NavIcon>{"›"}</NavIcon>
-          </NavButton>
-        </MainCard>
-
-        <RightRail as={ThumbsRail} role="list" aria-label="Next images">
-          {rightThumbs.map((img) => (
-            <ThumbItem
-              key={`right-${img.i}`}
-              role="listitem"
-              aria-label={`Show image ${img.i + 1}`}
-              $active={img.i === index}
-              onClick={() => goTo(img.i)}
-            >
-              <ThumbImage src={img.src} alt={img.alt} />
-            </ThumbItem>
-          ))}
-        </RightRail>
-      </PageLayout>
-
-      <DotsRow role="tablist" aria-label="Image pagination">
-        {images.map((_, i) => (
-          <Dot key={i} role="tab" aria-selected={i === index} $active={i === index} onClick={() => goTo(i)} />
         ))}
-      </DotsRow>
+
+        {/* Central Carousel */}
+        <CentralCarousel aria-live="polite">
+          <MainCard>
+            <MainImage
+              src={active.src}
+              alt={active.alt}
+              $zoomed={zoom}
+              onClick={() => setZoom((z) => !z)}
+              aria-pressed={zoom}
+            />
+
+            {/* Left Arrow Button */}
+            <NavButton 
+              aria-label="Previous image" 
+              onClick={prev} 
+              $position="left"
+              title="Previous"
+            >
+              <ArrowIcon $position="left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </ArrowIcon>
+            </NavButton>
+
+            {/* Right Arrow Button */}
+            <NavButton 
+              aria-label="Next image" 
+              onClick={next} 
+              $position="right"
+              title="Next"
+            >
+              <ArrowIcon $position="right">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </ArrowIcon>
+            </NavButton>
+          </MainCard>
+          
+          {/* Caption OUTSIDE the card */}
+          <Caption>{active.alt}</Caption>
+        </CentralCarousel>
+
+        {/* Right side images - dynamically change with carousel */}
+        {rightImages.map((img, i) => (
+          <StaticImage 
+            key={`right-${index}-${i}`} 
+            src={img.src} 
+            alt={img.alt}
+            onClick={() => goTo((index + 1 + i) % total)}
+          />
+        ))}
+      </GalleryContainer>
     </Section>
   )
 }

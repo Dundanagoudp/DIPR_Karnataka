@@ -37,13 +37,15 @@ export const Wrapper = styled.section`
   padding: ${theme.spacing(3)} ${theme.spacing(2)};
   background: ${theme.colors.background};
   color: ${theme.colors.text};
+  overflow-x: hidden;
+  box-sizing: border-box;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(2.5)} ${theme.spacing(2)};
+    padding: ${theme.spacing(2.5)} ${theme.spacing(1.5)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(2)} ${theme.spacing(1.5)};
+    padding: ${theme.spacing(2)} ${theme.spacing(1)};
   }
 `
 
@@ -206,6 +208,8 @@ export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: ${theme.spacing(3)};
+  width: 100%;
+  overflow-x: hidden;
 
   @media (min-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: 2fr 1fr; /* left image / right news list */
@@ -219,11 +223,15 @@ export const Grid = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
-    gap: ${theme.spacing(2.5)};
+    gap: ${theme.spacing(2)};
   }
 `
 
-export const Column = styled.div``
+export const Column = styled.div`
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+`
 
 // Left & Right lists
 export const List = styled.div`
@@ -299,13 +307,17 @@ export const Headline = styled.h3`
   font-family: ${theme.fonts.heading};
   line-height: 1.3;
   color: ${theme.colors.black};
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 1rem;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
+    line-height: 1.35;
   }
 `
 
@@ -329,9 +341,11 @@ export const Divider = styled.hr`
 // Center feature
 export const FeatureCard = styled.article`
   position: relative;
+  width: 100%;
   height: 550px;
   overflow: hidden;
   background: ${theme.colors.gray[200]};
+  border-radius: ${theme.borderRadius.small};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     height: 450px;
@@ -339,8 +353,9 @@ export const FeatureCard = styled.article`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    height: 350px;
+    height: 320px;
     order: -1;
+    border-radius: ${theme.borderRadius.small};
   }
 `
 
@@ -363,17 +378,19 @@ export const FeatureContent = styled.div`
   right: ${theme.spacing(2.5)};
   bottom: ${theme.spacing(2.5)};
   color: ${theme.colors.white};
+  max-width: 100%;
+  overflow: hidden;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    left: ${theme.spacing(2.5)};
-    right: ${theme.spacing(2.5)};
-    bottom: ${theme.spacing(2.5)};
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
     left: ${theme.spacing(2)};
     right: ${theme.spacing(2)};
     bottom: ${theme.spacing(2)};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    left: ${theme.spacing(1.5)};
+    right: ${theme.spacing(1.5)};
+    bottom: ${theme.spacing(1.5)};
   }
 `
 
@@ -383,7 +400,10 @@ export const FeatureTitle = styled.h3`
   font-family: ${theme.fonts.heading};
   line-height: 1.25;
   margin-top: ${theme.spacing(1.25)};
+  margin-bottom: 0;
   color: ${theme.colors.white};
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   @media (min-width: ${theme.breakpoints.desktop}) {
     font-size: 2rem;
@@ -391,27 +411,40 @@ export const FeatureTitle = styled.h3`
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 1.5rem;
+    margin-top: ${theme.spacing(1)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin-top: ${theme.spacing(0.5)};
   }
 `
 
 export const FeatureExcerpt = styled.p`
   margin-top: ${theme.spacing(1)};
+  margin-bottom: 0;
   color: rgba(255,255,255,0.9);
   font-family: ${theme.fonts.body};
   font-size: ${theme.fontSizes.medium};
   line-height: 1.6;
   max-width: 60ch;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: ${theme.fontSizes.small};
+    margin-top: ${theme.spacing(0.75)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin-top: ${theme.spacing(0.5)};
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 `
 
@@ -445,6 +478,8 @@ export const NewsItemContainer = styled.div`
   gap: ${theme.spacing(1.5)};
   align-items: flex-start;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     gap: ${theme.spacing(1)};
@@ -478,6 +513,11 @@ export const NewsContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing(0.75)};
+  overflow: hidden;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(0.5)};
+  }
 `
 
 // Feature card specific styles
@@ -486,6 +526,12 @@ export const FeatureMetaRow = styled.div`
   align-items: center;
   gap: ${theme.spacing(0.5)};
   margin-top: ${theme.spacing(1)};
+  flex-wrap: wrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: ${theme.spacing(0.5)};
+    gap: ${theme.spacing(0.375)};
+  }
 `
 
 export const FeatureAuthor = styled.span`
@@ -493,6 +539,10 @@ export const FeatureAuthor = styled.span`
   font-size: ${theme.fontSizes.small};
   font-family: ${theme.fonts.body};
   font-weight: 500;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.7rem;
+  }
 `
 
 export const FeatureDateText = styled.span`
@@ -500,6 +550,10 @@ export const FeatureDateText = styled.span`
   font-size: ${theme.fontSizes.small};
   font-family: ${theme.fonts.body};
   opacity: 0.9;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.7rem;
+  }
 `
 
 export const FeatureTagsRow = styled.div`
@@ -507,6 +561,12 @@ export const FeatureTagsRow = styled.div`
   align-items: center;
   gap: ${theme.spacing(1)};
   margin-top: ${theme.spacing(1.5)};
+  flex-wrap: wrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: ${theme.spacing(1)};
+    gap: ${theme.spacing(0.75)};
+  }
 `
 
 export const FeatureBadge = styled.span`
@@ -522,4 +582,10 @@ export const FeatureBadge = styled.span`
   display: inline-block;
   text-align: center;
   min-width: fit-content;
+  white-space: nowrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(0.5)} ${theme.spacing(1)};
+    font-size: 0.7rem;
+  }
 `

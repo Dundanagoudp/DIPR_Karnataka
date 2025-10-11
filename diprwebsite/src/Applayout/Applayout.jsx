@@ -1,14 +1,15 @@
-import Header from "../components/Header/Header";
-import HeaderTab from "../components/headertabs/HeaderTab";
 import { Outlet } from "react-router-dom";
 // // import NavBar from "../components/navbar/NavBar";
 // // import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
 // // import ToolBar from "../components/ToolBar/ToolBar";
 import LoadingProgressBar from "../components/Progressloader/ProgressLoading";
-import LanguageNavbar from "../components/languagetranslation/LanguageNavbar";
-import TrendingBar from "../components/trendingbar/TrendingBar";
-import SiteFooter from "../components/new-sitefooter/site-footer";
+import Header from "../components-newdesigns/layout/Header/Header";
+import HeaderTab from "../components-newdesigns/layout/headertabs/HeaderTab";
+import LanguageNavbar from "../components-newdesigns/layout/languagetranslation/LanguageNavbar";
+import SiteFooter from "../components-newdesigns/layout/new-sitefooter/site-footer";
+import TrendingBar from "../components-newdesigns/layout/trendingbar/TrendingBar";
+
 
 const Applayout = () => {
   return (

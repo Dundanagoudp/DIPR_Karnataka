@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import theme from "../../theme/Theme";
+import theme from "../../../theme/Theme";
 
 export const HeaderContainer = styled.header`
   position: sticky;
@@ -117,36 +117,104 @@ export const LoginButton = styled.button`
   }
 `;
 
-export const MobileNav = styled.nav`
-  display: block;
-  padding: ${theme.spacing(2)} 0;
-  border-top: 1px solid ${theme.colors.gray[200]};
-  background-color: ${theme.colors.white};
+// Overlay for mobile sidebar
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: ${props => props.isOpen ? 1 : 0};
+  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 
   @media (min-width: ${theme.breakpoints.tablet}) {
     display: none;
   }
 `;
 
+// Mobile sidebar navigation
+export const MobileNav = styled.nav`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  max-width: 85vw;
+  background-color: ${theme.colors.white};
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  transform: translateX(${props => props.isOpen ? '0' : '-100%'});
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    display: none;
+  }
+`;
+
+// Sidebar header with close button
+export const SidebarHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: ${theme.spacing(1)} ${theme.spacing(1)};
+  background-color: ${theme.colors.white};
+`;
+
+// Close button for sidebar
+export const CloseButton = styled.button`
+  background: none;
+  border: none;
+  color: ${theme.colors.text || '#000000'};
+  cursor: pointer;
+  padding: ${theme.spacing(1)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${theme.borderRadius.small};
+  transition: all ${theme.transitions.fast};
+
+  &:hover {
+    background-color: ${theme.colors.gray[100]};
+    transform: rotate(90deg);
+  }
+
+  &:active {
+    background-color: ${theme.colors.gray[200]};
+  }
+`;
+
 export const MobileNavContent = styled.div`
   display: flex;
   flex-direction: column;
+  padding: ${theme.spacing(3)} 0;
   gap: ${theme.spacing(1)};
+  flex: 1;
 `;
 
 export const MobileNavItem = styled.div`
   width: 100%;
+  position: relative;
 `;
 
 export const MobileNavLink = styled(NavLink)`
-  display: block;
-  padding: ${theme.spacing(1)} ${theme.spacing(2)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: ${theme.spacing(2)} ${theme.spacing(3)};
   font-size: ${theme.fontSizes.medium};
   font-weight: 500;
   color: ${theme.colors.text};
   text-decoration: none;
-  border-radius: ${theme.borderRadius.small};
   transition: all ${theme.transitions.fast};
+  border-radius: ${theme.borderRadius.small};
+  margin: 0 ${theme.spacing(2)};
 
   &:hover {
     background-color: ${theme.colors.gray[100]};
@@ -156,6 +224,33 @@ export const MobileNavLink = styled(NavLink)`
   &.active {
     background-color: ${theme.colors.primary};
     color: ${theme.colors.white};
+    font-weight: 600;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -8px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid ${theme.colors.primary};
+    }
+
+    &:hover {
+      background-color: ${theme.colors.primary};
+      color: ${theme.colors.white};
+    }
+  }
+
+  &:active {
+    background-color: ${theme.colors.gray[200]};
+  }
+
+  &.active:active {
+    background-color: ${theme.colors.primary};
   }
 `;
 

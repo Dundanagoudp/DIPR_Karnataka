@@ -123,16 +123,18 @@ export const CarouselContainer = styled.div`
   outline: 2px solid transparent; 
   outline-offset: 2px;
   transition: outline-color 0.2s ease;
+  overflow: hidden;
 
   &:focus-visible {
     outline-color: ${theme.colors.primary || "#0070f3"}; 
   }
-    @media (max-width: ${theme.breakpoints.tablet}) {
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
     padding: ${theme.spacing(1)};
   }
+  
   @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 1200px;
-    max-width: 100%;
+    padding: ${theme.spacing(0.75)};
   }
 `
 
@@ -194,7 +196,9 @@ export const CarouselTrack = styled.div`
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
   cursor: grab;
-    &:active {
+  width: 100%;
+  
+  &:active {
     cursor: grabbing;
   }
 `
@@ -272,6 +276,7 @@ export const VideoOverlay = styled.div`
   opacity: 0.8;
   transition: opacity 0.3s ease;
   pointer-events: none; /* Allow clicks to pass through to the play button */
+  z-index: 2;
   
   &:hover {
     opacity: 1;
@@ -294,11 +299,12 @@ export const PlayButton = styled.button`
   outline-offset: 2px;
   box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
   position: relative;
-  z-index: 5;
+  z-index: 10;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  pointer-events: auto;
 
   &:focus-visible {
     outline-color: ${theme.colors.primary || "#0070f3"};

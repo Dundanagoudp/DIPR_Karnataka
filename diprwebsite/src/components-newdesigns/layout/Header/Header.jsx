@@ -10,7 +10,7 @@ import {
   CMSection,
   CMImage,
 } from './Header.styles';
-import { FontSizeContext } from '../../context/FontSizeProvider';
+import { FontSizeContext } from '../../../context/FontSizeProvider';
 
 const Header = () => {
   const { fontSize } = useContext(FontSizeContext);

@@ -31,7 +31,7 @@ const  ShortsCarousel = () => {
   const [progress, setProgress] = useState(0)
   const trackRef = useRef(null)
   const containerRef = useRef(null)
-  const videoRef = useRef(null)
+  const videoRefs = useRef({})
   const [visibleVideos, setVisibleVideos] = useState(5)
   const [isMobile, setIsMobile] = useState(false)
   const [isTablet, setIsTablet] = useState(false)
@@ -112,10 +112,11 @@ const  ShortsCarousel = () => {
   // Handle video progress
   useEffect(() => {
     let interval
-    if (playingVideoId && videoRef.current) {
+    if (playingVideoId && videoRefs.current[playingVideoId]) {
       interval = setInterval(() => {
-        if (videoRef.current) {
-          const currentProgress = (videoRef.current.currentTime / videoRef.current.duration) * 100
+        const videoElement = videoRefs.current[playingVideoId]
+        if (videoElement && videoElement.duration) {
+          const currentProgress = (videoElement.currentTime / videoElement.duration) * 100
           setProgress(currentProgress)
         }
       }, 100)
@@ -148,6 +149,7 @@ const  ShortsCarousel = () => {
   }
 
   const handlePlayClick = (videoId) => {
+    console.log('Play button clicked for video:', videoId)
     setPlayingVideoId(videoId === playingVideoId ? null : videoId)
     setProgress(0)
   }
@@ -270,7 +272,7 @@ const  ShortsCarousel = () => {
                   {playingVideoId === video._id ? (
                     <VideoPlayer>
                       <video
-                        ref={videoRef}
+                        ref={(el) => (videoRefs.current[video._id] = el)}
                         controls
                         autoPlay
                         loop

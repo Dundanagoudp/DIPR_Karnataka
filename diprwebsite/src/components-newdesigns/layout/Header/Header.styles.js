@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from '../../theme/Theme';
+import theme from '../../../theme/Theme';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -168,7 +168,7 @@ export const CMSection = styled.div`
 export const CMImage = styled.img`
   max-width: ${theme.spacing(35)};
   height: 100px;
-  object-fit: cover;
+  object-fit: contain;
   padding: ${theme.spacing(1.8)};
   flex-shrink: 0;
 
@@ -179,14 +179,14 @@ export const CMImage = styled.img`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    max-width: ${theme.spacing(18)};
-    height: 50px;
-    padding: ${theme.spacing(0.25)};
+    max-width: ${theme.spacing(25)};
+    height: 70px;
+    padding: ${theme.spacing(0.5)};
   }
 
   @media (max-width: 480px) {
-    max-width: ${theme.spacing(16)};
-    height: 45px;
-    padding: ${theme.spacing(0.25)};
+    max-width: ${theme.spacing(22)};
+    height: 65px;
+    padding: ${theme.spacing(0.5)};
   }
 `;
