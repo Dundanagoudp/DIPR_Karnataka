@@ -122,6 +122,7 @@ export default function MagzineIdview() {
       </HeaderSection>
 
       <ContentWrapper>
+        
         <MainPdfViewer>
           {pdfUrl ? (
             <iframe

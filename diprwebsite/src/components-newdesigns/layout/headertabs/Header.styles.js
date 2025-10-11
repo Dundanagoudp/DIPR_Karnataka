@@ -97,7 +97,7 @@ export const ActiveIndicator = styled.span`
 export const LoginButton = styled.button`
   border: 1px solid ${theme.colors.primary};
   color: ${theme.colors.primary};
-  background-color: transparent;
+  background-color: #E9F1FF;
   font-size: ${theme.fontSizes.small};
   padding: ${theme.spacing(1)} ${theme.spacing(2)};
   border-radius: ${theme.borderRadius.small};
