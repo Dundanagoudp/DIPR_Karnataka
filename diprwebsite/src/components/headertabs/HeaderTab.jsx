@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import {
@@ -15,6 +15,9 @@ import {
   MobileNavContent,
   MobileNavItem,
   MobileNavLink,
+  Overlay,
+  SidebarHeader,
+  CloseButton,
 } from "./Header.styles";
 
 const HeaderTab = () => {
@@ -37,6 +40,18 @@ const HeaderTab = () => {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   // Check if tab should be active
   const isTabActive = (itemPath) => {
@@ -86,9 +101,15 @@ const HeaderTab = () => {
           </LoginButton>
         </HeaderContent>
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <MobileNav>
+        {/* Mobile Navigation Sidebar */}
+        <>
+          <Overlay isOpen={isMobileMenuOpen} onClick={closeMobileMenu} />
+          <MobileNav isOpen={isMobileMenuOpen}>
+            <SidebarHeader>
+              <CloseButton onClick={closeMobileMenu} aria-label="Close menu">
+                <X size={24} />
+              </CloseButton>
+            </SidebarHeader>
             <MobileNavContent>
               {navItems.map((item) => (
                 <MobileNavItem key={item.path}>
@@ -103,7 +124,7 @@ const HeaderTab = () => {
               ))}
             </MobileNavContent>
           </MobileNav>
-        )}
+        </>
       </Container>
     </HeaderContainer>
   );
