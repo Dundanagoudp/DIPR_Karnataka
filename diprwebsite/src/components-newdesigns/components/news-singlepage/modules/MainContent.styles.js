@@ -317,6 +317,11 @@ export const Tag = styled.span`
   padding: 6px 12px;
   border-radius: ${theme.borderRadius.small};
   font-size: ${theme.fontSizes.small};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   font-weight: 500;
   text-transform: lowercase;
   

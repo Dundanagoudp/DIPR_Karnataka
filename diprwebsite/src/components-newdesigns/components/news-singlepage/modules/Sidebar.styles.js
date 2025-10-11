@@ -79,6 +79,11 @@ export const SocialMediaButton = styled.button`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   gap: 12px;
   padding: 12px 16px;
   border: none;
@@ -459,6 +464,11 @@ export const SeeMoreButton = styled.button`
   background: ${theme.colors.primary};
   color: ${theme.colors.white};
   border: none;
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   border-radius: ${theme.borderRadius.small};
   font-size: ${theme.fontSizes.medium};
   font-weight: 500;

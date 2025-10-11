@@ -57,6 +57,11 @@ export const ShareButton = styled.button`
   gap: 8px;
   padding: 12px 16px;
   border: none;
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   border-radius: ${theme.borderRadius.small};
   color: ${theme.colors.white};
   font-size: ${theme.fontSizes.small};

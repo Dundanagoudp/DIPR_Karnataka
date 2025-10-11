@@ -27,13 +27,13 @@ import {
 
 const MainContent = () => {
   return (
-    <MainContentContainer>
+    <MainContentContainer role="article" aria-labelledby="article-title">
       {/* Location and Date Tags */}
-      <LocationTag>Raichur, Karnataka | Nature & Heritage</LocationTag>
-      <DateTag>March 10, 2024</DateTag>
+      <LocationTag aria-label="Article location and category">Raichur, Karnataka | Nature & Heritage</LocationTag>
+      <DateTag dateTime="2024-03-10">March 10, 2024</DateTag>
       
       {/* Main Article Title */}
-      <ArticleTitle>
+      <ArticleTitle id="article-title">
         The land of Bisala, Raichur, is now adorned with lush greenery, beckoning nature lovers.
       </ArticleTitle>
       
@@ -48,11 +48,12 @@ const MainContent = () => {
       </p>
       
       {/* Author Information Card */}
-      <AuthorCard>
+      <AuthorCard role="complementary" aria-label="Article author information">
         <AuthorImage>
           <img 
             src="/header/cm.png" 
-            alt="Author" 
+            alt="Author Ram Nath" 
+            loading="eager"
             style={{
               width: '100%',
               height: '100%',
@@ -64,14 +65,14 @@ const MainContent = () => {
         <AuthorInfo>
           <AuthorName>By Ram Nath</AuthorName>
           <ArticleMeta>
-            <MetaItem>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+            <MetaItem aria-label="Comment count">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }} aria-hidden="true">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               </svg>
               0 Comments
             </MetaItem>
-            <MetaItem>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+            <MetaItem aria-label="Reading time">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }} aria-hidden="true">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
               </svg>
@@ -85,7 +86,8 @@ const MainContent = () => {
       <HeroImage>
         <img 
           src="/state/state.jpg" 
-          alt="Raichur's green transformation" 
+          alt="Raichur's green transformation showing lush greenery and transformed landscapes" 
+          loading="eager"
           style={{
             width: "100%",
             height: "100%",
@@ -93,7 +95,7 @@ const MainContent = () => {
             objectPosition: "center"
           }}
         />
-        <ImageCaption>
+        <ImageCaption as="figcaption">
           Raichur's green revival beckons nature lovers to explore its transformed landscapes
         </ImageCaption>
       </HeroImage>
@@ -115,12 +117,13 @@ const MainContent = () => {
         </ArticleParagraph>
         
         {/* Quote Block */}
-        <div style={{
+        <blockquote style={{
           background: '#f2f2f2',
           padding: '30px 40px',
           margin: '30px 0',
           position: 'relative',
-          textAlign: 'center'
+          textAlign: 'center',
+          border: 'none'
         }}>
           <span style={{
             position: 'absolute',
@@ -128,8 +131,9 @@ const MainContent = () => {
             color: '#ffb6c1',
             top: '10px',
             left: '10px',
-            fontFamily: 'serif'
-          }}>"</span>
+            fontFamily: 'serif',
+            ariaHidden: 'true'
+          }} aria-hidden="true">"</span>
           <p style={{
             fontSize: '18px',
             fontWeight: '500',
@@ -145,9 +149,10 @@ const MainContent = () => {
             color: '#ffb6c1',
             bottom: '-20px',
             right: '10px',
-            fontFamily: 'serif'
-          }}>"</span>
-        </div>
+            fontFamily: 'serif',
+            ariaHidden: 'true'
+          }} aria-hidden="true">"</span>
+        </blockquote>
         
         <ArticleParagraph>
           The success of this environmental restoration project has inspired similar initiatives 
@@ -156,11 +161,12 @@ const MainContent = () => {
         </ArticleParagraph>
         
         {/* Inline Advertisement/Related Content */}
-        <InlineAd>
+        <InlineAd role="complementary" aria-label="Related content">
           <AdContent>
             <img 
               src="/header/dcm.png" 
-              alt="Related content" 
+              alt="Related content about Raichur development" 
+              loading="lazy"
               width="100%"
               height="auto"
             />
@@ -183,17 +189,17 @@ const MainContent = () => {
       </ArticleContent>
       
       {/* Article Tags */}
-      <ArticleTags>
-        <Tag>raichur</Tag>
-        <Tag>karnataka</Tag>
-        <Tag>nature</Tag>
-        <Tag>conservation</Tag>
-        <Tag>eco-tourism</Tag>
-        <Tag>heritage</Tag>
-        <Tag>environment</Tag>
-        <Tag>sustainability</Tag>
-        <Tag>community</Tag>
-        <Tag>transformation</Tag>
+      <ArticleTags role="complementary" aria-label="Article tags">
+        <Tag aria-label="Tag: raichur">raichur</Tag>
+        <Tag aria-label="Tag: karnataka">karnataka</Tag>
+        <Tag aria-label="Tag: nature">nature</Tag>
+        <Tag aria-label="Tag: conservation">conservation</Tag>
+        <Tag aria-label="Tag: eco-tourism">eco-tourism</Tag>
+        <Tag aria-label="Tag: heritage">heritage</Tag>
+        <Tag aria-label="Tag: environment">environment</Tag>
+        <Tag aria-label="Tag: sustainability">sustainability</Tag>
+        <Tag aria-label="Tag: community">community</Tag>
+        <Tag aria-label="Tag: transformation">transformation</Tag>
       </ArticleTags>
       
       {/* Social Share */}

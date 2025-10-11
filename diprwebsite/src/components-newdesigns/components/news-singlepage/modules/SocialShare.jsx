@@ -39,40 +39,40 @@ const SocialShare = () => {
   }
 
   return (
-    <SocialShareContainer>
-      <ShareTitle>Share this article</ShareTitle>
-      <ShareButtons>
-        <ShareButton onClick={shareToFacebook} style={{ backgroundColor: '#1877F2' }}>
+    <SocialShareContainer aria-labelledby="share-heading">
+      <ShareTitle id="share-heading">Share this article</ShareTitle>
+      <ShareButtons role="group" aria-label="Social sharing options">
+        <ShareButton onClick={shareToFacebook} style={{ backgroundColor: '#1877F2' }} aria-label="Share on Facebook">
           <ShareIcon>
-            <FaFacebookF />
+            <FaFacebookF aria-hidden="true" />
           </ShareIcon>
           <ShareText>Facebook</ShareText>
         </ShareButton>
         
-        <ShareButton onClick={shareToTwitter} style={{ backgroundColor: '#1DA1F2' }}>
+        <ShareButton onClick={shareToTwitter} style={{ backgroundColor: '#1DA1F2' }} aria-label="Share on Twitter">
           <ShareIcon>
-            <FaTwitter />
+            <FaTwitter aria-hidden="true" />
           </ShareIcon>
           <ShareText>Twitter</ShareText>
         </ShareButton>
         
-        <ShareButton onClick={shareToLinkedIn} style={{ backgroundColor: '#0077B5' }}>
+        <ShareButton onClick={shareToLinkedIn} style={{ backgroundColor: '#0077B5' }} aria-label="Share on LinkedIn">
           <ShareIcon>
-            <FaLinkedinIn />
+            <FaLinkedinIn aria-hidden="true" />
           </ShareIcon>
           <ShareText>LinkedIn</ShareText>
         </ShareButton>
         
-        <ShareButton onClick={shareToWhatsApp} style={{ backgroundColor: '#25D366' }}>
+        <ShareButton onClick={shareToWhatsApp} style={{ backgroundColor: '#25D366' }} aria-label="Share on WhatsApp">
           <ShareIcon>
-            <FaWhatsapp />
+            <FaWhatsapp aria-hidden="true" />
           </ShareIcon>
           <ShareText>WhatsApp</ShareText>
         </ShareButton>
         
-        <ShareButton onClick={copyToClipboard} style={{ backgroundColor: '#6B7280' }}>
+        <ShareButton onClick={copyToClipboard} style={{ backgroundColor: '#6B7280' }} aria-label="Copy article link">
           <ShareIcon>
-            <FaCopy />
+            <FaCopy aria-hidden="true" />
           </ShareIcon>
           <ShareText>Copy Link</ShareText>
         </ShareButton>

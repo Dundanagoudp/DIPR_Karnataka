@@ -110,6 +110,11 @@ export const ViewAllLink = styled.a`
   display: flex;
   align-items: center;
   margin-top: ${theme.spacing(2.5)};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   cursor: pointer;
   transition: ${theme.transitions.fast};
   
@@ -137,6 +142,11 @@ export const CommentInput = styled.input`
   margin-bottom: ${theme.spacing(2.5)};
   background: transparent;
   border: 1px solid ${theme.colors.white};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   border-radius: ${theme.borderRadius.small};
   color: ${theme.colors.white};
   font-family: ${theme.fonts.body};
@@ -172,6 +182,11 @@ export const CommentTextarea = styled.textarea`
   margin-bottom: ${theme.spacing(3)};
   background: transparent;
   border: 1px solid ${theme.colors.white};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   border-radius: ${theme.borderRadius.small};
   color: ${theme.colors.white};
   resize: vertical;
@@ -209,6 +224,11 @@ export const SubmitButton = styled.button`
   border: none;
   padding: ${theme.spacing(1.75)} ${theme.spacing(4)};
   border-radius: ${theme.borderRadius.small};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
   font-weight: bold;
   float: right;
   cursor: pointer;

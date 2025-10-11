@@ -10,14 +10,16 @@ import CommentsSection from './modules/CommentsSection'
 
 export default function NewsIdpage() {
   return (
-    <NewsPageContainer>
-      <NewsPageWrapper>
-        <MainContent />
-        <Sidebar />
-      </NewsPageWrapper>
-      <CommentsWrapper>
-        <CommentsSection />
-      </CommentsWrapper>
-    </NewsPageContainer>
+    <main aria-label="News article main content">
+      <NewsPageContainer>
+        <NewsPageWrapper>
+          <MainContent />
+          <Sidebar />
+        </NewsPageWrapper>
+        <CommentsWrapper>
+          <CommentsSection />
+        </CommentsWrapper>
+      </NewsPageContainer>
+    </main>
   )
 }
