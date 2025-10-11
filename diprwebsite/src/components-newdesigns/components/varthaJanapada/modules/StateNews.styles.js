@@ -68,6 +68,11 @@ export const SeeMore = styled.a`
     }
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 15px;
     gap: ${theme.spacing1(1.5)};

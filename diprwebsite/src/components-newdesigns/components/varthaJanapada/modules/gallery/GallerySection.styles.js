@@ -10,37 +10,52 @@ export const Section = styled.section`
   font-family: ${theme.fonts.body};
 `
 
-export const SectionHeader = styled.header`
+export const SectionHeader = styled.div`
+  margin-bottom: ${theme.spacing(2)};
+  padding-bottom: ${theme.spacing(6)};
   max-width: 1300px;
-  margin: 0 auto ${theme.spacing(3)};
-  padding: 0 ${theme.spacing(2)};
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: 0 ${theme.spacing(2)};
-    margin-bottom: ${theme.spacing(2)};
-  }
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: ${theme.spacing(2)};
+  padding-right: ${theme.spacing(2)};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 0 ${theme.spacing(1.5)};
-    margin-bottom: ${theme.spacing(1.5)};
+    margin-bottom: ${theme.spacing(1)};
   }
 `
 
 export const SectionTitle = styled.h2`
-  display: inline-block;
   font-family: ${theme.fonts.heading};
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: ${theme.colors.text};
-  border-bottom: 2px solid ${theme.colors.primary};
-  padding-bottom: ${theme.spacing(0.5)};
+  font-size: clamp(20px, 2.5vw, 20px);
+  font-weight: 700;
+  color: ${theme.colors.primary};
+  margin: 0;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 250px;
+    height: 1px;
+    background: ${theme.colors.gray[700]};
+  }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: 1.15rem;
+    font-size: clamp(18px, 2.3vw, 20px);
+    
+    &::after {
+      width: 200px;
+    }
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 1.1rem;
+    font-size: clamp(16px, 2vw, 18px);
+    
+    &::after {
+      width: 150px;
+    }
   }
 `
 
@@ -104,6 +119,13 @@ export const StaticImage = styled.img`
   &:hover {
     transform: scale(1.08);
     box-shadow: 0 6px 16px rgba(${theme.colors.primaryRgb}, 0.3);
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+    transform: scale(1.08);
     opacity: 1;
   }
 
@@ -193,6 +215,11 @@ export const MainImage = styled.img`
   transform: ${(p) => (p.$zoomed ? "scale(1.6)" : "scale(1)")};
   transition: transform ${theme.transitions.fast};
   cursor: ${(p) => (p.$zoomed ? "zoom-out" : "zoom-in")};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: -2px;
+  }
 `
 
 // Navigation arrow buttons with modern design
@@ -220,6 +247,13 @@ export const NavButton = styled.button`
     transform: translateY(-50%) scale(1.1);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     background: rgba(255, 255, 255, 1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-50%) scale(1.1);
   }
 
   &:active {

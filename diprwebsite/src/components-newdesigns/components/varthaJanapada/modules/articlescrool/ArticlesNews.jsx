@@ -91,15 +91,15 @@ export default function ArticlesNews({ articles = defaultArticles }) {
   const canGoNext = currentIndex < articles.length - itemsPerPage
 
   return (
-    <ArticlesSection>
+    <ArticlesSection aria-labelledby="articles-heading">
       <Container>
         {/* Section Header */}
         <SectionHeader>
-          <Title>Articles</Title>
+          <Title id="articles-heading">Articles</Title>
         </SectionHeader>
 
         {/* Articles Carousel */}
-        <CarouselWrapper>
+        <CarouselWrapper aria-label="Articles carousel">
           {/* Previous Button */}
           <NavButton
             onClick={handlePrevious}
@@ -107,17 +107,17 @@ export default function ArticlesNews({ articles = defaultArticles }) {
             position="left"
             aria-label="Previous articles"
           >
-            &#10094;
+            <span aria-hidden="true">&#10094;</span>
           </NavButton>
 
           {/* Articles Grid */}
           <ArticlesGrid>
             {visibleArticles.map((article) => (
-              <ArticleCard key={article.id}>
+              <ArticleCard key={article.id} aria-label={article.title}>
                 <ArticleImageWrapper>
                   <ArticleImage src={article.image} alt={article.title} />
-                  <ImageOverlay />
-                  <ArticleNumber>{article.number}</ArticleNumber>
+                  <ImageOverlay aria-hidden="true" />
+                  <ArticleNumber aria-hidden="true">{article.number}</ArticleNumber>
                 </ArticleImageWrapper>
                 <ArticleContent>
                   <ArticleTitle>{article.title}</ArticleTitle>
@@ -134,7 +134,7 @@ export default function ArticlesNews({ articles = defaultArticles }) {
             position="right"
             aria-label="Next articles"
           >
-            &#10095;
+            <span aria-hidden="true">&#10095;</span>
           </NavButton>
         </CarouselWrapper>
 

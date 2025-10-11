@@ -108,10 +108,9 @@ export default function GallerySection() {
               aria-label="Previous image" 
               onClick={prev} 
               $position="left"
-              title="Previous"
             >
-              <ArrowIcon $position="left">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <ArrowIcon $position="left" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
               </ArrowIcon>
@@ -122,10 +121,9 @@ export default function GallerySection() {
               aria-label="Next image" 
               onClick={next} 
               $position="right"
-              title="Next"
             >
-              <ArrowIcon $position="right">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <ArrowIcon $position="right" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path d="M9 18l6-6-6-6" />
                 </svg>
               </ArrowIcon>

@@ -81,12 +81,13 @@ const LongVideos = () => {
                   controls
                   autoPlay
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  aria-label={mainArticle.title}
                 />
               ) : (
                 <>
                   <ArticleImage src={mainArticle.image} alt={mainArticle.title} />
                   <Badge>{mainArticle.badge}</Badge>
-                  <PlayButton onClick={() => handlePlayClick(mainArticle.id, mainArticle.video)} />
+                  <PlayButton onClick={() => handlePlayClick(mainArticle.id, mainArticle.video)} aria-label={`Play ${mainArticle.title}`} />
                   <ArticleContent>
                     <ArticleTitle large>{mainArticle.title}</ArticleTitle>
                   </ArticleContent>
@@ -106,11 +107,12 @@ const LongVideos = () => {
                       controls
                       autoPlay
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      aria-label={article.title}
                     />
                   ) : (
                     <>
                       <ArticleImage src={article.image} alt={article.title} />
-                      <PlayButton onClick={() => handlePlayClick(article.id, article.video)} />
+                      <PlayButton onClick={() => handlePlayClick(article.id, article.video)} aria-label={`Play ${article.title}`} />
                     </>
                   )}
                 </ImageContainer>
