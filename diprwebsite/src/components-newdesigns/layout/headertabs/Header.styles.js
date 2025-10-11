@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import theme from "../../theme/Theme";
+import theme from "../../../theme/Theme";
 
 export const HeaderContainer = styled.header`
   position: sticky;
