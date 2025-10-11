@@ -41,6 +41,11 @@ export const MobileMenuButton = styled.button`
     background-color: ${theme.colors.gray[100]};
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+
   @media (min-width: ${theme.breakpoints.tablet}) {
     display: none;
   }
@@ -74,6 +79,11 @@ export const NavLinkStyled = styled(NavLink)`
   &:hover {
     background-color: ${theme.colors.gray[100]};
     color: ${theme.colors.primary};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
   }
 
   &.active {
@@ -184,6 +194,11 @@ export const CloseButton = styled.button`
     transform: rotate(90deg);
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+
   &:active {
     background-color: ${theme.colors.gray[200]};
   }
@@ -219,6 +234,11 @@ export const MobileNavLink = styled(NavLink)`
   &:hover {
     background-color: ${theme.colors.gray[100]};
     color: ${theme.colors.primary};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
   }
 
   &.active {

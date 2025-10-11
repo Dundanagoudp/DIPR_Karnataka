@@ -72,18 +72,18 @@ const LanguageNavbar = () => {
 
   return (
     <LanguageNavContainer>
-      <SocialIcons>
-        <SocialIcon href="#" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-          <Youtube size={22} />
+      <SocialIcons aria-label="Social media links">
+        <SocialIcon href="#" aria-label="Visit our YouTube channel" target="_blank" rel="noopener noreferrer">
+          <Youtube size={22} aria-hidden="true" />
         </SocialIcon>
-        <SocialIcon href="#" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-          <Facebook size={22} />
+        <SocialIcon href="#" aria-label="Visit our Facebook page" target="_blank" rel="noopener noreferrer">
+          <Facebook size={22} aria-hidden="true" />
         </SocialIcon>
-        <SocialIcon href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-          <Instagram size={22} />
+        <SocialIcon href="#" aria-label="Visit our Instagram page" target="_blank" rel="noopener noreferrer">
+          <Instagram size={22} aria-hidden="true" />
         </SocialIcon>
-        <SocialIcon href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-          <Linkedin size={22} />
+        <SocialIcon href="#" aria-label="Visit our LinkedIn page" target="_blank" rel="noopener noreferrer">
+          <Linkedin size={22} aria-hidden="true" />
         </SocialIcon>
       </SocialIcons>
 
@@ -91,22 +91,23 @@ const LanguageNavbar = () => {
         <button 
           className="language-button"
           onClick={toggleLanguageDropdown}
-          aria-label="Select language"
+          aria-label={`Current language: ${selectedLanguage}. Click to change`}
           aria-expanded={isLanguageOpen}
           aria-haspopup="true"
         >
-          Select language
-          <ChevronDown size={16} className="arrow" />
+          {selectedLanguage}
+          <ChevronDown size={16} className="arrow" aria-hidden="true" />
         </button>
         {isLanguageOpen && (
           <>
-            <Overlay onClick={closeDropdown} />
-            <LanguageDropdown>
+            <Overlay onClick={closeDropdown} aria-hidden="true" />
+            <LanguageDropdown role="menu">
               {languages.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageSelect(lang)}
                   className={selectedLanguage === lang.name ? 'active' : ''}
+                  role="menuitem"
                   aria-label={`Select ${lang.name}`}
                 >
                   {lang.name}

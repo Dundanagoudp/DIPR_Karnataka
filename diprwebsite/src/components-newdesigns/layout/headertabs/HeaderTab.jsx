@@ -65,31 +65,33 @@ const HeaderTab = () => {
   };
 
   return (
-    <HeaderContainer>
+    <HeaderContainer role="navigation" aria-label="Main navigation">
       <Container>
         <HeaderContent>
           {/* Mobile menu button */}
           <MobileMenuButton
             onClick={toggleMobileMenu}
-            aria-label="Toggle menu"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? (
-              <X size={20} />
+              <X size={20} aria-hidden="true" />
             ) : (
-              <Menu size={20} />
+              <Menu size={20} aria-hidden="true" />
             )}
           </MobileMenuButton>
 
           {/* Desktop Navigation */}
-          <DesktopNav>
+          <DesktopNav aria-label="Primary navigation">
             {navItems.map((item) => (
               <NavItem key={item.path}>
                 <NavLinkStyled
                   to={item.path}
                   className={isTabActive(item.path) ? "active" : ""}
+                  aria-current={isTabActive(item.path) ? "page" : undefined}
                 >
                   {item.name}
-                  {isTabActive(item.path) && <ActiveIndicator />}
+                  {isTabActive(item.path) && <ActiveIndicator aria-hidden="true" />}
                 </NavLinkStyled>
               </NavItem>
             ))}
@@ -101,13 +103,13 @@ const HeaderTab = () => {
           </LoginButton>
         </HeaderContent>
 
-        {/* Mobile Navigation Sidebar */}
+          {/* Mobile Navigation Sidebar */}
         <>
-          <Overlay isOpen={isMobileMenuOpen} onClick={closeMobileMenu} />
-          <MobileNav isOpen={isMobileMenuOpen}>
+          <Overlay isOpen={isMobileMenuOpen} onClick={closeMobileMenu} aria-hidden="true" />
+          <MobileNav isOpen={isMobileMenuOpen} aria-label="Mobile navigation">
             <SidebarHeader>
               <CloseButton onClick={closeMobileMenu} aria-label="Close menu">
-                <X size={24} />
+                <X size={24} aria-hidden="true" />
               </CloseButton>
             </SidebarHeader>
             <MobileNavContent>
@@ -117,6 +119,7 @@ const HeaderTab = () => {
                     to={item.path}
                     onClick={closeMobileMenu}
                     className={isTabActive(item.path) ? "active" : ""}
+                    aria-current={isTabActive(item.path) ? "page" : undefined}
                   >
                     {item.name}
                   </MobileNavLink>

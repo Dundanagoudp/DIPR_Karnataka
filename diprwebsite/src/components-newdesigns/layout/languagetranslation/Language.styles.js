@@ -51,6 +51,12 @@ export const SocialIcon = styled.a`
     color: ${theme.colors.primary};
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+    border-radius: ${theme.borderRadius.small};
+  }
+
   svg {
     width: 22px;
     height: 22px;

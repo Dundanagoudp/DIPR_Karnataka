@@ -143,7 +143,7 @@ export const Note = styled.p`
 export const ColTitle = styled.h3`
   margin: 0 0 ${theme.spacing(1.5)} 0;
   font-size: 16px;
-  line-height: 1.3;
+  line-height: 1.5;
   font-weight: 700;
   font-family: ${theme.fonts.heading};
   color: ${theme.colors.text};
@@ -199,6 +199,12 @@ export const LinkA = styled.a`
     color: ${theme.colors.primary};
     text-decoration: underline;
     text-decoration-color: ${theme.colors.primary};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+    color: ${theme.colors.primary};
   }
 `
 
