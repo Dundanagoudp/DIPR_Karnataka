@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Youtube, Facebook, Instagram, Linkedin, Search, ChevronDown } from 'lucide-react';
 import { LanguageContext } from '../../../context/LanguageContext';
+import SearchModal from '../searchsection/SearchModal';
 import {
   LanguageNavContainer,
   SocialIcons,
@@ -15,6 +16,7 @@ import {
 
 const LanguageNavbar = () => {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { language, setLanguage, currentMagazineType } = useContext(LanguageContext);
   const dropdownRef = useRef(null);
 
@@ -37,6 +39,14 @@ const LanguageNavbar = () => {
 
   const closeDropdown = () => {
     setIsLanguageOpen(false);
+  };
+
+  const openSearchModal = () => {
+    setIsSearchOpen(true);
+  };
+
+  const closeSearchModal = () => {
+    setIsSearchOpen(false);
   };
 
   // Close dropdown when clicking outside
@@ -121,12 +131,24 @@ const LanguageNavbar = () => {
         )}
       </LanguageSelector>
 
-      <SearchContainer aria-label="Search" role="button" tabIndex={0}>
+      <SearchContainer 
+        aria-label="Search" 
+        role="button" 
+        tabIndex={0}
+        onClick={openSearchModal}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            openSearchModal();
+          }
+        }}
+      >
         <SearchIcon>
           <Search size={20} />
         </SearchIcon>
         <SearchText>Search</SearchText>
       </SearchContainer>
+
+      <SearchModal isOpen={isSearchOpen} onClose={closeSearchModal} />
     </LanguageNavContainer>
   );
 };
