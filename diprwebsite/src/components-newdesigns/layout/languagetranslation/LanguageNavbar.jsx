@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Youtube, Facebook, Instagram, Linkedin, Search, ChevronDown } from 'lucide-react';
+import { LanguageContext } from '../../../context/LanguageContext';
 import {
   LanguageNavContainer,
   SocialIcons,
@@ -14,7 +15,7 @@ import {
 
 const LanguageNavbar = () => {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const { language, setLanguage, currentMagazineType } = useContext(LanguageContext);
   const dropdownRef = useRef(null);
 
   const languages = [
@@ -23,8 +24,10 @@ const LanguageNavbar = () => {
     { code: 'hi', name: 'Hindi' }
   ];
 
-  const handleLanguageSelect = (language) => {
-    setSelectedLanguage(language.name);
+  const handleLanguageSelect = (selectedLang) => {
+    // If on a magazine page, update that magazine's language
+    // Otherwise, update global language
+    setLanguage(selectedLang.name, currentMagazineType);
     setIsLanguageOpen(false);
   };
 
@@ -91,11 +94,11 @@ const LanguageNavbar = () => {
         <button 
           className="language-button"
           onClick={toggleLanguageDropdown}
-          aria-label={`Current language: ${selectedLanguage}. Click to change`}
+          aria-label={`Current language: ${language}. Click to change`}
           aria-expanded={isLanguageOpen}
           aria-haspopup="true"
         >
-          {selectedLanguage}
+          {language}
           <ChevronDown size={16} className="arrow" aria-hidden="true" />
         </button>
         {isLanguageOpen && (
@@ -106,7 +109,7 @@ const LanguageNavbar = () => {
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageSelect(lang)}
-                  className={selectedLanguage === lang.name ? 'active' : ''}
+                  className={language === lang.name ? 'active' : ''}
                   role="menuitem"
                   aria-label={`Select ${lang.name}`}
                 >
