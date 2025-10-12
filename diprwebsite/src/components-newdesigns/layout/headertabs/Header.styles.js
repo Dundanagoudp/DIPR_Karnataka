@@ -89,6 +89,7 @@ export const NavLinkStyled = styled(NavLink)`
   &.active {
     background-color: ${theme.colors.primary};
     color: ${theme.colors.white};
+    border-radius: 0;
   }
 `;
 
@@ -245,6 +246,7 @@ export const MobileNavLink = styled(NavLink)`
     background-color: ${theme.colors.primary};
     color: ${theme.colors.white};
     font-weight: 600;
+    border-radius: 0;
 
     &::after {
       content: '';
