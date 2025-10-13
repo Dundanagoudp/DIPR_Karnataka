@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useContext } from "react"
+import { LanguageContext } from "../../../context/LanguageContext"
 import {
   FooterWrapper,
   FooterContainer,
@@ -18,18 +19,75 @@ import {
 } from "./sitefooter.styles"
 import { GetTotalVisitorApi, RegisterVisitorApi } from "../../../services/viewsapi/ViewsApi"
 
+// Footer translations for different languages
+const footerTranslations = {
+  English: {
+    note: "Please note that this page also provides links to the websites / web pages of Govt. Ministries/Departments/Organizations. The content of these websites are owned by the respective organizations and they may be contacted for any further information or suggestion.",
+    websitePolicies: "Website Policies",
+    visitors: "Visitors",
+    dateTime: "Date/Time:",
+    visitorsCounter: "Visitors Counter:",
+    version: "Version:",
+    footerInfo: "Footer information",
+    copyright: "Designed, Developed and Hosted by: Digi9 - Web Portal, Government of Karnataka",
+    allRightsReserved: "All Rights Reserved.",
+    policies: [
+      { label: "Copyright Policy", href: "#" },
+      { label: "Hyperlinking Policy", href: "#" },
+      { label: "Security Policy", href: "#" },
+      { label: "Guidelines", href: "#" },
+      { label: "Terms & Conditions", href: "#" },
+      { label: "Privacy Policy", href: "#" },
+      { label: "Help", href: "#" },
+    ]
+  },
+  Kannada: {
+    note: "ಈ ಪುಟವು ಸರ್ಕಾರದ ಜಾಲತಾಣಗಳು/ವೆಬ್ ಪುಟಗಳಿಗೆ ಕೊಂಡಿಗಳನ್ನು ಸಹ ಒದಗಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ದಯವಿಟ್ಟು ಗಮನಿಸಿ. ಸಚಿವಾಲಯಗಳು/ಇಲಾಖೆಗಳು/ಸಂಸ್ಥೆಗಳು. ಈ ಜಾಲತಾಣಗಳ ವಿಷಯವು ಆಯಾ ಸಂಸ್ಥೆಗಳ ಒಡೆತನದಲ್ಲಿದೆ ಮತ್ತು ಯಾವುದೇ ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಅಥವಾ ಸಲಹೆಗಾಗಿ ಅವರನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು.",
+    websitePolicies: "ವೆಬ್‌ಸೈಟ್ ನೀತಿಗಳು",
+    visitors: "ಭೇಟಿಗಾರರು",
+    dateTime: "ದಿನಾಂಕ/ಸಮಯ:",
+    visitorsCounter: "ಭೇಟಿಗಾರರ ಕೌಂಟರ್:",
+    version: "ಆವೃತ್ತಿ:",
+    footerInfo: "ಅಡಿಟಿಪ್ಪಣಿ ಮಾಹಿತಿ",
+    copyright: "ವಿನ್ಯಾಸ, ಅಭಿವೃದ್ಧಿ ಮತ್ತು ಹೋಸ್ಟ್ ಮಾಡಿದವರು: ಡಿಜಿ9 - ವೆಬ್ ಪೋರ್ಟಲ್, ಕರ್ನಾಟಕ ಸರ್ಕಾರ",
+    allRightsReserved: "ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
+    policies: [
+      { label: "ಕಾಪಿರೈಟ್ ನೀತಿ", href: "#" },
+      { label: "ಹೈಪರ್‌ಲಿಂಕಿಂಗ್ ನೀತಿ", href: "#" },
+      { label: "ಭದ್ರತಾ ನೀತಿ", href: "#" },
+      { label: "ಮಾರ್ಗಸೂಚಿಗಳು", href: "#" },
+      { label: "ನಿಯಮಗಳು & ಷರತ್ತುಗಳು", href: "#" },
+      { label: "ಗೌಪ್ಯತೆ ನೀತಿ", href: "#" },
+      { label: "ಸಹಾಯ", href: "#" },
+    ]
+  },
+  Hindi: {
+    note: "कृपया ध्यान दें कि यह पृष्ठ सरकारी मंत्रालयों/विभागों/संगठनों की वेबसाइटों/वेब पेजों के लिंक भी प्रदान करता है। इन वेबसाइटों की सामग्री संबंधित संगठनों के स्वामित्व में है और किसी भी अतिरिक्त जानकारी या सुझाव के लिए उनसे संपर्क किया जा सकता है।",
+    websitePolicies: "वेबसाइट नीतियां",
+    visitors: "आगंतुक",
+    dateTime: "दिनांक/समय:",
+    visitorsCounter: "आगंतुक काउंटर:",
+    version: "संस्करण:",
+    footerInfo: "फुटर जानकारी",
+    copyright: "डिजाइन, विकसित और होस्ट: डिजी9 - वेब पोर्टल, कर्नाटक सरकार",
+    allRightsReserved: "सर्वाधिकार सुरक्षित।",
+    policies: [
+      { label: "कॉपीराइट नीति", href: "#" },
+      { label: "हाइपरलिंकिंग नीति", href: "#" },
+      { label: "सुरक्षा नीति", href: "#" },
+      { label: "दिशानिर्देश", href: "#" },
+      { label: "नियम और शर्तें", href: "#" },
+      { label: "गोपनीयता नीति", href: "#" },
+      { label: "सहायता", href: "#" },
+    ]
+  }
+};
+
 export default function SiteFooter({
-  policies = [
-    { label: "Copyright Policy", href: "#" },
-    { label: "Hyperlinking Policy", href: "#" },
-    { label: "Security Policy", href: "#" },
-    { label: "Guidelines", href: "#" },
-    { label: "Terms & Conditions", href: "#" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Help", href: "#" },
-  ],
+  customPolicies,
   emblemSrc = "/header/karntaka.png",
 }) {
+  const { language, currentMagazineType } = useContext(LanguageContext)
   const [visitorData, setVisitorData] = useState({
     totalVisitors: 0,
   })
@@ -59,22 +117,24 @@ export default function SiteFooter({
     }, 60000)
     return () => clearInterval(intervalId)
   }, [fetchVisitorData])
+  // Get translations based on current language
+  const translations = footerTranslations[language] || footerTranslations.English
+  
+  // Use custom policies if provided, otherwise use translated policies
+  const policies = customPolicies || translations.policies
+  
   return (
     <FooterWrapper role="contentinfo" aria-label="Site footer">
       <FooterContainer>
         <Grid>
           <Left>
             <Emblem src={emblemSrc} alt="Government crest" />
-            <Note>
-              Please note that this page also provides links to the websites / web pages of Govt.
-              Ministries/Departments/Organizations. The content of these websites are owned by the respective
-              organizations and they may be contacted for any further information or suggestion.
-            </Note>
+            <Note>{translations.note}</Note>
           </Left>
 
           <RightColumn>
             <div>
-              <ColTitle>Website Policies</ColTitle>
+              <ColTitle>{translations.websitePolicies}</ColTitle>
               <nav aria-label="Website policies">
                 <LinkList>
                   {policies.map((p, idx) => (
@@ -87,18 +147,18 @@ export default function SiteFooter({
             </div>
 
             <div>
-              <ColTitle>Visitors</ColTitle>
+              <ColTitle>{translations.visitors}</ColTitle>
               <Meta>
                 <div>
-                  <strong>Date/Time: </strong>
+                  <strong>{translations.dateTime} </strong>
                   <span aria-live="polite">{currentTime}</span>
                 </div>
                 <div>
-                  <strong>Visitors Counter: </strong>
+                  <strong>{translations.visitorsCounter} </strong>
                   <span aria-live="polite">{visitorData.totalVisitors}</span>
                 </div>
                 <div>
-                  <strong>Version: </strong>
+                  <strong>{translations.version} </strong>
                   <span>C64/KBN 1.3</span>
                 </div>
               </Meta>
@@ -109,9 +169,9 @@ export default function SiteFooter({
         <Divider />
 
         <BottomBar>
-          <SrOnly>Footer information</SrOnly>
-          Designed, Developed and Hosted by: Digi9 - Web Portal, Government of Karnataka © {new Date().getFullYear()},
-          All Rights Reserved.
+          <SrOnly>{translations.footerInfo}</SrOnly>
+          {translations.copyright} © {new Date().getFullYear()},
+          {translations.allRightsReserved}
         </BottomBar>
       </FooterContainer>
     </FooterWrapper>

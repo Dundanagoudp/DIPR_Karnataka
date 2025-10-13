@@ -12,15 +12,27 @@ export const Section = styled.section`
 
 export const SectionHeader = styled.div`
   margin-bottom: ${theme.spacing(2)};
-  padding-bottom: ${theme.spacing(6)};
+  padding-bottom: ${theme.spacing(1)};
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: ${theme.spacing(2)};
-  padding-right: ${theme.spacing(2)};
+  padding-left: ${theme.spacing(6)};
+  padding-right: ${theme.spacing(6)};
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    padding-left: ${theme.spacing(3)};
+    padding-right: ${theme.spacing(3)};
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding-left: ${theme.spacing(2)};
+    padding-right: ${theme.spacing(2)};
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     margin-bottom: ${theme.spacing(1)};
+    padding-left: ${theme.spacing(1)};
+    padding-right: ${theme.spacing(1)};
   }
 `
 

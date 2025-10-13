@@ -8,7 +8,13 @@ export default function MarchofKarnataka() {
   useEffect(() => {
     // Automatically set to English when this page loads
     setPageLanguage("magazine2");
-  }, []);
+    
+    // Clean up when component unmounts
+    return () => {
+      // Reset to global language when leaving this page
+      setPageLanguage(null);
+    };
+  }, [setPageLanguage]);
 
   return (
     <div>

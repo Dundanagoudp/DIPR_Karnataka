@@ -2,6 +2,8 @@
 import { useMemo, useState, useCallback, useEffect } from "react"
 import {
   Section,
+  SectionHeader,
+  SectionTitle,
   GalleryContainer,
   StaticImage,
   CentralCarousel,
@@ -98,6 +100,9 @@ export default function GallerySection() {
   if (loading) {
     return (
       <Section aria-label="Photo Gallery">
+        <SectionHeader>
+          <SectionTitle>Photo Gallery</SectionTitle>
+        </SectionHeader>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
           Loading photos...
         </div>
@@ -109,6 +114,9 @@ export default function GallerySection() {
   if (error) {
     return (
       <Section aria-label="Photo Gallery">
+        <SectionHeader>
+          <SectionTitle>Photo Gallery</SectionTitle>
+        </SectionHeader>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#f44336' }}>
           {error}
         </div>
@@ -120,6 +128,9 @@ export default function GallerySection() {
   if (photos.length === 0) {
     return (
       <Section aria-label="Photo Gallery">
+        <SectionHeader>
+          <SectionTitle>Photo Gallery</SectionTitle>
+        </SectionHeader>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
           No photos available
         </div>
@@ -131,6 +142,9 @@ export default function GallerySection() {
   if (!active) {
     return (
       <Section aria-label="Photo Gallery">
+        <SectionHeader>
+          <SectionTitle>Photo Gallery</SectionTitle>
+        </SectionHeader>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
           Loading gallery...
         </div>
@@ -140,6 +154,9 @@ export default function GallerySection() {
 
   return (
     <Section aria-label="Photo Gallery">
+      <SectionHeader>
+        <SectionTitle>Photo Gallery</SectionTitle>
+      </SectionHeader>
       <GalleryContainer role="region" aria-label="Gallery single row layout">
         {/* Left side images - dynamically change with carousel */}
         {total > 2 && leftImages.map((img, i) => (
