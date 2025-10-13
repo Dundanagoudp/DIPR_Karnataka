@@ -8,7 +8,13 @@ export default function VarthaJanapada() {
   useEffect(() => {
     // Automatically set to Kannada when this page loads
     setPageLanguage("magazine");
-  }, []);
+    
+    // Clean up when component unmounts
+    return () => {
+      // Reset to global language when leaving this page
+      setPageLanguage(null);
+    };
+  }, [setPageLanguage]);
 
   return (
     <div>
