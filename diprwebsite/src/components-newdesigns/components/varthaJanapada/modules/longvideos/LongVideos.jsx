@@ -28,7 +28,7 @@ const LongVideos = () => {
       setLoading(true);
       try {
         const response = await getLongVideos();
-        if (response.success && Array.isArray(response.data)) {
+        if (response && Array.isArray(response.data)) {
           setArticles(response.data);
         } else {
           setArticles([]);
@@ -73,6 +73,7 @@ const LongVideos = () => {
     );
   }
   
+  // Get the main article and up to 4 small articles
   const mainArticle = articles[0];
   const smallArticles = articles.slice(1, 5);
 
@@ -114,10 +115,10 @@ const LongVideos = () => {
               ) : (
                 <>
                   <ArticleImage 
-                    src={mainArticle.thumbnail || '/public/state/state.jpg'} 
+                    src={mainArticle.thumbnail || '/public/home/home.png'} 
                     alt={mainArticle.title} 
                   />
-                  <Badge>{mainArticle.category || 'VIDEO'}</Badge>
+                  <Badge>{mainArticle.category?.name || 'VIDEO'}</Badge>
                   <PlayButton 
                     onClick={() => handlePlayClick(mainArticle._id, mainArticle.video_url)} 
                     aria-label={`Play ${mainArticle.title}`} 
@@ -147,7 +148,7 @@ const LongVideos = () => {
                   ) : (
                     <>
                       <ArticleImage 
-                        src={article.thumbnail || '/public/state/state.jpg'} 
+                        src={article.thumbnail || '/public/home/home.png'} 
                         alt={article.title} 
                       />
                       <PlayButton 
@@ -158,7 +159,7 @@ const LongVideos = () => {
                   )}
                 </ImageContainer>
                 <ArticleContent>
-                  <Badge>{article.category || 'VIDEO'}</Badge>
+                  <Badge>{article.category?.name || 'VIDEO'}</Badge>
                   <ArticleTitle>{article.title}</ArticleTitle>
                 </ArticleContent>
               </SmallArticle>
