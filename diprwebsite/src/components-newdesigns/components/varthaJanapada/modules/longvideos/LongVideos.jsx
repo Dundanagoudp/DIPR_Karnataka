@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import articleImage from '/public/state/state.jpg';
-import testVideo from '/public/home/testvideos.mp4';
+import { useState, useEffect } from 'react';
+import { getLongVideos } from "../../../../../services/videoApi/videoApi";
 import {
   ArticlesSection,
   Container,
@@ -18,50 +17,78 @@ import {
   ArticleTitle,
 } from './LongVideos.styles';
 
-const articles = [
-  {
-    id: 1,
-    title: 'THE FIRST-EVER DOUBLE-DECKER FLYOVER BUILT IN SOUTH INDIA HAS BEEN OPENED FOR TRAFFIC ON AN EXPERIMENTAL BASIS.',
-    image: articleImage,
-    video: testVideo,
-    badge: 'BUSINESS',
-  },
-  {
-    id: 2,
-    title: 'YADGIR DISTRICT TOURIST PLACES',
-    image: articleImage,
-    video: testVideo,
-    badge: 'BUSINESS',
-  },
-  {
-    id: 3,
-    title: 'YADGIR DISTRICT TOURIST PLACES',
-    image: articleImage,
-    video: testVideo,
-    badge: 'BUSINESS',
-  },
-  {
-    id: 4,
-    title: 'YADGIR DISTRICT TOURIST PLACES',
-    image: articleImage,
-    video: testVideo,
-    badge: 'BUSINESS',
-  },
-  {
-    id: 5,
-    title: 'YADGIR DISTRICT TOURIST PLACES',
-    image: articleImage,
-    video: testVideo,
-    badge: 'BUSINESS',
-  },
-];
-
 const LongVideos = () => {
-  const [mainArticle, ...smallArticles] = articles;
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [playingVideo, setPlayingVideo] = useState(null);
+  
+  useEffect(() => {
+    const fetchVideos = async () => {
+      setLoading(true);
+      try {
+        const response = await getLongVideos();
+        if (response.success && Array.isArray(response.data)) {
+          setArticles(response.data);
+        } else {
+          setArticles([]);
+          setError('Failed to load videos');
+        }
+      } catch (error) {
+        console.error('Error fetching videos:', error);
+        setError('Error loading videos');
+        setArticles([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchVideos();
+  }, []);
+  
+  // If no articles are loaded yet, return null or loading state
+  if (loading) {
+    return (
+      <ArticlesSection>
+        <Container>
+          <SectionHeader>
+            <Title>Latest Videos</Title>
+          </SectionHeader>
+          <div>Loading videos...</div>
+        </Container>
+      </ArticlesSection>
+    );
+  }
+  
+  if (error || articles.length === 0) {
+    return (
+      <ArticlesSection>
+        <Container>
+          <SectionHeader>
+            <Title>Latest Videos</Title>
+          </SectionHeader>
+          <div>{error || 'No videos available'}</div>
+        </Container>
+      </ArticlesSection>
+    );
+  }
+  
+  const mainArticle = articles[0];
+  const smallArticles = articles.slice(1, 5);
 
   const handlePlayClick = (articleId, videoSrc) => {
     setPlayingVideo(playingVideo === articleId ? null : articleId);
+    
+    // Force the video to load and play after a short delay
+    setTimeout(() => {
+      const videoElement = document.getElementById(articleId);
+      if (videoElement) {
+        videoElement.load(); // Reload the video source
+        videoElement.play().catch((error) => {
+          console.error("Error playing video:", error);
+        });
+      }
+    }, 100);
   };
 
   return (
@@ -75,9 +102,10 @@ const LongVideos = () => {
           {/* Main Large Article */}
           <MainArticle>
             <ImageContainer large>
-              {playingVideo === mainArticle.id ? (
+              {playingVideo === mainArticle._id ? (
                 <video
-                  src={mainArticle.video}
+                  id={mainArticle._id}
+                  src={mainArticle.video_url}
                   controls
                   autoPlay
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
@@ -85,9 +113,15 @@ const LongVideos = () => {
                 />
               ) : (
                 <>
-                  <ArticleImage src={mainArticle.image} alt={mainArticle.title} />
-                  <Badge>{mainArticle.badge}</Badge>
-                  <PlayButton onClick={() => handlePlayClick(mainArticle.id, mainArticle.video)} aria-label={`Play ${mainArticle.title}`} />
+                  <ArticleImage 
+                    src={mainArticle.thumbnail || '/public/state/state.jpg'} 
+                    alt={mainArticle.title} 
+                  />
+                  <Badge>{mainArticle.category || 'VIDEO'}</Badge>
+                  <PlayButton 
+                    onClick={() => handlePlayClick(mainArticle._id, mainArticle.video_url)} 
+                    aria-label={`Play ${mainArticle.title}`} 
+                  />
                   <ArticleContent>
                     <ArticleTitle large>{mainArticle.title}</ArticleTitle>
                   </ArticleContent>
@@ -99,11 +133,12 @@ const LongVideos = () => {
           {/* Small Articles Grid */}
           <SmallArticlesGrid>
             {smallArticles.map((article) => (
-              <SmallArticle key={article.id}>
+              <SmallArticle key={article._id}>
                 <ImageContainer>
-                  {playingVideo === article.id ? (
+                  {playingVideo === article._id ? (
                     <video
-                      src={article.video}
+                      id={article._id}
+                      src={article.video_url}
                       controls
                       autoPlay
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
@@ -111,13 +146,19 @@ const LongVideos = () => {
                     />
                   ) : (
                     <>
-                      <ArticleImage src={article.image} alt={article.title} />
-                      <PlayButton onClick={() => handlePlayClick(article.id, article.video)} aria-label={`Play ${article.title}`} />
+                      <ArticleImage 
+                        src={article.thumbnail || '/public/state/state.jpg'} 
+                        alt={article.title} 
+                      />
+                      <PlayButton 
+                        onClick={() => handlePlayClick(article._id, article.video_url)} 
+                        aria-label={`Play ${article.title}`} 
+                      />
                     </>
                   )}
                 </ImageContainer>
                 <ArticleContent>
-                  <Badge>{article.badge}</Badge>
+                  <Badge>{article.category || 'VIDEO'}</Badge>
                   <ArticleTitle>{article.title}</ArticleTitle>
                 </ArticleContent>
               </SmallArticle>
