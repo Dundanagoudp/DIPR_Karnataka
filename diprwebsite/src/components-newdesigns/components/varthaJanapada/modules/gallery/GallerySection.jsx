@@ -13,6 +13,10 @@ import {
   Caption,
   NavButton,
   ArrowIcon,
+  SkeletonImage,
+  SkeletonMainCard,
+  SkeletonMainImage,
+  SkeletonCaption,
 } from "./GallerySection.styles"
 import { PhotosApi } from "../../../../../services/gallery/GalleryApi"
 
@@ -41,12 +45,23 @@ export default function GallerySection() {
         // Filter only approved photos and map to the format we need
         const formattedPhotos = response
           .filter(photo => photo.status === "approved")
-          .map(photo => ({
-            src: photo.photoImage,
-            alt: photo.title || `Photo by ${photo.createdBy?.displayName || 'Admin'}`,
-            title: photo.title || 'Untitled',
-            id: photo._id
-          }))
+          .map(photo => {
+            // Get title based on language
+            const langKey = language === "English" ? "english" : 
+                           language === "Hindi" ? "hindi" : "kannada"
+            
+            const title = photo[langKey] || photo.title || 'Untitled'
+            
+            return {
+              src: photo.photoImage,
+              alt: title,
+              title: title,
+              id: photo._id,
+              english: photo.english,
+              kannada: photo.kannada,
+              hindi: photo.hindi
+            }
+          })
         
         setPhotos(formattedPhotos)
         setError(null)
@@ -59,7 +74,7 @@ export default function GallerySection() {
     }
 
     fetchPhotos()
-  }, [])
+  }, [language])
 
   const carouselImages = photos.length > 0 ? photos : []
   const total = carouselImages.length
@@ -88,22 +103,69 @@ export default function GallerySection() {
     return () => window.removeEventListener("keydown", onKey)
   }, [next, prev])
 
-  const active = useMemo(() => carouselImages[index], [index, carouselImages])
+  const active = useMemo(() => {
+    const image = carouselImages[index]
+    if (!image) return null
+    
+    // Get title based on current language
+    const langKey = language === "English" ? "english" : 
+                   language === "Hindi" ? "hindi" : "kannada"
+    
+    return {
+      ...image,
+      title: image[langKey] || image.title || 'Untitled'
+    }
+  }, [index, carouselImages, language])
 
   // Calculate side images based on current index
   const leftImages = useMemo(() => {
     if (total === 0) return []
     const prevIndex1 = (index - 1 + total) % total
     const prevIndex2 = (index - 2 + total) % total
-    return [carouselImages[prevIndex2], carouselImages[prevIndex1]]
-  }, [index, total, carouselImages])
+    
+    const langKey = language === "English" ? "english" : 
+                   language === "Hindi" ? "hindi" : "kannada"
+    
+    return [carouselImages[prevIndex2], carouselImages[prevIndex1]].map(img => ({
+      ...img,
+      alt: img[langKey] || img.title || 'Untitled'
+    }))
+  }, [index, total, carouselImages, language])
 
   const rightImages = useMemo(() => {
     if (total === 0) return []
     const nextIndex1 = (index + 1) % total
     const nextIndex2 = (index + 2) % total
-    return [carouselImages[nextIndex1], carouselImages[nextIndex2]]
-  }, [index, total, carouselImages])
+    
+    const langKey = language === "English" ? "english" : 
+                   language === "Hindi" ? "hindi" : "kannada"
+    
+    return [carouselImages[nextIndex1], carouselImages[nextIndex2]].map(img => ({
+      ...img,
+      alt: img[langKey] || img.title || 'Untitled'
+    }))
+  }, [index, total, carouselImages, language])
+
+  // Skeleton loading component
+  const SkeletonLoader = () => (
+    <GalleryContainer role="region" aria-label="Loading gallery">
+      {/* Left side skeleton images */}
+      <SkeletonImage />
+      <SkeletonImage />
+
+      {/* Central skeleton carousel */}
+      <CentralCarousel>
+        <SkeletonMainCard>
+          <SkeletonMainImage />
+        </SkeletonMainCard>
+        <SkeletonCaption />
+      </CentralCarousel>
+
+      {/* Right side skeleton images */}
+      <SkeletonImage />
+      <SkeletonImage />
+    </GalleryContainer>
+  )
 
   // Show loading state
   if (loading) {
@@ -112,11 +174,7 @@ export default function GallerySection() {
         <SectionHeader>
           <SectionTitle>{headerText[language] || "Photo Gallery"}</SectionTitle>
         </SectionHeader>
-        <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
-          {language === "English" ? "Loading photos..." : 
-           language === "Kannada" ? "ಫೋಟೋಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ..." : 
-           language === "Hindi" ? "फोटो लोड हो रहे हैं..." : "Loading photos..."}
-        </div>
+        <SkeletonLoader />
       </Section>
     )
   }

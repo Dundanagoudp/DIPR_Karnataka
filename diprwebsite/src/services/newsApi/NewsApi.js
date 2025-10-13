@@ -74,3 +74,12 @@ export const getNewsByTypeState = async () => {
     throw error;
   }
 }
+
+export const getNewsByTypeDistrict = async () => {
+  try{
+    const response = await apiClient.get("api/news/getNewsByNewsType/districtnews");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

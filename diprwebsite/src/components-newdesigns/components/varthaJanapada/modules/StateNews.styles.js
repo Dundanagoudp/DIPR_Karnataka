@@ -429,3 +429,115 @@ export const SmallTitle = styled.h4`
     font-size: clamp(13px, 1.5vw, 15px);
   }
 `
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonFeaturedCard = styled.div`
+  background: ${theme.colors.white};
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid ${theme.colors.gray[200]};
+  ${shimmer}
+`
+
+export const SkeletonFeaturedImage = styled.div`
+  width: 100%;
+  min-height: 380px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    min-height: 350px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    min-height: 320px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    min-height: 280px;
+  }
+`
+
+export const SkeletonMetaBar = styled.div`
+  padding: ${theme.spacing1(5)};
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing1(2)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing1(3.5)};
+  }
+`
+
+export const SkeletonText = styled.div`
+  width: ${props => props.$width || '100%'};
+  height: ${props => props.$height || '16px'};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+`
+
+export const SkeletonSmallCard = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: ${theme.colors.white};
+  overflow: hidden;
+  height: 162px;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    height: 160px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 140px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 130px;
+  }
+`
+
+export const SkeletonThumb = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+`

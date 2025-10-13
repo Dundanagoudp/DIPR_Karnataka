@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { LanguageContext } from '../../../../../context/LanguageContext'
+import { getNewsByTypeDistrict } from '../../../../../services/newsApi/NewsApi'
 import {
   ArticlesSection,
   Container,
@@ -17,41 +19,19 @@ import {
   ArticleDate,
   PaginationDots,
   Dot,
+  SkeletonCard,
+  SkeletonImage,
+  SkeletonContent,
+  SkeletonTitle,
+  SkeletonDate,
 } from './ArticlesNews.styles'
 
-const defaultArticles = [
-  {
-    id: 1,
-    title: 'Yadgir District Tourist Places',
-    date: 'June 19, 2025 06:00pm',
-    image: '/state/state.jpg',
-    number: '01',
-  },
-  {
-    id: 2,
-    title: 'Yadgir District Tourist Places',
-    date: 'June 19, 2025 06:00pm',
-    image: '/state/2ndimage.jpg',
-    number: '02',
-  },
-  {
-    id: 3,
-    title: 'Yadgir District Tourist Places',
-    date: 'June 19, 2025 06:00pm',
-    image: '/state/2ndsection.jpg',
-    number: '03',
-  },
-  {
-    id: 4,
-    title: 'Yadgir District Tourist Places',
-    date: 'June 19, 2025 06:00pm',
-    image: '/state/rightside.jpg',
-    number: '04',
-  },
-]
-
-export default function ArticlesNews({ articles = defaultArticles }) {
+export default function ArticlesNews() {
+  const { language } = useContext(LanguageContext)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [rawData, setRawData] = useState([])
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
   
   // Get items per page based on screen size
   const getItemsPerPage = () => {
@@ -63,6 +43,74 @@ export default function ArticlesNews({ articles = defaultArticles }) {
   }
 
   const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage())
+
+  // Fetch district news
+  useEffect(() => {
+    const fetchDistrictNews = async () => {
+      try {
+        setLoading(true)
+        const response = await getNewsByTypeDistrict()
+        console.log("District news API response:", response)
+        
+        if (response?.success && Array.isArray(response.data)) {
+          // Filter by magazineType and newsType
+          const filteredData = response.data.filter(item => 
+            item.magazineType === "magazine" && 
+            item.newsType === "districtnews"
+          )
+          console.log("Filtered district news:", filteredData)
+          setRawData(filteredData)
+        } else {
+          setRawData([])
+        }
+      } catch (error) {
+        console.error("Error fetching district news:", error)
+        setRawData([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchDistrictNews()
+  }, [])
+
+  // Process data based on language
+  useEffect(() => {
+    if (rawData.length > 0) {
+      const langKey = language === "English" ? "English" : 
+                     language === "Hindi" ? "hindi" : "kannada"
+      
+      const processedData = rawData.map((item, index) => {
+        // Get title and limit to 50 characters for one line
+        const fullTitle = item[langKey]?.title || item.title || ""
+        const limitedTitle = fullTitle.length > 50 ? fullTitle.substring(0, 50) + "..." : fullTitle
+        
+        return {
+          id: item._id,
+          title: limitedTitle,
+          date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : "",
+          image: item.newsImage || "/placeholder.svg",
+          number: String(index + 1).padStart(2, '0'),
+          publishedAt: item.publishedAt
+        }
+      })
+
+      // Sort by latest published date (newest first)
+      const sortedByLatest = [...processedData].sort((a, b) => {
+        const dateA = new Date(a.publishedAt || 0)
+        const dateB = new Date(b.publishedAt || 0)
+        return dateB - dateA // Descending order (latest first)
+      })
+
+      // Re-number after sorting
+      const reNumbered = sortedByLatest.map((item, index) => ({
+        ...item,
+        number: String(index + 1).padStart(2, '0')
+      }))
+
+      setArticles(reNumbered)
+    }
+  }, [rawData, language])
 
   // Update items per page on window resize
   useEffect(() => {
@@ -90,6 +138,21 @@ export default function ArticlesNews({ articles = defaultArticles }) {
   const canGoPrevious = currentIndex > 0
   const canGoNext = currentIndex < articles.length - itemsPerPage
 
+  // Skeleton loading component
+  const SkeletonLoader = () => (
+    <ArticlesGrid>
+      {Array.from({ length: itemsPerPage }).map((_, idx) => (
+        <SkeletonCard key={idx}>
+          <SkeletonImage />
+          <SkeletonContent>
+            <SkeletonTitle />
+            <SkeletonDate />
+          </SkeletonContent>
+        </SkeletonCard>
+      ))}
+    </ArticlesGrid>
+  )
+
   return (
     <ArticlesSection aria-labelledby="articles-heading">
       <Container>
@@ -103,34 +166,38 @@ export default function ArticlesNews({ articles = defaultArticles }) {
           {/* Previous Button */}
           <NavButton
             onClick={handlePrevious}
-            disabled={!canGoPrevious}
+            disabled={!canGoPrevious || loading}
             position="left"
             aria-label="Previous articles"
           >
             <span aria-hidden="true">&#10094;</span>
           </NavButton>
 
-          {/* Articles Grid */}
-          <ArticlesGrid>
-            {visibleArticles.map((article) => (
-              <ArticleCard key={article.id} aria-label={article.title}>
-                <ArticleImageWrapper>
-                  <ArticleImage src={article.image} alt={article.title} />
-                  <ImageOverlay aria-hidden="true" />
-                  <ArticleNumber aria-hidden="true">{article.number}</ArticleNumber>
-                </ArticleImageWrapper>
-                <ArticleContent>
-                  <ArticleTitle>{article.title}</ArticleTitle>
-                  <ArticleDate>{article.date}</ArticleDate>
-                </ArticleContent>
-              </ArticleCard>
-            ))}
-          </ArticlesGrid>
+          {/* Articles Grid or Skeleton */}
+          {loading ? (
+            <SkeletonLoader />
+          ) : (
+            <ArticlesGrid>
+              {visibleArticles.map((article) => (
+                <ArticleCard key={article.id} aria-label={article.title}>
+                  <ArticleImageWrapper>
+                    <ArticleImage src={article.image} alt={article.title} />
+                    <ImageOverlay aria-hidden="true" />
+                    <ArticleNumber aria-hidden="true">{article.number}</ArticleNumber>
+                  </ArticleImageWrapper>
+                  <ArticleContent>
+                    <ArticleTitle>{article.title}</ArticleTitle>
+                    <ArticleDate>{article.date}</ArticleDate>
+                  </ArticleContent>
+                </ArticleCard>
+              ))}
+            </ArticlesGrid>
+          )}
 
           {/* Next Button */}
           <NavButton
             onClick={handleNext}
-            disabled={!canGoNext}
+            disabled={!canGoNext || loading}
             position="right"
             aria-label="Next articles"
           >
