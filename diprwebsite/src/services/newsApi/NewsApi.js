@@ -65,3 +65,12 @@ export const getLatestNews = async () => {
     throw error;
   }
 }
+
+export const getNewsByTypeState = async () => {
+  try{
+    const response = await apiClient.get("api/news/getNewsByNewsType/statenews");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

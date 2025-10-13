@@ -9,53 +9,120 @@ import {
   Sidebar,
   SideCard,
 } from "./featured-news.styles"
+import { LanguageContext } from "../../../../../context/LanguageContext"
+import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi"
+import { useState, useEffect, useContext } from "react"
+import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
 
-export default function FeaturedNewsSection({
-  featured = {
-    image: "/state/2ndimage.jpg",
-    category: "Politics",
-    date: "March 20, 2025",
-    title: "Climate Change Protesters Clash with Police in City L",
-    excerpt:
-      "Climate change activists took to the streets of City L to demand urgent action to tackle the climate crisis. The protests turned violent, with clashes between protesters and police resulting in several arrests.",
+// Define initial states
+const initialFeatured = {
+  image: "/placeholder.svg",
+  category: "",
+  date: "",
+  title: "",
+  excerpt: "",
+}
+
+const initialSideItems = [
+  {
+    image: "/placeholder.svg",
+    category: "",
+    date: "",
+    title: "",
+    excerpt: "",
   },
-  sideItems = [
-    {
-      image: "/state/2ndsection.jpg",
-      category: "Technology",
-      date: "March 20, 2025",
-      title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
-      excerpt:
-        "The E Union is preparing to file antitrust lawsuits against several major tech companies for alleged anti-competitive behavior.",
-    },
-    {
-      image: "/state/rightside.jpg",
-      category: "Technology",
-      date: "March 20, 2025",
-      title: "Juice Unveils New Phone with Advanced Features",
-      excerpt: "The latest model features new capabilities including a foldable screen and improved camera system.",
-    },
-  ],
-}) {
+  {
+    image: "/placeholder.svg",
+    category: "",
+    date: "",
+    title: "",
+    excerpt: "",
+  },
+]
+
+export default function FeaturedNewsSection() {
+  const [rawData, setRawData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [featuredNews, setFeaturedNews] = useState(initialFeatured)
+  const [sideItems, setSideItems] = useState(initialSideItems)
+  const [categories, setCategories] = useState([])
+  const { language } = useContext(LanguageContext)
+
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await CategoryApi()
+      if (response?.success && Array.isArray(response.data)) {
+        setCategories(response.data)
+     
+      }
+    }
+    fetchCategories()
+  }, [])
+  useEffect(() => {
+    const fetchFeaturedNews = async () => {
+      try {
+        const response = await getNewsByTypeState()
+        if (response?.success && Array.isArray(response.data)) {
+          setRawData(response.data)
+   
+        } else {
+         
+        }
+      } catch (error) {
+        console.error("Error fetching news data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchFeaturedNews()
+  }, [language])
+
+  useEffect(() => {
+    if (rawData.length > 0) {
+      const normalized = rawData.map((item) => {
+        const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
+      
+               const categoryId = item.category
+   
+     // Find the category name based on the category ID
+     const category = categories.find((cat) => cat._id === categoryId)
+     const categoryName = category ? (language === "English" ? category.name : language === "Hindi" ? category.hindi : category.kannada) : "Uncategorized"
+
+
+        return {
+          image: item.newsImage || "/placeholder.svg",
+          category: categoryName || "",
+          date: item[langKey]?.date || "",
+          title: item[langKey]?.title || "",
+          excerpt: item[langKey]?.description || "",
+        }
+      })
+
+      const shuffled = [...normalized].sort(() => Math.random() - 0.5)
+      const randomOne = shuffled[0] || initialFeatured
+      const randomTwo = shuffled.slice(1, 3) || initialSideItems
+      setFeaturedNews(randomOne)
+      setSideItems(randomTwo)
+    }
+  }, [language, rawData, categories])
+
   return (
     <Section aria-label="Featured news">
       <Container>
         <LeftImageWrap>
-          <img src={featured.image || "/placeholder.svg"} alt="Lead story image" loading="eager" />
+          <img src={featuredNews.image || "/placeholder.svg"} alt="Lead story image" loading="eager" />
         </LeftImageWrap>
-
         <MainContent>
           <MetaRow>
-            <Tag aria-label={`Category: ${featured.category}`}>{featured.category}</Tag>
-            <DateText dateTime="2025-03-20">{featured.date}</DateText>
+            <Tag aria-label={`Category: ${featuredNews.category}`}>{featuredNews.category}</Tag>
+            <DateText dateTime="2025-03-20">{featuredNews.date}</DateText>
           </MetaRow>
-
-          <h2>{featured.title}</h2>
-          <p>{featured.excerpt}</p>
+          <h2>{featuredNews.title.slice(0, 50) + "..."}</h2>
+          <p>{featuredNews.excerpt.slice(0, 150) + "..."}</p>
         </MainContent>
-
         <Sidebar aria-label="More top stories" role="complementary">
-          {sideItems.slice(0, 2).map((item, idx) => (
+          {sideItems.map((item, idx) => (
             <SideCard key={idx} role="article" aria-label={item.title}>
               <div className="thumb">
                 <img src={item.image || "/placeholder.svg"} alt="Story thumbnail" loading="lazy" />
@@ -65,8 +132,8 @@ export default function FeaturedNewsSection({
                   <Tag aria-label={`Category: ${item.category}`}>{item.category}</Tag>
                   <DateText dateTime="2025-03-20">{item.date}</DateText>
                 </MetaRow>
-                <h3>{item.title}</h3>
-                <p>{item.excerpt}</p>
+                <h3>{item.title.slice(0, 50) + "..."}</h3>
+                <p>{item.excerpt.slice(0, 150) + "..."}</p>
               </div>
             </SideCard>
           ))}
