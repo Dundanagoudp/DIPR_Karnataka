@@ -1,5 +1,4 @@
-
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { IoChevronBack, IoChevronForward } from "react-icons/io5"
 import {
   HeroWrap,
@@ -14,6 +13,12 @@ import {
   ArrowBtn,
   RightDivider,
 } from "./Heronews.styles"
+import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi"
+import { LanguageContext } from "../../../../../context/LanguageContext"
+
+
+
+const LANG_MAP = { English: "en", kannada: "kn", hindi: "hi" }
 
 const FALLBACK_ITEMS = [
   {
@@ -35,15 +40,78 @@ const FALLBACK_ITEMS = [
   },
 ]
 
-export default function NewsHero({ items = FALLBACK_ITEMS }) {
+export default function NewsHero() {
   const [index, setIndex] = React.useState(0)
-  const len = items.length
+ const { language } = useContext(LanguageContext)
+
+ let lang = language
+ 
+
+ const [stateNews, setStateNews] = useState([])
+ const [rawData, setRawData] = useState([])
+ const [loading, setLoading] = useState(true)
+
+ useEffect(() => {
+  let mounted = true
+  const fetchStateNews = async () => {
+    try {
+      setLoading(true)
+      const response = await getNewsByTypeState()
+      console.log("State news:", response.data)
+      if (response?.success && Array.isArray(response.data)) {
+
+        if (mounted) {
+          setRawData(response.data)
+          setIndex(0) // reset carousel to start of API data
+        }
+      } else {
+        if (mounted) setRawData([])
+      }
+    } catch (err) {
+      console.error("Error fetching state news:", err)
+      if (mounted) setRawData([])
+    } finally {
+      if (mounted) setLoading(false)
+    }
+  }
+  fetchStateNews()
+  return () => {
+    mounted = false
+  }
+}, [ language ])
+
+ useEffect(()=>{
+  if(rawData.length > 0){
+  const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
+  const normalized = rawData.map((it, i) => ({
+    id: it._id ?? it.id ?? `api-${i}`,
+    title: it[langKey]?.title.slice(0, 50) + "..." ?? "",
+    excerpt: it[langKey]?.description.slice(0, 150) + "..." ?? "",
+    image: it.newsImage ?? "/placeholder.svg",
+  }))
+  setStateNews(normalized)
+  }
+ }, [language, rawData])
+ 
+  // Choose API data when available, otherwise use fallback prop ? stateNews :
+  // const itemsToShow = stateNews.length ? stateNews : items
+  const len = stateNews.length
+
+  // keep index in-range if items length changes
+  useEffect(() => {
+    if (len === 0) {
+      setIndex(0)
+      return
+    }
+    setIndex((i) => (i >= len ? 0 : i))
+  }, [len])
 
   const go = (next) => {
+    if (len === 0) return
     setIndex((i) => (i + (next ? 1 : -1) + len) % len)
   }
 
-  const current = items[index]
+  const current = stateNews[index] || stateNews[0] || {}
 
   return (
     <HeroWrap aria-roledescription="carousel" aria-label="Top stories">
@@ -59,7 +127,7 @@ export default function NewsHero({ items = FALLBACK_ITEMS }) {
 
           <BottomBar>
             <Dots role="tablist" aria-label="Slide progress">
-              {items.map((_, i) => (
+              {stateNews.map((_, i) => (
                 <Dot
                   key={i}
                   onClick={() => setIndex(i)}
@@ -101,3 +169,4 @@ export default function NewsHero({ items = FALLBACK_ITEMS }) {
     </HeroWrap>
   )
 }
+

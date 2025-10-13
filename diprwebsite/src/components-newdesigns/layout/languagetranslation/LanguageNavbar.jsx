@@ -26,6 +26,9 @@ const LanguageNavbar = () => {
     { code: 'hi', name: 'Hindi' }
   ];
 
+
+  
+
   const handleLanguageSelect = (selectedLang) => {
     // If on a magazine page, update that magazine's language
     // Otherwise, update global language
