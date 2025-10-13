@@ -32,7 +32,8 @@ export default function GallerySection() {
           .filter(photo => photo.status === "approved")
           .map(photo => ({
             src: photo.photoImage,
-            alt: `Photo by ${photo.createdBy?.displayName || 'Admin'}`,
+            alt: photo.title || `Photo by ${photo.createdBy?.displayName || 'Admin'}`,
+            title: photo.title || 'Untitled',
             id: photo._id
           }))
         
@@ -193,7 +194,7 @@ export default function GallerySection() {
           </MainCard>
           
           {/* Caption OUTSIDE the card */}
-          {/* <Caption>{active.alt}</Caption> */}
+          <Caption>{active.title}</Caption>
         </CentralCarousel>
 
         {/* Right side images - dynamically change with carousel */}
