@@ -53,6 +53,19 @@ export default function StateNews({ onSeeMore }) {
   const [loading, setLoading] = useState(true)
   const [categories, setCategories] = useState([])
 
+  // Header text translations
+  const headerText = {
+    English: "State News",
+    Kannada: "ರಾಜ್ಯ ಸುದ್ದಿ",
+    Hindi: "राज्य समाचार"
+  }
+
+  const seeMoreText = {
+    English: "See more",
+    Kannada: "ಇನ್ನಷ್ಟು ನೋಡಿ",
+    Hindi: "और देखें"
+  }
+
   // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
@@ -180,13 +193,13 @@ export default function StateNews({ onSeeMore }) {
   return (
     <Section aria-labelledby="state-news-heading">
       <HeaderRow>
-        <Title id="state-news-heading">State News</Title>
+        <Title id="state-news-heading">{headerText[language] || "State News"}</Title>
         <SeeMore
           as={Link}
           to="/state"
-          aria-label="See more state news"
+          aria-label={`${seeMoreText[language] || "See more"} ${headerText[language] || "state news"}`}
         >
-          See more
+          {seeMoreText[language] || "See more"}
           <ArrowIcon aria-hidden="true">
             <svg 
               width="20" 

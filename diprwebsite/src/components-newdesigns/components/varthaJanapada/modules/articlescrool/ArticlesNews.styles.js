@@ -132,6 +132,8 @@ export const ArticlesGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: ${theme.spacing1(6)};
   transition: all 0.3s ease;
+  max-width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(2, 1fr);
@@ -152,10 +154,12 @@ export const ArticleCard = styled.article`
   display: flex;
   flex-direction: column;
   background: transparent;
-  overflow: visible;
+  overflow: hidden;
   transition: ${theme.transitions.fast};
   cursor: pointer;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 
   &:hover {
     transform: translateY(-2px);
@@ -169,8 +173,10 @@ export const ArticleCard = styled.article`
 export const ArticleImageWrapper = styled.div`
   position: relative;
   width: 100%;
+  max-width: 100%;
   height: 280px;
   overflow: hidden;
+  box-sizing: border-box;
 
   @media (max-width: ${theme.breakpoints.desktop}) {
     height: 260px;
@@ -188,8 +194,10 @@ export const ArticleImageWrapper = styled.div`
 export const ArticleImage = styled.img`
   width: 100%;
   height: 100%;
+  max-width: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  display: block;
 
   ${ArticleCard}:hover & {
     transform: scale(1.05);

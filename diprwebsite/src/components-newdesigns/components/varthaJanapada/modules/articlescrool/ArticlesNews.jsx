@@ -33,6 +33,13 @@ export default function ArticlesNews() {
   const [articles, setArticles] = useState([])
   const [loading, setLoading] = useState(true)
   
+  // Header text translations
+  const headerText = {
+    English: "Articles",
+    Kannada: "ಲೇಖನಗಳು",
+    Hindi: "लेख"
+  }
+  
   // Get items per page based on screen size
   const getItemsPerPage = () => {
     if (typeof window === 'undefined') return 3
@@ -158,7 +165,7 @@ export default function ArticlesNews() {
       <Container>
         {/* Section Header */}
         <SectionHeader>
-          <Title id="articles-heading">Articles</Title>
+          <Title id="articles-heading">{headerText[language] || "Articles"}</Title>
         </SectionHeader>
 
         {/* Articles Carousel */}
