@@ -20,9 +20,15 @@ export default function NewsSidebar({
   ],
 }) {
   return (
-    <Aside aria-label="Latest stories">
+    <Aside role="complementary" aria-labelledby="sidebar-heading">
+      <h3 
+        id="sidebar-heading" 
+        style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+      >
+        Recent District News
+      </h3>
       {items.map((item, index) => (
-        <SidebarCard key={index} {...item} />
+        <SidebarCard key={index} index={index + 1} {...item} />
       ))}
     </Aside>
   )

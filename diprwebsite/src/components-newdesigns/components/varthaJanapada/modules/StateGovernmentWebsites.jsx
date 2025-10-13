@@ -20,9 +20,9 @@ export default function StateGovernmentWebsites({ sites = defaultSites }) {
   return (
     <SidebarCard aria-labelledby="state-sites-heading">
       <SidebarHeader id="state-sites-heading">State Government Websites</SidebarHeader>
-      <SidebarList>
+      <SidebarList aria-label="Government websites list">
         {sites.map((s, i) => (
-          <SidebarItem key={i}>
+          <SidebarItem key={i} aria-label={`Visit ${s.label}`}>
             <Avatar $src={s.image} aria-hidden="true" />
             <ItemLabel>{s.label}</ItemLabel>
           </SidebarItem>

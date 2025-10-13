@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from "react"
 import {
   FooterWrapper,
   FooterContainer,
@@ -15,6 +16,7 @@ import {
   BottomBar,
   SrOnly,
 } from "./sitefooter.styles"
+import { GetTotalVisitorApi, RegisterVisitorApi } from "../../../services/viewsapi/ViewsApi"
 
 export default function SiteFooter({
   policies = [
@@ -26,13 +28,37 @@ export default function SiteFooter({
     { label: "Privacy Policy", href: "#" },
     { label: "Help", href: "#" },
   ],
-  visitors = {
-    dateTime: "7/25/2025, 3:20:35 PM",
-    count: "559",
-    version: "C64/KBN",
-  },
   emblemSrc = "/header/karntaka.png",
 }) {
+  const [visitorData, setVisitorData] = useState({
+    totalVisitors: 0,
+  })
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleString())
+
+  const fetchVisitorData = useCallback(async () => {
+    try {
+      const isVisited = sessionStorage.getItem("isVisited")
+      if (!isVisited) {
+        await RegisterVisitorApi()
+        sessionStorage.setItem("isVisited", "true")
+      }
+      const totalVisitorsResponse = await GetTotalVisitorApi()
+      setVisitorData({
+        totalVisitors: totalVisitorsResponse.totalVisits,
+      })
+    } catch (error) {
+      console.error("Error fetching visitor data:", error)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchVisitorData()
+    // Update time every minute for better performance
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date().toLocaleString())
+    }, 60000)
+    return () => clearInterval(intervalId)
+  }, [fetchVisitorData])
   return (
     <FooterWrapper role="contentinfo" aria-label="Site footer">
       <FooterContainer>
@@ -65,15 +91,15 @@ export default function SiteFooter({
               <Meta>
                 <div>
                   <strong>Date/Time: </strong>
-                  <span>{visitors.dateTime}</span>
+                  <span aria-live="polite">{currentTime}</span>
                 </div>
                 <div>
                   <strong>Visitors Counter: </strong>
-                  <span>{visitors.count}</span>
+                  <span aria-live="polite">{visitorData.totalVisitors}</span>
                 </div>
                 <div>
                   <strong>Version: </strong>
-                  <span>{visitors.version}</span>
+                  <span>C64/KBN 1.3</span>
                 </div>
               </Meta>
             </div>

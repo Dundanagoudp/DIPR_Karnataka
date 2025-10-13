@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Youtube, Facebook, Instagram, Linkedin, Search, ChevronDown } from 'lucide-react';
+import { LanguageContext } from '../../../context/LanguageContext';
+import SearchModal from '../searchsection/SearchModal';
 import {
   LanguageNavContainer,
   SocialIcons,
@@ -14,19 +16,20 @@ import {
 
 const LanguageNavbar = () => {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { language, setLanguage, currentMagazineType } = useContext(LanguageContext);
   const dropdownRef = useRef(null);
 
   const languages = [
     { code: 'kn', name: 'Kannada' },
     { code: 'en', name: 'English' },
-    { code: 'ta', name: 'Tamil' },
-    { code: 'te', name: 'Telugu' },
     { code: 'hi', name: 'Hindi' }
   ];
 
-  const handleLanguageSelect = (language) => {
-    setSelectedLanguage(language.name);
+  const handleLanguageSelect = (selectedLang) => {
+    // If on a magazine page, update that magazine's language
+    // Otherwise, update global language
+    setLanguage(selectedLang.name, currentMagazineType);
     setIsLanguageOpen(false);
   };
 
@@ -36,6 +39,14 @@ const LanguageNavbar = () => {
 
   const closeDropdown = () => {
     setIsLanguageOpen(false);
+  };
+
+  const openSearchModal = () => {
+    setIsSearchOpen(true);
+  };
+
+  const closeSearchModal = () => {
+    setIsSearchOpen(false);
   };
 
   // Close dropdown when clicking outside
@@ -74,18 +85,18 @@ const LanguageNavbar = () => {
 
   return (
     <LanguageNavContainer>
-      <SocialIcons>
-        <SocialIcon href="#" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-          <Youtube size={22} />
+      <SocialIcons aria-label="Social media links">
+        <SocialIcon href="#" aria-label="Visit our YouTube channel" target="_blank" rel="noopener noreferrer">
+          <Youtube size={22} aria-hidden="true" />
         </SocialIcon>
-        <SocialIcon href="#" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-          <Facebook size={22} />
+        <SocialIcon href="#" aria-label="Visit our Facebook page" target="_blank" rel="noopener noreferrer">
+          <Facebook size={22} aria-hidden="true" />
         </SocialIcon>
-        <SocialIcon href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-          <Instagram size={22} />
+        <SocialIcon href="#" aria-label="Visit our Instagram page" target="_blank" rel="noopener noreferrer">
+          <Instagram size={22} aria-hidden="true" />
         </SocialIcon>
-        <SocialIcon href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-          <Linkedin size={22} />
+        <SocialIcon href="#" aria-label="Visit our LinkedIn page" target="_blank" rel="noopener noreferrer">
+          <Linkedin size={22} aria-hidden="true" />
         </SocialIcon>
       </SocialIcons>
 
@@ -93,22 +104,23 @@ const LanguageNavbar = () => {
         <button 
           className="language-button"
           onClick={toggleLanguageDropdown}
-          aria-label="Select language"
+          aria-label={`Current language: ${language}. Click to change`}
           aria-expanded={isLanguageOpen}
           aria-haspopup="true"
         >
-          Select language
-          <ChevronDown size={16} className="arrow" />
+          {language}
+          <ChevronDown size={16} className="arrow" aria-hidden="true" />
         </button>
         {isLanguageOpen && (
           <>
-            <Overlay onClick={closeDropdown} />
-            <LanguageDropdown>
+            <Overlay onClick={closeDropdown} aria-hidden="true" />
+            <LanguageDropdown role="menu">
               {languages.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageSelect(lang)}
-                  className={selectedLanguage === lang.name ? 'active' : ''}
+                  className={language === lang.name ? 'active' : ''}
+                  role="menuitem"
                   aria-label={`Select ${lang.name}`}
                 >
                   {lang.name}
@@ -119,12 +131,24 @@ const LanguageNavbar = () => {
         )}
       </LanguageSelector>
 
-      <SearchContainer aria-label="Search" role="button" tabIndex={0}>
+      <SearchContainer 
+        aria-label="Search" 
+        role="button" 
+        tabIndex={0}
+        onClick={openSearchModal}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            openSearchModal();
+          }
+        }}
+      >
         <SearchIcon>
           <Search size={20} />
         </SearchIcon>
         <SearchText>Search</SearchText>
       </SearchContainer>
+
+      <SearchModal isOpen={isSearchOpen} onClose={closeSearchModal} />
     </LanguageNavContainer>
   );
 };

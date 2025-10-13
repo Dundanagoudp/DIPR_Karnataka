@@ -7,7 +7,7 @@ import Recommrednews from './modules/RecommedNews'
 export default function Specialnewssecion() {
   return (
     <>
-      <PageLayout>
+      <PageLayout as="div" role="region" aria-label="Special news sections">
         <LatestNews />
         <TabSpecialNews />
         <Recommrednews />

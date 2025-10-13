@@ -159,9 +159,10 @@ export const HeroImage = styled.div`
   position: relative;
   width: 100%;
   height: 400px;
-  border-radius: ${theme.borderRadius.medium};
   overflow: hidden;
   margin-bottom: 32px;
+  position: relative;
+
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   
   @media (max-width: ${theme.breakpoints.tablet}) {
@@ -317,6 +318,11 @@ export const Tag = styled.span`
   padding: 6px 12px;
   border-radius: ${theme.borderRadius.small};
   font-size: ${theme.fontSizes.small};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   font-weight: 500;
   text-transform: lowercase;
   

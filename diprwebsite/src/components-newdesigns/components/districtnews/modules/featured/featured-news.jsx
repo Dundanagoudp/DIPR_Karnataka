@@ -37,35 +37,75 @@ export default function FeaturedNewsSection({
     },
   ],
 }) {
+  // Parse date for datetime attribute
+  const parseDateTimeAttr = (dateStr) => {
+    try {
+      const parsed = new Date(dateStr);
+      return parsed.toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
+  };
+
   return (
-    <Section aria-label="Featured news">
+    <Section as="section" aria-labelledby="featured-news-heading" role="region">
+      <h2 
+        id="featured-news-heading" 
+        style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+      >
+        Featured District News
+      </h2>
       <Container>
         <LeftImageWrap>
-          <img src={featured.image || "/placeholder.svg"} alt="Lead story image" />
+          <img 
+            src={featured.image || "/placeholder.svg"} 
+            alt={`Featured story: ${featured.title}`}
+            loading="lazy"
+          />
         </LeftImageWrap>
 
-        <MainContent>
+        <MainContent as="article" role="article" aria-labelledby="featured-main-title">
           <MetaRow>
             <Tag aria-label={`Category: ${featured.category}`}>{featured.category}</Tag>
-            <DateText dateTime="2025-03-20">{featured.date}</DateText>
+            <DateText as="time" dateTime={parseDateTimeAttr(featured.date)}>{featured.date}</DateText>
           </MetaRow>
 
-          <h2>{featured.title}</h2>
+          <h3 id="featured-main-title">{featured.title}</h3>
           <p>{featured.excerpt}</p>
         </MainContent>
 
-        <Sidebar aria-label="More top stories">
+        <Sidebar 
+          as="aside" 
+          role="complementary" 
+          aria-labelledby="featured-sidebar-heading"
+        >
+          <h4 
+            id="featured-sidebar-heading" 
+            style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+          >
+            Related Stories
+          </h4>
           {sideItems.slice(0, 2).map((item, idx) => (
-            <SideCard key={idx}>
+            <SideCard 
+              key={idx} 
+              as="article" 
+              role="article"
+              aria-labelledby={`featured-side-title-${idx}`}
+              tabIndex="0"
+            >
               <div className="thumb">
-                <img src={item.image || "/placeholder.svg"} alt="Story thumbnail" />
+                <img 
+                  src={item.image || "/placeholder.svg"} 
+                  alt={`Related story: ${item.title}`}
+                  loading="lazy"
+                />
               </div>
               <div>
                 <MetaRow>
-                  <Tag>{item.category}</Tag>
-                  <DateText>{item.date}</DateText>
+                  <Tag aria-label={`Category: ${item.category}`}>{item.category}</Tag>
+                  <DateText as="time" dateTime={parseDateTimeAttr(item.date)}>{item.date}</DateText>
                 </MetaRow>
-                <h3>{item.title}</h3>
+                <h5 id={`featured-side-title-${idx}`}>{item.title}</h5>
                 <p>{item.excerpt}</p>
               </div>
             </SideCard>

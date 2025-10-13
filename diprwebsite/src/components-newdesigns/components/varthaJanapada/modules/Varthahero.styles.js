@@ -97,6 +97,11 @@ export const ArrowButton = styled.button`
     opacity: 1;
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     width: 36px;
     height: 36px;
@@ -187,6 +192,11 @@ export const HeroCta = styled.a`
 
   &:hover {
     filter: brightness(0.95);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
@@ -290,6 +300,11 @@ export const ListLink = styled.a`
 
   &:hover {
     text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {

@@ -99,6 +99,11 @@ export const TabButton = styled.button`
   outline: none;
   font-weight: 500;
   white-space: nowrap;
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
   flex-shrink: 0;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
@@ -395,6 +400,11 @@ export const SeeMoreBtn = styled.button`
   width: 100%;
   font-family: ${theme.fonts.body};
   transition: ${theme.transitions.fast};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     margin-top: ${theme.spacing(2.5)};

@@ -25,17 +25,38 @@ const items = Array.from({ length: 6 }).map((_, i) => ({
 
 export default function Recommrednews() {
   return (
-    <Section aria-labelledby="recommended-heading">
- 
-      <Grid>
+    <Section as="section" aria-labelledby="recommended-heading" role="region">
+      <h2 id="recommended-heading" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+        Recommended and Most Read Articles
+      </h2>
+
+      <h3 id="recommended-articles-heading" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+        Recommended Articles
+      </h3>
+      
+      <Grid role="list" aria-labelledby="recommended-articles-heading">
         {items.slice(0, 3).map((item) => (
-          <Card key={item.id}>
-            <ThumbWrap href={item.href} aria-label={item.title}>
-              <img src={item.image || "/placeholder.svg"} alt="People training at the gym" />
+          <Card 
+            key={item.id} 
+            as="article" 
+            role="listitem"
+            aria-labelledby={`rec-title-${item.id}`}
+            tabIndex="0"
+          >
+            <ThumbWrap 
+              as="a"
+              href={item.href} 
+              aria-label={`View full article: ${item.title}`}
+            >
+              <img 
+                src={item.image || "/placeholder.svg"} 
+                alt={`Featured image for: ${item.title}`}
+                loading="lazy"
+              />
             </ThumbWrap>
             <Content>
               <BadgeRow>
-                <Badge>
+                <Badge aria-label={`Category: ${item.category}`}>
                   {/* simple red accent dot */}
                   <span
                     style={{
@@ -51,29 +72,49 @@ export default function Recommrednews() {
                 </Badge>
               </BadgeRow>
 
-              <TitleLink href={item.href}>{item.title}</TitleLink>
+              <TitleLink 
+                id={`rec-title-${item.id}`}
+                as="a"
+                href={item.href}
+              >
+                <h4 style={{ all: 'inherit' }}>{item.title}</h4>
+              </TitleLink>
 
               <Meta>
-                <span>{item.author}</span>
+                <span aria-label={`Author: ${item.author}`}>{item.author}</span>
                 <span aria-hidden="true">•</span>
-                <time dateTime="P1D">{item.timeAgo}</time>
+                <time dateTime="P1D" aria-label={`Posted ${item.timeAgo}`}>{item.timeAgo}</time>
               </Meta>
             </Content>
           </Card>
         ))}
       </Grid>
 
-      <DividerTitle>Most Readed</DividerTitle>
+      <DividerTitle as="h3" id="most-read-heading">Most Readed</DividerTitle>
 
-      <Grid>
+      <Grid role="list" aria-labelledby="most-read-heading">
         {items.slice(3).map((item) => (
-          <Card key={item.id}>
-            <ThumbWrap href={item.href} aria-label={item.title}>
-              <img src={item.image || "/placeholder.svg"} alt="People training at the gym" />
+          <Card 
+            key={item.id} 
+            as="article" 
+            role="listitem"
+            aria-labelledby={`read-title-${item.id}`}
+            tabIndex="0"
+          >
+            <ThumbWrap 
+              as="a"
+              href={item.href} 
+              aria-label={`View full article: ${item.title}`}
+            >
+              <img 
+                src={item.image || "/placeholder.svg"} 
+                alt={`Featured image for: ${item.title}`}
+                loading="lazy"
+              />
             </ThumbWrap>
             <Content>
               <BadgeRow>
-                <Badge>
+                <Badge aria-label={`Category: ${item.category}`}>
                   <span
                     style={{
                       width: 8,
@@ -88,12 +129,18 @@ export default function Recommrednews() {
                 </Badge>
               </BadgeRow>
 
-              <TitleLink href={item.href}>{item.title}</TitleLink>
+              <TitleLink 
+                id={`read-title-${item.id}`}
+                as="a"
+                href={item.href}
+              >
+                <h4 style={{ all: 'inherit' }}>{item.title}</h4>
+              </TitleLink>
 
               <Meta>
-                <span>{item.author}</span>
+                <span aria-label={`Author: ${item.author}`}>{item.author}</span>
                 <span aria-hidden="true">•</span>
-                <time dateTime="P1D">{item.timeAgo}</time>
+                <time dateTime="P1D" aria-label={`Posted ${item.timeAgo}`}>{item.timeAgo}</time>
               </Meta>
             </Content>
           </Card>

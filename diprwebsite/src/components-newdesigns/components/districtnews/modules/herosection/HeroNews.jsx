@@ -45,43 +45,90 @@ export default function NewsHero({ items = FALLBACK_ITEMS }) {
 
   const current = items[index]
 
+  // Handle keyboard navigation for dots
+  const handleDotKeyDown = (e, i) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      setIndex(i)
+    }
+  }
+
+  // Handle keyboard navigation for arrows
+  const handleArrowKeyDown = (e, isNext) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      go(isNext)
+    }
+  }
+
   return (
-    <HeroWrap aria-roledescription="carousel" aria-label="Top stories">
+    <HeroWrap 
+      role="region" 
+      aria-roledescription="carousel" 
+      aria-label="Featured district news stories"
+      aria-live="polite"
+    >
       <HeroMedia>
         {/* Background image */}
-        <img src={current.image || "/placeholder.svg"} alt="" aria-hidden="true" />
-        {/* Overlay card */}
- 
+        <img 
+          src={current.image || "/placeholder.svg"} 
+          alt="" 
+          aria-hidden="true" 
+          loading="lazy"
+        />
       </HeroMedia>
       <OverlayCard>
-          <Title>{current.title}</Title>
+          <Title as="h3">{current.title}</Title>
           <Excerpt>{current.excerpt}</Excerpt>
 
           <BottomBar>
-            <Dots role="tablist" aria-label="Slide progress">
+            <Dots role="tablist" aria-label="Carousel navigation">
               {items.map((_, i) => (
                 <Dot
                   key={i}
+                  role="tab"
+                  tabIndex={i === index ? 0 : -1}
                   onClick={() => setIndex(i)}
+                  onKeyDown={(e) => handleDotKeyDown(e, i)}
                   $active={i === index}
-                  aria-label={`Go to slide ${i + 1}`}
-                  aria-current={i === index ? "true" : undefined}
+                  aria-label={`Go to slide ${i + 1} of ${len}`}
+                  aria-selected={i === index}
+                  aria-controls="hero-content"
                 />
               ))}
             </Dots>
 
-            <Arrows>
-              <ArrowBtn aria-label="Previous" onClick={() => go(false)}>
-                <IoChevronBack size={25} />
+            <Arrows role="group" aria-label="Carousel controls">
+              <ArrowBtn 
+                aria-label="Previous story" 
+                onClick={() => go(false)}
+                onKeyDown={(e) => handleArrowKeyDown(e, false)}
+                type="button"
+              >
+                <IoChevronBack size={25} aria-hidden="true" />
               </ArrowBtn>
-              <ArrowBtn aria-label="Next" onClick={() => go(true)}>
-                <IoChevronForward size={25} />
+              <ArrowBtn 
+                aria-label="Next story" 
+                onClick={() => go(true)}
+                onKeyDown={(e) => handleArrowKeyDown(e, true)}
+                type="button"
+              >
+                <IoChevronForward size={25} aria-hidden="true" />
               </ArrowBtn>
             </Arrows>
           </BottomBar>
         </OverlayCard>
-        <RightDivider />
-
+        <RightDivider aria-hidden="true" />
+        
+        {/* Screen reader announcement */}
+        <div 
+          role="status" 
+          aria-live="polite" 
+          aria-atomic="true"
+          style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+        >
+          Showing story {index + 1} of {len}: {current.title}
+        </div>
     </HeroWrap>
   )
 }

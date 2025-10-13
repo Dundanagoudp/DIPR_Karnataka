@@ -11,7 +11,7 @@ import ShortsCarousel from './modules/shortvideos/ShortVideosSection'
 
 export default function VarthaJanapadasection() {
   return (
-    <>
+    <main aria-label="Vartha Janapada main content">
       <PageLayout>
         <Varthahero />
         <FlexContainer>
@@ -23,6 +23,6 @@ export default function VarthaJanapadasection() {
         <ShortsCarousel />
         <GallerySection />
       </PageLayout>
-    </>
+    </main>
   )
 }

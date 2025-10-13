@@ -41,6 +41,11 @@ export const MobileMenuButton = styled.button`
     background-color: ${theme.colors.gray[100]};
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+
   @media (min-width: ${theme.breakpoints.tablet}) {
     display: none;
   }
@@ -76,9 +81,15 @@ export const NavLinkStyled = styled(NavLink)`
     color: ${theme.colors.primary};
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+
   &.active {
     background-color: ${theme.colors.primary};
     color: ${theme.colors.white};
+    border-radius: 0;
   }
 `;
 
@@ -97,7 +108,7 @@ export const ActiveIndicator = styled.span`
 export const LoginButton = styled.button`
   border: 1px solid ${theme.colors.primary};
   color: ${theme.colors.primary};
-  background-color: transparent;
+  background-color: #E9F1FF;
   font-size: ${theme.fontSizes.small};
   padding: ${theme.spacing(1)} ${theme.spacing(2)};
   border-radius: ${theme.borderRadius.small};
@@ -184,6 +195,11 @@ export const CloseButton = styled.button`
     transform: rotate(90deg);
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+
   &:active {
     background-color: ${theme.colors.gray[200]};
   }
@@ -221,10 +237,16 @@ export const MobileNavLink = styled(NavLink)`
     color: ${theme.colors.primary};
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+
   &.active {
     background-color: ${theme.colors.primary};
     color: ${theme.colors.white};
     font-weight: 600;
+    border-radius: 0;
 
     &::after {
       content: '';

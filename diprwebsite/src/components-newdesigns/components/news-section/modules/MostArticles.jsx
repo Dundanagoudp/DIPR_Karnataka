@@ -103,54 +103,143 @@ export default function TabSection() {
   const featured = posts.slice(0, 3)
   const secondary = posts.slice(3, 6)
 
+  // Parse date for datetime attribute
+  const parseDateTimeAttr = (dateStr) => {
+    try {
+      const parsed = new Date(dateStr);
+      return parsed.toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
+  };
+
+  // Handle keyboard navigation for tabs
+  const handleTabKeyDown = (e, tab) => {
+    const tabIndex = TABS.indexOf(tab)
+    
+    if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      const nextTab = TABS[(tabIndex + 1) % TABS.length]
+      setActive(nextTab)
+      setTimeout(() => {
+        document.querySelector(`[role="tab"][aria-selected="true"]`)?.focus()
+      }, 0)
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      const prevTab = TABS[(tabIndex - 1 + TABS.length) % TABS.length]
+      setActive(prevTab)
+      setTimeout(() => {
+        document.querySelector(`[role="tab"][aria-selected="true"]`)?.focus()
+      }, 0)
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      setActive(TABS[0])
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      setActive(TABS[TABS.length - 1])
+    }
+  }
 
   return (
-    <Section aria-labelledby="march-karnataka-tabs-heading">
+    <Section as="section" aria-labelledby="most-articles-tabs-heading" role="region">
       <Container>
+        <h2 
+          id="most-articles-tabs-heading" 
+          style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+        >
+          Karnataka News By Category
+        </h2>
+
+        {/* Tab Navigation */}
+        <Tabs role="tablist" aria-label="Karnataka news categories">
+          {TABS.map((tab) => (
+            <TabButton
+              key={tab}
+              role="tab"
+              id={`tab-${tab}`}
+              aria-selected={active === tab}
+              aria-controls={`panel-${tab}`}
+              tabIndex={active === tab ? 0 : -1}
+              $active={active === tab}
+              onClick={() => setActive(tab)}
+              onKeyDown={(e) => handleTabKeyDown(e, tab)}
+            >
+              {tab}
+            </TabButton>
+          ))}
+        </Tabs>
 
         <Layout>
-          <div id={`panel-${active}`} role="tabpanel" aria-labelledby={active} tabIndex={0}>
+          <div 
+            id={`panel-${active}`} 
+            role="tabpanel" 
+            aria-labelledby={`tab-${active}`}
+            tabIndex={0}
+          >
             <Grid>
               {featured.map((p) => (
-                <Card key={p.id}>
+                <Card 
+                  key={p.id} 
+                  as="article" 
+                  role="article"
+                  aria-labelledby={`card-title-${p.id}`}
+                  tabIndex="0"
+                >
                   <ImageWrap>
-                    <img src={p.image || "/placeholder.svg"} alt={p.alt} />
+                    <img 
+                      src={p.image || "/placeholder.svg"} 
+                      alt={p.alt || `Image for ${p.title}`}
+                      loading="lazy"
+                    />
                   </ImageWrap>
                   <Content>
-                    <DateText>{p.date}</DateText>
-                    <Title>{p.title}</Title>
+                    <DateText as="time" dateTime={parseDateTimeAttr(p.date)}>{p.date}</DateText>
+                    <Title id={`card-title-${p.id}`} as="h3">{p.title}</Title>
                     <Excerpt>{p.excerpt}</Excerpt>
                   </Content>
                 </Card>
               ))}
 
               {secondary.map((p) => (
-                <Card key={p.id}>
+                <Card 
+                  key={p.id} 
+                  as="article" 
+                  role="article"
+                  aria-labelledby={`card-title-${p.id}`}
+                  tabIndex="0"
+                >
                   <ImageWrap>
-                    <img src={p.image || "/placeholder.svg"} alt={p.alt} />
+                    <img 
+                      src={p.image || "/placeholder.svg"} 
+                      alt={p.alt || `Image for ${p.title}`}
+                      loading="lazy"
+                    />
                   </ImageWrap>
                   <Content>
-                    <DateText>{p.date}</DateText>
-                    <Title>{p.title}</Title>
+                    <DateText as="time" dateTime={parseDateTimeAttr(p.date)}>{p.date}</DateText>
+                    <Title id={`card-title-${p.id}`} as="h3">{p.title}</Title>
                     <Excerpt>{p.excerpt}</Excerpt>
                   </Content>
                 </Card>
               ))}
-              
             </Grid>
           </div>
 {/* 
-          <Sidebar aria-label="Latest Karnataka progress headlines">
-            <SideList>
+          <Sidebar as="aside" role="complementary" aria-label="Latest Karnataka progress headlines">
+            <SideList role="list">
               {sideList.map((item, idx) => (
-                <SideItem key={idx}>
-                  <SideDate>{item.date}</SideDate>
-                  <SideTitle>{item.title}</SideTitle>
+                <SideItem key={idx} role="listitem" tabIndex="0">
+                  <SideDate as="time">{item.date}</SideDate>
+                  <SideTitle as="h4">{item.title}</SideTitle>
                 </SideItem>
               ))}
             </SideList>
             <SeeMoreWrap>
-              <SeeMoreBtn type="button" onClick={() => alert("Load more Karnataka progress news...")}>
+              <SeeMoreBtn 
+                type="button" 
+                onClick={() => alert("Load more Karnataka progress news...")}
+                aria-label="Load more Karnataka progress news"
+              >
                 See More
               </SeeMoreBtn>
             </SeeMoreWrap>

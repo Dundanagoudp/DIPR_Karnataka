@@ -218,9 +218,9 @@ const  ShortsCarousel = () => {
   }, [currentIndex, videos.length, visibleVideos])
 
   return (
-    <CarouselContainer ref={containerRef} role="region" aria-label="Shorts videos carousel" tabIndex="0">
+    <CarouselContainer ref={containerRef} role="region" aria-labelledby="shorts-heading" tabIndex="0">
       <SectionHeader>
-        <Title>Shorts</Title>
+        <Title id="shorts-heading">Shorts</Title>
       </SectionHeader>
       <CarouselWrapper onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} onTouchEnd={handleMouseUp}>
         {/* Navigation buttons */}
@@ -230,7 +230,7 @@ const  ShortsCarousel = () => {
           disabled={currentIndex === 0}
           aria-label="Previous videos"
         >
-          <ChevronLeft size={20} />
+          <ChevronLeft size={20} aria-hidden="true" />
         </NavigationButton>
         <NavigationButton
           direction="right"
@@ -238,7 +238,7 @@ const  ShortsCarousel = () => {
           disabled={currentIndex >= videos.length - visibleVideos}
           aria-label="Next videos"
         >
-          <ChevronRight size={20} />
+          <ChevronRight size={20} aria-hidden="true" />
         </NavigationButton>
         <CarouselTrack
           ref={trackRef}
@@ -299,7 +299,7 @@ const  ShortsCarousel = () => {
                         src={video.thumbnail || "/placeholder.svg?height=400&width=225"}
                         alt={video.title || "Video thumbnail"}
                       />
-                      <VideoOverlay>
+                      <VideoOverlay aria-hidden="true">
                         <PlayButton
                           onClick={() => handlePlayClick(video._id)}
                           aria-label={`Play ${video.title || "video"}`}

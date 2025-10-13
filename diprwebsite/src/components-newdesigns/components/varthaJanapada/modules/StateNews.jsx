@@ -63,13 +63,14 @@ export default function StateNews({ featured = defaultFeatured, list = defaultLi
           aria-label="See more state news"
         >
           See more
-          <ArrowIcon>
+          <ArrowIcon aria-hidden="true">
             <svg 
               width="20" 
               height="20" 
               viewBox="0 0 24 24" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
               <path 
                 d="M5 12H19M19 12L12 5M19 12L12 19" 

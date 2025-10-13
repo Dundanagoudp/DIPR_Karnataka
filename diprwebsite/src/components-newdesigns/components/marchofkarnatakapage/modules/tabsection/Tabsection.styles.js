@@ -130,6 +130,11 @@ export const TabButton = styled.button`
   &:hover {
     color: ${theme.colors.primary};
   }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
 `
 
 export const Layout = styled.div`
@@ -410,5 +415,10 @@ export const SeeMoreBtn = styled.button`
 
   &:hover {
     filter: brightness(0.95);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
   }
 `

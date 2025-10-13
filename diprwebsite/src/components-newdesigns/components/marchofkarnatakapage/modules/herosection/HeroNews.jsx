@@ -66,16 +66,32 @@ export default function MarchNewsHero({ items = FALLBACK_ITEMS }) {
                   $active={i === index}
                   aria-label={`Go to slide ${i + 1}`}
                   aria-current={i === index ? "true" : undefined}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setIndex(i);
+                    }
+                  }}
                 />
               ))}
             </Dots>
 
             <Arrows>
-              <ArrowBtn aria-label="Previous" onClick={() => go(false)}>
-                <IoChevronBack size={25} />
+              <ArrowBtn aria-label="Previous" onClick={() => go(false)} onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  go(false);
+                }
+              }}>
+                <IoChevronBack size={25} aria-hidden="true" />
               </ArrowBtn>
-              <ArrowBtn aria-label="Next" onClick={() => go(true)}>
-                <IoChevronForward size={25} />
+              <ArrowBtn aria-label="Next" onClick={() => go(true)} onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  go(true);
+                }
+              }}>
+                <IoChevronForward size={25} aria-hidden="true" />
               </ArrowBtn>
             </Arrows>
           </BottomBar>

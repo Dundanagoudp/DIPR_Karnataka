@@ -70,15 +70,15 @@ export default function Varthahero({
         <ArrowControls>
           <ArrowButton 
             onClick={handlePrevClick} 
-            aria-label="Previous image"
+            aria-label="Previous magazine"
           >
-            &#10094;
+            <span aria-hidden="true">&#10094;</span>
           </ArrowButton>
           <ArrowButton 
             onClick={handleNextClick} 
-            aria-label="Next image"
+            aria-label="Next magazine"
           >
-            &#10095;
+            <span aria-hidden="true">&#10095;</span>
           </ArrowButton>
         </ArrowControls>
         <HeroContent>
@@ -97,16 +97,16 @@ export default function Varthahero({
       </HeroRoot>
 
       {/* Right: Latest notifications */}
-      <NotificationPanel aria-label="Latest notifications">
-        <PanelHeader>Latest notifications</PanelHeader>
-        <NotificationList>
+      <NotificationPanel aria-labelledby="notifications-heading">
+        <PanelHeader id="notifications-heading">Latest notifications</PanelHeader>
+        <NotificationList aria-label="Notifications list">
           {notifications.map((text, i) => (
             <ListItem key={i}>
-              <ListIndex>{i + 1}.</ListIndex>
+              <ListIndex aria-hidden="true">{i + 1}.</ListIndex>
               <ListBody>
                 {text}
-                <ListLink as={Link} to="#" aria-label={`See more notification ${i + 1}`}>
-                  See more →
+                <ListLink as={Link} to="#" aria-label={`See more about notification ${i + 1}`}>
+                  See more <span aria-hidden="true">→</span>
                 </ListLink>
               </ListBody>
             </ListItem>

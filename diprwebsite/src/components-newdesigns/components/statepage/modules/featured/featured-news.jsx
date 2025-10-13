@@ -41,7 +41,7 @@ export default function FeaturedNewsSection({
     <Section aria-label="Featured news">
       <Container>
         <LeftImageWrap>
-          <img src={featured.image || "/placeholder.svg"} alt="Lead story image" />
+          <img src={featured.image || "/placeholder.svg"} alt="Lead story image" loading="eager" />
         </LeftImageWrap>
 
         <MainContent>
@@ -54,16 +54,16 @@ export default function FeaturedNewsSection({
           <p>{featured.excerpt}</p>
         </MainContent>
 
-        <Sidebar aria-label="More top stories">
+        <Sidebar aria-label="More top stories" role="complementary">
           {sideItems.slice(0, 2).map((item, idx) => (
-            <SideCard key={idx}>
+            <SideCard key={idx} role="article" aria-label={item.title}>
               <div className="thumb">
-                <img src={item.image || "/placeholder.svg"} alt="Story thumbnail" />
+                <img src={item.image || "/placeholder.svg"} alt="Story thumbnail" loading="lazy" />
               </div>
               <div>
                 <MetaRow>
-                  <Tag>{item.category}</Tag>
-                  <DateText>{item.date}</DateText>
+                  <Tag aria-label={`Category: ${item.category}`}>{item.category}</Tag>
+                  <DateText dateTime="2025-03-20">{item.date}</DateText>
                 </MetaRow>
                 <h3>{item.title}</h3>
                 <p>{item.excerpt}</p>

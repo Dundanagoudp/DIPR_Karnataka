@@ -126,6 +126,11 @@ export const YearFilter = styled.select`
   cursor: pointer;
   outline: none;
   transition: all ${theme.transitions.fast};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -258,6 +263,11 @@ export const DownloadButton = styled.button`
   border-radius: ${theme.borderRadius.medium};
   padding: ${theme.spacing(1.5)} ${theme.spacing(1.25)};
   font-size: ${theme.fontSizes.small};
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
   font-weight: 500;
   cursor: pointer;
   margin: ${theme.spacing(2.5)} auto ${theme.spacing(2.5)};

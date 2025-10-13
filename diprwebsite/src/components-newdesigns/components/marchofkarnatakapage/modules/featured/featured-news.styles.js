@@ -36,7 +36,7 @@ export const LeftImageWrap = styled.div`
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: ${theme.colors.white};
+  background: ${theme.colors.background};
   border-radius: 0;
   margin-bottom: ${theme.spacing(2)};
   padding-bottom: ${theme.spacing(2)};
@@ -127,6 +127,11 @@ export const Tag = styled.span`
   color: ${theme.colors.white};
   font-size: ${theme.fontSizes.small};
   font-weight: 600;
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.white};
+    outline-offset: 2px;
+  }
 
   @media (max-width: 767px) {
     height: 24px;

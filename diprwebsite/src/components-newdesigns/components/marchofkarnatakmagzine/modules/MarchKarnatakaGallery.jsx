@@ -51,14 +51,14 @@ export default function MarchKarnatakaGallery() {
   };
 
   return (
-    <MagazineContainer>
+    <MagazineContainer aria-labelledby="march-karnataka-gallery-heading">
       <SectionHeader>
         <TitleWrapper>
-          <PageTitle>Latest March of Karnataka Magazines</PageTitle>
-          {selectedYear && <SelectedYearText>{selectedYear}</SelectedYearText>}
+          <PageTitle id="march-karnataka-gallery-heading">Latest March of Karnataka Magazines</PageTitle>
+          {selectedYear && <SelectedYearText aria-live="polite">{selectedYear}</SelectedYearText>}
         </TitleWrapper>
         <YearFilterWrapper>
-          <YearFilter value={selectedYear} onChange={handleYearChange}>
+          <YearFilter value={selectedYear} onChange={handleYearChange} aria-label="Filter by year">
             <option value="">Select year</option>
             <option value="2025">2025</option>
             <option value="2024">2024</option>
@@ -67,21 +67,21 @@ export default function MarchKarnatakaGallery() {
             <option value="2021">2021</option>
             <option value="2020">2020</option>
           </YearFilter>
-          <YearFilterIcon>
+          <YearFilterIcon aria-hidden="true">
             <IoChevronDownOutline />
           </YearFilterIcon>
         </YearFilterWrapper>
       </SectionHeader>
       
-      <MagazineGrid>
+      <MagazineGrid role="list" aria-label="Magazine collection">
         {magazineData.map((magazine) => (
-          <MagazineCard key={magazine.id}>
+          <MagazineCard key={magazine.id} role="listitem">
             <MagazineImageWrapper>
-              <MagazineImage src={magazine.image} alt={magazine.title} />
+              <MagazineImage src={magazine.image} alt={magazine.title} loading="lazy" />
             </MagazineImageWrapper>
             
-            <DownloadButton onClick={() => handleDownload(magazine.title)}>
-              <ImFolderDownload />
+            <DownloadButton onClick={() => handleDownload(magazine.title)} aria-label={`Download ${magazine.title}`}>
+              <ImFolderDownload aria-hidden="true" />
               Download
             </DownloadButton>
           </MagazineCard>

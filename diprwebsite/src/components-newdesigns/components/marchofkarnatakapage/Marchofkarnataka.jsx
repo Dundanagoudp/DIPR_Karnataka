@@ -7,13 +7,13 @@ import MarchNewsHero from './modules/herosection/HeroNews'
 
 export default function Marchofkarnataka() {
   return (
-    <>
+    <main aria-label="March of Karnataka main content">
       <PageLayout>
         <MarchNewsHero />
         <NewsSidebar />
       </PageLayout>
       <FeaturedNewsSection />
       <TabSection />
-    </>
+    </main>
   )
 }

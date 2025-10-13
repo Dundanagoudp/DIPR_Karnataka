@@ -7,7 +7,7 @@ import MostArticles from './modules/MostArticles'
 export default function NewsSection() {
   return (
     <>
-      <PageLayout>
+      <PageLayout as="div" role="region" aria-label="News sections">
         <Banner />
         <NewsArticles />
         <MostArticles />
