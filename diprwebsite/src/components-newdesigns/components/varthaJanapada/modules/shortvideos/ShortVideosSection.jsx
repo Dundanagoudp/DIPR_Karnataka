@@ -40,6 +40,13 @@ const  ShortsCarousel = () => {
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
   const { language } = useContext(LanguageContext)
+  
+  // Header text translations
+  const headerText = {
+    English: "Shorts",
+    Kannada: "ಶಾರ್ಟ್ಸ್",
+    Hindi: "शॉर्ट्स"
+  }
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -222,7 +229,7 @@ const  ShortsCarousel = () => {
   return (
     <CarouselContainer ref={containerRef} role="region" aria-labelledby="shorts-heading" tabIndex="0">
       <SectionHeader>
-        <Title id="shorts-heading">Shorts</Title>
+        <Title id="shorts-heading">{headerText[language] || "Shorts"}</Title>
       </SectionHeader>
       <CarouselWrapper onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} onTouchEnd={handleMouseUp}>
         {/* Navigation buttons */}

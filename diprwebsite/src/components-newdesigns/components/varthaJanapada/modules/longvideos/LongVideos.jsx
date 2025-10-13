@@ -16,6 +16,11 @@ import {
   Badge,
   ArticleContent,
   ArticleTitle,
+  ShimmerContainer,
+  ShimmerArticlesGrid,
+  ShimmerMainArticle,
+  ShimmerSmallArticlesGrid,
+  ShimmerSmallArticle,
 } from './LongVideos.styles';
 
 const LongVideos = () => {
@@ -24,6 +29,13 @@ const LongVideos = () => {
   const [error, setError] = useState(null);
   const [playingVideo, setPlayingVideo] = useState(null);
   const { language } = useContext(LanguageContext);
+  
+  // Header text translations
+  const headerText = {
+    English: "Latest Videos",
+    Kannada: "ಲೆಟೆಸ್ಟ್ ವಿಡಿಯೋಸ್",
+    Hindi: "लेटेस्ट वीडियोज़"
+  };
   
   useEffect(() => {
     const fetchVideos = async () => {
@@ -48,15 +60,28 @@ const LongVideos = () => {
     fetchVideos();
   }, []);
   
-  // If no articles are loaded yet, return null or loading state
+  // If loading, show shimmer effect
   if (loading) {
     return (
       <ArticlesSection>
         <Container>
           <SectionHeader>
-            <Title>Latest Videos</Title>
+            <Title>{headerText[language] || "Latest Videos"}</Title>
           </SectionHeader>
-          <div>Loading videos...</div>
+          <ShimmerContainer>
+            <ShimmerArticlesGrid>
+              {/* Shimmer Main Article */}
+              <ShimmerMainArticle />
+              
+              {/* Shimmer Small Articles Grid */}
+              <ShimmerSmallArticlesGrid>
+                <ShimmerSmallArticle />
+                <ShimmerSmallArticle />
+                <ShimmerSmallArticle />
+                <ShimmerSmallArticle />
+              </ShimmerSmallArticlesGrid>
+            </ShimmerArticlesGrid>
+          </ShimmerContainer>
         </Container>
       </ArticlesSection>
     );
@@ -67,9 +92,18 @@ const LongVideos = () => {
       <ArticlesSection>
         <Container>
           <SectionHeader>
-            <Title>Latest Videos</Title>
+            <Title>{headerText[language] || "Latest Videos"}</Title>
           </SectionHeader>
-          <div>{error || 'No videos available'}</div>
+          <div>
+            {error ? 
+              (language === "English" ? error : 
+               language === "Kannada" ? "ವೀಡಿಯೋಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ" : 
+               language === "Hindi" ? "वीडियो लोड करने में विफल" : error) : 
+              (language === "English" ? "No videos available" : 
+               language === "Kannada" ? "ಯಾವುದೇ ವೀಡಿಯೋಗಳು ಲಭ್ಯವಿಲ್ಲ" : 
+               language === "Hindi" ? "कोई वीडियो उपलब्ध नहीं है" : "No videos available")
+            }
+          </div>
         </Container>
       </ArticlesSection>
     );
@@ -98,7 +132,7 @@ const LongVideos = () => {
     <ArticlesSection>
       <Container>
         <SectionHeader>
-          <Title>Latest Videos</Title>
+          <Title>{headerText[language] || "Latest Videos"}</Title>
         </SectionHeader>
 
         <ArticlesGrid>

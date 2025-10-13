@@ -1,5 +1,6 @@
 
-import { useMemo, useState, useCallback, useEffect } from "react"
+import { useMemo, useState, useCallback, useEffect, useContext } from "react"
+import { LanguageContext } from "../../../../../context/LanguageContext"
 import {
   Section,
   SectionHeader,
@@ -21,6 +22,14 @@ export default function GallerySection() {
   const [photos, setPhotos] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { language } = useContext(LanguageContext)
+  
+  // Header text translations
+  const headerText = {
+    English: "Photo Gallery",
+    Kannada: "ಫೋಟೋ ಗ್ಯಾಲರಿ",
+    Hindi: "फोटो गैलरी"
+  }
 
   // Fetch photos from API
   useEffect(() => {
@@ -99,12 +108,14 @@ export default function GallerySection() {
   // Show loading state
   if (loading) {
     return (
-      <Section aria-label="Photo Gallery">
+      <Section aria-label={headerText[language] || "Photo Gallery"}>
         <SectionHeader>
-          <SectionTitle>Photo Gallery</SectionTitle>
+          <SectionTitle>{headerText[language] || "Photo Gallery"}</SectionTitle>
         </SectionHeader>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
-          Loading photos...
+          {language === "English" ? "Loading photos..." : 
+           language === "Kannada" ? "ಫೋಟೋಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ..." : 
+           language === "Hindi" ? "फोटो लोड हो रहे हैं..." : "Loading photos..."}
         </div>
       </Section>
     )
@@ -113,12 +124,14 @@ export default function GallerySection() {
   // Show error state
   if (error) {
     return (
-      <Section aria-label="Photo Gallery">
+      <Section aria-label={headerText[language] || "Photo Gallery"}>
         <SectionHeader>
-          <SectionTitle>Photo Gallery</SectionTitle>
+          <SectionTitle>{headerText[language] || "Photo Gallery"}</SectionTitle>
         </SectionHeader>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#f44336' }}>
-          {error}
+          {language === "English" ? error : 
+           language === "Kannada" ? "ಫೋಟೋಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ" : 
+           language === "Hindi" ? "फोटो लोड करने में विफल" : error}
         </div>
       </Section>
     )
@@ -127,12 +140,14 @@ export default function GallerySection() {
   // Show message if no photos
   if (photos.length === 0) {
     return (
-      <Section aria-label="Photo Gallery">
+      <Section aria-label={headerText[language] || "Photo Gallery"}>
         <SectionHeader>
-          <SectionTitle>Photo Gallery</SectionTitle>
+          <SectionTitle>{headerText[language] || "Photo Gallery"}</SectionTitle>
         </SectionHeader>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
-          No photos available
+          {language === "English" ? "No photos available" : 
+           language === "Kannada" ? "ಯಾವುದೇ ಫೋಟೋಗಳು ಲಭ್ಯವಿಲ್ಲ" : 
+           language === "Hindi" ? "कोई फोटो उपलब्ध नहीं है" : "No photos available"}
         </div>
       </Section>
     )
@@ -141,21 +156,23 @@ export default function GallerySection() {
   // Safety check: ensure active image exists
   if (!active) {
     return (
-      <Section aria-label="Photo Gallery">
+      <Section aria-label={headerText[language] || "Photo Gallery"}>
         <SectionHeader>
-          <SectionTitle>Photo Gallery</SectionTitle>
+          <SectionTitle>{headerText[language] || "Photo Gallery"}</SectionTitle>
         </SectionHeader>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
-          Loading gallery...
+          {language === "English" ? "Loading gallery..." : 
+           language === "Kannada" ? "ಗ್ಯಾಲರಿಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ..." : 
+           language === "Hindi" ? "गैलरी लोड हो रही है..." : "Loading gallery..."}
         </div>
       </Section>
     )
   }
 
   return (
-    <Section aria-label="Photo Gallery">
+    <Section aria-label={headerText[language] || "Photo Gallery"}>
       <SectionHeader>
-        <SectionTitle>Photo Gallery</SectionTitle>
+        <SectionTitle>{headerText[language] || "Photo Gallery"}</SectionTitle>
       </SectionHeader>
       <GalleryContainer role="region" aria-label="Gallery single row layout">
         {/* Left side images - dynamically change with carousel */}
