@@ -13,7 +13,7 @@ export const Section = styled.section`
 export const SectionHeader = styled.div`
   margin-bottom: ${theme.spacing(2)};
   padding-bottom: ${theme.spacing(6)};
-  max-width: 1300px;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: ${theme.spacing(2)};
@@ -65,7 +65,7 @@ export const GalleryContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: ${theme.spacing(2)};
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
   padding: ${theme.spacing(2.5)} ${theme.spacing(6)};
   background: ${theme.colors.background};

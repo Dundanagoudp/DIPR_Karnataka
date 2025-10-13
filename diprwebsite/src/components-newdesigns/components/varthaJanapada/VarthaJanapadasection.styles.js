@@ -7,7 +7,7 @@ export const PageLayout = styled.div`
   gap: ${theme.spacing(7.5)};
   max-width: 100%;
   padding-left: ${theme.spacing(10)};
-  padding-right: ${theme.spacing(12)};
+  padding-right: ${theme.spacing(10)};
   padding-top: ${theme.spacing(2.5)};
   padding-bottom: ${theme.spacing(2.5)};
   background: ${theme.colors.background};

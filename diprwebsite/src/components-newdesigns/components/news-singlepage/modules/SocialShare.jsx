@@ -32,6 +32,15 @@ const SocialShare = () => {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl)
+      // Use a more accessible notification method
+      const notification = document.createElement('div')
+      notification.setAttribute('role', 'status')
+      notification.setAttribute('aria-live', 'polite')
+      notification.textContent = 'Link copied to clipboard!'
+      notification.style.position = 'absolute'
+      notification.style.left = '-9999px'
+      document.body.appendChild(notification)
+      setTimeout(() => document.body.removeChild(notification), 3000)
       alert('Link copied to clipboard!')
     } catch (err) {
       console.error('Failed to copy: ', err)
@@ -39,8 +48,8 @@ const SocialShare = () => {
   }
 
   return (
-    <SocialShareContainer aria-labelledby="share-heading">
-      <ShareTitle id="share-heading">Share this article</ShareTitle>
+    <SocialShareContainer as="nav" role="navigation" aria-labelledby="share-heading">
+      <ShareTitle id="share-heading" as="h3">Share this article</ShareTitle>
       <ShareButtons role="group" aria-label="Social sharing options">
         <ShareButton onClick={shareToFacebook} style={{ backgroundColor: '#1877F2' }} aria-label="Share on Facebook">
           <ShareIcon>

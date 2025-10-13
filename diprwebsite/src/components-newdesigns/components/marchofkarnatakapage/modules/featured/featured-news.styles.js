@@ -36,7 +36,7 @@ export const LeftImageWrap = styled.div`
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: ${theme.colors.white};
+  background: ${theme.colors.background};
   border-radius: 0;
   margin-bottom: ${theme.spacing(2)};
   padding-bottom: ${theme.spacing(2)};

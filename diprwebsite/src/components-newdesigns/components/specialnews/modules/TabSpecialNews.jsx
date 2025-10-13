@@ -324,9 +324,42 @@ export default function TabSpecialNews() {
   const [active, setActive] = React.useState(TABS[0])
   const currentData = POSTS[active] || POSTS["Special News"]
 
+  // Handle keyboard navigation for tabs
+  const handleTabKeyDown = (e, tab) => {
+    const tabIndex = TABS.indexOf(tab)
+    
+    if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      const nextTab = TABS[(tabIndex + 1) % TABS.length]
+      setActive(nextTab)
+      setTimeout(() => {
+        document.querySelector(`[role="tab"][aria-selected="true"]`)?.focus()
+      }, 0)
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      const prevTab = TABS[(tabIndex - 1 + TABS.length) % TABS.length]
+      setActive(prevTab)
+      setTimeout(() => {
+        document.querySelector(`[role="tab"][aria-selected="true"]`)?.focus()
+      }, 0)
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      setActive(TABS[0])
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      setActive(TABS[TABS.length - 1])
+    }
+  }
+
   return (
-    <Wrapper aria-label="Special news tabs">
+    <Wrapper as="section" aria-labelledby="special-news-tabs-heading" role="region">
       <GlobalScrollbars />
+      <h2 
+        id="special-news-tabs-heading" 
+        style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+      >
+        Special News Categories
+      </h2>
       
       {/* Tab Navigation */}
       <Tabs role="tablist" aria-label="Special news categories">
@@ -334,10 +367,13 @@ export default function TabSpecialNews() {
           <TabButton
             key={tab}
             role="tab"
+            id={`tab-${tab}`}
             aria-selected={active === tab}
             aria-controls={`panel-${tab}`}
+            tabIndex={active === tab ? 0 : -1}
             $active={active === tab}
             onClick={() => setActive(tab)}
+            onKeyDown={(e) => handleTabKeyDown(e, tab)}
           >
             {tab}
           </TabButton>
@@ -345,64 +381,100 @@ export default function TabSpecialNews() {
       </Tabs>
 
       {/* Content for active tab */}
-      <div id={`panel-${active}`} role="tabpanel" aria-labelledby={active} tabIndex={0}>
-
+      <div 
+        id={`panel-${active}`} 
+        role="tabpanel" 
+        aria-labelledby={`tab-${active}`}
+        tabIndex={0}
+      >
         <Grid>
           {/* Left side - Feature Image */}
-          <Column>
-            <FeatureCard>
+          <Column as="div" role="region" aria-labelledby="featured-article-title">
+            <h3 
+              id="featured-article-title" 
+              style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+            >
+              Featured {active} Article
+            </h3>
+            <FeatureCard 
+              as="article" 
+              role="article"
+              aria-labelledby={`feature-title-${active}`}
+              tabIndex="0"
+            >
               <FeatureImage
                 src={currentData.feature.image}
-                alt={currentData.feature.alt}
+                alt={currentData.feature.alt || `Featured ${active} story`}
+                loading="lazy"
               />
-              <FeatureOverlay />
+              <FeatureOverlay aria-hidden="true" />
               <FeatureContent>
-                <FeatureTitle>{currentData.feature.title}</FeatureTitle>
+                <FeatureTitle id={`feature-title-${active}`} as="h4">
+                  {currentData.feature.title}
+                </FeatureTitle>
                 <FeatureMetaRow>
-                  <FeatureAuthor>{currentData.feature.author}</FeatureAuthor>
-                  <FeatureDateText>•</FeatureDateText>
-                  <FeatureDateText>{currentData.feature.date}</FeatureDateText>
+                  <FeatureAuthor aria-label={`Author: ${currentData.feature.author}`}>
+                    {currentData.feature.author}
+                  </FeatureAuthor>
+                  <FeatureDateText aria-hidden="true">•</FeatureDateText>
+                  <FeatureDateText as="time">{currentData.feature.date}</FeatureDateText>
                 </FeatureMetaRow>
                 <FeatureExcerpt>
                   {currentData.feature.excerpt}
                 </FeatureExcerpt>
-                <FeatureTagsRow>
-                  <FeatureBadge>{currentData.feature.category}</FeatureBadge>
-                  <FeatureBadge>{currentData.feature.readTime}</FeatureBadge>
+                <FeatureTagsRow role="list" aria-label="Article tags">
+                  <FeatureBadge role="listitem" aria-label={`Category: ${currentData.feature.category}`}>
+                    {currentData.feature.category}
+                  </FeatureBadge>
+                  <FeatureBadge role="listitem" aria-label={`Reading time: ${currentData.feature.readTime}`}>
+                    {currentData.feature.readTime}
+                  </FeatureBadge>
                 </FeatureTagsRow>
               </FeatureContent>
             </FeatureCard>
           </Column>
 
           {/* Right side - News List */}
-          <Column>
-            <List className="custom-scrollbar" role="feed" aria-label="News list">
+          <Column as="div" role="region" aria-labelledby="news-list-heading">
+            <h3 
+              id="news-list-heading" 
+              style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+            >
+              {active} Articles
+            </h3>
+            <List className="custom-scrollbar" role="feed" aria-label={`${active} news articles`} aria-busy="false">
               {currentData.rightNews.slice(0, 5).map((n, idx) => (
-                <Item key={idx}>
+                <Item 
+                  key={idx} 
+                  as="article" 
+                  role="article"
+                  aria-labelledby={`news-item-${active}-${idx}`}
+                  tabIndex="0"
+                >
                   <NewsItemContainer>
                     <NewsImageContainer>
                       <NewsImage
                         src={n.image}
-                        alt={n.alt}
+                        alt={n.alt || `Thumbnail for ${n.title}`}
+                        loading="lazy"
                       />
                     </NewsImageContainer>
                     <NewsContentContainer>
-                      <Headline>{n.title}</Headline>
+                      <Headline id={`news-item-${active}-${idx}`} as="h5">{n.title}</Headline>
                       <MetaRow>
-                        <DateText>{n.date}</DateText>
+                        <DateText as="time">{n.date}</DateText>
                         {n.readTime && (
                           <>
-                            <DateText>•</DateText>
-                            <DateText>{n.readTime}</DateText>
+                            <DateText aria-hidden="true">•</DateText>
+                            <DateText aria-label={`Reading time: ${n.readTime}`}>{n.readTime}</DateText>
                           </>
                         )}
                       </MetaRow>
                     </NewsContentContainer>
                   </NewsItemContainer>
-                  <Divider />
+                  <Divider aria-hidden="true" />
                 </Item>
               ))}
-
             </List>
           </Column>
         </Grid>

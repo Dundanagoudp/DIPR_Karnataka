@@ -28,10 +28,10 @@ import {
 
 const Sidebar = () => {
   return (
-    <SidebarContainer role="complementary" aria-label="Article sidebar">
+    <SidebarContainer as="aside" role="complementary" aria-label="Article sidebar">
       {/* Follow Us Section */}
-      <SidebarSection aria-labelledby="follow-heading">
-        <SectionTitle id="follow-heading">FOLLOW US</SectionTitle>
+      <SidebarSection as="section" aria-labelledby="follow-heading">
+        <SectionTitle id="follow-heading" as="h3">FOLLOW US</SectionTitle>
         <SocialMediaList role="list" aria-label="Social media links">
           <SocialMediaItem role="listitem">
             <SocialMediaButton style={{ backgroundColor: '#1877F2' }} aria-label="Follow us on Facebook - 135,684 fans">
@@ -84,13 +84,13 @@ const Sidebar = () => {
       </SidebarSection>
 
       {/* Popular News Section */}
-      <SidebarSection aria-labelledby="popular-heading">
-        <SectionTitle id="popular-heading">POPULAR NEWS</SectionTitle>
-        <PopularNewsList role="list" aria-label="Popular news articles">
-          <PopularNewsItem role="listitem">
+      <SidebarSection as="section" aria-labelledby="popular-heading">
+        <SectionTitle id="popular-heading" as="h3">POPULAR NEWS</SectionTitle>
+        <PopularNewsList as="ul" role="list" aria-label="Popular news articles">
+          <PopularNewsItem as="li" role="listitem" tabIndex="0">
             <PopularNewsContent>
-              <PopularNewsDate dateTime="2023-03-19">March 19, 2023</PopularNewsDate>
-              <PopularNewsTitle>
+              <PopularNewsDate as="time" dateTime="2023-03-19">March 19, 2023</PopularNewsDate>
+              <PopularNewsTitle as="h4">
                 Golf Legend Santana Reeds Returns to Professional Competition After Long Layoff
               </PopularNewsTitle>
             </PopularNewsContent>
@@ -108,10 +108,10 @@ const Sidebar = () => {
             </PopularNewsImage>
           </PopularNewsItem>
           
-          <PopularNewsItem role="listitem">
+          <PopularNewsItem as="li" role="listitem" tabIndex="0">
             <PopularNewsContent>
-              <PopularNewsDate dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
-              <PopularNewsTitle>
+              <PopularNewsDate as="time" dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
+              <PopularNewsTitle as="h4">
                 Christian Garret Breaks Scoring Record in European Soccer League
               </PopularNewsTitle>
             </PopularNewsContent>
@@ -129,10 +129,10 @@ const Sidebar = () => {
             </PopularNewsImage>
           </PopularNewsItem>
           
-          <PopularNewsItem role="listitem">
+          <PopularNewsItem as="li" role="listitem" tabIndex="0">
             <PopularNewsContent>
-              <PopularNewsDate dateTime="2023-03-19">March 19, 2023</PopularNewsDate>
-              <PopularNewsTitle>
+              <PopularNewsDate as="time" dateTime="2023-03-19">March 19, 2023</PopularNewsDate>
+              <PopularNewsTitle as="h4">
                 Tennis Star Dmitri Ivanov Wins Record Ninth Australian Open Title
               </PopularNewsTitle>
             </PopularNewsContent>
@@ -150,10 +150,10 @@ const Sidebar = () => {
             </PopularNewsImage>
           </PopularNewsItem>
           
-          <PopularNewsItem role="listitem">
+          <PopularNewsItem as="li" role="listitem" tabIndex="0">
             <PopularNewsContent>
-              <PopularNewsDate dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
-              <PopularNewsTitle>
+              <PopularNewsDate as="time" dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
+              <PopularNewsTitle as="h4">
                 NBA Announces All-Star Rosters, with Top Players Set to Compete in Las Vegas
               </PopularNewsTitle>
             </PopularNewsContent>
@@ -171,10 +171,10 @@ const Sidebar = () => {
             </PopularNewsImage>
           </PopularNewsItem>
           
-          <PopularNewsItem role="listitem">
+          <PopularNewsItem as="li" role="listitem" tabIndex="0">
             <PopularNewsContent>
-              <PopularNewsDate dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
-              <PopularNewsTitle>
+              <PopularNewsDate as="time" dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
+              <PopularNewsTitle as="h4">
                 NFL Announces Major Expansion Plans for Global Reach
               </PopularNewsTitle>
             </PopularNewsContent>
@@ -196,45 +196,45 @@ const Sidebar = () => {
 
 
       {/* Don't Miss It Section */}
-      <SidebarSection aria-labelledby="trending-heading">
-        <SectionTitle id="trending-heading">DON'T MISS IT</SectionTitle>
-        <TrendingList role="list" aria-label="Trending articles">
-          <TrendingItem role="listitem">
+      <SidebarSection as="section" aria-labelledby="trending-heading">
+        <SectionTitle id="trending-heading" as="h3">DON'T MISS IT</SectionTitle>
+        <TrendingList as="ul" role="list" aria-label="Trending articles">
+          <TrendingItem as="li" role="listitem" tabIndex="0">
             <TrendingContent>
-              <TrendingDate dateTime="2023-03-15">March 15, 2023</TrendingDate>
-              <TrendingTitle>Strategies for Business Recovery and Growth</TrendingTitle>
+              <TrendingDate as="time" dateTime="2023-03-15">March 15, 2023</TrendingDate>
+              <TrendingTitle as="h4">Strategies for Business Recovery and Growth</TrendingTitle>
             </TrendingContent>
           </TrendingItem>
           
-          <TrendingItem role="listitem">
+          <TrendingItem as="li" role="listitem" tabIndex="0">
             <TrendingContent>
-              <TrendingDate dateTime="2023-03-05">March 05, 2023</TrendingDate>
-              <TrendingTitle>Adapting to New Trends and Technologies in the Digital Age</TrendingTitle>
+              <TrendingDate as="time" dateTime="2023-03-05">March 05, 2023</TrendingDate>
+              <TrendingTitle as="h4">Adapting to New Trends and Technologies in the Digital Age</TrendingTitle>
             </TrendingContent>
           </TrendingItem>
           
-          <TrendingItem role="listitem">
+          <TrendingItem as="li" role="listitem" tabIndex="0">
             <TrendingContent>
-              <TrendingDate dateTime="2023-03-01">March 01, 2023</TrendingDate>
-              <TrendingTitle>Staying Ahead in a Rapidly Changing Business Environment</TrendingTitle>
+              <TrendingDate as="time" dateTime="2023-03-01">March 01, 2023</TrendingDate>
+              <TrendingTitle as="h4">Staying Ahead in a Rapidly Changing Business Environment</TrendingTitle>
             </TrendingContent>
           </TrendingItem>
           
-          <TrendingItem role="listitem">
+          <TrendingItem as="li" role="listitem" tabIndex="0">
             <TrendingContent>
-              <TrendingDate dateTime="2023-02-28">February 28, 2023</TrendingDate>
-              <TrendingTitle>Embracing Environmental and Social Responsibility for Long-Term Success</TrendingTitle>
+              <TrendingDate as="time" dateTime="2023-02-28">February 28, 2023</TrendingDate>
+              <TrendingTitle as="h4">Embracing Environmental and Social Responsibility for Long-Term Success</TrendingTitle>
             </TrendingContent>
           </TrendingItem>
           
-          <TrendingItem role="listitem">
+          <TrendingItem as="li" role="listitem" tabIndex="0">
             <TrendingContent>
-              <TrendingDate dateTime="2023-02-15">February 15, 2023</TrendingDate>
-              <TrendingTitle>From Local to Global: Expanding Your Business into New Markets and Cultures</TrendingTitle>
+              <TrendingDate as="time" dateTime="2023-02-15">February 15, 2023</TrendingDate>
+              <TrendingTitle as="h4">From Local to Global: Expanding Your Business into New Markets and Cultures</TrendingTitle>
             </TrendingContent>
           </TrendingItem>
         </TrendingList>
-        <SeeMoreButton aria-label="Read more trending articles">Read More</SeeMoreButton>
+        <SeeMoreButton as="button" type="button" aria-label="Load more trending articles">Read More</SeeMoreButton>
       </SidebarSection>
 
 

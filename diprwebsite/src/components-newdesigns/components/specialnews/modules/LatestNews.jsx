@@ -173,47 +173,83 @@ const rightNews = [
 ]
 
 export default function LatestNews() {
+  // Parse date for datetime attribute
+  const parseDateTimeAttr = (dateStr) => {
+    try {
+      const parsed = new Date(dateStr);
+      return parsed.toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
+  };
+
   return (
-    <Wrapper aria-label="Latest and Popular news">
+    <Wrapper as="section" aria-labelledby="latest-popular-heading" role="region">
       <GlobalScrollbars />
-      <HeaderRow>
-        <Title>Latest News</Title>
-        <Title>Popular News</Title>
+      <h2 
+        id="latest-popular-heading" 
+        style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+      >
+        Latest and Popular News
+      </h2>
+      
+      <HeaderRow role="presentation">
+        <Title as="h3" id="latest-news-title">Latest News</Title>
+        <Title as="h3" id="popular-news-title">Popular News</Title>
       </HeaderRow>
 
       <Grid>
         {/* Left column */}
-        <Column>
-          <List className="custom-scrollbar" role="feed" aria-label="Latest news list">
+        <Column as="div" role="region" aria-labelledby="latest-news-title">
+          <List className="custom-scrollbar" role="feed" aria-label="Latest news articles" aria-busy="false">
             {leftNews.map((n, idx) => (
-              <Item key={idx}>
+              <Item 
+                key={idx} 
+                as="article" 
+                role="article"
+                aria-labelledby={`latest-news-${idx}`}
+                tabIndex="0"
+              >
                 <MetaRow>
-                  <Badge aria-label={`Category ${n.cat}`}>{n.cat}</Badge>
-                  <DateText>{n.date}</DateText>
+                  <Badge aria-label={`Category: ${n.cat}`}>{n.cat}</Badge>
+                  <DateText as="time" dateTime={parseDateTimeAttr(n.date)}>{n.date}</DateText>
                 </MetaRow>
-                <Headline>{n.title}</Headline>
+                <Headline id={`latest-news-${idx}`} as="h4">{n.title}</Headline>
                 <Summary>{n.summary}</Summary>
-                <Divider />
+                <Divider aria-hidden="true" />
               </Item>
             ))}
           </List>
         </Column>
 
         {/* Center feature */}
-        <Column>
-          <FeatureCard>
-            {/* User requested using Source URL directly */}
+        <Column as="div" role="region" aria-labelledby="featured-story-title">
+          <h3 
+            id="featured-story-title" 
+            style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+          >
+            Featured Story
+          </h3>
+          <FeatureCard 
+            as="article" 
+            role="article"
+            aria-labelledby="featured-health-title"
+            tabIndex="0"
+          >
             <FeatureImage
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Placeholder-66HLqyRGGb3vKzMRu4OpqoBnKkaFJ0.png"
-              alt="City street with vehicles and a building under construction"
+              alt="Featured story: Study on social media and mental health"
+              loading="lazy"
             />
-            <FeatureOverlay />
+            <FeatureOverlay aria-hidden="true" />
             <FeatureContent>
               <MetaRow>
-                <Badge>Health</Badge>
-                <DateText>March 20, 2025</DateText>
+                <Badge aria-label="Category: Health">Health</Badge>
+                <DateText as="time" dateTime="2025-03-20">March 20, 2025</DateText>
               </MetaRow>
-              <FeatureTitle>Study Finds Link Between Social Media Use and Mental Health Issues</FeatureTitle>
+              <FeatureTitle id="featured-health-title" as="h4">
+                Study Finds Link Between Social Media Use and Mental Health Issues
+              </FeatureTitle>
               <FeatureExcerpt>
                 A new study has found a link between excessive social media use and mental health issues, raising
                 concerns about impacts on well-being.
@@ -223,19 +259,25 @@ export default function LatestNews() {
         </Column>
 
         {/* Right column */}
-        <Column>
-          <List className="custom-scrollbar" role="feed" aria-label="Popular news list">
+        <Column as="div" role="region" aria-labelledby="popular-news-title">
+          <List className="custom-scrollbar" role="feed" aria-label="Popular news articles" aria-busy="false">
             {rightNews.map((n, idx) => (
-              <Item key={idx}>
+              <Item 
+                key={idx} 
+                as="article" 
+                role="article"
+                aria-labelledby={`popular-news-${idx}`}
+                tabIndex="0"
+              >
                 <MetaRow>
-                  <Badge aria-label={`Category ${n.cat}`}>{n.cat}</Badge>
-                  <DateText>{n.date}</DateText>
+                  <Badge aria-label={`Category: ${n.cat}`}>{n.cat}</Badge>
+                  <DateText as="time" dateTime={parseDateTimeAttr(n.date)}>{n.date}</DateText>
                 </MetaRow>
-                <Headline>{n.title}</Headline>
-                <Divider />
+                <Headline id={`popular-news-${idx}`} as="h4">{n.title}</Headline>
+                <Divider aria-hidden="true" />
               </Item>
             ))}
-            <SeeMoreBtn type="button" aria-label="See more popular news">
+            <SeeMoreBtn type="button" aria-label="Load more popular news articles">
               See More
             </SeeMoreBtn>
           </List>

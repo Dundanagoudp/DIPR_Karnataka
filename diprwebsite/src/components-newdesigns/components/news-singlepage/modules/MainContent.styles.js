@@ -159,9 +159,10 @@ export const HeroImage = styled.div`
   position: relative;
   width: 100%;
   height: 400px;
-  border-radius: ${theme.borderRadius.medium};
   overflow: hidden;
   margin-bottom: 32px;
+  position: relative;
+
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   
   @media (max-width: ${theme.breakpoints.tablet}) {
