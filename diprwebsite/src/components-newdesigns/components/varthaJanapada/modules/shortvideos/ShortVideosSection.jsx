@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useContext } from "react"
 import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { getVideos } from "../../../../../services/videoApi/videoApi"
+import { LanguageContext } from "../../../../../context/LanguageContext"
 import {
   CarouselContainer,
   SectionHeader,
@@ -38,6 +39,14 @@ const  ShortsCarousel = () => {
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
+  const { language } = useContext(LanguageContext)
+  
+  // Header text translations
+  const headerText = {
+    English: "Shorts",
+    Kannada: "ಶಾರ್ಟ್ಸ್",
+    Hindi: "शॉर्ट्स"
+  }
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -220,7 +229,7 @@ const  ShortsCarousel = () => {
   return (
     <CarouselContainer ref={containerRef} role="region" aria-labelledby="shorts-heading" tabIndex="0">
       <SectionHeader>
-        <Title id="shorts-heading">Shorts</Title>
+        <Title id="shorts-heading">{headerText[language] || "Shorts"}</Title>
       </SectionHeader>
       <CarouselWrapper onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} onTouchEnd={handleMouseUp}>
         {/* Navigation buttons */}
@@ -279,7 +288,7 @@ const  ShortsCarousel = () => {
                         src={
                           video.video_url || "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         }
-                        aria-label={`Playing: ${video.title || "Farmers' Empowerment"}`}
+                        aria-label={`Playing: ${video[language.toLowerCase()]?.title || video.title || "Farmers' Empowerment"}`}
                       >
                         Your browser does not support the video tag.
                       </video>
@@ -297,7 +306,7 @@ const  ShortsCarousel = () => {
                     <VideoThumbnail>
                       <img
                         src={video.thumbnail || "/placeholder.svg?height=400&width=225"}
-                        alt={video.title || "Video thumbnail"}
+                        alt={video[language.toLowerCase()]?.title || video.title || "Video thumbnail"}
                       />
                       <VideoOverlay aria-hidden="true">
                         <PlayButton
@@ -318,9 +327,10 @@ const  ShortsCarousel = () => {
                     </VideoThumbnail>
                   )}
                   <VideoInfo>
-                    <VideoTitle>{video.title || "Farmers' Empowerment"}</VideoTitle>
+                    <VideoTitle>
+                      {video[language.toLowerCase()]?.title || video.title || "Farmers' Empowerment"}
+                    </VideoTitle>
                     <ChannelInfo>
-              
                     </ChannelInfo>
                   </VideoInfo>
                 </VideoCard>

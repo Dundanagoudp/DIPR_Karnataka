@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import theme from '../../../../../theme/Theme';
 
 export const ArticlesSection = styled.section`
@@ -350,5 +350,117 @@ export const ArticleTitle = styled.h3`
   /* Keep white color on hover for main article overlay */
   ${MainArticle}:hover & {
     color: ${theme.colors.white};
+  }
+`;
+
+// Shimmer effect animation
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`;
+
+export const ShimmerContainer = styled.div`
+  width: 100%;
+`;
+
+export const ShimmerArticlesGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ${theme.spacing(1)};
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(2)};
+  }
+
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    grid-template-columns: 1fr 1fr;
+    gap: ${theme.spacing(1)};
+  }
+`;
+
+export const ShimmerMainArticle = styled.div`
+  height: 300px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+    background-size: 468px 100%;
+    animation: ${shimmer} 1.5s infinite linear;
+  }
+
+  @media (min-width: ${theme.breakpoints.mobile}) {
+    height: 350px;
+  }
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    height: 400px;
+  }
+
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    height: 500px;
+  }
+`;
+
+export const ShimmerSmallArticlesGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ${theme.spacing(1)};
+
+  @media (min-width: ${theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr 1fr;
+    gap: ${theme.spacing(1.5)};
+  }
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(2)};
+  }
+
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    gap: ${theme.spacing(1)};
+  }
+`;
+
+export const ShimmerSmallArticle = styled.div`
+  height: 150px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+    background-size: 468px 100%;
+    animation: ${shimmer} 1.5s infinite linear;
+  }
+
+  @media (min-width: ${theme.breakpoints.mobile}) {
+    height: 160px;
+  }
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    height: 170px;
+  }
+
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    height: 180px;
   }
 `;

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { LanguageContext } from '../../../../../context/LanguageContext';
 import { getLongVideos } from "../../../../../services/videoApi/videoApi";
 import {
   ArticlesSection,
@@ -15,6 +16,11 @@ import {
   Badge,
   ArticleContent,
   ArticleTitle,
+  ShimmerContainer,
+  ShimmerArticlesGrid,
+  ShimmerMainArticle,
+  ShimmerSmallArticlesGrid,
+  ShimmerSmallArticle,
 } from './LongVideos.styles';
 
 const LongVideos = () => {
@@ -22,6 +28,14 @@ const LongVideos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [playingVideo, setPlayingVideo] = useState(null);
+  const { language } = useContext(LanguageContext);
+  
+  // Header text translations
+  const headerText = {
+    English: "Latest Videos",
+    Kannada: "ಲೆಟೆಸ್ಟ್ ವಿಡಿಯೋಸ್",
+    Hindi: "लेटेस्ट वीडियोज़"
+  };
   
   useEffect(() => {
     const fetchVideos = async () => {
@@ -46,15 +60,28 @@ const LongVideos = () => {
     fetchVideos();
   }, []);
   
-  // If no articles are loaded yet, return null or loading state
+  // If loading, show shimmer effect
   if (loading) {
     return (
       <ArticlesSection>
         <Container>
           <SectionHeader>
-            <Title>Latest Videos</Title>
+            <Title>{headerText[language] || "Latest Videos"}</Title>
           </SectionHeader>
-          <div>Loading videos...</div>
+          <ShimmerContainer>
+            <ShimmerArticlesGrid>
+              {/* Shimmer Main Article */}
+              <ShimmerMainArticle />
+              
+              {/* Shimmer Small Articles Grid */}
+              <ShimmerSmallArticlesGrid>
+                <ShimmerSmallArticle />
+                <ShimmerSmallArticle />
+                <ShimmerSmallArticle />
+                <ShimmerSmallArticle />
+              </ShimmerSmallArticlesGrid>
+            </ShimmerArticlesGrid>
+          </ShimmerContainer>
         </Container>
       </ArticlesSection>
     );
@@ -65,9 +92,18 @@ const LongVideos = () => {
       <ArticlesSection>
         <Container>
           <SectionHeader>
-            <Title>Latest Videos</Title>
+            <Title>{headerText[language] || "Latest Videos"}</Title>
           </SectionHeader>
-          <div>{error || 'No videos available'}</div>
+          <div>
+            {error ? 
+              (language === "English" ? error : 
+               language === "Kannada" ? "ವೀಡಿಯೋಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ" : 
+               language === "Hindi" ? "वीडियो लोड करने में विफल" : error) : 
+              (language === "English" ? "No videos available" : 
+               language === "Kannada" ? "ಯಾವುದೇ ವೀಡಿಯೋಗಳು ಲಭ್ಯವಿಲ್ಲ" : 
+               language === "Hindi" ? "कोई वीडियो उपलब्ध नहीं है" : "No videos available")
+            }
+          </div>
         </Container>
       </ArticlesSection>
     );
@@ -96,7 +132,7 @@ const LongVideos = () => {
     <ArticlesSection>
       <Container>
         <SectionHeader>
-          <Title>Latest Videos</Title>
+          <Title>{headerText[language] || "Latest Videos"}</Title>
         </SectionHeader>
 
         <ArticlesGrid>
@@ -110,21 +146,21 @@ const LongVideos = () => {
                   controls
                   autoPlay
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  aria-label={mainArticle.title}
+                  aria-label={mainArticle[language.toLowerCase()]?.title || mainArticle.title}
                 />
               ) : (
                 <>
                   <ArticleImage 
                     src={mainArticle.thumbnail || '/public/home/home.png'} 
-                    alt={mainArticle.title} 
+                    alt={mainArticle[language.toLowerCase()]?.title || mainArticle.title} 
                   />
                   <Badge>{mainArticle.category?.name || 'VIDEO'}</Badge>
                   <PlayButton 
                     onClick={() => handlePlayClick(mainArticle._id, mainArticle.video_url)} 
-                    aria-label={`Play ${mainArticle.title}`} 
+                    aria-label={`Play ${mainArticle[language.toLowerCase()]?.title || mainArticle.title}`} 
                   />
                   <ArticleContent>
-                    <ArticleTitle large>{mainArticle.title}</ArticleTitle>
+                    <ArticleTitle large>{mainArticle[language.toLowerCase()]?.title || mainArticle.title}</ArticleTitle>
                   </ArticleContent>
                 </>
               )}
@@ -143,24 +179,24 @@ const LongVideos = () => {
                       controls
                       autoPlay
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      aria-label={article.title}
+                      aria-label={article[language.toLowerCase()]?.title || article.title}
                     />
                   ) : (
                     <>
                       <ArticleImage 
                         src={article.thumbnail || '/public/home/home.png'} 
-                        alt={article.title} 
+                        alt={article[language.toLowerCase()]?.title || article.title} 
                       />
                       <PlayButton 
                         onClick={() => handlePlayClick(article._id, article.video_url)} 
-                        aria-label={`Play ${article.title}`} 
+                        aria-label={`Play ${article[language.toLowerCase()]?.title || article.title}`} 
                       />
                     </>
                   )}
                 </ImageContainer>
                 <ArticleContent>
                   <Badge>{article.category?.name || 'VIDEO'}</Badge>
-                  <ArticleTitle>{article.title}</ArticleTitle>
+                  <ArticleTitle>{article[language.toLowerCase()]?.title || article.title}</ArticleTitle>
                 </ArticleContent>
               </SmallArticle>
             ))}
