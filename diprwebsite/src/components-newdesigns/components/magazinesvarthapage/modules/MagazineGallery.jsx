@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ImFolderDownload } from "react-icons/im";
 import { IoChevronDownOutline } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom';
 import { getMagazines } from '../../../../services/magazineApi/magazineService';
 import { LanguageContext } from '../../../../context/LanguageContext';
 import {
@@ -70,6 +71,7 @@ const monthOrder = {
 };
 
 export default function MagazineGallery() {
+  const navigate = useNavigate();
   const [magazines, setMagazines] = useState([]);
   const [filteredMagazines, setFilteredMagazines] = useState([]);
   const [selectedYear, setSelectedYear] = useState('');
@@ -135,12 +137,17 @@ export default function MagazineGallery() {
     }
   };
 
-  const handleDownload = (magazinePdf, title) => {
+  const handleDownload = (e, magazinePdf, title) => {
+    e.stopPropagation(); // Prevent card click when clicking download
     if (magazinePdf) {
       window.open(magazinePdf, '_blank');
     } else {
       console.log(`No PDF available for: ${title}`);
     }
+  };
+
+  const handleMagazineClick = (magazineId) => {
+    navigate(`/magazinesview/${magazineId}`);
   };
 
   const handleYearChange = (e) => {
@@ -216,7 +223,12 @@ export default function MagazineGallery() {
       <MagazineGrid role="list" aria-label="Magazine collection">
         {filteredMagazines.length > 0 ? (
           filteredMagazines.map((magazine) => (
-            <MagazineCard key={magazine._id} role="listitem">
+            <MagazineCard 
+              key={magazine._id} 
+              role="listitem" 
+              onClick={() => handleMagazineClick(magazine._id)}
+              style={{ cursor: 'pointer' }}
+            >
               <MagazineImageWrapper>
                 <MagazineImage 
                   src={magazine.magazineThumbnail} 
@@ -226,7 +238,7 @@ export default function MagazineGallery() {
               </MagazineImageWrapper>
               
               <DownloadButton 
-                onClick={() => handleDownload(magazine.magazinePdf, magazine.title)} 
+                onClick={(e) => handleDownload(e, magazine.magazinePdf, magazine.title)} 
                 aria-label={`${t.download} ${magazine.publishedMonth} ${magazine.publishedYear}`}
               >
                 <ImFolderDownload aria-hidden="true" />

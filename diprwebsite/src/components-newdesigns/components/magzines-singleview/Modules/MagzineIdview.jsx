@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { MdOutlineFileDownload } from "react-icons/md"
 import { IoChevronDownOutline } from "react-icons/io5"
 import { IoArrowForwardOutline } from "react-icons/io5"
+import { useParams, useNavigate } from "react-router-dom"
 import {
   MagazineViewContainer,
   SectionHeader,
@@ -23,89 +24,211 @@ import {
   MagazineCard,
   MagazineImageWrapper,
   MagazineImage,
-  DownloadButton
+  DownloadButton,
+  ShimmerWrapper,
+  ShimmerCard,
+  ShimmerImageBox,
+  ShimmerButton,
+  ShimmerTitle,
+  ShimmerPdfBox,
+  ShimmerHeaderBox
 } from "./MagzineIdview.styles"
 import { Helmet } from "react-helmet"
 import { ImFolderDownload } from "react-icons/im"
 import theme from "../../../../theme/Theme"
-
-// Import magazine images for recommended section
-import magazine1 from '/public/magzines/magzines.jpg'
-import magazine2 from '/public/magzines/m2.jpg'
-import magazine3 from '/public/magzines/m3.jpg'
+import { getMagazineById, getMagazines } from "../../../../services/magazineApi/magazineService"
 import { FontSizeContext } from "../../../../context/FontSizeProvider"
+import { LanguageContext } from "../../../../context/LanguageContext"
 
-const recommendedMagazines = [
-  { id: 1, image: magazine1, title: 'Karnataka Budget 2024-25', edition: '2024 · Feb-March budget - 25' },
-  { id: 2, image: magazine2, title: 'Incredible Karnataka', edition: 'March 2025 Edition' },
-  { id: 3, image: magazine3, title: 'ಸ್ವಯಂಕಿಂಗ್ ಪ್ರಸಂಗ', edition: 'March 2025 Edition' },
-  { id: 4, image: magazine1, title: 'Karnataka Budget 2024-25', edition: '2024 · Feb-March budget - 25' },
-]
+// Translations
+const translations = {
+  Kannada: {
+    title: "ವಾರ್ತಾ ಜನಪದ ನಿಯತಕಾಲಿಕೆಗಳು",
+    selectYear: "ವರ್ಷ ಆಯ್ಕೆಮಾಡಿ",
+    download: "ಡೌನ್‌ಲೋಡ್",
+    recommendedTitle: "ಶಿಫಾರಸು ಮಾಡಲಾದ ನಿಯತಕಾಲಿಕೆ",
+    seeMore: "ಇನ್ನಷ್ಟು ನೋಡಿ",
+    loading: "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    noPdf: "ಯಾವುದೇ PDF ಲಭ್ಯವಿಲ್ಲ"
+  },
+  English: {
+    title: "Vartha Janapada Magazines",
+    selectYear: "Select Year",
+    download: "Download",
+    recommendedTitle: "Recommended Magazine",
+    seeMore: "See more",
+    loading: "Loading...",
+    noPdf: "No PDF available"
+  },
+  Hindi: {
+    title: "वार्ता जनपद पत्रिकाएँ",
+    selectYear: "वर्ष चुनें",
+    download: "डाउनलोड",
+    recommendedTitle: "अनुशंसित पत्रिका",
+    seeMore: "और देखें",
+    loading: "लोड हो रहा है...",
+    noPdf: "कोई PDF उपलब्ध नहीं"
+  }
+}
 
 export default function MagzineIdview() {
   const { fontSize } = useContext(FontSizeContext)
-  const [pdfUrl] = useState("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf") // Static PDF URL for demo
-  const [title] = useState("Karnataka budget 2024 - 25")
-  const [selectedYear, setSelectedYear] = useState('2024')
+  const { language, setPageLanguage } = useContext(LanguageContext)
+  const { id } = useParams()
+  const navigate = useNavigate()
+  
+  const [magazine, setMagazine] = useState(null)
+  const [recommendedMagazines, setRecommendedMagazines] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [availableYears, setAvailableYears] = useState([])
+  const [selectedYear, setSelectedYear] = useState('')
+  
+  // Get translations
+  const t = translations[language] || translations.English
+
+  useEffect(() => {
+    setPageLanguage('magazine')
+    return () => {
+      setPageLanguage(null)
+    }
+  }, [setPageLanguage])
+
+  useEffect(() => {
+    if (id) {
+      fetchMagazineById()
+      fetchRecommendedMagazines()
+    }
+  }, [id])
+
+  const fetchMagazineById = async () => {
+    try {
+      setLoading(true)
+      const response = await getMagazineById(id)
+      if (response && response.data) {
+        setMagazine(response.data)
+        setSelectedYear(response.data.editionNumber || response.data.publishedYear)
+      }
+      setLoading(false)
+    } catch (error) {
+      console.error('Error fetching magazine:', error)
+      setLoading(false)
+    }
+  }
+
+  const fetchRecommendedMagazines = async () => {
+    try {
+      const response = await getMagazines()
+      if (response && response.data) {
+        // Get latest 4 magazines excluding current one
+        const latest = response.data
+          .filter(mag => mag.status === 'approved' && mag._id !== id)
+          .sort((a, b) => new Date(b.last_updated) - new Date(a.last_updated))
+          .slice(0, 4)
+        setRecommendedMagazines(latest)
+        
+        // Get unique years for filter
+        const years = [...new Set(response.data.map(mag => mag.editionNumber))].sort((a, b) => b - a)
+        setAvailableYears(years)
+      }
+    } catch (error) {
+      console.error('Error fetching recommended magazines:', error)
+    }
+  }
 
   const handleDownload = () => {
-    if (pdfUrl) {
-      const a = document.createElement("a")
-      a.href = pdfUrl
-      a.download = `${title.replace(/\s/g, "_")}.pdf`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
+    if (magazine && magazine.magazinePdf) {
+      window.open(magazine.magazinePdf, '_blank')
     } else {
       alert("No PDF URL available for download.")
     }
   }
 
   const handleYearChange = (e) => {
-    setSelectedYear(e.target.value)
-    // Add filter logic here if needed
+    const year = e.target.value
+    setSelectedYear(year)
+    // Navigate to magazines page with year filter if needed
   }
 
-  const handleRecommendedDownload = (magazineTitle) => {
-    console.log(`Downloading: ${magazineTitle}`)
-    alert(`Downloading: ${magazineTitle}`)
+  const handleRecommendedDownload = (magazinePdf) => {
+    if (magazinePdf) {
+      window.open(magazinePdf, '_blank')
+    }
+  }
+
+  const handleRecommendedClick = (magazineId) => {
+    navigate(`/magazinesview/${magazineId}`)
+  }
+
+  if (loading) {
+    return (
+      <ShimmerWrapper>
+        <MagazineViewContainer style={{ fontSize: `${fontSize}%` }} role="region" aria-label={t.loading}>
+          <SectionHeader>
+            <TitleWrapper>
+              <ShimmerTitle style={{ width: '300px' }} />
+              <ShimmerTitle style={{ width: '200px', height: '16px' }} />
+            </TitleWrapper>
+            <YearFilterWrapper>
+              <ShimmerTitle style={{ width: '150px', height: '40px' }} />
+            </YearFilterWrapper>
+          </SectionHeader>
+
+          <ShimmerHeaderBox />
+
+          <ContentWrapper>
+            <ShimmerPdfBox />
+          </ContentWrapper>
+
+          <RecommendedSection>
+            <RecommendedHeader>
+              <ShimmerTitle style={{ width: '250px' }} />
+            </RecommendedHeader>
+            <MagazineGrid>
+              {[...Array(4)].map((_, index) => (
+                <ShimmerCard key={index}>
+                  <ShimmerImageBox />
+                  <ShimmerButton />
+                </ShimmerCard>
+              ))}
+            </MagazineGrid>
+          </RecommendedSection>
+        </MagazineViewContainer>
+      </ShimmerWrapper>
+    )
   }
 
   return (
     <MagazineViewContainer style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Magazine PDF viewer">
       <Helmet>
-        <title>{title} | Karnataka Varthe</title>
+        <title>{magazine?.title || t.title} | Karnataka Varthe</title>
         <meta
           name="description"
-          content={`Read the latest edition: ${title}`}
+          content={`Read the latest edition: ${magazine?.title || t.title}`}
         />
-        <meta property="og:title" content={title} />
+        <meta property="og:title" content={magazine?.title || t.title} />
         <meta
           property="og:description"
-          content={`Digital magazine: ${title}`}
+          content={magazine?.description || `Digital magazine: ${magazine?.title}`}
         />
         <meta property="og:type" content="article" />
         <meta
           property="og:image"
-          content="/default-magazine-cover.jpg"
+          content={magazine?.magazineThumbnail || "/default-magazine-cover.jpg"}
         />
         <meta property="og:url" content={window.location.href} />
       </Helmet>
       
       <SectionHeader>
         <TitleWrapper>
-          <PageTitle>Latest Vartha Janapada Magazines</PageTitle>
-          <Breadcrumb>2000 / {title}</Breadcrumb>
+          <PageTitle>{t.title}</PageTitle>
+          <Breadcrumb>{selectedYear} / {magazine?.title || ''}</Breadcrumb>
         </TitleWrapper>
         <YearFilterWrapper>
-          <YearFilter value={selectedYear} onChange={handleYearChange} aria-label="Filter by year">
-            <option value="">Select Year</option>
-            <option value="2025">2025</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
+          <YearFilter value={selectedYear} onChange={handleYearChange} aria-label={t.selectYear}>
+            <option value="">{t.selectYear}</option>
+            {availableYears.map((year) => (
+              <option key={year} value={year}>{year}</option>
+            ))}
           </YearFilter>
           <YearFilterIcon aria-hidden="true">
             <IoChevronDownOutline />
@@ -114,29 +237,30 @@ export default function MagzineIdview() {
       </SectionHeader>
 
       <HeaderSection>
-        <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 600, color: '#000', fontFamily: theme.fonts.body }}>{title}</h1>
-        <MainDownloadButton onClick={handleDownload} aria-label={`Download ${title}`}>
+        <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 600, color: '#000', fontFamily: theme.fonts.body }}>
+          {magazine?.title || ''}
+        </h1>
+        <MainDownloadButton onClick={handleDownload} aria-label={`${t.download} ${magazine?.title || ''}`}>
           <MdOutlineFileDownload size={18} aria-hidden="true" />
-          Download
+          {t.download}
         </MainDownloadButton>
       </HeaderSection>
 
       <ContentWrapper>
-        
         <MainPdfViewer>
-          {pdfUrl ? (
+          {magazine?.magazinePdf ? (
             <iframe
-              src={pdfUrl}
+              src={magazine.magazinePdf}
               width="100%"
               height="100%"
               style={{ border: "none" }}
-              title={title}
+              title={magazine.title}
             >
               Your browser does not support PDFs. Please download the PDF to view it.
             </iframe>
           ) : (
             <div style={{ textAlign: "center", padding: "20px", color: "#666" }} role="status" aria-live="polite">
-              No PDF available to display.
+              {t.noPdf}
             </div>
           )}
         </MainPdfViewer>
@@ -144,22 +268,28 @@ export default function MagzineIdview() {
 
       <RecommendedSection>
         <RecommendedHeader>
-          <RecommendedTitle>Recommended Magazine</RecommendedTitle>
-          <SeeMoreButton aria-label="See more recommended magazines">
-            See more
+          <RecommendedTitle>{t.recommendedTitle}</RecommendedTitle>
+          <SeeMoreButton onClick={() => navigate('/varthamagazines')} aria-label={t.seeMore}>
+            {t.seeMore}
             <IoArrowForwardOutline aria-hidden="true" />
           </SeeMoreButton>
         </RecommendedHeader>
         <MagazineGrid role="list" aria-label="Recommended magazines">
-          {recommendedMagazines.map((magazine) => (
-            <MagazineCard key={magazine.id} role="listitem">
+          {recommendedMagazines.map((mag) => (
+            <MagazineCard key={mag._id} role="listitem" onClick={() => handleRecommendedClick(mag._id)} style={{ cursor: 'pointer' }}>
               <MagazineImageWrapper>
-                <MagazineImage src={magazine.image} alt={magazine.title} loading="lazy" />
+                <MagazineImage src={mag.magazineThumbnail} alt={mag.title} loading="lazy" />
               </MagazineImageWrapper>
               
-              <DownloadButton onClick={() => handleRecommendedDownload(magazine.title)} aria-label={`Download ${magazine.title}`}>
+              <DownloadButton 
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleRecommendedDownload(mag.magazinePdf)
+                }} 
+                aria-label={`${t.download} ${mag.title}`}
+              >
                 <ImFolderDownload aria-hidden="true" />
-                Download
+                {t.download}
               </DownloadButton>
             </MagazineCard>
           ))}
