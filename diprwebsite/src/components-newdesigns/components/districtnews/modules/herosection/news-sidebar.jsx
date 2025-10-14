@@ -1,5 +1,12 @@
 import SidebarCard from "./sidebar-card"
-import { Aside } from "./news-sidebar.styles"
+import { 
+  Aside,
+  SkeletonCard,
+  SkeletonThumb,
+  SkeletonTitle,
+  SkeletonExcerpt,
+  SkeletonMeta
+} from "./news-sidebar.styles"
 import { useContext, useState, useEffect } from "react"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
@@ -60,6 +67,30 @@ export default function NewsSidebar({
         setDistrictNews(randomTwo)
       }
     }, [language, rawData])
+
+  // Shimmer loading component
+  if (loading || districtNews.length === 0) {
+    return (
+      <Aside role="complementary" aria-labelledby="sidebar-heading">
+        <h3 
+          id="sidebar-heading" 
+          style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+        >
+          Recent District News
+        </h3>
+        {[1, 2].map((item) => (
+          <SkeletonCard key={item}>
+            <SkeletonThumb />
+            <SkeletonTitle />
+            <SkeletonTitle style={{ width: "65%" }} />
+            <SkeletonExcerpt />
+            <SkeletonExcerpt style={{ width: "50%" }} />
+            <SkeletonMeta />
+          </SkeletonCard>
+        ))}
+      </Aside>
+    )
+  }
 
   return (
     <Aside role="complementary" aria-labelledby="sidebar-heading">
