@@ -12,19 +12,30 @@ import {
   Title,
   Badge,
   LinkArea,
+  SkeletonBannerWrap,
+  SkeletonBannerInner,
+  SkeletonContent,
+  SkeletonDate,
+  SkeletonBadge,
+  SkeletonTitle,
 } from "./BannerNews.styles"
 
 export default function Banner() {
   const { language } = useContext(LanguageContext)
   const [item, setItem] = useState(null)
+  const [loading, setLoading] = useState(true)
   const langKey = language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
 
   useEffect(() => {
     let mounted = true
     ;(async () => {
       try {
+        setLoading(true)
         const res = await getNews()
-        if (!mounted || !res?.success || !Array.isArray(res.data)) return
+        if (!mounted || !res?.success || !Array.isArray(res.data)) {
+          if (mounted) setLoading(false)
+          return
+        }
 
         // pick most-recent by publishedAt (fallback to createdAt)
         const latest = res.data.reduce((best, cur) => {
@@ -33,7 +44,10 @@ export default function Banner() {
           return c > b ? cur : best
         }, res.data[0])
 
-        if (!latest) return
+        if (!latest) {
+          if (mounted) setLoading(false)
+          return
+        }
 
         const title = latest[langKey]?.title ?? latest.title ?? ""
         const excerpt = latest[langKey]?.description ?? latest.description ?? ""
@@ -42,21 +56,42 @@ export default function Banner() {
         const badge = typeof latest.category === "object" ? latest.category?.name ?? "" : latest.category ?? ""
         const href = `/news/${latest._id ?? latest.id ?? ""}`
 
-        if (mounted) setItem({ title, excerpt, imageSrc, date, badge, href })
+        if (mounted) {
+          setItem({ title, excerpt, imageSrc, date, badge, href })
+          setLoading(false)
+        }
       } catch (e) {
         console.error(e)
-        if (mounted) setItem(null)
+        if (mounted) {
+          setItem(null)
+          setLoading(false)
+        }
       }
     })()
     return () => {
       mounted = false
     }
-  }, [language])
+  }, [language, langKey])
 
   const parseDateTimeAttr = (d) => {
     if (!d) return ""
     const parsed = new Date(d)
     return isNaN(parsed) ? "" : parsed.toISOString().split("T")[0]
+  }
+
+  // Show shimmer while loading
+  if (loading) {
+    return (
+      <SkeletonBannerWrap>
+        <SkeletonBannerInner>
+          <SkeletonContent>
+            <SkeletonDate />
+            <div><SkeletonBadge /></div>
+            <SkeletonTitle />
+          </SkeletonContent>
+        </SkeletonBannerInner>
+      </SkeletonBannerWrap>
+    )
   }
 
   if (!item) return null

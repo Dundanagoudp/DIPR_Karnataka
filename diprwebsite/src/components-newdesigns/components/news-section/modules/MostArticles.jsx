@@ -20,6 +20,11 @@ import {
   SideExcerpt,
   SeeMoreWrap,
   SeeMoreBtn,
+  SkeletonCard,
+  SkeletonImageWrap,
+  SkeletonContent,
+  SkeletonLine,
+  SkeletonTabButton,
 } from "./MostArticles.styles"
 import { CategoryApi } from "../../../../services/categoryapi/CategoryApi"
 import { useEffect, useContext, useState } from "react"
@@ -37,6 +42,7 @@ export default function TabSection() {
   const [categories, setCategories] = useState([])
   const [news, setNews] = useState([])
   const [rawNews, setRawNews] = useState([])
+  const [loading, setLoading] = useState(true)
   
   const { language } = useContext(LanguageContext)
 
@@ -55,22 +61,26 @@ export default function TabSection() {
   useEffect(() => {
     // get categories
     const getCategories = async () => {
+      setLoading(true)
       const res = await CategoryApi()
       if (res?.data) {
         setCategories(res.data)
         setActive(res.data[0]?._id || "")
       }
+      setLoading(false)
     }
     getCategories()
   }, [])
   useEffect(() => {
     // get news by type state
 const fetchNews = async () => {
+  setLoading(true)
   const res = await getNews()
 
   if (res?.success && Array.isArray(res.data)) {
     setRawNews(res.data)
   }
+  setLoading(false)
 }
 fetchNews()
   }, [language])
@@ -139,6 +149,48 @@ fetchNews()
   const posts = news.length > 0 ? news : []
   const featured = posts.slice(0, 3)
   const secondary = posts.slice(3, 6)
+
+  // Show shimmer while loading
+  if (loading) {
+    return (
+      <Section as="section" aria-labelledby="most-articles-tabs-heading" role="region">
+        <Container>
+          <h2 
+            id="most-articles-tabs-heading" 
+            style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+          >
+            Karnataka News By Category
+          </h2>
+
+          {/* Tab Navigation Skeleton */}
+          <Tabs role="tablist" aria-label="Karnataka news categories">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <SkeletonTabButton key={i} />
+            ))}
+          </Tabs>
+
+          <Layout>
+            <div>
+              <Grid>
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <SkeletonCard key={i}>
+                    <SkeletonImageWrap />
+                    <SkeletonContent>
+                      <SkeletonLine width="60%" height="14px" />
+                      <SkeletonLine width="90%" height="20px" />
+                      <SkeletonLine width="100%" height="14px" />
+                      <SkeletonLine width="100%" height="14px" />
+                      <SkeletonLine width="70%" height="14px" />
+                    </SkeletonContent>
+                  </SkeletonCard>
+                ))}
+              </Grid>
+            </div>
+          </Layout>
+        </Container>
+      </Section>
+    )
+  }
 
   return (
     <Section as="section" aria-labelledby="most-articles-tabs-heading" role="region">

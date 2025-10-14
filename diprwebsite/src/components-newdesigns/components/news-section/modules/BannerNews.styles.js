@@ -193,3 +193,137 @@ export const LinkArea = styled.a`
     }
   }
 `
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonBannerWrap = styled.div`
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: ${theme.colors.gray[100]};
+  ${shimmer}
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    border-radius: ${theme.borderRadius.small};
+    margin: 0 0.5rem;
+  }
+`
+
+export const SkeletonBannerInner = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 6;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    aspect-ratio: 16 / 9;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    aspect-ratio: 16 / 10;
+  }
+`
+
+export const SkeletonContent = styled.div`
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: ${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(2.5)} ${theme.spacing(2)};
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(0.5)};
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(2.5)} ${theme.spacing(2.5)} ${theme.spacing(3)} ${theme.spacing(2.5)};
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    padding: ${theme.spacing(3)} ${theme.spacing(3)} ${theme.spacing(3.5)} ${theme.spacing(3)};
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(1.5)} ${theme.spacing(1.5)} ${theme.spacing(2)} ${theme.spacing(1.5)};
+  }
+`
+
+export const SkeletonDate = styled.div`
+  width: 150px;
+  height: 16px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[300]} 25%,
+    ${theme.colors.gray[200]} 50%,
+    ${theme.colors.gray[300]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+  margin-bottom: ${theme.spacing(0.5)};
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100px;
+    height: 12px;
+  }
+`
+
+export const SkeletonBadge = styled.div`
+  width: 80px;
+  height: 24px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[300]} 25%,
+    ${theme.colors.gray[200]} 50%,
+    ${theme.colors.gray[300]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 999px;
+  margin-bottom: ${theme.spacing(0.5)};
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 60px;
+    height: 20px;
+  }
+`
+
+export const SkeletonTitle = styled.div`
+  width: 70%;
+  height: 32px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[300]} 25%,
+    ${theme.colors.gray[200]} 50%,
+    ${theme.colors.gray[300]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+  
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    height: 40px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 24px;
+    width: 80%;
+  }
+`
