@@ -312,3 +312,110 @@ export const DownloadButton = styled.button`
   }
 `;
 
+// Shimmer Effect Styles
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`;
+
+export const ShimmerWrapper = styled.div`
+  ${shimmer}
+`;
+
+export const ShimmerCard = styled.div`
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const ShimmerImageBox = styled.div`
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 0px,
+    ${theme.colors.gray[300]} 40px,
+    ${theme.colors.gray[200]} 80px
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite linear;
+`;
+
+export const ShimmerButton = styled.div`
+  width: 140px;
+  height: 40px;
+  margin: ${theme.spacing(2.5)} auto;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 0px,
+    ${theme.colors.gray[300]} 40px,
+    ${theme.colors.gray[200]} 80px
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: ${theme.borderRadius.medium};
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 120px;
+    height: 36px;
+    margin: ${theme.spacing(2)} auto;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100px;
+    height: 32px;
+    margin: ${theme.spacing(1.5)} auto;
+  }
+`;
+
+export const ShimmerTitle = styled.div`
+  width: 250px;
+  height: 24px;
+  margin-bottom: ${theme.spacing(2)};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 0px,
+    ${theme.colors.gray[300]} 40px,
+    ${theme.colors.gray[200]} 80px
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 200px;
+    height: 20px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 150px;
+    height: 18px;
+  }
+`;
+
+export const ShimmerFilter = styled.div`
+  width: 150px;
+  height: 40px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 0px,
+    ${theme.colors.gray[300]} 40px,
+    ${theme.colors.gray[200]} 80px
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100%;
+    height: 36px;
+  }
+`;
+
