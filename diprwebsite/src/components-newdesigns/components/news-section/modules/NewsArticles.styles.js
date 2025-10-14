@@ -300,6 +300,54 @@ export const PopularDate = styled.span`
   font-weight: 600;
 `
 
+export const SeeMoreWrap = styled.div`
+  margin-top: ${theme.spacing(2)};
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: ${theme.spacing(1.5)};
+  }
+
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    margin-top: ${theme.spacing(1.75)};
+  }
+`
+
+export const SeeMoreBtn = styled.button`
+  background: ${theme.colors.primary};
+  color: ${theme.colors.white};
+  border: 0;
+  margin-top: ${theme.spacing(3.75)};
+  padding: ${theme.spacing(1.5)} ${theme.spacing(3)};
+  font-size: ${theme.fontSizes.medium};
+  cursor: pointer;
+  width: 100%;
+  font-family: ${theme.fonts.body};
+  transition: ${theme.transitions.fast};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: ${theme.spacing(2.5)};
+    padding: ${theme.spacing(1.25)} ${theme.spacing(2.5)};
+    font-size: 13px;
+  }
+
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    margin-top: ${theme.spacing(3)};
+    padding: ${theme.spacing(1.25)} ${theme.spacing(2.75)};
+    font-size: ${theme.fontSizes.small};
+  }
+
+  &:hover {
+    background: ${theme.colors.primaryDark};
+  }
+
+  &:focus {
+    outline: 2px solid ${theme.colors.primary};
+    outline-offset: 2px;
+  }
+`
+
 const styles = {
   Container,
   GridLayout,
@@ -322,6 +370,8 @@ const styles = {
   PopularContent,
   PopularTitle,
   PopularDate,
+  SeeMoreWrap,
+  SeeMoreBtn,
 }
 
 export { styles }
