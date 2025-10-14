@@ -83,6 +83,7 @@ export default function TabSection() {
   const [categories, setCategories] = useState([])
   const [news, setNews] = useState([])
   const [rawNews, setRawNews] = useState([])
+  const [sideList, setSideList] = useState([])
   const { language } = useContext(LanguageContext)
   
   useEffect(() => {
@@ -122,7 +123,7 @@ fetchNews()
 
     const langKey =
       language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
-
+    
     const localized = filtered.map((item) => ({
       id: item._id,
       title: item[langKey]?.title || item.title || "",
@@ -139,7 +140,27 @@ fetchNews()
     }))
 
     setNews(localized)
+ 
   }, [active, language, rawNews])
+  useEffect(() => {
+    if (rawNews.length > 0) {
+      const langKey =
+      language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
+      const localized = rawNews.map((item) => ({
+        id: item._id,
+        date: item.publishedAt
+        ? new Date(item.publishedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : "",
+        title: item[langKey]?.title.slice(0, 50) + "..." || item.title || "",
+       
+      }))
+      setSideList(localized.slice(0, 5))
+    }
+  }, [language, rawNews])
   // Keyboard navigation for tabs
   const handleKeyDown = (e) => {
     const currentIndex = categories.findIndex((cat) => cat._id === active);
@@ -172,53 +193,55 @@ fetchNews()
 
   const secondary = posts.slice(2, 4)
 
-  const sideList = [
-    { 
-      date: "March 15, 2025", 
-      title: "World Leaders Gather for Climate Summit in Paris",
-      excerpt: "Global leaders from over 50 countries convened in Paris to discuss urgent climate action and set new emission reduction targets."
-    },
-    { 
-      date: "March 05, 2025", 
-      title: "State Congress Passes $1 Trillion Infrastructure Bill",
-      excerpt: "The landmark infrastructure bill includes funding for roads, bridges, broadband, and clean energy projects across the state."
-    },
-    { 
-      date: "March 01, 2025", 
-      title: "Climate Change Protesters Clash with Police in City L",
-      excerpt: "Thousands of environmental activists took to the streets demanding immediate action on climate change policies."
-    },
-    { 
-      date: "February 28, 2025", 
-      title: "Administration to Introduce Climate Change Legislation",
-      excerpt: "New comprehensive climate legislation aims to reduce carbon emissions by 50% over the next decade."
-    },
-    { 
-      date: "February 15, 2025", 
-      title: "The Changing Landscape of Political Power",
-      excerpt: "Analysis of shifting political dynamics and emerging leadership trends in global governance structures."
-    },
-    { 
-      date: "March 05, 2025", 
-      title: "State Congress Passes $1 Trillion Infrastructure Bill",
-      excerpt: "The landmark infrastructure bill includes funding for roads, bridges, broadband, and clean energy projects across the state."
-    },
-    { 
-      date: "March 01, 2025", 
-      title: "Climate Change Protesters Clash with Police in City L",
-      excerpt: "Thousands of environmental activists took to the streets demanding immediate action on climate change policies."
-    },
-    { 
-      date: "February 28, 2025", 
-      title: "Administration to Introduce Climate Change Legislation",
-      excerpt: "New comprehensive climate legislation aims to reduce carbon emissions by 50% over the next decade."
-    },
-    { 
-      date: "February 15, 2025", 
-      title: "The Changing Landscape of Political Power",
-      excerpt: "Analysis of shifting political dynamics and emerging leadership trends in global governance structures."
-    },
-  ]
+
+
+  // const sideList = [
+  //   { 
+  //     date: "March 15, 2025", 
+  //     title: "World Leaders Gather for Climate Summit in Paris",
+  //     excerpt: "Global leaders from over 50 countries convened in Paris to discuss urgent climate action and set new emission reduction targets."
+  //   },
+  //   { 
+  //     date: "March 05, 2025", 
+  //     title: "State Congress Passes $1 Trillion Infrastructure Bill",
+  //     excerpt: "The landmark infrastructure bill includes funding for roads, bridges, broadband, and clean energy projects across the state."
+  //   },
+  //   { 
+  //     date: "March 01, 2025", 
+  //     title: "Climate Change Protesters Clash with Police in City L",
+  //     excerpt: "Thousands of environmental activists took to the streets demanding immediate action on climate change policies."
+  //   },
+  //   { 
+  //     date: "February 28, 2025", 
+  //     title: "Administration to Introduce Climate Change Legislation",
+  //     excerpt: "New comprehensive climate legislation aims to reduce carbon emissions by 50% over the next decade."
+  //   },
+  //   { 
+  //     date: "February 15, 2025", 
+  //     title: "The Changing Landscape of Political Power",
+  //     excerpt: "Analysis of shifting political dynamics and emerging leadership trends in global governance structures."
+  //   },
+  //   { 
+  //     date: "March 05, 2025", 
+  //     title: "State Congress Passes $1 Trillion Infrastructure Bill",
+  //     excerpt: "The landmark infrastructure bill includes funding for roads, bridges, broadband, and clean energy projects across the state."
+  //   },
+  //   { 
+  //     date: "March 01, 2025", 
+  //     title: "Climate Change Protesters Clash with Police in City L",
+  //     excerpt: "Thousands of environmental activists took to the streets demanding immediate action on climate change policies."
+  //   },
+  //   { 
+  //     date: "February 28, 2025", 
+  //     title: "Administration to Introduce Climate Change Legislation",
+  //     excerpt: "New comprehensive climate legislation aims to reduce carbon emissions by 50% over the next decade."
+  //   },
+  //   { 
+  //     date: "February 15, 2025", 
+  //     title: "The Changing Landscape of Political Power",
+  //     excerpt: "Analysis of shifting political dynamics and emerging leadership trends in global governance structures."
+  //   },
+  // ]
 
   return (
     <Section aria-labelledby="news-tabs-heading">
@@ -261,8 +284,8 @@ fetchNews()
                   </ImageWrap>
                   <Content>
                     <DateText>{p.date}</DateText>
-                    <Title>{p.title}</Title>
-                    <Excerpt>{p.excerpt}</Excerpt>
+                    <Title>{p.title.slice(0, 50)}...</Title>
+                    <Excerpt>{p.excerpt.slice(0, 150)}...</Excerpt>
                   </Content>
                 </Card>
               ))}
@@ -274,8 +297,8 @@ fetchNews()
                   </ImageWrap>
                   <Content>
                     <DateText>{p.date}</DateText>
-                    <Title>{p.title}</Title>
-                    <Excerpt>{p.excerpt}</Excerpt>
+                    <Title>{p.title.slice(0, 50)}...</Title>
+                    <Excerpt>{p.excerpt.slice(0, 150)}...</Excerpt>
                   </Content>
                 </Card>
               ))}
@@ -287,7 +310,7 @@ fetchNews()
               {sideList.map((item, idx) => (
                 <SideItem key={idx} role="listitem">
                   <SideDate>{item.date}</SideDate>
-                  <SideTitle>{item.title}</SideTitle>
+                  <SideTitle>{item.title.slice(0, 50)}...</SideTitle>
                 </SideItem>
               ))}
             </SideList>
