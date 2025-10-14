@@ -30,6 +30,7 @@ import { CategoryApi } from "../../../../services/categoryapi/CategoryApi"
 import { useEffect, useContext, useState } from "react"
 import { getNews } from "../../../../services/newsApi/NewsApi"
 import { LanguageContext } from "../../../../context/LanguageContext"
+import { useNavigate } from "react-router-dom"
 
 // Demo data for March of Karnataka
 
@@ -43,8 +44,9 @@ export default function TabSection() {
   const [news, setNews] = useState([])
   const [rawNews, setRawNews] = useState([])
   const [loading, setLoading] = useState(true)
-  
+
   const { language } = useContext(LanguageContext)
+  const navigate = useNavigate()
 
   // Layout: first 3 are featured (top), next 3 are secondary (bottom)
 
@@ -232,16 +234,18 @@ fetchNews()
           >
             <Grid>
               {featured.map((p, idx) => (
-                <Card 
-                  key={p.id} 
-                  as="article" 
+                <Card
+                  key={p.id}
+                  as="article"
                   role="article"
                   aria-labelledby={`card-title-${p.id}-${idx}`}
                   tabIndex="0"
+                  onClick={() => navigate(`/newsdetails/${p.id}`)}
+                  style={{ cursor: 'pointer' }}
                 >
                   <ImageWrap>
-                    <img 
-                      src={p.image || "/placeholder.svg"} 
+                    <img
+                      src={p.image || "/placeholder.svg"}
                       alt={p.alt || `Image for ${p.title}`}
                       loading="lazy"
                     />
@@ -255,16 +259,18 @@ fetchNews()
               ))}
 
               {secondary.map((p) => (
-                <Card 
-                  key={p.id} 
-                  as="article" 
+                <Card
+                  key={p.id}
+                  as="article"
                   role="article"
                   aria-labelledby={`card-title-${p.id}`}
                   tabIndex="0"
+                  onClick={() => navigate(`/newsdetails/${p.id}`)}
+                  style={{ cursor: 'pointer' }}
                 >
                   <ImageWrap>
-                    <img 
-                      src={p.image || "/placeholder.svg"} 
+                    <img
+                      src={p.image || "/placeholder.svg"}
                       alt={p.alt || `Image for ${p.title}`}
                       loading="lazy"
                     />

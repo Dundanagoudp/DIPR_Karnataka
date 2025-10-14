@@ -230,7 +230,7 @@ fetchNews()
           >
             <ThumbWrap 
               as="a"
-              href={`/news/${item.id}`} 
+              href={`/newsdetails/${item.id}`} 
               aria-label={`View full article: ${item.title}`}
             >
               <img 

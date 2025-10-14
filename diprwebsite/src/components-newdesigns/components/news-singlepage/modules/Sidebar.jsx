@@ -25,8 +25,174 @@ import {
   TrendingDate,
   SeeMoreButton
 } from './Sidebar.styles'
+import { useState, useEffect,useContext } from 'react'
+import { LanguageContext } from '../../../../context/LanguageContext'
+import { getNewsByTypeState , getNewsByTypeDistrict, getNewsByTypeSpecialnews ,getNews, getNewsByid} from '../../../../services/newsApi/NewsApi'
 
+import { useParams, useNavigate } from 'react-router-dom'
 const Sidebar = () => {
+  const [news, setNews] = useState([])
+  const [rawNews, setRawNews] = useState([])
+  const [allNews, setAllNews] = useState([])
+  const [allRawNews, setAllRawNews] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [newsId, setNewsId] = useState(null)
+  const [newsIdLoading, setNewsIdLoading] = useState(true)
+  const { id } = useParams()
+  const { language } = useContext(LanguageContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchNewsbyId = async () => {
+      try {
+        setNewsIdLoading(true)
+        const response = await getNewsByid(id)
+        console.log('News by ID response:', response)
+        if (response?.data) {
+          setNewsId(response.data)
+          console.log('News ID set:', response.data)
+        } else {
+          setNewsId(null)
+        }
+      } catch (error) {
+        console.error('Error fetching news by ID:', error)
+        setNewsId(null)
+      } finally {
+        setNewsIdLoading(false)
+      }
+    }
+
+    if (id) {
+      fetchNewsbyId()
+    }
+  }, [id])
+  
+
+  const fetchNewsByTypeState = async () => {
+    try {
+      const response = await getNewsByTypeState()
+      if (response?.data) {
+        setRawNews(Array.isArray(response.data) ? response.data : [])
+      } else {
+        setRawNews([])
+      }
+    } catch (error) {
+      console.error('Error fetching state news:', error)
+      setRawNews([])
+    }
+  }
+
+  const fetchNewsByTypeDistrict = async () => {
+    try {
+      const response = await getNewsByTypeDistrict()
+      if (response?.data) {
+        setRawNews(Array.isArray(response.data) ? response.data : [])
+      } else {
+        setRawNews([])
+      }
+    } catch (error) {
+      console.error('Error fetching district news:', error)
+      setRawNews([])
+    }
+  }
+
+  const fetchNewsByTypeSpecialnews = async () => {
+    try {
+      const response = await getNewsByTypeSpecialnews()
+      if (response?.data) {
+        setRawNews(Array.isArray(response.data) ? response.data : [])
+      } else {
+        setRawNews([])
+      }
+    } catch (error) {
+      console.error('Error fetching special news:', error)
+      setRawNews([])
+    }
+  }
+
+  useEffect(() => {
+    if (!newsIdLoading && newsId && newsId.newsType) {
+      if (newsId.newsType === "statenews") {
+        fetchNewsByTypeState()
+      } else if (newsId.newsType === "districtnews") {
+        fetchNewsByTypeDistrict()
+      } else if (newsId.newsType === "specialnews") {
+        fetchNewsByTypeSpecialnews()
+      } else {
+        setRawNews([])
+      }
+    }
+  }, [newsId, newsIdLoading])
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setLoading(true)
+        const response = await getNews()
+        if (response?.data) {
+          setAllRawNews(Array.isArray(response.data) ? response.data : [])
+        } else {
+          setAllRawNews([])
+        }
+      } catch (error) {
+        console.error('Error fetching general news:', error)
+        setAllRawNews([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchNews()
+  }, [language])
+
+  // Localize raw news data based on language for Popular News section
+  useEffect(() => {
+    if (rawNews.length > 0) {
+      const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada";
+
+      const localized = rawNews.map((item) => {
+        const title = (item[langKey] && item[langKey].title) || item.title || "";
+        const description = (item[langKey] && item[langKey].description) || item.description || "";
+
+        return {
+          _id: item._id,
+          title: title,
+          description: description,
+          newsImage: item.newsImage || "/placeholder.svg",
+          publishedAt: item.publishedAt,
+          createdAt: item.createdAt,
+        };
+      });
+
+      setNews(localized);
+    } else {
+      setNews([]);
+    }
+  }, [rawNews, language])
+
+  // Localize all raw news data based on language for Latest News section
+  useEffect(() => {
+    if (allRawNews.length > 0) {
+      const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada";
+
+      const localized = allRawNews.map((item) => {
+        const title = (item[langKey] && item[langKey].title) || item.title || "";
+        const description = (item[langKey] && item[langKey].description) || item.description || "";
+
+        return {
+          _id: item._id,
+          title: title,
+          description: description,
+          newsImage: item.newsImage || "/placeholder.svg",
+          publishedAt: item.publishedAt,
+          createdAt: item.createdAt,
+        };
+      });
+
+      setAllNews(localized);
+    } else {
+      setAllNews([]);
+    }
+  }, [allRawNews, language])
+  
   return (
     <SidebarContainer as="aside" role="complementary" aria-label="Article sidebar">
       {/* Follow Us Section */}
@@ -83,158 +249,158 @@ const Sidebar = () => {
         </SocialMediaList>
       </SidebarSection>
 
-      {/* Popular News Section */}
+      {/* Popular News Section - Dynamic based on newsType */}
       <SidebarSection as="section" aria-labelledby="popular-heading">
-        <SectionTitle id="popular-heading" as="h3">POPULAR NEWS</SectionTitle>
+        <SectionTitle id="popular-heading" as="h3">
+          POPULAR NEWS
+        </SectionTitle>
         <PopularNewsList as="ul" role="list" aria-label="Popular news articles">
-          <PopularNewsItem as="li" role="listitem" tabIndex="0">
-            <PopularNewsContent>
-              <PopularNewsDate as="time" dateTime="2023-03-19">March 19, 2023</PopularNewsDate>
-              <PopularNewsTitle as="h4">
-                Golf Legend Santana Reeds Returns to Professional Competition After Long Layoff
-              </PopularNewsTitle>
-            </PopularNewsContent>
-            <PopularNewsImage>
-              <img 
-                src="/state/2ndimage.jpg" 
-                alt="Golf legend Santana Reeds in professional competition" 
-                loading="lazy"
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover' 
-                }} 
-              />
-            </PopularNewsImage>
-          </PopularNewsItem>
-          
-          <PopularNewsItem as="li" role="listitem" tabIndex="0">
-            <PopularNewsContent>
-              <PopularNewsDate as="time" dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
-              <PopularNewsTitle as="h4">
-                Christian Garret Breaks Scoring Record in European Soccer League
-              </PopularNewsTitle>
-            </PopularNewsContent>
-            <PopularNewsImage>
-              <img 
-                src="/state/2ndsection.jpg" 
-                alt="Christian Garret celebrating soccer record" 
-                loading="lazy"
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover' 
-                }} 
-              />
-            </PopularNewsImage>
-          </PopularNewsItem>
-          
-          <PopularNewsItem as="li" role="listitem" tabIndex="0">
-            <PopularNewsContent>
-              <PopularNewsDate as="time" dateTime="2023-03-19">March 19, 2023</PopularNewsDate>
-              <PopularNewsTitle as="h4">
-                Tennis Star Dmitri Ivanov Wins Record Ninth Australian Open Title
-              </PopularNewsTitle>
-            </PopularNewsContent>
-            <PopularNewsImage>
-              <img 
-                src="/state/rightside.jpg" 
-                alt="Dmitri Ivanov holding Australian Open trophy" 
-                loading="lazy"
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover' 
-                }} 
-              />
-            </PopularNewsImage>
-          </PopularNewsItem>
-          
-          <PopularNewsItem as="li" role="listitem" tabIndex="0">
-            <PopularNewsContent>
-              <PopularNewsDate as="time" dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
-              <PopularNewsTitle as="h4">
-                NBA Announces All-Star Rosters, with Top Players Set to Compete in Las Vegas
-              </PopularNewsTitle>
-            </PopularNewsContent>
-            <PopularNewsImage>
-              <img 
-                src="/state/sidebar.jpg" 
-                alt="NBA All-Star players announcement" 
-                loading="lazy"
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover' 
-                }} 
-              />
-            </PopularNewsImage>
-          </PopularNewsItem>
-          
-          <PopularNewsItem as="li" role="listitem" tabIndex="0">
-            <PopularNewsContent>
-              <PopularNewsDate as="time" dateTime="2023-03-18">March 18, 2023</PopularNewsDate>
-              <PopularNewsTitle as="h4">
-                NFL Announces Major Expansion Plans for Global Reach
-              </PopularNewsTitle>
-            </PopularNewsContent>
-            <PopularNewsImage>
-              <img 
-                src="/state/sidebar2.jpg" 
-                alt="NFL expansion plans announcement" 
-                loading="lazy"
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover' 
-                }} 
-              />
-            </PopularNewsImage>
-          </PopularNewsItem>
+          {loading ? (
+            // Loading state
+            Array.from({ length: 5 }).map((_, index) => (
+              <PopularNewsItem key={index} as="li" role="listitem">
+                <PopularNewsContent>
+                  <PopularNewsDate as="time">Loading...</PopularNewsDate>
+                  <PopularNewsTitle as="h4">Loading article...</PopularNewsTitle>
+                </PopularNewsContent>
+                <PopularNewsImage>
+                  <img
+                    src="/placeholder.svg"
+                    alt="Loading"
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </PopularNewsImage>
+              </PopularNewsItem>
+            ))
+          ) : news.length > 0 ? (
+            // Dynamic news based on newsType
+            news.slice(0, 5).map((article, index) => (
+              <PopularNewsItem
+                key={article._id || index}
+                as="li"
+                role="listitem"
+                tabIndex="0"
+                onClick={() => article._id && navigate(`/newsdetails/${article._id}`)}
+                style={{ cursor: article._id ? 'pointer' : 'default' }}
+                onKeyDown={(e) => {
+                  if ((e.key === 'Enter' || e.key === ' ') && article._id) {
+                    e.preventDefault();
+                    navigate(`/newsdetails/${article._id}`);
+                  }
+                }}
+              >
+                <PopularNewsContent >
+                  <PopularNewsDate as="time" dateTime={article.publishedAt || article.createdAt}>
+                    {article.publishedAt || article.createdAt
+                      ? new Date(article.publishedAt || article.createdAt).toLocaleDateString()
+                      : 'Date not available'}
+                  </PopularNewsDate>
+                  <PopularNewsTitle as="h4">
+                    {article.title || 'Untitled Article'}
+                  </PopularNewsTitle>
+                </PopularNewsContent>
+                <PopularNewsImage>
+                  <img
+                    src={article.newsImage || "/placeholder.svg"}
+                    alt={article.title || 'News image'}
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </PopularNewsImage>
+              </PopularNewsItem>
+            ))
+          ) : (
+            // No news available
+            <PopularNewsItem as="li" role="listitem">
+              <PopularNewsContent>
+                <PopularNewsDate as="time">No Date</PopularNewsDate>
+                <PopularNewsTitle as="h4">
+                  No related news available at the moment.
+                </PopularNewsTitle>
+              </PopularNewsContent>
+              <PopularNewsImage>
+                <img
+                  src="/placeholder.svg"
+                  alt="No news available"
+                  loading="lazy"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                />
+              </PopularNewsImage>
+            </PopularNewsItem>
+          )}
         </PopularNewsList>
       </SidebarSection>
 
 
-      {/* Don't Miss It Section */}
+      {/* Don't Miss It Section - Latest News */}
       <SidebarSection as="section" aria-labelledby="trending-heading">
         <SectionTitle id="trending-heading" as="h3">DON'T MISS IT</SectionTitle>
-        <TrendingList as="ul" role="list" aria-label="Trending articles">
-          <TrendingItem as="li" role="listitem" tabIndex="0">
-            <TrendingContent>
-              <TrendingDate as="time" dateTime="2023-03-15">March 15, 2023</TrendingDate>
-              <TrendingTitle as="h4">Strategies for Business Recovery and Growth</TrendingTitle>
-            </TrendingContent>
-          </TrendingItem>
-          
-          <TrendingItem as="li" role="listitem" tabIndex="0">
-            <TrendingContent>
-              <TrendingDate as="time" dateTime="2023-03-05">March 05, 2023</TrendingDate>
-              <TrendingTitle as="h4">Adapting to New Trends and Technologies in the Digital Age</TrendingTitle>
-            </TrendingContent>
-          </TrendingItem>
-          
-          <TrendingItem as="li" role="listitem" tabIndex="0">
-            <TrendingContent>
-              <TrendingDate as="time" dateTime="2023-03-01">March 01, 2023</TrendingDate>
-              <TrendingTitle as="h4">Staying Ahead in a Rapidly Changing Business Environment</TrendingTitle>
-            </TrendingContent>
-          </TrendingItem>
-          
-          <TrendingItem as="li" role="listitem" tabIndex="0">
-            <TrendingContent>
-              <TrendingDate as="time" dateTime="2023-02-28">February 28, 2023</TrendingDate>
-              <TrendingTitle as="h4">Embracing Environmental and Social Responsibility for Long-Term Success</TrendingTitle>
-            </TrendingContent>
-          </TrendingItem>
-          
-          <TrendingItem as="li" role="listitem" tabIndex="0">
-            <TrendingContent>
-              <TrendingDate as="time" dateTime="2023-02-15">February 15, 2023</TrendingDate>
-              <TrendingTitle as="h4">From Local to Global: Expanding Your Business into New Markets and Cultures</TrendingTitle>
-            </TrendingContent>
-          </TrendingItem>
+        <TrendingList as="ul" role="list" aria-label="Latest articles">
+          {loading ? (
+            // Loading state for trending section
+            Array.from({ length: 5 }).map((_, index) => (
+              <TrendingItem key={index} as="li" role="listitem">
+                <TrendingContent>
+                  <TrendingDate as="time">Loading...</TrendingDate>
+                  <TrendingTitle as="h4">Loading article...</TrendingTitle>
+                </TrendingContent>
+              </TrendingItem>
+            ))
+          ) : allNews.length > 0 ? (
+            // Show all latest news from getNews API
+            allNews.slice(0, 5).map((article, index) => (
+              <TrendingItem
+                key={article._id || index}
+                as="li"
+                role="listitem"
+                tabIndex="0"
+                onClick={() => article._id && navigate(`/newsdetails/${article._id}`)}
+                style={{ cursor: article._id ? 'pointer' : 'default' }}
+                onKeyDown={(e) => {
+                  if ((e.key === 'Enter' || e.key === ' ') && article._id) {
+                    e.preventDefault();
+                    navigate(`/newsdetails/${article._id}`);
+                  }
+                }}
+              >
+                <TrendingContent>
+                  <TrendingDate as="time" dateTime={article.publishedAt || article.createdAt}>
+                    {article.publishedAt || article.createdAt
+                      ? new Date(article.publishedAt || article.createdAt).toLocaleDateString()
+                      : 'Date not available'}
+                  </TrendingDate>
+                  <TrendingTitle as="h4">
+                    {article.title || 'Untitled Article'}
+                  </TrendingTitle>
+                </TrendingContent>
+              </TrendingItem>
+            ))
+          ) : (
+            // No news available
+            <TrendingItem as="li" role="listitem">
+              <TrendingContent>
+                <TrendingDate as="time">No Date</TrendingDate>
+                <TrendingTitle as="h4">
+                  No latest news available at the moment.
+                </TrendingTitle>
+              </TrendingContent>
+            </TrendingItem>
+          )}
         </TrendingList>
-        <SeeMoreButton as="button" type="button" aria-label="Load more trending articles">Read More</SeeMoreButton>
+        <SeeMoreButton as="button" type="button" aria-label="Load more latest articles">Read More</SeeMoreButton>
       </SidebarSection>
 
 

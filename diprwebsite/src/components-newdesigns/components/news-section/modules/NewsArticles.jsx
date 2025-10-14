@@ -34,6 +34,7 @@ import {
 import { getLatestNews } from "../../../../services/newsApi/NewsApi";
 import { LanguageContext } from "../../../../context/LanguageContext";
 import { formatDate } from "../../../../utils/formatters";
+import { useNavigate } from "react-router-dom";
 
 const NewsArticles = () => {
   const [newsData, setNewsData] = useState([])
@@ -43,6 +44,7 @@ const NewsArticles = () => {
   const { language } = useContext(LanguageContext)
   const [visibleCount, setVisibleCount] = useState(4)
   const [popularNews, setPopularNews] = useState([])
+  const navigate = useNavigate()
   // Parse date for datetime attribute
  useEffect(() => {
   const fetchNews = async () => {
@@ -185,8 +187,10 @@ const NewsArticles = () => {
                   inset: 0,
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover"
+                  objectFit: "cover",
+                  cursor: 'pointer'
                 }}
+                onClick={() => navigate(`/newsdetails/${latestNews[0].id}`)}
               />
             </FeaturedImage>
             <FeaturedContent>
@@ -223,6 +227,8 @@ const NewsArticles = () => {
                 role="article"
                 aria-labelledby={`latest-news-${index}`}
                 tabIndex="0"
+                onClick={() => navigate(`/newsdetails/${item.id}`)}
+                style={{ cursor: 'pointer' }}
               >
                 <NewsItemContent>
                   <NewsDate as="time" dateTime={parseDateTimeAttr(item.date)}>
@@ -270,6 +276,8 @@ const NewsArticles = () => {
                 role="article"
                 aria-labelledby={`popular-news-${index}`}
                 tabIndex="0"
+                onClick={() => navigate(`/newsdetails/${item.id}`)}
+                style={{ cursor: 'pointer' }}
               >
                 <PopularThumbnail>
                   <img
@@ -281,7 +289,8 @@ const NewsArticles = () => {
                       inset: 0,
                       width: "100%",
                       height: "100%",
-                      objectFit: "cover"
+                      objectFit: "cover",
+                      cursor: 'pointer'
                     }}
                   />
                 </PopularThumbnail>

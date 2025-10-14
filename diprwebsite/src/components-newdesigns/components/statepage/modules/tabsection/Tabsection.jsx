@@ -34,6 +34,7 @@ import {
 import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi"
+import { useNavigate } from "react-router-dom"
 
 // Demo data. Images use the provided Source URLs as requested.
 
@@ -94,7 +95,7 @@ export default function TabSection() {
   const [rawNews, setRawNews] = useState([])
   const [sideList, setSideList] = useState([])
   const { language } = useContext(LanguageContext)
-  
+  const navigate = useNavigate()
   useEffect(() => {
     // get categories
     const getCategories = async () => {
@@ -134,6 +135,7 @@ fetchNews()
       language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
     
     const localized = filtered.map((item) => ({
+      _id: item._id,
       id: item._id,
       title: item[langKey]?.title || item.title || "",
       excerpt: item[langKey]?.description || item.description || "",
@@ -156,6 +158,7 @@ fetchNews()
       const langKey =
       language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
       const localized = rawNews.map((item) => ({
+        _id: item._id,
         id: item._id,
         date: item.publishedAt
         ? new Date(item.publishedAt).toLocaleDateString("en-US", {
@@ -344,7 +347,7 @@ fetchNews()
           <div id={`panel-${active}`} role="tabpanel" aria-labelledby={active} tabIndex={0}>
             <Grid role="list" aria-label={`${active} articles`}>
               {featured.map((p) => (
-                <Card key={p.id} role="listitem">
+                <Card key={p.id} role="listitem" onClick={() => navigate(`/newsdetails/${p._id}`)} style={{ cursor: 'pointer' }}>
                   <ImageWrap>
                     <img src={p.image || "/placeholder.svg"} alt={p.alt} loading="lazy" />
                   </ImageWrap>
@@ -357,7 +360,7 @@ fetchNews()
               ))}
 
               {secondary.map((p) => (
-                <Card key={p.id} role="listitem">
+                <Card key={p.id} role="listitem" onClick={() => navigate(`/newsdetails/${p._id}`)} style={{ cursor: 'pointer' }}>
                   <ImageWrap>
                     <img src={p.image || "/placeholder.svg"} alt={p.alt} loading="lazy" />
                   </ImageWrap>
@@ -374,7 +377,7 @@ fetchNews()
           <Sidebar aria-label="Latest headlines" role="complementary">
             <SideList role="list" aria-label="Latest headlines">
               {sideList.map((item, idx) => (
-                <SideItem key={idx} role="listitem">
+                <SideItem key={idx} role="listitem" onClick={() => navigate(`/newsdetails/${item._id}`)} style={{ cursor: 'pointer' }}>
                   <SideDate>{item.date}</SideDate>
                   <SideTitle>{item.title.slice(0, 50)}...</SideTitle>
                 </SideItem>

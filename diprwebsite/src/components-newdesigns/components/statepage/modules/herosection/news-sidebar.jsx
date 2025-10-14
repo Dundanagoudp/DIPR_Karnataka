@@ -10,6 +10,7 @@ import {
 import { useContext, useEffect, useState } from "react"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi"
+import { useNavigate } from "react-router-dom"
 
 export default function NewsSidebar({
 
@@ -36,6 +37,7 @@ export default function NewsSidebar({
 const [stateNews, setStateNews] = useState([])
 const [loading, setLoading] = useState(true)
 const [rawData, setRawData] = useState([])
+const navigate = useNavigate()
 
 useEffect(() => {
   const fetchNews = async () => {
@@ -57,6 +59,7 @@ useEffect(() => {
       const normalized = rawData.map((item) => {
         const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
         return {
+          _id: item._id,
           title: item[langKey]?.title.slice(0, 50) + "..." ?? "",
           excerpt: item[langKey]?.description.slice(0, 150) + "..." ?? "",
           date: item.date,
@@ -92,7 +95,7 @@ useEffect(() => {
   return (
     <Aside aria-label="Latest stories" role="complementary">
       {stateNews.map((item, index) => (
-        <SidebarCard key={index} {...item} />
+        <SidebarCard key={index} {...item} onClick={() => navigate(`/newsdetails/${item._id}`)} />
       ))}
     </Aside>
   )

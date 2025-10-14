@@ -20,6 +20,7 @@ import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi"
 import { useState, useEffect, useContext } from "react"
 import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
+import { useNavigate } from "react-router-dom"
 
 // Define initial states
 const initialFeatured = {
@@ -54,6 +55,7 @@ export default function FeaturedNewsSection() {
   const [sideItems, setSideItems] = useState(initialSideItems)
   const [categories, setCategories] = useState([])
   const { language } = useContext(LanguageContext)
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -98,6 +100,7 @@ export default function FeaturedNewsSection() {
 
 
         return {
+          _id: item._id,
           image: item.newsImage || "/placeholder.svg",
           category: categoryName || "",
           date: item[langKey]?.date || "",
@@ -155,10 +158,10 @@ export default function FeaturedNewsSection() {
   return (
     <Section aria-label="Featured news">
       <Container>
-        <LeftImageWrap>
+        <LeftImageWrap onClick={() => navigate(`/newsdetails/${featuredNews._id}`)} style={{ cursor: 'pointer' }}>
           <img src={featuredNews.image || "/placeholder.svg"} alt="Lead story image" loading="eager" />
         </LeftImageWrap>
-        <MainContent>
+        <MainContent onClick={() => navigate(`/newsdetails/${featuredNews._id}`)} style={{ cursor: 'pointer' }}>
           <MetaRow>
             <Tag aria-label={`Category: ${featuredNews.category}`}>{featuredNews.category}</Tag>
             <DateText dateTime="2025-03-20">{featuredNews.date}</DateText>
@@ -168,7 +171,7 @@ export default function FeaturedNewsSection() {
         </MainContent>
         <Sidebar aria-label="More top stories" role="complementary">
           {sideItems.map((item, idx) => (
-            <SideCard key={idx} role="article" aria-label={item.title}>
+            <SideCard key={idx} role="article" aria-label={item.title} onClick={() => navigate(`/newsdetails/${item._id}`)} style={{ cursor: 'pointer' }}>
               <div className="thumb">
                 <img src={item.image || "/placeholder.svg"} alt="Story thumbnail" loading="lazy" />
               </div>

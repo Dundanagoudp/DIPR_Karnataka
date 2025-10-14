@@ -29,6 +29,7 @@ import {
 import { useContext, useState, useEffect } from "react"
 import { LanguageContext } from "../../../../context/LanguageContext"
 import { formatDate } from "../../../../utils/formatters"
+import { useNavigate } from "react-router-dom"
 
 // Data (sample)
 const leftNews = [
@@ -188,6 +189,7 @@ export default function LatestNews() {
   const [popularNews, setPopularNews] = useState([])
   const { language } = useContext(LanguageContext)
   const [centerNews, setCenterNews] = useState([])
+  const navigate = useNavigate()
   // Parse date for datetime attribute
   useEffect(() => {
     const fetchNews = async () => {
@@ -352,6 +354,8 @@ export default function LatestNews() {
                 role="article"
                 aria-labelledby={`latest-news-${idx}`}
                 tabIndex="0"
+                onClick={() => navigate(`/newsdetails/${n.id}`)}
+                style={{ cursor: 'pointer' }}
               >
                 <MetaRow>
                   <Badge aria-label={`Category: ${n.category}`}>{n.category}</Badge>
@@ -378,6 +382,8 @@ export default function LatestNews() {
             role="article"
             aria-labelledby="featured-health-title"
             tabIndex="0"
+            onClick={() => navigate(`/newsdetails/${centerNews.id}`)}
+            style={{ cursor: 'pointer' }}
           >
             
             <FeatureImage
@@ -406,12 +412,14 @@ export default function LatestNews() {
         <Column as="div" role="region" aria-labelledby="popular-news-title">
           <List className="custom-scrollbar" role="feed" aria-label="Popular news articles" aria-busy="false">
             {popularNews.map((n, idx) => (
-              <Item 
-                key={idx} 
-                as="article" 
+              <Item
+                key={idx}
+                as="article"
                 role="article"
                 aria-labelledby={`popular-news-${idx}`}
                 tabIndex="0"
+                onClick={() => navigate(`/newsdetails/${n.id}`)}
+                style={{ cursor: 'pointer' }}
               >
                 <MetaRow>
                   <Badge aria-label={`Category: ${n.category}`}>{n.category}</Badge>
@@ -422,9 +430,11 @@ export default function LatestNews() {
                 <Divider aria-hidden="true" />
               </Item>
             ))}
-            <SeeMoreBtn type="button" aria-label="Load more popular news articles">
-              See More
-            </SeeMoreBtn>
+            {popularNews.length > 4 && (
+              <SeeMoreBtn type="button" aria-label="Load more popular news articles">
+                See More
+              </SeeMoreBtn>
+            )}
           </List>
         </Column>
       </Grid>

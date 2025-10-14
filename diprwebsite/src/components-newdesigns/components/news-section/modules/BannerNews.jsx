@@ -19,13 +19,13 @@ import {
   SkeletonBadge,
   SkeletonTitle,
 } from "./BannerNews.styles"
-
+import { useNavigate } from "react-router-dom"
 export default function Banner() {
   const { language } = useContext(LanguageContext)
   const [item, setItem] = useState(null)
   const [loading, setLoading] = useState(true)
   const langKey = language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
-
+  const navigate = useNavigate()
   useEffect(() => {
     let mounted = true
     ;(async () => {
@@ -48,11 +48,12 @@ export default function Banner() {
           if (mounted) setLoading(false)
           return
         }
-
+        
         const title = latest[langKey]?.title ?? latest.title ?? ""
         const excerpt = latest[langKey]?.description ?? latest.description ?? ""
         const imageSrc = latest.newsImage ?? "/placeholder.svg"
         const date = latest.publishedAt ?? latest.createdAt ?? ""
+        const id = latest._id ?? latest.id ?? ""
 
         // Extract category name based on language context
         let categoryName = "News"
@@ -67,10 +68,10 @@ export default function Banner() {
         }
 
         const badge = categoryName
-        const href = `/news/${latest._id ?? latest.id ?? ""}`
+        const href = `/newsdetails/${id}`
 
         if (mounted) {
-          setItem({ title, excerpt, imageSrc, date, badge, href })
+          setItem({ title, excerpt, imageSrc, date, badge, href, id })
           setLoading(false)
         }
       } catch (e) {
@@ -120,7 +121,7 @@ export default function Banner() {
       >
         Top Story Banner
       </h2>
-      <BannerInner as="article" role="article" aria-labelledby="banner-title">
+      <BannerInner as="article" role="article" aria-labelledby="banner-title" onClick={() => navigate(`/newsdetails/${item.id}`)} style={{ cursor: 'pointer' }}>
           <BannerImage src={item.imageSrc} alt={item.title} loading="lazy" />
         <Overlay aria-hidden="true" />
         <Content>
@@ -131,8 +132,8 @@ export default function Banner() {
           <Title id="banner-title" as="h3">{item.title.slice(0, 50)}...</Title>
         </Content>
         {/* Full-area link for accessibility */}
-        {/* <LinkArea 
-          href={href} 
+        {/* <LinkArea
+          href={href}
           aria-label={`Read full story: ${title}`}
           tabIndex="0"
         /> */}

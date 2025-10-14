@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SocialShare from './SocialShare'
 import CommentsSection from './CommentsSection'
 import {
@@ -24,17 +24,162 @@ import {
   ArticleTags,
   Tag
 } from './MainContent.styles'
+import { LanguageContext } from '../../../../context/LanguageContext'
+import { getNewsByid } from '../../../../services/newsApi/NewsApi'
+import { useParams } from 'react-router-dom'
 
 const MainContent = () => {
+  const {language} = useContext(LanguageContext)
+  const {id} = useParams()
+
+  const [rawNews, setRawNews] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [news, setNews] = useState({
+    id: '',
+    title: '',
+    excerpt: '',
+    content: '',
+    paragraphs: ['', ''],
+    date: '',
+    image: '/placeholder.svg',
+    category: '',
+    author: '',
+    authorImage: '/placeholder.svg',
+    alt: '',
+    tags: [],
+    quote: 'The win was a testament to the team\'s hard work and dedication, as they overcame a formidable opponent to secure a crucial victory.',
+    comments: 0,
+    readingTime: 0
+  });
+  // get news by id
+  useEffect(() => {
+    let mounted = true;
+    const fetchNews = async () => {
+      setLoading(true);
+      try {
+        const response = await getNewsByid(id);
+        console.log('getNewsByid response', response);
+  
+        if (!mounted) return;
+        // handle both single-object and array responses
+        const data = response?.data
+          ? Array.isArray(response.data)
+            ? response.data
+            : [response.data]
+          : [];
+  
+        setRawNews(data);
+      } catch (err) {
+        console.error('fetchNews error', err);
+        setRawNews([]);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+    if (id) fetchNews();
+    return () => { mounted = false; };
+  }, [id]);
+
+  useEffect(() => {
+    if (!rawNews || rawNews.length === 0) {
+      console.log('rawNews empty', rawNews);
+      setNews(null);
+      return;
+    }
+  
+    const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada";
+  
+    try {
+      const localized = rawNews.map((item) => {
+        // safe category extraction
+        const cat = item.category;
+        let categoryName = "";
+        if (cat) {
+          if (typeof cat === "string") {
+            categoryName = cat;
+          } else if (typeof cat === "object") {
+            // cat[langKey] could be string or object
+            const localizedCat = cat[langKey];
+            categoryName =
+              (localizedCat && (typeof localizedCat === "string" ? localizedCat : localizedCat.name)) ||
+              cat.name ||
+              cat.title ||
+              "";
+          }
+        }
+  
+        const title = (item[langKey] && item[langKey].title) || item.title || "";
+        const excerpt = (item[langKey] && item[langKey].description) || item.description || "";
+        let paragraph1 = "";
+        let paragraph2 = "";
+        if (excerpt.length > 0) {
+          // Smart split: try to cut near the middle at the nearest sentence boundary.
+          const middle = Math.floor(excerpt.length / 2);
+          const splitPoint = excerpt.indexOf('.', middle) !== -1
+            ? excerpt.indexOf('.', middle) + 1
+            : middle;
+        
+          paragraph1 = excerpt.slice(0, splitPoint).trim();
+          paragraph2 = excerpt.slice(splitPoint).trim();
+        }
+        return {
+          id: item._id,
+          title: title ? (title.length > 50 ? title.slice(0, 50) + "..." : title) : "",
+          excerpt: excerpt ? (excerpt.length > 150 ? excerpt.slice(0, 150) + "..." : excerpt) : "",
+          content :excerpt,
+          paragraphs: [paragraph1, paragraph2],
+          date: item.publishedAt || item.createdAt
+            ? new Date(item.publishedAt || item.createdAt).toLocaleDateString()
+            : "",
+          image: item.newsImage || "/placeholder.svg",
+          category: categoryName,
+          author: item.author || "",
+          alt: item.title || "",
+          tags: item.tags || [],
+          quote: item.quote || "The win was a testament to the team's hard work and dedication, as they overcame a formidable opponent to secure a crucial victory.",
+        };
+      });
+  
+      console.log('localized =>', localized);
+      // this is a single-article page: use the first item as the article object
+      setNews(localized[0] || null);
+    } catch (err) {
+      console.error('localize error', err);
+      setNews(null);
+    }
+  }, [rawNews, language]);
+
+  // Show loading state while data is being fetched
+  if (loading) {
+    return (
+      <MainContentContainer as="article" role="article" aria-labelledby="article-title">
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          Loading article...
+        </div>
+      </MainContentContainer>
+    );
+  }
+
+  // Don't render if news is null (error state or no data)
+  if (!news) {
+    return (
+      <MainContentContainer as="article" role="article" aria-labelledby="article-title">
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          Article not found or unable to load.
+        </div>
+      </MainContentContainer>
+    );
+  }
+
   return (
     <MainContentContainer as="article" role="article" aria-labelledby="article-title">
       {/* Location and Date Tags */}
       <LocationTag as="div" aria-label="Article location and category">Raichur, Karnataka | Nature & Heritage</LocationTag>
-      <DateTag as="time" dateTime="2024-03-10">March 10, 2024</DateTag>
+      <DateTag as="time" dateTime="2024-03-10">{news.date}</DateTag>
       
       {/* Main Article Title */}
       <ArticleTitle id="article-title" as="h2">
-        The land of Bisala, Raichur, is now adorned with lush greenery, beckoning nature lovers.
+        {news.title}
       </ArticleTitle>
       
       {/* Subheadline */}
@@ -44,7 +189,7 @@ const MainContent = () => {
         marginBottom: '24px',
         fontStyle: 'italic'
       }}>
-        A remarkable transformation brings new life to Karnataka's heritage region
+        {news.excerpt}
       </p>
       
       {/* Author Information Card */}
@@ -57,8 +202,8 @@ const MainContent = () => {
         </h3>
         <AuthorImage>
           <img 
-            src="/header/cm.png" 
-            alt="Profile photo of author Ram Nath" 
+            src={news.authorImage} 
+            alt={news.author} 
             loading="eager"
             style={{
               width: '100%',
@@ -69,20 +214,20 @@ const MainContent = () => {
           />
         </AuthorImage>
         <AuthorInfo>
-          <AuthorName aria-label="Written by Ram Nath">By Ram Nath</AuthorName>
+          <AuthorName aria-label="Written by {news.author}">By {news.author}</AuthorName>
           <ArticleMeta>
             <MetaItem>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }} aria-hidden="true">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               </svg>
-              <span aria-label="0 comments on this article">0 Comments</span>
+              <span aria-label="0 comments on this article">{news.comments} Comments</span>
             </MetaItem>
             <MetaItem>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }} aria-hidden="true">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
               </svg>
-              <span aria-label="Estimated reading time: 5 minutes">5 min read</span>
+              <span aria-label="Estimated reading time: {news.readingTime} minutes">{news.readingTime} min read</span>
             </MetaItem>
           </ArticleMeta>
         </AuthorInfo>
@@ -91,7 +236,7 @@ const MainContent = () => {
       {/* Hero Image with Caption */}
       <HeroImage as="figure" role="img" aria-labelledby="hero-image-caption">
         <img 
-          src="/state/state.jpg" 
+          src={news.image} 
           alt="Raichur's green transformation showing lush greenery and transformed landscapes" 
           loading="eager"
           style={{
@@ -102,28 +247,23 @@ const MainContent = () => {
           }}
         />
         <ImageCaption id="hero-image-caption" as="figcaption">
-          Raichur's green revival beckons nature lovers to explore its transformed landscapes
+          {news.alt}
         </ImageCaption>
       </HeroImage>
       
       {/* Article Content */}
       <ArticleContent>
         <ArticleParagraph>
-          The transformation of Bisala in Raichur district represents a remarkable environmental success story. 
-          What was once a barren landscape has been transformed into a lush, green paradise that now attracts 
-          nature enthusiasts from across the region. This incredible change has been achieved through 
-          dedicated conservation efforts and community participation.
+          {news.paragraphs[0]}
+     
         </ArticleParagraph>
+        {/* <ArticleParagraph>
+          {news.paragraphs[1]}
+        </ArticleParagraph> */}
         
-        <ArticleParagraph>
-          Local authorities, in collaboration with environmental organizations, have implemented 
-          comprehensive reforestation programs. These initiatives have not only restored the natural 
-          beauty of the area but also created new opportunities for eco-tourism and sustainable 
-          development in the region.
-        </ArticleParagraph>
         
         {/* Quote Block */}
-        <blockquote 
+        {/* <blockquote 
           role="complementary"
           aria-label="Key quote from article"
           style={{
@@ -150,7 +290,7 @@ const MainContent = () => {
             margin: '0',
             lineHeight: '1.6'
           }}>
-            The win was a testament to the team's hard work and dedication, as they overcame a formidable opponent to secure a crucial victory.
+            {news.quote}
           </p>
           <span style={{
             position: 'absolute',
@@ -163,13 +303,11 @@ const MainContent = () => {
         </blockquote>
         
         <ArticleParagraph>
-          The success of this environmental restoration project has inspired similar initiatives 
-          across Karnataka. The community's commitment to preserving their natural heritage while 
-          promoting sustainable tourism has set a new standard for environmental conservation in India.
-        </ArticleParagraph>
+          {news.paragraphs[1]}
+        </ArticleParagraph> */}
         
         {/* Inline Advertisement/Related Content */}
-        <InlineAd role="complementary" aria-label="Related content">
+        {/* <InlineAd role="complementary" aria-label="Related content">
           <AdContent>
             <img 
               src="/header/dcm.png" 
@@ -179,25 +317,22 @@ const MainContent = () => {
               height="auto"
             />
           </AdContent>
-        </InlineAd>
+        </InlineAd> */}
         
         <ArticleParagraph>
-          As visitors explore the newly transformed landscapes of Raichur, they discover not just 
-          natural beauty, but also the rich cultural heritage that has been preserved alongside 
-          the environmental restoration. The region now offers a perfect blend of nature and 
-          culture, making it an ideal destination for travelers seeking authentic experiences.
+          {news.paragraphs[1]}
         </ArticleParagraph>
-        
+{/*         
         <ArticleParagraph>
           The local community has embraced this transformation wholeheartedly, with many residents 
           now actively participating in conservation efforts. This grassroots involvement ensures 
           the long-term sustainability of the project and creates a sense of ownership among 
           the local population.
-        </ArticleParagraph>
+        </ArticleParagraph> */}
       </ArticleContent>
       
       {/* Article Tags */}
-      <ArticleTags as="nav" role="navigation" aria-labelledby="article-tags-heading">
+      {/* <ArticleTags as="nav" role="navigation" aria-labelledby="article-tags-heading">
         <h3 
           id="article-tags-heading" 
           style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
@@ -216,7 +351,7 @@ const MainContent = () => {
           <li><Tag as="a" href="#community" tabIndex="0">community</Tag></li>
           <li><Tag as="a" href="#transformation" tabIndex="0">transformation</Tag></li>
         </ul>
-      </ArticleTags>
+      </ArticleTags> */}
       
       {/* Social Share */}
       <SocialShare />   
