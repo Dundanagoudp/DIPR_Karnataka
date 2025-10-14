@@ -1,4 +1,5 @@
 import React from "react"
+import { useState, useEffect, useContext } from "react"
 import {
   Section,
   Container,
@@ -21,9 +22,13 @@ import {
   SeeMoreWrap,
   SeeMoreBtn,
 } from "./Tabsection.styles"
+import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
+import { LanguageContext } from "../../../../../context/LanguageContext"
+import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi"
 
 // Demo data. Images use the provided Source URLs as requested.
-const TABS = ["Politics", "Business", "Sports", "Entertainment", "Technology", "Lifestyle", "Health"]
+
+// const TABS = ["Politics", "Business", "Sports", "Entertainment", "Technology", "Lifestyle", "Health"]
 
 const POSTS = {
   Politics: [
@@ -71,43 +76,102 @@ const POSTS = {
 }
 
 // Fallback posts for other tabs reuse politics data as placeholder
-TABS.forEach((tab) => {
-  if (!POSTS[tab]) POSTS[tab] = POSTS.Politics
-})
+
 
 export default function TabSection() {
-  const [active, setActive] = React.useState(TABS[0])
-  const posts = POSTS[active] || []
+  const [active, setActive] = React.useState("")
+  const [categories, setCategories] = useState([])
+  const [news, setNews] = useState([])
+  const [rawNews, setRawNews] = useState([])
+  const { language } = useContext(LanguageContext)
+  
+  useEffect(() => {
+    // get categories
+    const getCategories = async () => {
+      const res = await CategoryApi()
+      if (res?.data) {
+        setCategories(res.data)
+        setActive(res.data[0]?._id || "")
+      }
+    }
+    getCategories()
+  }, [])
+  useEffect(() => {
+    // get news by type state
+const fetchNews = async () => {
+  const res = await getNewsByTypeState()
 
+  if (res?.success && Array.isArray(res.data)) {
+    setRawNews(res.data)
+  }
+}
+fetchNews()
+  }, [language])
+
+
+  // get news by type state based on active category
+  useEffect(() => {
+    if (!rawNews.length || !active) return
+
+    const filtered = rawNews.filter((item) => {
+      const categoryId = typeof item.category === "object" ? item.category._id : item.category
+      return categoryId === active
+      
+    })
+    console.log("filtered", filtered)
+
+    const langKey =
+      language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
+
+    const localized = filtered.map((item) => ({
+      id: item._id,
+      title: item[langKey]?.title || item.title || "",
+      excerpt: item[langKey]?.description || item.description || "",
+      date: item.publishedAt
+        ? new Date(item.publishedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : "",
+      image: item.newsImage || "/placeholder.svg",
+      alt: item.title || "",
+    }))
+
+    setNews(localized)
+  }, [active, language, rawNews])
   // Keyboard navigation for tabs
   const handleKeyDown = (e) => {
-    const currentIndex = TABS.indexOf(active)
-    
+    const currentIndex = categories.findIndex((cat) => cat._id === active);
+
     switch (e.key) {
-      case 'ArrowLeft':
-        e.preventDefault()
-        const prevIndex = currentIndex > 0 ? currentIndex - 1 : TABS.length - 1
-        setActive(TABS[prevIndex])
-        break
-      case 'ArrowRight':
-        e.preventDefault()
-        const nextIndex = currentIndex < TABS.length - 1 ? currentIndex + 1 : 0
-        setActive(TABS[nextIndex])
-        break
-      case 'Home':
-        e.preventDefault()
-        setActive(TABS[0])
-        break
-      case 'End':
-        e.preventDefault()
-        setActive(TABS[TABS.length - 1])
-        break
+      case "ArrowLeft":
+        e.preventDefault();
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : categories.length - 1;
+        setActive(categories[prevIndex]?._id || "");
+        break;
+      case "ArrowRight":
+        e.preventDefault();
+        const nextIndex = currentIndex < categories.length - 1 ? currentIndex + 1 : 0;
+        setActive(categories[nextIndex]?._id || "");
+        break;
+      case "Home":
+        e.preventDefault();
+        setActive(categories[0]?._id || "");
+        break;
+      case "End":
+        e.preventDefault();
+        setActive(categories[categories.length - 1]?._id || "");
+        break;
     }
-  }
+  };
 
   // Layout: first 2 are featured (top), next 2 are secondary (bottom)
+  const posts = news.length > 0 ? news : []
   const featured = posts.slice(0, 2)
+
   const secondary = posts.slice(2, 4)
+
   const sideList = [
     { 
       date: "March 15, 2025", 
@@ -164,24 +228,27 @@ export default function TabSection() {
         </h2>
 
         <Tabs role="tablist" aria-label="News categories" onKeyDown={handleKeyDown}>
-          {TABS.map((tab) => (
-            <TabButton
-              key={tab}
-              role="tab"
-              aria-selected={active === tab}
-              aria-controls={`panel-${tab}`}
-              $active={active === tab}
-              onClick={() => setActive(tab)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setActive(tab);
-                }
-              }}
-            >
-              {tab}
-            </TabButton>
-          ))}
+          {categories.map((tab) => {
+            const tabName = language === "English" ? tab.name : language === "Hindi" ? tab.hindi : tab.kannada
+            return (
+              <TabButton
+                key={tab._id}
+                role="tab"
+                aria-selected={active === tab._id}
+                aria-controls={`panel-${tab._id}`}
+                $active={active === tab._id}
+                onClick={() => setActive(tab._id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActive(tab._id);
+                  }
+                }}
+              >
+                {tabName}
+              </TabButton>
+            )
+          })}
         </Tabs>
 
         <Layout>

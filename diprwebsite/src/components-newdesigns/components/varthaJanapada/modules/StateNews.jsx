@@ -1,4 +1,8 @@
 import { Link } from "react-router-dom"
+import { useState, useEffect, useContext } from "react"
+import { LanguageContext } from "../../../../context/LanguageContext"
+import { getNewsByTypeState } from "../../../../services/newsApi/NewsApi"
+import { CategoryApi } from "../../../../services/categoryapi/CategoryApi"
 import {
   Section,
   HeaderRow,
@@ -22,47 +26,180 @@ import {
   SmallContent,
   SmallBadge,
   SmallTitle,
+  SkeletonFeaturedCard,
+  SkeletonFeaturedImage,
+  SkeletonMetaBar,
+  SkeletonText,
+  SkeletonSmallCard,
+  SkeletonThumb,
 } from "./StateNews.styles"
 
-const defaultFeatured = {
-  category: "BUSINESS",
-  title:
-    "The first-ever double-decker flyover built in South India has been opened for traffic on an experimental basis.",
-  excerpt:
-    "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est, a mattis tellus.",
-  image: "/state/state.jpg",
-  meta: ["james", "0", "June 19, 2025 06:00pm"],
+// Empty initial states instead of fallback data
+const emptyFeatured = {
+  category: "",
+  title: "",
+  excerpt: "",
+  image: "/placeholder.svg",
+  meta: ["", "", ""],
 }
 
-const defaultList = [
-  {
-    category: "BUSINESS",
-    title: "City announces new infrastructure upgrades across districts.",
-    image: "/state/2ndimage.jpg",
-  },
-  {
-    category: "BUSINESS",
-    title: "Local industries report stronger quarterly growth figures.",
-    image: "/state/2ndsection.jpg",
-  },
-  {
-    category: "BUSINESS",
-    title: "Public transport pilot expands to two more corridors.",
-    image: "/state/rightside.jpg",
-  },
-]
+const emptyList = []
 
-export default function StateNews({ featured = defaultFeatured, list = defaultList, onSeeMore }) {
+export default function StateNews({ onSeeMore }) {
+  const { language } = useContext(LanguageContext)
+  const [rawData, setRawData] = useState([])
+  const [featured, setFeatured] = useState(emptyFeatured)
+  const [list, setList] = useState(emptyList)
+  const [loading, setLoading] = useState(true)
+  const [categories, setCategories] = useState([])
+
+  // Header text translations
+  const headerText = {
+    English: "State News",
+    Kannada: "ರಾಜ್ಯ ಸುದ್ದಿ",
+    Hindi: "राज्य समाचार"
+  }
+
+  const seeMoreText = {
+    English: "See more",
+    Kannada: "ಇನ್ನಷ್ಟು ನೋಡಿ",
+    Hindi: "और देखें"
+  }
+
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await CategoryApi()
+        if (response?.success && Array.isArray(response.data)) {
+          setCategories(response.data)
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error)
+      }
+    }
+    fetchCategories()
+  }, [])
+
+  // Fetch state news
+  useEffect(() => {
+    const fetchStateNews = async () => {
+      try {
+        setLoading(true)
+        const response = await getNewsByTypeState()
+        console.log("State news API response:", response)
+        
+        if (response?.success && Array.isArray(response.data)) {
+          // Filter only by magazineType and newsType
+          const filteredData = response.data.filter(item => 
+            item.magazineType === "magazine" && 
+            item.newsType === "statenews"
+          )
+          console.log("Filtered state news:", filteredData)
+          setRawData(filteredData)
+        } else {
+          setRawData([])
+        }
+      } catch (error) {
+        console.error("Error fetching state news:", error)
+        setRawData([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchStateNews()
+  }, [])
+
+  useEffect(() => {
+    if (rawData.length > 0) {
+      // Process data based on current language (Kannada by default)
+      const langKey = language === "English" ? "English" : 
+                     language === "Hindi" ? "hindi" : "kannada"
+      
+      const processedData = rawData.map((item) => {
+        // Get title and limit to 70 characters
+        const fullTitle = item[langKey]?.title || item.title || ""
+        const limitedTitle = fullTitle.length > 70 ? fullTitle.substring(0, 70) + "..." : fullTitle
+        
+        // Get excerpt and limit to 120 characters
+        const fullExcerpt = item[langKey]?.description || item.description || ""
+        const limitedExcerpt = fullExcerpt.length > 120 ? fullExcerpt.substring(0, 120) + "..." : fullExcerpt
+        
+        // Get category ID and find matching category name from API
+        const categoryId = item.category
+        const category = categories.find((cat) => cat._id === categoryId)
+        const categoryName = category 
+          ? (language === "English" ? category.name : language === "Hindi" ? category.hindi : category.kannada) 
+          : ""
+        
+        return {
+          id: item._id,
+          title: limitedTitle,
+          excerpt: limitedExcerpt,
+          image: item.newsImage || "/placeholder.svg",
+          category: categoryName,
+          date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : "",
+          author: item.author || "Admin",
+          meta: [item.author || "Admin", "0", item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : ""],
+          publishedAt: item.publishedAt
+        }
+      })
+
+      // Sort by latest published date (newest first)
+      const sortedByLatest = [...processedData].sort((a, b) => {
+        const dateA = new Date(a.publishedAt || 0)
+        const dateB = new Date(b.publishedAt || 0)
+        return dateB - dateA // Descending order (latest first)
+      })
+
+      // Set featured news (latest item)
+      if (sortedByLatest.length > 0) {
+        setFeatured(sortedByLatest[0])
+      } else {
+        setFeatured(emptyFeatured)
+      }
+
+      // Set list items (next 3 latest items)
+      const listItems = sortedByLatest.slice(1, 4)
+      setList(listItems)
+    }
+  }, [rawData, language, categories])
+
+  // Skeleton loading component
+  const SkeletonLoader = () => (
+    <PageLayout>
+      {/* Left: Featured Skeleton */}
+      <SkeletonFeaturedCard>
+        <SkeletonFeaturedImage />
+        <SkeletonMetaBar>
+          <SkeletonText $width="80%" $height="20px" />
+          <SkeletonText $width="100%" $height="16px" />
+          <SkeletonText $width="60%" $height="14px" />
+        </SkeletonMetaBar>
+      </SkeletonFeaturedCard>
+
+      {/* Right: Small Cards Skeleton */}
+      <MiddleCol>
+        {[1, 2, 3].map((_, idx) => (
+          <SkeletonSmallCard key={idx}>
+            <SkeletonThumb />
+          </SkeletonSmallCard>
+        ))}
+      </MiddleCol>
+    </PageLayout>
+  )
+
   return (
     <Section aria-labelledby="state-news-heading">
       <HeaderRow>
-        <Title id="state-news-heading">State News</Title>
+        <Title id="state-news-heading">{headerText[language] || "State News"}</Title>
         <SeeMore
           as={Link}
           to="/state"
-          aria-label="See more state news"
+          aria-label={`${seeMoreText[language] || "See more"} ${headerText[language] || "state news"}`}
         >
-          See more
+          {seeMoreText[language] || "See more"}
           <ArrowIcon aria-hidden="true">
             <svg 
               width="20" 
@@ -83,39 +220,52 @@ export default function StateNews({ featured = defaultFeatured, list = defaultLi
           </ArrowIcon>
         </SeeMore>
       </HeaderRow>
-      <PageLayout>
-        {/* Left: Featured */}
-        <FeaturedCard>
-          <FeaturedImage $src={featured.image}>
-            <Overlay />
-            <FeaturedContent>
-              <Badge>{featured.category}</Badge>
-              <FeaturedTitle>{featured.title}</FeaturedTitle>
-            </FeaturedContent>
-          </FeaturedImage>
-          <MetaBar>
-            <FeaturedExcerpt>{featured.excerpt}</FeaturedExcerpt>
-          </MetaBar>
-          <MetaBarSmall>
-            {featured.meta.map((m, i) => (
-              <MetaItem key={i}>{m}</MetaItem>
-            ))}
-          </MetaBarSmall>
-        </FeaturedCard>
 
-        {/* Middle: Stacked list */}
-        <MiddleCol>
-          {list.map((item, idx) => (
-            <SmallCard key={idx}>
-              <Thumb $src={item.image} role="img" aria-label={item.title} />
-              <SmallContent>
-                <SmallBadge>{item.category}</SmallBadge>
-                <SmallTitle>{item.title}</SmallTitle>
-              </SmallContent>
-            </SmallCard>
-          ))}
-        </MiddleCol>
-      </PageLayout>
+      {loading ? (
+        <SkeletonLoader />
+      ) : (
+        <PageLayout>
+          {/* Left: Featured */}
+          {featured.title && (
+            <FeaturedCard>
+              <FeaturedImage $src={featured.image}>
+                <Overlay />
+                <FeaturedContent>
+                  <Badge>{featured.category}</Badge>
+                  <FeaturedTitle>{featured.title}</FeaturedTitle>
+                </FeaturedContent>
+              </FeaturedImage>
+              {featured.excerpt && (
+                <MetaBar>
+                  <FeaturedExcerpt>{featured.excerpt}</FeaturedExcerpt>
+                </MetaBar>
+              )}
+              {featured.meta?.length > 0 && (
+                <MetaBarSmall>
+                  {featured.meta.filter(m => m).map((m, i) => (
+                    <MetaItem key={i}>{m}</MetaItem>
+                  ))}
+                </MetaBarSmall>
+              )}
+            </FeaturedCard>
+          )}
+
+          {/* Middle: Stacked list */}
+          {list.length > 0 && (
+            <MiddleCol>
+              {list.map((item, idx) => (
+                <SmallCard key={idx}>
+                  <Thumb $src={item.image} role="img" aria-label={item.title} />
+                  <SmallContent>
+                    <SmallBadge>{item.category}</SmallBadge>
+                    <SmallTitle>{item.title}</SmallTitle>
+                  </SmallContent>
+                </SmallCard>
+              ))}
+            </MiddleCol>
+          )}
+        </PageLayout>
+      )}
 
     </Section>
   )

@@ -360,3 +360,120 @@ export const Caption = styled.p`
     line-height: 1.3;
   }
 `
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonImage = styled.div`
+  width: 200px;
+  height: 220px;
+  border-radius: 0;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  flex-shrink: 0;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    width: 160px;
+    height: 180px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    &:nth-child(1),
+    &:nth-child(4) {
+      display: none;
+    }
+    width: 140px;
+    height: 160px;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`
+
+export const SkeletonMainCard = styled.div`
+  position: relative;
+  background: ${theme.colors.white};
+  border-radius: 0;
+  box-shadow: 0 8px 20px rgba(${theme.colors.primaryRgb}, 0.15);
+  overflow: hidden;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    height: 320px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 280px;
+  }
+
+  @media (max-width: 768px) {
+    height: 300px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 240px;
+  }
+
+  @media (max-width: 480px) {
+    height: 220px;
+  }
+`
+
+export const SkeletonMainImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+`
+
+export const SkeletonCaption = styled.div`
+  width: 100%;
+  height: 24px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  margin-top: ${theme.spacing(1.5)};
+  border-radius: 4px;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 20px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 18px;
+  }
+`

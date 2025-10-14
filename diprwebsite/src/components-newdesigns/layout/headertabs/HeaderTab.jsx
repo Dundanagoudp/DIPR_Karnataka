@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { LanguageContext } from "../../../context/LanguageContext";
 import {
   HeaderContainer,
   Container,
@@ -23,15 +24,90 @@ import {
 const HeaderTab = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { language } = useContext(LanguageContext);
 
+  // Navigation items with translations
   const navItems = [
-    { name: "Vartha Janapada", path: "/" },
-    { name: "March of karnataka", path: "/marchofkarnataka" },
-    { name: "State", path: "/state" },
-    { name: "District news", path: "/district" },
-    { name: "Special news", path: "/specialnews" },
-    { name: "News", path: "/news" },
+    { 
+      name: "Vartha Janapada", 
+      path: "/",
+      translations: {
+        English: "Vartha Janapada",
+        Kannada: "ವಾರ್ತಾ ಜನಪದ",
+        Hindi: "वार्ता जनपद"
+      }
+    },
+    { 
+      name: "March of karnataka", 
+      path: "/marchofkarnataka",
+      translations: {
+        English: "March of Karnataka",
+        Kannada: "March of Karnataka", // Keep English by default, translate only when tab is active
+        Hindi: "March of Karnataka"
+      }
+    },
+    { 
+      name: "State", 
+      path: "/state",
+      translations: {
+        English: "State",
+        Kannada: "ರಾಜ್ಯ",
+        Hindi: "राज्य"
+      }
+    },
+    { 
+      name: "District news", 
+      path: "/district",
+      translations: {
+        English: "District News",
+        Kannada: "ಜಿಲ್ಲಾ ಸುದ್ದಿ",
+        Hindi: "जिला समाचार"
+      }
+    },
+    { 
+      name: "Special news", 
+      path: "/specialnews",
+      translations: {
+        English: "Special News",
+        Kannada: "ವಿಶೇಷ ಸುದ್ದಿ",
+        Hindi: "विशेष समाचार"
+      }
+    },
+    { 
+      name: "News", 
+      path: "/news",
+      translations: {
+        English: "News",
+        Kannada: "ಸುದ್ದಿ",
+        Hindi: "समाचार"
+      }
+    },
   ];
+
+  // Get translated name for nav item
+  const getTranslatedName = (item) => {
+    // For March of Karnataka, only translate when that tab is active
+    if (item.path === "/marchofkarnataka" && isTabActive(item.path)) {
+      if (language === "Kannada") {
+        return "ಮಾರ್ಚ್ ಆಫ್ ಕರ್ನಾಟಕ";
+      } else if (language === "Hindi") {
+        return "मार्च ऑफ़ कर्नाटक";
+      }
+    }
+    
+    // For other items, translate normally
+    return item.translations[language] || item.translations.English || item.name;
+  };
+
+  // Get translated Login text
+  const getLoginText = () => {
+    const loginTranslations = {
+      English: "Login",
+      Kannada: "ಲಾಗಿನ್",
+      Hindi: "लॉगिन"
+    };
+    return loginTranslations[language] || "Login";
+  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -87,10 +163,10 @@ const HeaderTab = () => {
               <NavItem key={item.path}>
                 <NavLinkStyled
                   to={item.path}
-                  className={isTabActive(item.path) ? "active" : ""}
+                  className={`${isTabActive(item.path) ? "active" : ""} ${language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}`}
                   aria-current={isTabActive(item.path) ? "page" : undefined}
                 >
-                  {item.name}
+                  {getTranslatedName(item)}
                   {isTabActive(item.path) && <ActiveIndicator aria-hidden="true" />}
                 </NavLinkStyled>
               </NavItem>
@@ -98,8 +174,8 @@ const HeaderTab = () => {
           </DesktopNav>
 
           {/* Login Button */}
-          <LoginButton>
-            Login
+          <LoginButton className={language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}>
+            {getLoginText()}
           </LoginButton>
         </HeaderContent>
 
@@ -118,10 +194,10 @@ const HeaderTab = () => {
                   <MobileNavLink
                     to={item.path}
                     onClick={closeMobileMenu}
-                    className={isTabActive(item.path) ? "active" : ""}
+                    className={`${isTabActive(item.path) ? "active" : ""} ${language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}`}
                     aria-current={isTabActive(item.path) ? "page" : undefined}
                   >
-                    {item.name}
+                    {getTranslatedName(item)}
                   </MobileNavLink>
                 </MobileNavItem>
               ))}
