@@ -114,6 +114,10 @@ export const LanguageSelector = styled.div`
       transform: ${props => props.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
     }
 
+    &.kannada-text {
+      font-weight: 700;
+    }
+
     @media (max-width: ${theme.breakpoints.tablet}) {
       min-width: 150px;
       padding: ${theme.spacing(1)} ${theme.spacing(1.75)};
@@ -202,6 +206,14 @@ export const LanguageDropdown = styled.div`
         padding-left: ${theme.spacing(2)};
       }
     }
+
+    &.kannada-text {
+      font-weight: 700;
+    }
+
+    &.active.kannada-text {
+      font-weight: 700;
+    }
     
     &:focus {
       outline: 2px solid ${theme.colors.primary};
@@ -284,6 +296,10 @@ export const SearchText = styled.span`
   font-family: ${theme.fonts.body};
   transition: color ${theme.transitions.fast};
   font-weight: 500;
+
+  &.kannada-text {
+    font-weight: 700;
+  }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 13px;

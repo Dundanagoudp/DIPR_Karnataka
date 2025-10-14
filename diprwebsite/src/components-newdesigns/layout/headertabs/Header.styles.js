@@ -91,6 +91,11 @@ export const NavLinkStyled = styled(NavLink)`
     color: ${theme.colors.white};
     border-radius: 0;
   }
+
+  &.kannada-text {
+    font-weight: 700;
+    font-size: ${theme.fontSizes.medium};
+  }
 `;
 
 export const ActiveIndicator = styled.span`
@@ -125,6 +130,10 @@ export const LoginButton = styled.button`
   &:focus {
     outline: 2px solid ${theme.colors.primary};
     outline-offset: 2px;
+  }
+
+  &.kannada-text {
+    font-weight: 700;
   }
 `;
 
@@ -273,6 +282,15 @@ export const MobileNavLink = styled(NavLink)`
 
   &.active:active {
     background-color: ${theme.colors.primary};
+  }
+
+  &.kannada-text {
+    font-weight: 700;
+    font-size: ${theme.fontSizes.medium};
+  }
+
+  &.active.kannada-text {
+    font-weight: 700;
   }
 `;
 

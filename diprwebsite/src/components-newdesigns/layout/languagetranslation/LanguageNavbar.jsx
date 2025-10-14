@@ -26,8 +26,15 @@ const LanguageNavbar = () => {
     { code: 'hi', name: 'Hindi' }
   ];
 
-
-  
+  // Get translated Search text
+  const getSearchText = () => {
+    const searchTranslations = {
+      English: "Search",
+      Kannada: "ಹುಡುಕಿ",
+      Hindi: "खोजें"
+    };
+    return searchTranslations[language] || "Search";
+  };
 
   const handleLanguageSelect = (selectedLang) => {
     // If on a magazine page, update that magazine's language
@@ -105,7 +112,7 @@ const LanguageNavbar = () => {
 
       <LanguageSelector ref={dropdownRef}>
         <button 
-          className="language-button"
+          className={`language-button ${language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}`}
           onClick={toggleLanguageDropdown}
           aria-label={`Current language: ${language}. Click to change`}
           aria-expanded={isLanguageOpen}
@@ -122,7 +129,7 @@ const LanguageNavbar = () => {
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageSelect(lang)}
-                  className={language === lang.name ? 'active' : ''}
+                  className={`${language === lang.name ? 'active' : ''} ${lang.name === "Kannada" || lang.name === "Hindi" ? 'kannada-text' : ''}`}
                   role="menuitem"
                   aria-label={`Select ${lang.name}`}
                 >
@@ -148,7 +155,9 @@ const LanguageNavbar = () => {
         <SearchIcon>
           <Search size={20} />
         </SearchIcon>
-        <SearchText>Search</SearchText>
+        <SearchText className={language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}>
+          {getSearchText()}
+        </SearchText>
       </SearchContainer>
 
       <SearchModal isOpen={isSearchOpen} onClose={closeSearchModal} />
