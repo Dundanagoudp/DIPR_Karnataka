@@ -48,6 +48,18 @@ const  ShortsCarousel = () => {
     Hindi: "शॉर्ट्स"
   }
 
+  // Function to limit title words (no limit for Kannada)
+  const limitWords = (text, currentLanguage) => {
+    if (!text) return ""
+    // No limit for Kannada, show full title
+    if (currentLanguage === "Kannada") return text
+    // Limit other languages to 5 words
+    const wordLimit = 5
+    const words = text.split(" ")
+    if (words.length <= wordLimit) return text
+    return words.slice(0, wordLimit).join(" ") + "..."
+  }
+
   useEffect(() => {
     const fetchVideos = async () => {
       try {
@@ -326,7 +338,7 @@ const  ShortsCarousel = () => {
                   )}
                   <VideoInfo>
                     <VideoTitle>
-                      {video[language.toLowerCase()]?.title || video.title || "Farmers' Empowerment"}
+                      {limitWords(video[language.toLowerCase()]?.title || video.title || "Farmers' Empowerment", language)}
                     </VideoTitle>
                     <ChannelInfo>
                     </ChannelInfo>

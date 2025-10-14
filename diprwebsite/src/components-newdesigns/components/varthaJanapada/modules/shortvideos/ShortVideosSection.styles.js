@@ -372,11 +372,18 @@ export const VideoTitle = styled.h3`
   })}
   font-weight: 500;
   color: ${theme.colors.black};
-  white-space: nowrap;
+  font-family: ${theme.fonts.body};
+  
+  /* Allow 2 lines with ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: ${theme.fonts.body};
-    @media (max-width: ${theme.breakpoints.tablet}) {
+  line-height: 1.4;
+  max-height: calc(1.4em * 2); /* 2 lines */
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
     margin: 0 0 ${theme.spacing(0.5)} 0;
   }
 `
