@@ -16,6 +16,7 @@ import {
   SkeletonSideCard,
   SkeletonThumb,
 } from "./featured-news.styles"
+import { Link } from "react-router-dom"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNews } from "../../../../../services/newsApi/NewsApi"
 import { useState, useEffect, useContext } from "react"
@@ -23,6 +24,7 @@ import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
 
 // Define initial states
 const initialFeatured = {
+  id: "",
   image: "/placeholder.svg",
   category: "",
   date: "",
@@ -32,6 +34,7 @@ const initialFeatured = {
 
 const initialSideItems = [
   {
+    id: "",
     image: "/placeholder.svg",
     category: "",
     date: "",
@@ -39,6 +42,7 @@ const initialSideItems = [
     excerpt: "",
   },
   {
+    id: "",
     image: "/placeholder.svg",
     category: "",
     date: "",
@@ -105,6 +109,7 @@ export default function FeaturedNewsSection() {
         const categoryName = category ? (language === "English" ? category.name : language === "Hindi" ? category.hindi : category.kannada) : "Uncategorized"
 
         return {
+          id: item._id,
           image: item.newsImage || "/placeholder.svg",
           category: categoryName || "General",
           date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : "",
@@ -162,35 +167,46 @@ export default function FeaturedNewsSection() {
   return (
     <Section aria-label="Featured March of Karnataka news">
       <Container>
-        <LeftImageWrap>
-          <img src={featuredNews.image || "/placeholder.svg"} alt="Karnataka progress story image" loading="eager" />
-        </LeftImageWrap>
+        <Link 
+          to={`/newsdetails/${featuredNews.id}`}
+          style={{ textDecoration: 'none', color: 'inherit', display: 'contents' }}
+        >
+          <LeftImageWrap>
+            <img src={featuredNews.image || "/placeholder.svg"} alt="Karnataka progress story image" loading="eager" />
+          </LeftImageWrap>
 
-        <MainContent>
-          <MetaRow>
-            <Tag aria-label={`Category: ${featuredNews.category}`}>{featuredNews.category}</Tag>
-            <DateText dateTime="2025-03-20">{featuredNews.date}</DateText>
-          </MetaRow>
+          <MainContent>
+            <MetaRow>
+              <Tag aria-label={`Category: ${featuredNews.category}`}>{featuredNews.category}</Tag>
+              <DateText dateTime="2025-03-20">{featuredNews.date}</DateText>
+            </MetaRow>
 
-          <h2>{featuredNews.title.slice(0, 50) + "..."}</h2>
-          <p>{featuredNews.excerpt.slice(0, 150) + "..."}</p>
-        </MainContent>
+            <h2>{featuredNews.title.slice(0, 50) + "..."}</h2>
+            <p>{featuredNews.excerpt.slice(0, 150) + "..."}</p>
+          </MainContent>
+        </Link>
 
         <Sidebar aria-label="More Karnataka progress stories" role="complementary">
           {sideItems.map((item, idx) => (
-            <SideCard key={idx} role="article" aria-label={item.title}>
-              <div className="thumb">
-                <img src={item.image || "/placeholder.svg"} alt="Karnataka story thumbnail" loading="lazy" />
-              </div>
-              <div>
-                <MetaRow>
-                  <Tag aria-label={`Category: ${item.category}`}>{item.category}</Tag>
-                  <DateText dateTime="2025-03-20">{item.date}</DateText>
-                </MetaRow>
-                <h3>{item.title.slice(0, 50) + "..."}</h3>
-                <p>{item.excerpt.slice(0, 150) + "..."}</p>
-              </div>
-            </SideCard>
+            <Link 
+              to={`/newsdetails/${item.id}`}
+              key={idx}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <SideCard role="article" aria-label={item.title}>
+                <div className="thumb">
+                  <img src={item.image || "/placeholder.svg"} alt="Karnataka story thumbnail" loading="lazy" />
+                </div>
+                <div>
+                  <MetaRow>
+                    <Tag aria-label={`Category: ${item.category}`}>{item.category}</Tag>
+                    <DateText dateTime="2025-03-20">{item.date}</DateText>
+                  </MetaRow>
+                  <h3>{item.title.slice(0, 50) + "..."}</h3>
+                  <p>{item.excerpt.slice(0, 150) + "..."}</p>
+                </div>
+              </SideCard>
+            </Link>
           ))}
         </Sidebar>
       </Container>

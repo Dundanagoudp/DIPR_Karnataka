@@ -43,6 +43,7 @@ export default function NewsSidebar() {
     if (rawData.length > 0) {
       const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
       const normalized = rawData.map((item) => ({
+        id: item._id,
         title: item[langKey]?.title?.slice(0, 50) + "..." ?? "",
         excerpt: item[langKey]?.description?.slice(0, 150) + "..." ?? "",
         date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : "",

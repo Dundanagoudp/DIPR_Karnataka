@@ -227,40 +227,51 @@ export default function StateNews({ onSeeMore }) {
         <PageLayout>
           {/* Left: Featured */}
           {featured.title && (
-            <FeaturedCard>
-              <FeaturedImage $src={featured.image}>
-                <Overlay />
-                <FeaturedContent>
-                  <Badge>{featured.category}</Badge>
-                  <FeaturedTitle>{featured.title}</FeaturedTitle>
-                </FeaturedContent>
-              </FeaturedImage>
-              {featured.excerpt && (
-                <MetaBar>
-                  <FeaturedExcerpt>{featured.excerpt}</FeaturedExcerpt>
-                </MetaBar>
-              )}
-              {featured.meta?.length > 0 && (
-                <MetaBarSmall>
-                  {featured.meta.filter(m => m).map((m, i) => (
-                    <MetaItem key={i}>{m}</MetaItem>
-                  ))}
-                </MetaBarSmall>
-              )}
-            </FeaturedCard>
+            <Link 
+              to={`/newsdetails/${featured.id}`}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <FeaturedCard>
+                <FeaturedImage $src={featured.image}>
+                  <Overlay />
+                  <FeaturedContent>
+                    <Badge>{featured.category}</Badge>
+                    <FeaturedTitle>{featured.title}</FeaturedTitle>
+                  </FeaturedContent>
+                </FeaturedImage>
+                {featured.excerpt && (
+                  <MetaBar>
+                    <FeaturedExcerpt>{featured.excerpt}</FeaturedExcerpt>
+                  </MetaBar>
+                )}
+                {featured.meta?.length > 0 && (
+                  <MetaBarSmall>
+                    {featured.meta.filter(m => m).map((m, i) => (
+                      <MetaItem key={i}>{m}</MetaItem>
+                    ))}
+                  </MetaBarSmall>
+                )}
+              </FeaturedCard>
+            </Link>
           )}
 
           {/* Middle: Stacked list */}
           {list.length > 0 && (
             <MiddleCol>
               {list.map((item, idx) => (
-                <SmallCard key={idx}>
-                  <Thumb $src={item.image} role="img" aria-label={item.title} />
-                  <SmallContent>
-                    <SmallBadge>{item.category}</SmallBadge>
-                    <SmallTitle>{item.title}</SmallTitle>
-                  </SmallContent>
-                </SmallCard>
+                <Link 
+                  to={`/newsdetails/${item.id}`}
+                  key={idx}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <SmallCard>
+                    <Thumb $src={item.image} role="img" aria-label={item.title} />
+                    <SmallContent>
+                      <SmallBadge>{item.category}</SmallBadge>
+                      <SmallTitle>{item.title}</SmallTitle>
+                    </SmallContent>
+                  </SmallCard>
+                </Link>
               ))}
             </MiddleCol>
           )}

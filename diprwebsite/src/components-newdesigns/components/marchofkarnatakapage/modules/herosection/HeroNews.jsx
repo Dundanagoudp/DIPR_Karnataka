@@ -1,5 +1,6 @@
 
 import React, { useContext, useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { IoChevronBack, IoChevronForward } from "react-icons/io5"
 import {
   HeroWrap,
@@ -136,12 +137,16 @@ export default function MarchNewsHero() {
 
   return (
     <HeroWrap aria-roledescription="carousel" aria-label="Top stories">
-      <HeroMedia>
-        {/* Background image */}
-        <img src={current.image || "/placeholder.svg"} alt="" aria-hidden="true" />
-        {/* Overlay card */}
- 
-      </HeroMedia>
+      <Link 
+        to={`/newsdetails/${current.id}`}
+        style={{ textDecoration: 'none', color: 'inherit', display: 'contents' }}
+      >
+        <HeroMedia>
+          {/* Background image */}
+          <img src={current.image || "/placeholder.svg"} alt="" aria-hidden="true" />
+          {/* Overlay card */}
+   
+        </HeroMedia>
         <OverlayCard>
           <Title>{current.title}</Title>
           <Excerpt>{current.excerpt}</Excerpt>
@@ -151,7 +156,11 @@ export default function MarchNewsHero() {
               {marchNews.slice(0, 3).map((_, i) => (
                 <Dot
                   key={i}
-                  onClick={() => setIndex(i)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIndex(i);
+                  }}
                   $active={i === index}
                   aria-label={`Go to slide ${i + 1}`}
                   aria-current={i === index ? "true" : undefined}
@@ -166,7 +175,11 @@ export default function MarchNewsHero() {
             </Dots>
 
             <Arrows>
-              <ArrowBtn aria-label="Previous" onClick={() => go(false)} onKeyDown={(e) => {
+              <ArrowBtn aria-label="Previous" onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                go(false);
+              }} onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   go(false);
@@ -174,7 +187,11 @@ export default function MarchNewsHero() {
               }}>
                 <IoChevronBack size={25} aria-hidden="true" />
               </ArrowBtn>
-              <ArrowBtn aria-label="Next" onClick={() => go(true)} onKeyDown={(e) => {
+              <ArrowBtn aria-label="Next" onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                go(true);
+              }} onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   go(true);
@@ -185,7 +202,8 @@ export default function MarchNewsHero() {
             </Arrows>
           </BottomBar>
         </OverlayCard>
-        <RightDivider />
+      </Link>
+      <RightDivider />
 
     </HeroWrap>
   )
