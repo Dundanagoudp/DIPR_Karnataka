@@ -141,7 +141,7 @@ export default function StateNews({ onSeeMore }) {
           category: categoryName,
           date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : "",
           author: item.author || "Admin",
-          meta: [item.author || "Admin", "0", item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : ""],
+          meta: [item.author || "Admin", item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : ""],
           publishedAt: item.publishedAt
         }
       })
