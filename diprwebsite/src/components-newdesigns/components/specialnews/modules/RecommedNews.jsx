@@ -11,6 +11,10 @@ import {
   TitleLink,
   Meta,
   DividerTitle,
+  SkeletonCard,
+  SkeletonThumb,
+  SkeletonContent,
+  SkeletonLine,
 } from "./RecommedNews.styles"
 import { useContext, useState, useEffect } from "react"
 import { LanguageContext } from "../../../../context/LanguageContext"
@@ -32,26 +36,31 @@ export default function Recommrednews() {
   const [rawNews, setRawNews] = useState([])
   const [mostRead, setMostRead] = useState([])
   const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
   const { language } = useContext(LanguageContext)
 
   useEffect(() => {
     // get categories
     const getCategories = async () => {
+      setLoading(true)
       const res = await CategoryApi()
       if (res?.data) {
         setCategories(res.data)
       }
+      setLoading(false)
     }
     getCategories()
   }, [])
   useEffect(() => {
     // get news by type state
 const fetchNews = async () => {
+  setLoading(true)
   const res = await getNews()
 
   if (res?.success && Array.isArray(res.data)) {
     setRawNews(res.data)
   }
+  setLoading(false)
 }
 fetchNews()
   }, [language])
@@ -98,6 +107,50 @@ fetchNews()
     const mostRead = localized.slice(3,6)
     setMostRead(mostRead)
   }, [language, rawNews])
+  
+  // Show shimmer while loading
+  if (loading) {
+    return (
+      <Section as="section" aria-labelledby="recommended-heading" role="region">
+        <h2 id="recommended-heading" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+          Recommended and Most Read Articles
+        </h2>
+
+        <h3 id="recommended-articles-heading" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+          Recommended Articles
+        </h3>
+        
+        <Grid role="list" aria-labelledby="recommended-articles-heading">
+          {[1, 2, 3].map((i) => (
+            <SkeletonCard key={i}>
+              <SkeletonThumb />
+              <SkeletonContent>
+                <SkeletonLine width="80px" height="24px" />
+                <SkeletonLine width="90%" height="20px" />
+                <SkeletonLine width="100%" height="14px" />
+              </SkeletonContent>
+            </SkeletonCard>
+          ))}
+        </Grid>
+
+        <DividerTitle as="h3">Most Readed</DividerTitle>
+
+        <Grid role="list">
+          {[1, 2, 3].map((i) => (
+            <SkeletonCard key={i}>
+              <SkeletonThumb />
+              <SkeletonContent>
+                <SkeletonLine width="80px" height="24px" />
+                <SkeletonLine width="90%" height="20px" />
+                <SkeletonLine width="100%" height="14px" />
+              </SkeletonContent>
+            </SkeletonCard>
+          ))}
+        </Grid>
+      </Section>
+    )
+  }
+  
   return (
     <Section as="section" aria-labelledby="recommended-heading" role="region">
       <h2 id="recommended-heading" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>

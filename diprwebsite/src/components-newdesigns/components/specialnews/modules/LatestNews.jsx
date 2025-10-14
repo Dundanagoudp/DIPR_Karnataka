@@ -21,6 +21,10 @@ import {
   FeatureTitle,
   FeatureExcerpt,
   SeeMoreBtn,
+  SkeletonItem,
+  SkeletonLine,
+  SkeletonFeatureCard,
+  SkeletonFeatureContent,
 } from "./LatestNews.styles"
 import { useContext, useState, useEffect } from "react"
 import { LanguageContext } from "../../../../context/LanguageContext"
@@ -249,6 +253,80 @@ export default function LatestNews() {
       return '';
     }
   };
+
+  // Show shimmer while loading
+  if (loading) {
+    return (
+      <Wrapper as="section" aria-labelledby="latest-popular-heading" role="region">
+        <GlobalScrollbars />
+        <h2 
+          id="latest-popular-heading" 
+          style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+        >
+          Latest and Popular News
+        </h2>
+        
+        <HeaderRow role="presentation">
+          <Title as="h3" id="latest-news-title">Latest News</Title>
+          <Title as="h3" id="popular-news-title">Popular News</Title>
+        </HeaderRow>
+
+        <Grid>
+          {/* Left column skeleton */}
+          <Column>
+            <List className="custom-scrollbar">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <SkeletonItem key={i}>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <SkeletonLine width="80px" height="24px" />
+                    <SkeletonLine width="120px" height="14px" />
+                  </div>
+                  <SkeletonLine width="90%" height="20px" />
+                  <SkeletonLine width="100%" height="14px" />
+                  <SkeletonLine width="100%" height="14px" />
+                  <SkeletonLine width="60%" height="14px" />
+                </SkeletonItem>
+              ))}
+            </List>
+          </Column>
+
+          {/* Center feature skeleton */}
+          <Column>
+            <SkeletonFeatureCard>
+              <SkeletonFeatureContent>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <SkeletonLine width="80px" height="24px" />
+                  <SkeletonLine width="120px" height="14px" />
+                </div>
+                <SkeletonLine width="80%" height="32px" />
+                <SkeletonLine width="100%" height="16px" />
+                <SkeletonLine width="100%" height="16px" />
+                <SkeletonLine width="70%" height="16px" />
+              </SkeletonFeatureContent>
+            </SkeletonFeatureCard>
+          </Column>
+
+          {/* Right column skeleton */}
+          <Column>
+            <List className="custom-scrollbar">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <SkeletonItem key={i}>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <SkeletonLine width="80px" height="24px" />
+                    <SkeletonLine width="120px" height="14px" />
+                  </div>
+                  <SkeletonLine width="90%" height="20px" />
+                  <SkeletonLine width="100%" height="14px" />
+                  <SkeletonLine width="100%" height="14px" />
+                  <SkeletonLine width="60%" height="14px" />
+                </SkeletonItem>
+              ))}
+            </List>
+          </Column>
+        </Grid>
+      </Wrapper>
+    )
+  }
 
   return (
     <Wrapper as="section" aria-labelledby="latest-popular-heading" role="region">

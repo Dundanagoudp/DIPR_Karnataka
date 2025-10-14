@@ -213,3 +213,60 @@ export const DividerTitle = styled.h3`
     font-size: 18px;
   }
 `
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: ${theme.colors.background};
+  ${shimmer}
+`
+
+export const SkeletonThumb = styled.div`
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: ${theme.borderRadius.medium};
+  overflow: hidden;
+`
+
+export const SkeletonContent = styled.div`
+  padding: ${theme.spacing(2)} 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(1)};
+`
+
+export const SkeletonLine = styled.div`
+  height: ${props => props.height || '16px'};
+  width: ${props => props.width || '100%'};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+`

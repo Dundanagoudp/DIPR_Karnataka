@@ -32,6 +32,12 @@ import {
   FeatureDateText,
   FeatureTagsRow,
   FeatureBadge,
+  SkeletonTabButton,
+  SkeletonFeatureCard,
+  SkeletonFeatureContent,
+  SkeletonNewsItem,
+  SkeletonThumbnail,
+  SkeletonLine,
 } from "./TabSpecialNews.styles"
 import { LanguageContext } from '../../../../context/LanguageContext'
 import { useState,useContext,useEffect } from 'react'
@@ -331,26 +337,31 @@ export default function TabSpecialNews() {
   const [news, setNews] = useState([])
   const [rawNews, setRawNews] = useState([])
   const [sideList, setSideList] = useState([])
+  const [loading, setLoading] = useState(true)
   const { language } = useContext(LanguageContext)
   const navigate = useNavigate()
   useEffect(() => {
     // get categories
     const getCategories = async () => {
+      setLoading(true)
       const res = await CategoryApi()
       if (res?.data) {
         setCategories(res.data)
         setActive(res.data[0]?._id || "")
       }
+      setLoading(false)
     }
     getCategories()
   }, [])
   useEffect(() => {
     // get news by type state
 const fetchNews = async () => {
+  setLoading(true)
   const res = await getNewsByTypeSpecialnews()
   if (res?.success && Array.isArray(res.data)) {
     setRawNews(res.data)
   }
+  setLoading(false)
 }
 fetchNews()
   }, [language])
@@ -422,6 +433,67 @@ fetchNews()
   const newsList = posts
   console.log("posts", posts)
   console.log("featuredPost", featuredPost)
+  
+  // Show shimmer while loading
+  if (loading) {
+    return (
+      <Wrapper as="section" aria-labelledby="special-news-tabs-heading" role="region">
+        <GlobalScrollbars />
+        <h2 
+          id="special-news-tabs-heading" 
+          style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+        >
+          Special News Categories
+        </h2>
+        
+        {/* Tab Navigation Skeleton */}
+        <Tabs role="tablist" aria-label="Special news categories">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <SkeletonTabButton key={i} />
+          ))}
+        </Tabs>
+
+        <Grid>
+          {/* Left side - Feature Skeleton */}
+          <Column>
+            <SkeletonFeatureCard>
+              <SkeletonFeatureContent>
+                <SkeletonLine width="80%" height="32px" />
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <SkeletonLine width="120px" height="14px" />
+                  <SkeletonLine width="100px" height="14px" />
+                </div>
+                <SkeletonLine width="100%" height="16px" />
+                <SkeletonLine width="100%" height="16px" />
+                <SkeletonLine width="70%" height="16px" />
+                <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                  <SkeletonLine width="80px" height="28px" />
+                  <SkeletonLine width="100px" height="28px" />
+                </div>
+              </SkeletonFeatureContent>
+            </SkeletonFeatureCard>
+          </Column>
+
+          {/* Right side - News List Skeleton */}
+          <Column>
+            <List className="custom-scrollbar">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <SkeletonNewsItem key={i}>
+                  <SkeletonThumbnail />
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <SkeletonLine width="90%" height="18px" />
+                    <SkeletonLine width="100%" height="14px" />
+                    <SkeletonLine width="60%" height="14px" />
+                  </div>
+                </SkeletonNewsItem>
+              ))}
+            </List>
+          </Column>
+        </Grid>
+      </Wrapper>
+    )
+  }
+  
   // Handle keyboard navigation for tabs
   const handleTabKeyDown = (e, tab) => {
     const tabIndex = categories.findIndex((cat) => cat._id === tab)
