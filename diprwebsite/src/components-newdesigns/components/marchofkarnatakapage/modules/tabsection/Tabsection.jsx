@@ -1,4 +1,5 @@
 import React from "react"
+import { useState, useEffect, useContext } from "react"
 import {
   Section,
   Container,
@@ -21,86 +22,124 @@ import {
   SeeMoreWrap,
   SeeMoreBtn,
 } from "./Tabsection.styles"
-
-// Demo data for March of Karnataka
-const TABS = ["Technology", "Education", "Infrastructure", "Culture", "Economy", "Healthcare", "Environment"]
-
-const POSTS = {
-  Technology: [
-    {
-      id: "t1",
-      date: "March 20, 2025",
-      title: "Karnataka's IT Sector: Driving India's Digital Future",
-      excerpt:
-        "Bangalore's tech ecosystem continues to expand, with new startups and multinational companies establishing their presence in the Silicon Valley of India.",
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/68994c24e22e9173fc6004a1d4f5dd78460631dc-Vi79QbCWZK6QOFoOgMteWdnLZjU1mi.jpg",
-      alt: "Modern technology infrastructure in Karnataka",
-    },
-    {
-      id: "t2",
-      date: "March 15, 2025",
-      title: "Karnataka's AI and Machine Learning Initiatives",
-      excerpt:
-        "The state government launches new AI research centers and partnerships with leading tech companies to advance artificial intelligence capabilities.",
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/6243ae57209c4d57554c7f40bc64b7beea010a17-gYwyDUgRsXonopsv41keWRrzjIV8Y9.jpg",
-      alt: "AI research facility in Karnataka",
-    },
-    {
-      id: "t3",
-      date: "February 28, 2025",
-      title: "Karnataka's Cybersecurity Excellence",
-      excerpt:
-        "The state establishes new cybersecurity frameworks and training programs to protect digital infrastructure and data.",
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ab76636beea47b9f254313aec0bf6a3f2de57ca6-c4XD0LDs5RrI7VEtEZJmSnlXHBe36D.jpg",
-      alt: "Cybersecurity operations center",
-    },
-    {
-      id: "t4",
-      date: "February 14, 2025",
-      title: "Karnataka's Fintech Revolution",
-      excerpt:
-        "The state's fintech sector experiences rapid growth with innovative payment solutions and digital banking services.",
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/953a18a88ac50c70c275906d207dc5a58e3cbf26%20%282%29-1DWWgC9eKwMXMIt9ybxFtMVU6So1cN.jpg",
-      alt: "Digital financial services platform",
-    },
-  ],
-}
-
-// Fallback posts for other tabs reuse technology data as placeholder
-TABS.forEach((tab) => {
-  if (!POSTS[tab]) POSTS[tab] = POSTS.Technology
-})
+import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
+import { LanguageContext } from "../../../../../context/LanguageContext"
+import { getNews } from "../../../../../services/newsApi/NewsApi"
 
 export default function TabSection() {
-  const [active, setActive] = React.useState(TABS[0])
-  const posts = POSTS[active] || []
+  const [active, setActive] = React.useState("")
+  const [categories, setCategories] = useState([])
+  const [news, setNews] = useState([])
+  const [rawNews, setRawNews] = useState([])
+  const [sideList, setSideList] = useState([])
+  const { language } = useContext(LanguageContext)
+  
+  // Fetch categories
+  useEffect(() => {
+    const getCategories = async () => {
+      const res = await CategoryApi()
+      if (res?.data) {
+        setCategories(res.data)
+        setActive(res.data[0]?._id || "")
+      }
+    }
+    getCategories()
+  }, [])
+
+  // Fetch March of Karnataka news (magazineType: "magazine2")
+  useEffect(() => {
+    const fetchNews = async () => {
+      const res = await getNews()
+      console.log("March tab news API response:", res)
+      
+      if (res?.success && Array.isArray(res.data)) {
+        // Filter by magazineType: "magazine2" (March of Karnataka)
+        const filteredData = res.data.filter(item => 
+          item.magazineType === "magazine2"
+        )
+        console.log("Filtered March tab news:", filteredData)
+        setRawNews(filteredData)
+      }
+    }
+    fetchNews()
+  }, [language])
+
+  // Filter news by active category
+  useEffect(() => {
+    if (!rawNews.length || !active || !categories.length) return
+
+    const filtered = rawNews.filter((item) => {
+      const categoryId = typeof item.category === "object" ? item.category._id : item.category
+      console.log("March Tab - Comparing:", categoryId, "with active:", active)
+      return categoryId === active
+    })
+    console.log("March Tab - Filtered by category:", filtered.length, "items")
+
+    const langKey =
+      language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
+    
+    const localized = filtered.map((item) => ({
+      id: item._id,
+      title: item[langKey]?.title || item.title || "",
+      excerpt: item[langKey]?.description || item.description || "",
+      date: item.publishedAt
+        ? new Date(item.publishedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : "",
+      image: item.newsImage || "/placeholder.svg",
+      alt: item.title || "",
+    }))
+
+    setNews(localized)
+  }, [active, language, rawNews, categories])
+
+  // Process sidebar list
+  useEffect(() => {
+    if (rawNews.length > 0) {
+      const langKey =
+        language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
+      const localized = rawNews.map((item) => ({
+        id: item._id,
+        date: item.publishedAt
+          ? new Date(item.publishedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : "",
+        title: item[langKey]?.title?.slice(0, 50) + "..." || item.title || "",
+      }))
+      setSideList(localized.slice(0, 5))
+    }
+  }, [language, rawNews])
+
+  const posts = news.length > 0 ? news : []
 
   // Keyboard navigation for tabs
   const handleKeyDown = (e) => {
-    const currentIndex = TABS.indexOf(active)
-    
+    const currentIndex = categories.findIndex((cat) => cat._id === active)
+
     switch (e.key) {
-      case 'ArrowLeft':
+      case "ArrowLeft":
         e.preventDefault()
-        const prevIndex = currentIndex > 0 ? currentIndex - 1 : TABS.length - 1
-        setActive(TABS[prevIndex])
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : categories.length - 1
+        setActive(categories[prevIndex]?._id || "")
         break
-      case 'ArrowRight':
+      case "ArrowRight":
         e.preventDefault()
-        const nextIndex = currentIndex < TABS.length - 1 ? currentIndex + 1 : 0
-        setActive(TABS[nextIndex])
+        const nextIndex = currentIndex < categories.length - 1 ? currentIndex + 1 : 0
+        setActive(categories[nextIndex]?._id || "")
         break
-      case 'Home':
+      case "Home":
         e.preventDefault()
-        setActive(TABS[0])
+        setActive(categories[0]?._id || "")
         break
-      case 'End':
+      case "End":
         e.preventDefault()
-        setActive(TABS[TABS.length - 1])
+        setActive(categories[categories.length - 1]?._id || "")
         break
     }
   }
@@ -108,48 +147,6 @@ export default function TabSection() {
   // Layout: first 2 are featured (top), next 2 are secondary (bottom)
   const featured = posts.slice(0, 2)
   const secondary = posts.slice(2, 4)
-  const sideList = [
-    { 
-      date: "March 15, 2025", 
-      title: "Karnataka's Smart City Initiatives Transform Urban Living",
-      excerpt: "Smart city projects across Karnataka are revolutionizing urban infrastructure with IoT and data-driven solutions."
-    },
-    { 
-      date: "March 05, 2025", 
-      title: "Karnataka's Green Energy Revolution",
-      excerpt: "The state leads India in renewable energy adoption with massive solar and wind power projects."
-    },
-    { 
-      date: "March 01, 2025", 
-      title: "Karnataka's Startup Ecosystem Thrives",
-      excerpt: "Bangalore's startup ecosystem continues to attract global investors and innovative entrepreneurs."
-    },
-    { 
-      date: "February 28, 2025", 
-      title: "Karnataka's Digital Governance Excellence",
-      excerpt: "The state's e-governance initiatives are setting new standards for digital public services."
-    },
-    { 
-      date: "February 15, 2025", 
-      title: "Karnataka's Innovation in Agriculture Technology",
-      excerpt: "Agri-tech startups in Karnataka are transforming traditional farming with modern technology solutions."
-    },
-    { 
-      date: "March 05, 2025", 
-      title: "Karnataka's Green Energy Revolution",
-      excerpt: "The state leads India in renewable energy adoption with massive solar and wind power projects."
-    },
-    { 
-      date: "March 01, 2025", 
-      title: "Karnataka's Startup Ecosystem Thrives",
-      excerpt: "Bangalore's startup ecosystem continues to attract global investors and innovative entrepreneurs."
-    },
-    { 
-      date: "February 28, 2025", 
-      title: "Karnataka's Digital Governance Excellence",
-      excerpt: "The state's e-governance initiatives are setting new standards for digital public services."
-    },
-  ]
 
   return (
     <Section aria-labelledby="march-karnataka-tabs-heading">
@@ -163,24 +160,27 @@ export default function TabSection() {
           aria-label="March of Karnataka categories"
           onKeyDown={handleKeyDown}
         >
-          {TABS.map((tab) => (
-            <TabButton
-              key={tab}
-              role="tab"
-              aria-selected={active === tab}
-              aria-controls={`panel-${tab}`}
-              $active={active === tab}
-              onClick={() => setActive(tab)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setActive(tab);
-                }
-              }}
-            >
-              {tab}
-            </TabButton>
-          ))}
+          {categories.map((tab) => {
+            const tabName = language === "English" ? tab.name : language === "Hindi" ? tab.hindi : tab.kannada
+            return (
+              <TabButton
+                key={tab._id}
+                role="tab"
+                aria-selected={active === tab._id}
+                aria-controls={`panel-${tab._id}`}
+                $active={active === tab._id}
+                onClick={() => setActive(tab._id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    setActive(tab._id)
+                  }
+                }}
+              >
+                {tabName}
+              </TabButton>
+            )
+          })}
         </Tabs>
 
         <Layout>
@@ -193,8 +193,8 @@ export default function TabSection() {
                   </ImageWrap>
                   <Content>
                     <DateText>{p.date}</DateText>
-                    <Title>{p.title}</Title>
-                    <Excerpt>{p.excerpt}</Excerpt>
+                    <Title>{p.title.slice(0, 50)}...</Title>
+                    <Excerpt>{p.excerpt.slice(0, 150)}...</Excerpt>
                   </Content>
                 </Card>
               ))}
@@ -206,8 +206,8 @@ export default function TabSection() {
                   </ImageWrap>
                   <Content>
                     <DateText>{p.date}</DateText>
-                    <Title>{p.title}</Title>
-                    <Excerpt>{p.excerpt}</Excerpt>
+                    <Title>{p.title.slice(0, 50)}...</Title>
+                    <Excerpt>{p.excerpt.slice(0, 150)}...</Excerpt>
                   </Content>
                 </Card>
               ))}

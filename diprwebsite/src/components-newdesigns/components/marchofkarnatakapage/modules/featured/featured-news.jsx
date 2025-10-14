@@ -9,53 +9,130 @@ import {
   Sidebar,
   SideCard,
 } from "./featured-news.styles"
+import { LanguageContext } from "../../../../../context/LanguageContext"
+import { getNews } from "../../../../../services/newsApi/NewsApi"
+import { useState, useEffect, useContext } from "react"
+import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
 
-export default function FeaturedNewsSection({
-  featured = {
-    image: "/state/2ndimage.jpg",
-    category: "Karnataka Progress",
-    date: "March 20, 2025",
-    title: "Karnataka's Digital Transformation: Leading India's Tech Revolution",
-    excerpt:
-      "Karnataka has emerged as the Silicon Valley of India, with Bangalore becoming a global technology hub. The state's progressive policies and investment in digital infrastructure have positioned it as a leader in India's technological advancement.",
+// Define initial states
+const initialFeatured = {
+  image: "/placeholder.svg",
+  category: "",
+  date: "",
+  title: "",
+  excerpt: "",
+}
+
+const initialSideItems = [
+  {
+    image: "/placeholder.svg",
+    category: "",
+    date: "",
+    title: "",
+    excerpt: "",
   },
-  sideItems = [
-    {
-      image: "/state/2ndsection.jpg",
-      category: "Education",
-      date: "March 20, 2025",
-      title: "Karnataka's Educational Excellence: Nurturing Future Innovators",
-      excerpt:
-        "The state's world-class educational institutions, including IISc and IIMs, continue to produce leaders in science, technology, and business.",
-    },
-    {
-      image: "/state/rightside.jpg",
-      category: "Infrastructure",
-      date: "March 20, 2025",
-      title: "Karnataka's Infrastructure Development: Building Tomorrow's Cities",
-      excerpt: "Major infrastructure projects including metro systems, smart cities, and sustainable urban development initiatives.",
-    },
-  ],
-}) {
+  {
+    image: "/placeholder.svg",
+    category: "",
+    date: "",
+    title: "",
+    excerpt: "",
+  },
+]
+
+export default function FeaturedNewsSection() {
+  const [rawData, setRawData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [featuredNews, setFeaturedNews] = useState(initialFeatured)
+  const [sideItems, setSideItems] = useState(initialSideItems)
+  const [categories, setCategories] = useState([])
+  const { language } = useContext(LanguageContext)
+
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await CategoryApi()
+      if (response?.success && Array.isArray(response.data)) {
+        setCategories(response.data)
+      }
+    }
+    fetchCategories()
+  }, [])
+
+  // Fetch March of Karnataka news (magazineType: "magazine2")
+  useEffect(() => {
+    const fetchFeaturedNews = async () => {
+      try {
+        const response = await getNews()
+        if (response?.success && Array.isArray(response.data)) {
+          // Filter by magazineType: "magazine2" (March of Karnataka)
+          const filteredData = response.data.filter(item => 
+            item.magazineType === "magazine2"
+          )
+          console.log("Filtered March featured news:", filteredData)
+          setRawData(filteredData)
+        }
+      } catch (error) {
+        console.error("Error fetching March featured news:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchFeaturedNews()
+  }, [language])
+
+  // Process data based on language
+  useEffect(() => {
+    if (rawData.length > 0 && categories.length > 0) {
+      const normalized = rawData.map((item) => {
+        const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
+      
+        // Handle category being either an object or a string ID
+        const categoryId = typeof item.category === "object" ? item.category._id : item.category
+        console.log("March Featured - Category ID:", categoryId, "Type:", typeof item.category)
+        
+        // Find the category name based on the category ID
+        const category = categories.find((cat) => cat._id === categoryId)
+        console.log("March Featured - Found category:", category)
+        
+        const categoryName = category ? (language === "English" ? category.name : language === "Hindi" ? category.hindi : category.kannada) : "Uncategorized"
+
+        return {
+          image: item.newsImage || "/placeholder.svg",
+          category: categoryName || "General",
+          date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : "",
+          title: item[langKey]?.title || "",
+          excerpt: item[langKey]?.description || "",
+        }
+      })
+
+      const shuffled = [...normalized].sort(() => Math.random() - 0.5)
+      const randomOne = shuffled[0] || initialFeatured
+      const randomTwo = shuffled.slice(1, 3) || initialSideItems
+      setFeaturedNews(randomOne)
+      setSideItems(randomTwo)
+    }
+  }, [language, rawData, categories])
+
   return (
     <Section aria-label="Featured March of Karnataka news">
       <Container>
         <LeftImageWrap>
-          <img src={featured.image || "/placeholder.svg"} alt="Karnataka progress story image" loading="eager" />
+          <img src={featuredNews.image || "/placeholder.svg"} alt="Karnataka progress story image" loading="eager" />
         </LeftImageWrap>
 
         <MainContent>
           <MetaRow>
-            <Tag aria-label={`Category: ${featured.category}`}>{featured.category}</Tag>
-            <DateText dateTime="2025-03-20">{featured.date}</DateText>
+            <Tag aria-label={`Category: ${featuredNews.category}`}>{featuredNews.category}</Tag>
+            <DateText dateTime="2025-03-20">{featuredNews.date}</DateText>
           </MetaRow>
 
-          <h2>{featured.title}</h2>
-          <p>{featured.excerpt}</p>
+          <h2>{featuredNews.title.slice(0, 50) + "..."}</h2>
+          <p>{featuredNews.excerpt.slice(0, 150) + "..."}</p>
         </MainContent>
 
         <Sidebar aria-label="More Karnataka progress stories" role="complementary">
-          {sideItems.slice(0, 2).map((item, idx) => (
+          {sideItems.map((item, idx) => (
             <SideCard key={idx} role="article" aria-label={item.title}>
               <div className="thumb">
                 <img src={item.image || "/placeholder.svg"} alt="Karnataka story thumbnail" loading="lazy" />
@@ -65,8 +142,8 @@ export default function FeaturedNewsSection({
                   <Tag aria-label={`Category: ${item.category}`}>{item.category}</Tag>
                   <DateText dateTime="2025-03-20">{item.date}</DateText>
                 </MetaRow>
-                <h3>{item.title}</h3>
-                <p>{item.excerpt}</p>
+                <h3>{item.title.slice(0, 50) + "..."}</h3>
+                <p>{item.excerpt.slice(0, 150) + "..."}</p>
               </div>
             </SideCard>
           ))}
