@@ -1,6 +1,6 @@
 import { Card, Thumb, Title, Excerpt, Meta, Dot } from "./sidebar-card.styles"
 
-export default function SidebarCard({ title, excerpt, date, author, imageSrc, alt = "Story image", index }) {
+export default function SidebarCard({ title, excerpt, date, author, imageSrc, alt = "Story image", index, onClick }) {
   // Limit excerpt to 8 words
   const truncatedExcerpt = excerpt.split(' ').slice(0, 8).join(' ') + (excerpt.split(' ').length > 8 ? '...' : '');
   
@@ -20,11 +20,15 @@ export default function SidebarCard({ title, excerpt, date, author, imageSrc, al
       role="article" 
       aria-labelledby={`sidebar-card-title-${index}`}
       tabIndex="0"
+      onClick={onClick}
+      style={{ cursor: 'pointer' }}
     >
       <Thumb 
         src={imageSrc} 
         alt={alt || `Thumbnail for ${title}`}
         loading="lazy"
+        onClick={onClick}
+        style={{ cursor: 'pointer' }}
       />
       <Title id={`sidebar-card-title-${index}`} as="h4" className="text-pretty">
         {title}

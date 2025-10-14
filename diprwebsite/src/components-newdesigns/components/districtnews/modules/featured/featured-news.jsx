@@ -20,6 +20,7 @@ import { useContext, useState, useEffect } from "react"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
 import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
+import { useNavigate } from "react-router-dom"
 
 const initialFeatured = {
   image: "/placeholder.svg",
@@ -61,7 +62,7 @@ export default function FeaturedNewsSection() {
   const [sideItems, setSideItems] = useState(initialSideItems)
   const [categories, setCategories] = useState([])
   const { language } = useContext(LanguageContext)
-
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await CategoryApi()
@@ -104,6 +105,7 @@ export default function FeaturedNewsSection() {
 
 
         return {
+          _id: item._id,
           image: item.newsImage || "/placeholder.svg",
           category: categoryName || "",
           date: item[langKey]?.date || "",
@@ -184,6 +186,8 @@ export default function FeaturedNewsSection() {
             src={featured.image || "/placeholder.svg"} 
             alt={`Featured story: ${featured.title}`}
             loading="lazy"
+            onClick={() => navigate(`/newsdetails/${featured._id}`)}
+            style={{ cursor: 'pointer' }}
           />
         </LeftImageWrap>
 
@@ -193,7 +197,7 @@ export default function FeaturedNewsSection() {
             <DateText as="time" dateTime={parseDateTimeAttr(featured.date)}>{featured.date}</DateText>
           </MetaRow>
 
-          <h3 id="featured-main-title">{featured.title}</h3>
+          <h3 id="featured-main-title" onClick={() => navigate(`/newsdetails/${featured._id}`)} style={{ cursor: 'pointer' }}>{featured.title}</h3>
           <p>{featured.excerpt}</p>
         </MainContent>
 
@@ -221,6 +225,8 @@ export default function FeaturedNewsSection() {
                   src={item.image || "/placeholder.svg"} 
                   alt={`Related story: ${item.title}`}
                   loading="lazy"
+                  onClick={() => navigate(`/newsdetails/${item._id}`)}
+                  style={{ cursor: 'pointer' }}
                 />
               </div>
               <div>

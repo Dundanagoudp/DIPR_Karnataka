@@ -10,6 +10,7 @@ import {
 import { useContext, useState, useEffect } from "react"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
+import { useNavigate } from "react-router-dom"
 
 export default function NewsSidebar({
   items = [
@@ -33,7 +34,7 @@ export default function NewsSidebar({
   const [districtNews, setDistrictNews] = useState([])
   const [loading, setLoading] = useState(true)
   const [rawData, setRawData] = useState([])
-
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true)
@@ -54,6 +55,7 @@ export default function NewsSidebar({
         const normalized = rawData.map((item) => {
           const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
           return {
+            _id: item._id,
             title: item[langKey]?.title.slice(0, 50) + "..." ?? "",
             excerpt: item[langKey]?.description.slice(0, 150) + "..." ?? "",
             date: item.date,
@@ -101,7 +103,7 @@ export default function NewsSidebar({
         Recent District News
       </h3>
       {districtNews.map((item, index) => (
-        <SidebarCard key={index} index={index + 1} {...item} />
+        <SidebarCard key={index} index={index + 1} {...item} onClick={() => navigate(`/newsdetails/${item._id}`)} style={{ cursor: 'pointer' }} />
       ))}
     </Aside>
   )

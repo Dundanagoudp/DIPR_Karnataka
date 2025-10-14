@@ -25,6 +25,7 @@ import {
 } from "./Heronews.styles"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
+import { useNavigate } from "react-router-dom"
 
 const FALLBACK_ITEMS = [
   {
@@ -49,7 +50,7 @@ const FALLBACK_ITEMS = [
 export default function NewsHero() {
   const [index, setIndex] = React.useState(0)
   const { language } = useContext(LanguageContext)
-
+  const navigate = useNavigate()
   const [districtNews, setDistrictNews] = useState([])
   const [rawData, setRawData] = useState([])
 const [loading, setLoading] = useState(true)
@@ -92,6 +93,7 @@ useEffect(() => {
         ? "hindi"
         : "kannada";
     const normalized = rawData.map((it, i) => ({
+      _id: it._id,
       id: it._id ?? it.id ?? `api-${i}`,
       title: it[langKey]?.title.slice(0, 50) + "..." ?? "",
       excerpt: it[langKey]?.description.slice(0, 150) + "..." ?? "",
@@ -176,10 +178,12 @@ useEffect(() => {
           alt="" 
           aria-hidden="true" 
           loading="lazy"
+          onClick={() => navigate(`/newsdetails/${current._id}`)}
+          style={{ cursor: 'pointer' }}
         />
       </HeroMedia>
       <OverlayCard>
-          <Title as="h3">{current.title}</Title>
+          <Title as="h3" onClick={() => navigate(`/newsdetails/${current._id}`)} style={{ cursor: 'pointer' }}>{current.title}</Title>
           <Excerpt>{current.excerpt}</Excerpt>
 
           <BottomBar>

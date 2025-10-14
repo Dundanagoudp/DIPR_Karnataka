@@ -33,6 +33,7 @@ import {
 import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
+import { useNavigate } from "react-router-dom"
 
 // Demo data for district news
 
@@ -47,6 +48,7 @@ import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
   const [sideList, setSideList] = useState([])
   const [loading, setLoading] = useState(true)
   const { language } = useContext(LanguageContext)
+  const navigate = useNavigate()
   useEffect(() => {
     // get categories
     const getCategories = async () => {
@@ -86,6 +88,7 @@ fetchNews()
       language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
     
     const localized = filtered.map((item) => ({
+      _id: item._id,
       id: item._id,
       title: item[langKey]?.title.slice(0, 50) + "..." || item.title || "",
       excerpt: item[langKey]?.description.slice(0, 150) + "..." || item.description || "",
@@ -117,6 +120,7 @@ fetchNews()
       const langKey =
       language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
       const localized = rawNews.map((item) => ({
+        _id: item._id,
         id: item._id,
         date: item.publishedAt
         ? new Date(item.publishedAt).toLocaleDateString("en-US", {
@@ -350,6 +354,8 @@ fetchNews()
                       src={p.image || "/placeholder.svg"} 
                       alt={p.alt || `Image for ${p.title}`}
                       loading="lazy"
+                      onClick={() => navigate(`/newsdetails/${p._id}`)}
+                      style={{ cursor: 'pointer' }}
                     />
                   </ImageWrap>
                   <Content>
@@ -373,6 +379,8 @@ fetchNews()
                       src={p.image || "/placeholder.svg"} 
                       alt={p.alt || `Image for ${p.title}`}
                       loading="lazy"
+                      onClick={() => navigate(`/newsdetails/${p._id}`)}
+                      style={{ cursor: 'pointer' }}
                     />
                   </ImageWrap>
                   <Content>
@@ -403,6 +411,8 @@ fetchNews()
                   role="listitem"
                   tabIndex="0"
                   aria-labelledby={`headline-${idx}`}
+                  onClick={() => navigate(`/newsdetails/${item._id}`)}
+                  style={{ cursor: 'pointer' }}
                 >
                   <SideDate as="time" dateTime={parseDateTimeAttr(item.date)}>{item.date}</SideDate>
                   <SideTitle id={`headline-${idx}`} as="h4">{item.title}</SideTitle>

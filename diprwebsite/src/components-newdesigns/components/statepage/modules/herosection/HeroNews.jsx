@@ -25,6 +25,7 @@ import {
 } from "./Heronews.styles";
 import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi";
 import { LanguageContext } from "../../../../../context/LanguageContext";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -53,7 +54,7 @@ import { LanguageContext } from "../../../../../context/LanguageContext";
 export default function NewsHero() {
   const [index, setIndex] = React.useState(0);
   const { language } = useContext(LanguageContext);
-
+  const navigate = useNavigate()
 
   const [stateNews, setStateNews] = useState([]);
   const [rawData, setRawData] = useState([]);
@@ -155,7 +156,9 @@ export default function NewsHero() {
 
   return (
     <HeroWrap aria-roledescription="carousel" aria-label="Top stories">
-      <HeroMedia>
+      <HeroMedia
+      onClick={() => navigate(`/newsdetails/${current.id}`)}
+      >
         {/* Background image */}
         <img
           src={current.image || "/placeholder.svg"}

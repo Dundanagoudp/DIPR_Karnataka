@@ -37,6 +37,7 @@ import { LanguageContext } from '../../../../context/LanguageContext'
 import { useState,useContext,useEffect } from 'react'
 import { CategoryApi } from '../../../../services/categoryapi/CategoryApi'
 import { getNewsByTypeSpecialnews } from '../../../../services/newsApi/NewsApi'
+import { useNavigate } from "react-router-dom"
 
 // Tab categories
 // const TABS = ["Special News", "Featured", "Exclusive", "Breaking", "Analysis"]
@@ -331,6 +332,7 @@ export default function TabSpecialNews() {
   const [rawNews, setRawNews] = useState([])
   const [sideList, setSideList] = useState([])
   const { language } = useContext(LanguageContext)
+  const navigate = useNavigate()
   useEffect(() => {
     // get categories
     const getCategories = async () => {
@@ -499,6 +501,8 @@ fetchNews()
               role="article"
               aria-labelledby={`feature-title-${active}`}
               tabIndex="0"
+              onClick={() => navigate(`/newsdetails/${featuredPost.id}`)}
+              style={{ cursor: 'pointer' }}
             >
               <FeatureImage
                 src={featuredPost.image || "/placeholder.svg"}
@@ -548,6 +552,8 @@ fetchNews()
                   role="article"
                   aria-labelledby={`news-item-${active}-${idx}`}
                   tabIndex="0"
+                  onClick={() => navigate(`/newsdetails/${n.id}`)}
+                  style={{ cursor: 'pointer' }}
                 >
                   <NewsItemContainer>
                     <NewsImageContainer>
