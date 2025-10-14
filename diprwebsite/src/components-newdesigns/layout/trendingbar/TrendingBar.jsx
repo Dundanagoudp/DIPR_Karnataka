@@ -97,91 +97,14 @@ const TrendingBar = () => {
       const localizedHeadlines = topNews.map(article => getLocalizedContent(article, "title"));
       setTrendingNews(localizedHeadlines);
     } else if (initialFetchDone) {
-      // Fallback to default news if no data
-      const defaultNews = getDefaultNews();
-      setTrendingNews(defaultNews);
+      // Use empty array if no data
+      setTrendingNews(getEmptyNews());
     }
   }, [pageType, language, allNewsData, initialFetchDone]);
 
-  // Get default news based on language and page type
-  const getDefaultNews = () => {
-    if (language === "English") {
-      if (pageType === "magazine") {
-        return [
-          "Latest updates from Vartha Janapada",
-          "Special coverage on rural development",
-          "Community news and highlights",
-          "Cultural events and festivals"
-        ];
-      } else if (pageType === "magazine2") {
-        return [
-          "March of Karnataka - latest developments",
-          "State government initiatives",
-          "Infrastructure projects update",
-          "Policy announcements"
-        ];
-      } else {
-        return [
-          "Latest trending news will appear here",
-          "Stay tuned for updates",
-          "Breaking news and highlights",
-          "Top stories of the day"
-        ];
-      }
-    } else if (language === "Kannada") {
-      if (pageType === "magazine") {
-        return [
-          "ವಾರ್ತಾ ಜನಪದದಿಂದ ಇತ್ತೀಚಿನ ಮಾಹಿತಿ",
-          "ಗ್ರಾಮೀಣ ಅಭಿವೃದ್ಧಿಯ ಬಗ್ಗೆ ವಿಶೇಷ ವರದಿ",
-          "ಸಮುದಾಯ ಸುದ್ದಿ ಮತ್ತು ಮುಖ್ಯಾಂಶಗಳು",
-          "ಸಾಂಸ್ಕೃತಿಕ ಕಾರ್ಯಕ್ರಮಗಳು ಮತ್ತು ಹಬ್ಬಗಳು"
-        ];
-      } else if (pageType === "magazine2") {
-        return [
-          "ಮಾರ್ಚ್ ಆಫ್ ಕರ್ನಾಟಕ - ಇತ್ತೀಚಿನ ಬೆಳವಣಿಗೆಗಳು",
-          "ರಾಜ್ಯ ಸರ್ಕಾರದ ಉಪಕ್ರಮಗಳು",
-          "ಮೂಲಸೌಕರ್ಯ ಯೋಜನೆಗಳ ಅಪ್‌ಡೇಟ್",
-          "ನೀತಿ ಪ್ರಕಟಣೆಗಳು"
-        ];
-      } else {
-        return [
-          "ಇತ್ತೀಚಿನ ಟ್ರೆಂಡಿಂಗ್ ಸುದ್ದಿಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ",
-          "ನವೀಕರಣಗಳಿಗಾಗಿ ಕಾಯಿರಿ",
-          "ಬ್ರೇಕಿಂಗ್ ನ್ಯೂಸ್ ಮತ್ತು ಹೈಲೈಟ್ಸ್",
-          "ದಿನದ ಪ್ರಮುಖ ಸುದ್ದಿಗಳು"
-        ];
-      }
-    } else if (language === "Hindi") {
-      if (pageType === "magazine") {
-        return [
-          "वार्ता जनपद से नवीनतम अपडेट",
-          "ग्रामीण विकास पर विशेष कवरेज",
-          "सामुदायिक समाचार और हाइलाइट्स",
-          "सांस्कृतिक कार्यक्रम और त्योहार"
-        ];
-      } else if (pageType === "magazine2") {
-        return [
-          "मार्च ऑफ़ कर्नाटक - नवीनतम विकास",
-          "राज्य सरकार की पहल",
-          "बुनियादी ढांचा परियोजनाओं का अपडेट",
-          "नीति घोषणाएं"
-        ];
-      } else {
-        return [
-          "नवीनतम ट्रेंडिंग समाचार यहां दिखाई देंगे",
-          "अपडेट के लिए बने रहें",
-          "ब्रेकिंग न्यूज़ और हाइलाइट्स",
-          "दिन की प्रमुख खबरें"
-        ];
-      }
-    } else {
-      return [
-        "Latest trending news will appear here",
-        "Stay tuned for updates",
-        "Breaking news and highlights",
-        "Top stories of the day"
-      ];
-    }
+  // Empty array for when no news is available
+  const getEmptyNews = () => {
+    return [];
   };
 
   // Get localized content based on language
