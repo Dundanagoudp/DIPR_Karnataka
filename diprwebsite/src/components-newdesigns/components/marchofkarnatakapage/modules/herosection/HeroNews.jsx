@@ -13,6 +13,16 @@ import {
   Arrows,
   ArrowBtn,
   RightDivider,
+  SkeletonHeroWrap,
+  SkeletonImage,
+  SkeletonOverlay,
+  SkeletonTitle,
+  SkeletonExcerpt,
+  SkeletonButtons,
+  SkeletonDots,
+  SkeletonDot,
+  SkeletonArrows,
+  SkeletonArrow,
 } from "./Heronews.styles"
 import { getNews } from "../../../../../services/newsApi/NewsApi"
 import { LanguageContext } from "../../../../../context/LanguageContext"
@@ -95,6 +105,34 @@ export default function MarchNewsHero() {
   }
 
   const current = marchNews[index] || marchNews[0] || {}
+
+  // Shimmer loading component
+  if (loading || marchNews.length === 0) {
+    return (
+      <SkeletonHeroWrap>
+        <SkeletonImage />
+        <SkeletonOverlay>
+          <SkeletonTitle />
+          <SkeletonTitle style={{ width: "60%" }} />
+          <SkeletonExcerpt />
+          <SkeletonExcerpt style={{ width: "70%" }} />
+          <SkeletonExcerpt style={{ width: "50%" }} />
+          <SkeletonButtons>
+            <SkeletonDots>
+              <SkeletonDot />
+              <SkeletonDot />
+              <SkeletonDot />
+            </SkeletonDots>
+            <SkeletonArrows>
+              <SkeletonArrow />
+              <SkeletonArrow />
+            </SkeletonArrows>
+          </SkeletonButtons>
+        </SkeletonOverlay>
+        <RightDivider />
+      </SkeletonHeroWrap>
+    )
+  }
 
   return (
     <HeroWrap aria-roledescription="carousel" aria-label="Top stories">

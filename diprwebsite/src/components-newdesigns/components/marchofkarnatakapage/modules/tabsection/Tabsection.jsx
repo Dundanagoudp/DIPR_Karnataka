@@ -21,6 +21,15 @@ import {
   SideExcerpt,
   SeeMoreWrap,
   SeeMoreBtn,
+  SkeletonTabs,
+  SkeletonTab,
+  SkeletonCard,
+  SkeletonImage,
+  SkeletonContent,
+  SkeletonDate,
+  SkeletonTitle,
+  SkeletonExcerpt,
+  SkeletonSideItem,
 } from "./Tabsection.styles"
 import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
 import { LanguageContext } from "../../../../../context/LanguageContext"
@@ -117,6 +126,14 @@ export default function TabSection() {
   }, [language, rawNews])
 
   const posts = news.length > 0 ? news : []
+  const [loading, setLoading] = useState(true)
+
+  // Set loading to false when data is ready
+  useEffect(() => {
+    if (categories.length > 0 && rawNews.length > 0) {
+      setLoading(false)
+    }
+  }, [categories, rawNews])
 
   // Keyboard navigation for tabs
   const handleKeyDown = (e) => {
@@ -147,6 +164,56 @@ export default function TabSection() {
   // Layout: first 2 are featured (top), next 2 are secondary (bottom)
   const featured = posts.slice(0, 2)
   const secondary = posts.slice(2, 4)
+
+  // Shimmer loading component
+  if (loading) {
+    return (
+      <Section aria-labelledby="march-karnataka-tabs-heading">
+        <Container>
+          <h2 id="march-karnataka-tabs-heading" style={{ position: "absolute", left: "-9999px" }}>
+            March of Karnataka tabs
+          </h2>
+
+          <SkeletonTabs>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <SkeletonTab key={i} />
+            ))}
+          </SkeletonTabs>
+
+          <Layout>
+            <div>
+              <Grid>
+                {[1, 2, 3, 4].map((i) => (
+                  <SkeletonCard key={i}>
+                    <SkeletonImage />
+                    <SkeletonContent>
+                      <SkeletonDate />
+                      <SkeletonTitle />
+                      <SkeletonTitle width="70%" />
+                      <SkeletonExcerpt />
+                      <SkeletonExcerpt width="85%" />
+                    </SkeletonContent>
+                  </SkeletonCard>
+                ))}
+              </Grid>
+            </div>
+
+            <Sidebar aria-label="Latest Karnataka progress headlines">
+              <SideList>
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <SkeletonSideItem key={i}>
+                    <SkeletonDate />
+                    <SkeletonTitle />
+                    <SkeletonTitle width="60%" />
+                  </SkeletonSideItem>
+                ))}
+              </SideList>
+            </Sidebar>
+          </Layout>
+        </Container>
+      </Section>
+    )
+  }
 
   return (
     <Section aria-labelledby="march-karnataka-tabs-heading">
