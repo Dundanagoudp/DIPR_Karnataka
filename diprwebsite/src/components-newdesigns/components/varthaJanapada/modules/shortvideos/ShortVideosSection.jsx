@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from "react"
-import { ChevronLeft, ChevronRight, Play } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { getVideos } from "../../../../../services/videoApi/videoApi"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import {
@@ -320,9 +320,7 @@ const  ShortsCarousel = () => {
                               handlePlayClick(video._id)
                             }
                           }}
-                        >
-                          <Play size={40} aria-hidden="true" />
-                        </PlayButton>
+                        />
                       </VideoOverlay>
                     </VideoThumbnail>
                   )}
