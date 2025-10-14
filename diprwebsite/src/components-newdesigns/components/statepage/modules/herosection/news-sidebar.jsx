@@ -1,9 +1,15 @@
 import SidebarCard from "./sidebar-card"
-import { Aside } from "./news-sidebar.styles"
+import { 
+  Aside,
+  SkeletonCard,
+  SkeletonThumb,
+  SkeletonTitle,
+  SkeletonExcerpt,
+  SkeletonMeta
+} from "./news-sidebar.styles"
 import { useContext, useEffect, useState } from "react"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi"
-import Loader from "../../../../../components/apiloders/ApiLoders"
 
 export default function NewsSidebar({
 
@@ -64,6 +70,24 @@ useEffect(() => {
       setStateNews(randomTwo)
     }
   }, [language, rawData])
+
+  // Shimmer loading component
+  if (loading || stateNews.length === 0) {
+    return (
+      <Aside aria-label="Latest stories" role="complementary">
+        {[1, 2].map((item) => (
+          <SkeletonCard key={item}>
+            <SkeletonThumb />
+            <SkeletonTitle />
+            <SkeletonTitle style={{ width: "65%" }} />
+            <SkeletonExcerpt />
+            <SkeletonExcerpt style={{ width: "50%" }} />
+            <SkeletonMeta />
+          </SkeletonCard>
+        ))}
+      </Aside>
+    )
+  }
 
   return (
     <Aside aria-label="Latest stories" role="complementary">

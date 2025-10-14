@@ -422,3 +422,152 @@ export const SeeMoreBtn = styled.button`
     filter: brightness(0.95);
   }
 `
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonTabs = styled.div`
+  display: flex;
+  gap: ${theme.spacing(4)};
+  border-bottom: 1px solid ${theme.colors.gray[200]};
+  padding-bottom: ${theme.spacing(1.5)};
+  margin-bottom: ${theme.spacing(4)};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: ${theme.spacing(2)};
+    padding-bottom: ${theme.spacing(1)};
+    margin-bottom: ${theme.spacing(2.5)};
+  }
+`
+
+export const SkeletonTab = styled.div`
+  width: 120px;
+  height: 40px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 100px;
+    height: 32px;
+  }
+`
+
+export const SkeletonCard = styled.div`
+  background: ${theme.colors.background};
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  ${shimmer}
+`
+
+export const SkeletonImage = styled.div`
+  width: 100%;
+  aspect-ratio: 5 / 5;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    aspect-ratio: 4 / 3;
+  }
+`
+
+export const SkeletonContent = styled.div`
+  padding: ${theme.spacing(2.5)};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(2)};
+  }
+`
+
+export const SkeletonDate = styled.div`
+  width: 120px;
+  height: 14px;
+  margin-bottom: ${theme.spacing(1.25)};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 12px;
+  }
+`
+
+export const SkeletonTitle = styled.div`
+  width: ${props => props.width || "90%"};
+  height: 20px;
+  margin-bottom: ${theme.spacing(1.5)};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 16px;
+  }
+`
+
+export const SkeletonExcerpt = styled.div`
+  width: ${props => props.width || "100%"};
+  height: 15px;
+  margin-bottom: ${theme.spacing(0.75)};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 14px;
+  }
+`
+
+export const SkeletonSideItem = styled.div`
+  padding-bottom: ${theme.spacing(2.5)};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding-bottom: ${theme.spacing(2)};
+  }
+`
