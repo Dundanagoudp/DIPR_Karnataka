@@ -1,5 +1,6 @@
 import React from "react"
 import { useState, useEffect, useContext } from "react"
+import { Link } from "react-router-dom"
 import {
   Section,
   Container,
@@ -254,29 +255,41 @@ export default function TabSection() {
           <div id={`panel-${active}`} role="tabpanel" aria-labelledby={active} tabIndex={0}>
             <Grid role="list" aria-label={`${active} articles`}>
               {featured.map((p) => (
-                <Card key={p.id} role="listitem">
-                  <ImageWrap>
-                    <img src={p.image || "/placeholder.svg"} alt={p.alt} loading="lazy" />
-                  </ImageWrap>
-                  <Content>
-                    <DateText>{p.date}</DateText>
-                    <Title>{p.title.slice(0, 50)}...</Title>
-                    <Excerpt>{p.excerpt.slice(0, 150)}...</Excerpt>
-                  </Content>
-                </Card>
+                <Link 
+                  to={`/newsdetails/${p.id}`}
+                  key={p.id}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <Card role="listitem">
+                    <ImageWrap>
+                      <img src={p.image || "/placeholder.svg"} alt={p.alt} loading="lazy" />
+                    </ImageWrap>
+                    <Content>
+                      <DateText>{p.date}</DateText>
+                      <Title>{p.title.slice(0, 50)}...</Title>
+                      <Excerpt>{p.excerpt.slice(0, 150)}...</Excerpt>
+                    </Content>
+                  </Card>
+                </Link>
               ))}
 
               {secondary.map((p) => (
-                <Card key={p.id} role="listitem">
-                  <ImageWrap>
-                    <img src={p.image || "/placeholder.svg"} alt={p.alt} loading="lazy" />
-                  </ImageWrap>
-                  <Content>
-                    <DateText>{p.date}</DateText>
-                    <Title>{p.title.slice(0, 50)}...</Title>
-                    <Excerpt>{p.excerpt.slice(0, 150)}...</Excerpt>
-                  </Content>
-                </Card>
+                <Link 
+                  to={`/newsdetails/${p.id}`}
+                  key={p.id}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <Card role="listitem">
+                    <ImageWrap>
+                      <img src={p.image || "/placeholder.svg"} alt={p.alt} loading="lazy" />
+                    </ImageWrap>
+                    <Content>
+                      <DateText>{p.date}</DateText>
+                      <Title>{p.title.slice(0, 50)}...</Title>
+                      <Excerpt>{p.excerpt.slice(0, 150)}...</Excerpt>
+                    </Content>
+                  </Card>
+                </Link>
               ))}
             </Grid>
           </div>
@@ -284,10 +297,16 @@ export default function TabSection() {
           <Sidebar aria-label="Latest Karnataka progress headlines">
             <SideList role="list" aria-label="Latest headlines">
               {sideList.map((item, idx) => (
-                <SideItem key={idx} role="listitem">
-                  <SideDate>{item.date}</SideDate>
-                  <SideTitle>{item.title}</SideTitle>
-                </SideItem>
+                <Link 
+                  to={`/newsdetails/${item.id}`}
+                  key={idx}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <SideItem role="listitem">
+                    <SideDate>{item.date}</SideDate>
+                    <SideTitle>{item.title}</SideTitle>
+                  </SideItem>
+                </Link>
               ))}
             </SideList>
             <SeeMoreWrap>

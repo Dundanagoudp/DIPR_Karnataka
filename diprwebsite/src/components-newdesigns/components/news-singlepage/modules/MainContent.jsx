@@ -29,7 +29,7 @@ import { getNewsByid } from '../../../../services/newsApi/NewsApi'
 import { useParams } from 'react-router-dom'
 
 const MainContent = () => {
-  const {language} = useContext(LanguageContext)
+  const {language, setPageLanguage, resetToGlobalLanguage} = useContext(LanguageContext)
   const {id} = useParams()
 
   const [rawNews, setRawNews] = useState([])
@@ -79,6 +79,30 @@ const MainContent = () => {
     if (id) fetchNews();
     return () => { mounted = false; };
   }, [id]);
+
+  // Set page language based on magazineType
+  useEffect(() => {
+    if (rawNews && rawNews.length > 0) {
+      const magazineType = rawNews[0]?.magazineType;
+      console.log('News magazineType:', magazineType);
+      
+      if (magazineType === "magazine2") {
+        // March of Karnataka - set to English
+        setPageLanguage("magazine2");
+      } else if (magazineType === "magazine") {
+        // Vartha Janapada - set to Kannada
+        setPageLanguage("magazine");
+      } else {
+        // Other news - use global language
+        resetToGlobalLanguage();
+      }
+    }
+
+    // Cleanup: reset to global language when component unmounts
+    return () => {
+      resetToGlobalLanguage();
+    };
+  }, [rawNews, setPageLanguage, resetToGlobalLanguage]);
 
   useEffect(() => {
     if (!rawNews || rawNews.length === 0) {

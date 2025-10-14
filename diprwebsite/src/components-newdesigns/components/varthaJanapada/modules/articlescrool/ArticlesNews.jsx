@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { LanguageContext } from '../../../../../context/LanguageContext'
 import { getNewsByTypeDistrict } from '../../../../../services/newsApi/NewsApi'
 import {
@@ -186,17 +187,23 @@ export default function ArticlesNews() {
           ) : (
             <ArticlesGrid>
               {visibleArticles.map((article) => (
-                <ArticleCard key={article.id} aria-label={article.title}>
-                  <ArticleImageWrapper>
-                    <ArticleImage src={article.image} alt={article.title} />
-                    <ImageOverlay aria-hidden="true" />
-                    <ArticleNumber aria-hidden="true">{article.number}</ArticleNumber>
-                  </ArticleImageWrapper>
-                  <ArticleContent>
-                    <ArticleTitle>{article.title}</ArticleTitle>
-                    <ArticleDate>{article.date}</ArticleDate>
-                  </ArticleContent>
-                </ArticleCard>
+                <Link 
+                  to={`/newsdetails/${article.id}`} 
+                  key={article.id}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <ArticleCard aria-label={article.title}>
+                    <ArticleImageWrapper>
+                      <ArticleImage src={article.image} alt={article.title} />
+                      <ImageOverlay aria-hidden="true" />
+                      <ArticleNumber aria-hidden="true">{article.number}</ArticleNumber>
+                    </ArticleImageWrapper>
+                    <ArticleContent>
+                      <ArticleTitle>{article.title}</ArticleTitle>
+                      <ArticleDate>{article.date}</ArticleDate>
+                    </ArticleContent>
+                  </ArticleCard>
+                </Link>
               ))}
             </ArticlesGrid>
           )}
