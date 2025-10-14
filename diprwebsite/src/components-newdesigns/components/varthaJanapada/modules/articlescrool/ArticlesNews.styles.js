@@ -132,6 +132,8 @@ export const ArticlesGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: ${theme.spacing1(6)};
   transition: all 0.3s ease;
+  max-width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(2, 1fr);
@@ -152,10 +154,12 @@ export const ArticleCard = styled.article`
   display: flex;
   flex-direction: column;
   background: transparent;
-  overflow: visible;
+  overflow: hidden;
   transition: ${theme.transitions.fast};
   cursor: pointer;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 
   &:hover {
     transform: translateY(-2px);
@@ -169,8 +173,10 @@ export const ArticleCard = styled.article`
 export const ArticleImageWrapper = styled.div`
   position: relative;
   width: 100%;
+  max-width: 100%;
   height: 280px;
   overflow: hidden;
+  box-sizing: border-box;
 
   @media (max-width: ${theme.breakpoints.desktop}) {
     height: 260px;
@@ -188,8 +194,10 @@ export const ArticleImageWrapper = styled.div`
 export const ArticleImage = styled.img`
   width: 100%;
   height: 100%;
+  max-width: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  display: block;
 
   ${ArticleCard}:hover & {
     transform: scale(1.05);
@@ -284,10 +292,9 @@ export const ArticleTitle = styled.h3`
   margin: 0;
   line-height: 1.5;
   transition: ${theme.transitions.fast};
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: clamp(15px, 1.7vw, 17px);
@@ -345,5 +352,94 @@ export const Dot = styled.button`
   &:hover {
     background: ${props => props.$active ? theme.colors.primary : theme.colors.gray[500]};
   }
+`
+
+// Shimmer/Skeleton Loading Styles
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  width: 100%;
+  ${shimmer}
+`
+
+export const SkeletonImage = styled.div`
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    height: 260px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 240px;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 220px;
+  }
+`
+
+export const SkeletonContent = styled.div`
+  padding: ${theme.spacing1(3)} 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing1(1.5)};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing1(2.5)} 0 0 0;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing1(2)} 0 0 0;
+  }
+`
+
+export const SkeletonTitle = styled.div`
+  width: 80%;
+  height: 20px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+`
+
+export const SkeletonDate = styled.div`
+  width: 50%;
+  height: 14px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
 `
 
