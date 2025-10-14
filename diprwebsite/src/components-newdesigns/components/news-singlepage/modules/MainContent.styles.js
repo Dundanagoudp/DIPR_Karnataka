@@ -3,8 +3,10 @@ import theme from '../../../../theme/Theme'
 
 export const MainContentContainer = styled.div`
   flex: 2;
-  padding: 24px;
+  padding: 20px;
   max-width: 100%;
+  overflow-x: hidden;
+  word-wrap: break-word;
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     margin-right: 0;
@@ -20,21 +22,36 @@ export const MainContentContainer = styled.div`
 export const DateTag = styled.div`
   background: ${theme.colors.primary};
   color: ${theme.colors.white};
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: ${theme.borderRadius.small};
   font-size: ${theme.fontSizes.small};
   font-weight: 500;
   display: inline-block;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
+  max-width: 100%;
+  word-wrap: break-word;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
 `
 
 export const LocationTag = styled.div`
   color: ${theme.colors.primary};
   font-size: ${theme.fontSizes.small};
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 11px;
+    letter-spacing: 0.3px;
+  }
 `
 
 export const ArticleTitle = styled.h1`
@@ -43,17 +60,22 @@ export const ArticleTitle = styled.h1`
   font-weight: 700;
   color: ${theme.colors.text};
   line-height: 1.2;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+  margin-top: 8px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 2rem;
     line-height: 1.3;
+    margin-bottom: 10px;
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 1.5rem;
     line-height: 1.4;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 `
 
@@ -61,20 +83,21 @@ export const AuthorCard = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 32px;
-  padding: 16px 20px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
   background: ${theme.colors.gray[100]};
   border-radius: ${theme.borderRadius.medium};
+  overflow: hidden;
   
   @media (max-width: ${theme.breakpoints.tablet}) {
-    margin-bottom: 24px;
-    padding: 14px 16px;
+    margin-bottom: 14px;
+    padding: 12px 14px;
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
-    margin-bottom: 20px;
-    padding: 12px;
-    gap: 12px;
+    margin-bottom: 12px;
+    padding: 10px;
+    gap: 10px;
   }
 `
 
@@ -84,6 +107,10 @@ export const AuthorImage = styled.div`
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: ${theme.colors.gray[200]};
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     width: 45px;
@@ -93,6 +120,8 @@ export const AuthorImage = styled.div`
 
 export const AuthorInfo = styled.div`
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 `
 
 export const AuthorName = styled.h3`
@@ -100,28 +129,15 @@ export const AuthorName = styled.h3`
   font-size: ${theme.fontSizes.large};
   font-weight: 600;
   color: ${theme.colors.text};
-  margin: 0 0 10px 0;
+  margin: 0;
   position: relative;
   display: inline-block;
-  
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background-color: ${theme.colors.primary};
-  }
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 15px;
-    margin: 0 0 8px 0;
-    
-    &:after {
-      width: 30px;
-      height: 2px;
-    }
   }
 `
 
@@ -158,21 +174,27 @@ export const MetaItem = styled.span`
 export const HeroImage = styled.div`
   position: relative;
   width: 100%;
+  max-width: 100%;
   height: 400px;
   overflow: hidden;
-  margin-bottom: 32px;
-  position: relative;
-
+  margin-bottom: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     height: 350px;
-    margin-bottom: 24px;
+    margin-bottom: 14px;
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     height: 250px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     border-radius: ${theme.borderRadius.small};
   }
 `
@@ -187,6 +209,8 @@ export const ImageCaption = styled.div`
   padding: 24px 20px 16px;
   font-size: ${theme.fontSizes.medium};
   font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     padding: 20px 16px 12px;
@@ -199,38 +223,47 @@ export const ImageCaption = styled.div`
 `
 
 export const ArticleContent = styled.div`
-  line-height: 1.8;
+  line-height: 1.75;
   color: ${theme.colors.text};
   font-family: ${theme.fonts.body};
+  margin-top: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 100%;
 `
 
 export const ArticleParagraph = styled.p`
   font-size: ${theme.fontSizes.large};
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   text-align: justify;
+  line-height: 1.7;
+  color: ${theme.colors.text};
+  font-family: ${theme.fonts.body};
+  white-space: pre-line;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
   
   &:first-child {
-    font-size: 1.125rem;
-    font-weight: 500;
+    margin-top: 0;
+  }
+  
+  &:last-child {
+    margin-bottom: 16px;
   }
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 15px;
-    margin-bottom: 20px;
-    
-    &:first-child {
-      font-size: 1rem;
-    }
+    margin-bottom: 12px;
+    line-height: 1.65;
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 14px;
-    margin-bottom: 16px;
-    text-align: left;
-    
-    &:first-child {
-      font-size: 0.95rem;
-    }
+    margin-bottom: 10px;
+    text-align: justify;
+    line-height: 1.6;
   }
 `
 
@@ -334,6 +367,105 @@ export const Tag = styled.span`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: 4px 10px;
     font-size: 11px;
+  }
+`
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonLine = styled.div`
+  height: ${props => props.height || '16px'};
+  width: ${props => props.width || '100%'};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+  margin-bottom: ${props => props.$marginBottom || '0'};
+  ${shimmer}
+`
+
+export const SkeletonImage = styled.div`
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  margin-bottom: 32px;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 350px;
+    margin-bottom: 24px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: 250px;
+    margin-bottom: 20px;
+    border-radius: ${theme.borderRadius.small};
+  }
+`
+
+export const SkeletonAuthorCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding: 16px 20px;
+  background: ${theme.colors.gray[100]};
+  border-radius: ${theme.borderRadius.medium};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    margin-bottom: 24px;
+    padding: 14px 16px;
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-bottom: 20px;
+    padding: 12px;
+    gap: 12px;
+  }
+`
+
+export const SkeletonAvatar = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  flex-shrink: 0;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 45px;
+    height: 45px;
   }
 `
 

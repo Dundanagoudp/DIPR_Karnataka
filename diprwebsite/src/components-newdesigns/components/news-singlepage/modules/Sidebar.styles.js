@@ -222,6 +222,11 @@ export const PopularNewsTitle = styled.h4`
   color: ${theme.colors.text};
   line-height: 1.3;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 0.95rem;
@@ -293,6 +298,11 @@ export const TrendingTitle = styled.h4`
   color: ${theme.colors.text};
   line-height: 1.3;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     font-size: 0.95rem;
@@ -493,4 +503,94 @@ export const SeeMoreButton = styled.button`
     margin: 10px 10px 0 10px;
     font-size: ${theme.fontSizes.small};
   }
+`
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonLine = styled.div`
+  height: ${props => props.height || '16px'};
+  width: ${props => props.width || '100%'};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+  ${shimmer}
+`
+
+export const SkeletonSocialButton = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: ${theme.borderRadius.small};
+  ${shimmer}
+`
+
+export const SkeletonIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[300]} 25%,
+    ${theme.colors.gray[200]} 50%,
+    ${theme.colors.gray[300]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  flex-shrink: 0;
+  ${shimmer}
+`
+
+export const SkeletonNewsItem = styled.div`
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  ${shimmer}
+`
+
+export const SkeletonThumbnail = styled.div`
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: ${theme.borderRadius.small};
+  ${shimmer}
+`
+
+export const SkeletonTrendingItem = styled.div`
+  padding: 16px;
+  ${shimmer}
 `

@@ -16,7 +16,8 @@ export default function NewsIdpage() {
           <MainContent />
           <Sidebar />
         </NewsPageWrapper>
-        <CommentsWrapper as="section" aria-labelledby="comments-section-heading">
+        {/* Comments Section temporarily hidden */}
+        {/* <CommentsWrapper as="section" aria-labelledby="comments-section-heading">
           <h2 
             id="comments-section-heading" 
             style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
@@ -24,7 +25,7 @@ export default function NewsIdpage() {
             Article Comments Section
           </h2>
           <CommentsSection />
-        </CommentsWrapper>
+        </CommentsWrapper> */}
       </NewsPageContainer>
     </main>
   )

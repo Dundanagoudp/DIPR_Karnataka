@@ -23,7 +23,13 @@ import {
   TrendingContent,
   TrendingTitle,
   TrendingDate,
-  SeeMoreButton
+  SeeMoreButton,
+  SkeletonLine,
+  SkeletonSocialButton,
+  SkeletonIcon,
+  SkeletonNewsItem,
+  SkeletonThumbnail,
+  SkeletonTrendingItem,
 } from './Sidebar.styles'
 import { useState, useEffect,useContext } from 'react'
 import { LanguageContext } from '../../../../context/LanguageContext'
@@ -199,6 +205,7 @@ const Sidebar = () => {
       <SidebarSection as="section" aria-labelledby="follow-heading">
         <SectionTitle id="follow-heading" as="h3">FOLLOW US</SectionTitle>
         <SocialMediaList role="list" aria-label="Social media links">
+          {/* No loading state needed for social media buttons as they're static */}
           <SocialMediaItem role="listitem">
             <SocialMediaButton style={{ backgroundColor: '#1877F2' }} aria-label="Follow us on Facebook - 135,684 fans">
               <SocialMediaIcon>
@@ -256,26 +263,16 @@ const Sidebar = () => {
         </SectionTitle>
         <PopularNewsList as="ul" role="list" aria-label="Popular news articles">
           {loading ? (
-            // Loading state
+            // Loading state with shimmer
             Array.from({ length: 5 }).map((_, index) => (
-              <PopularNewsItem key={index} as="li" role="listitem">
-                <PopularNewsContent>
-                  <PopularNewsDate as="time">Loading...</PopularNewsDate>
-                  <PopularNewsTitle as="h4">Loading article...</PopularNewsTitle>
-                </PopularNewsContent>
-                <PopularNewsImage>
-                  <img
-                    src="/placeholder.svg"
-                    alt="Loading"
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                </PopularNewsImage>
-              </PopularNewsItem>
+              <SkeletonNewsItem key={index}>
+                <div style={{ flex: 1 }}>
+                  <SkeletonLine width="80px" height="14px" style={{ marginBottom: '8px' }} />
+                  <SkeletonLine width="100%" height="16px" style={{ marginBottom: '4px' }} />
+                  <SkeletonLine width="90%" height="16px" />
+                </div>
+                <SkeletonThumbnail />
+              </SkeletonNewsItem>
             ))
           ) : news.length > 0 ? (
             // Dynamic news based on newsType
@@ -301,7 +298,9 @@ const Sidebar = () => {
                       : 'Date not available'}
                   </PopularNewsDate>
                   <PopularNewsTitle as="h4">
-                    {article.title || 'Untitled Article'}
+                    {article.title 
+                      ? (article.title.length > 60 ? article.title.slice(0, 60) + '...' : article.title)
+                      : 'Untitled Article'}
                   </PopularNewsTitle>
                 </PopularNewsContent>
                 <PopularNewsImage>
@@ -350,14 +349,13 @@ const Sidebar = () => {
         <SectionTitle id="trending-heading" as="h3">DON'T MISS IT</SectionTitle>
         <TrendingList as="ul" role="list" aria-label="Latest articles">
           {loading ? (
-            // Loading state for trending section
+            // Loading state for trending section with shimmer
             Array.from({ length: 5 }).map((_, index) => (
-              <TrendingItem key={index} as="li" role="listitem">
-                <TrendingContent>
-                  <TrendingDate as="time">Loading...</TrendingDate>
-                  <TrendingTitle as="h4">Loading article...</TrendingTitle>
-                </TrendingContent>
-              </TrendingItem>
+              <SkeletonTrendingItem key={index}>
+                <SkeletonLine width="100px" height="14px" style={{ marginBottom: '8px' }} />
+                <SkeletonLine width="100%" height="16px" style={{ marginBottom: '4px' }} />
+                <SkeletonLine width="85%" height="16px" />
+              </SkeletonTrendingItem>
             ))
           ) : allNews.length > 0 ? (
             // Show all latest news from getNews API
@@ -383,7 +381,9 @@ const Sidebar = () => {
                       : 'Date not available'}
                   </TrendingDate>
                   <TrendingTitle as="h4">
-                    {article.title || 'Untitled Article'}
+                    {article.title 
+                      ? (article.title.length > 60 ? article.title.slice(0, 60) + '...' : article.title)
+                      : 'Untitled Article'}
                   </TrendingTitle>
                 </TrendingContent>
               </TrendingItem>
