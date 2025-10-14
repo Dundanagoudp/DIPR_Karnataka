@@ -83,3 +83,25 @@ export const formatDuration = (duration) => {
 
   return duration
 }
+
+// Format date to readable format (e.g., "11 Oct 2025")
+export const formatDate = (dateString) => {
+  if (!dateString) return ""
+
+  const date = new Date(dateString)
+  
+  if (isNaN(date.getTime())) {
+    return ""
+  }
+
+  const months = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ]
+
+  const day = date.getDate()
+  const month = months[date.getMonth()]
+  const year = date.getFullYear()
+
+  return `${day} ${month} ${year}`
+}

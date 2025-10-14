@@ -1,5 +1,8 @@
 import SidebarCard from "./sidebar-card"
 import { Aside } from "./news-sidebar.styles"
+import { useContext, useState, useEffect } from "react"
+import { LanguageContext } from "../../../../../context/LanguageContext"
+import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
 
 export default function NewsSidebar({
   items = [
@@ -19,6 +22,45 @@ export default function NewsSidebar({
     },
   ],
 }) {
+  const { language } = useContext(LanguageContext)
+  const [districtNews, setDistrictNews] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [rawData, setRawData] = useState([])
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      setLoading(true)
+      const response = await getNewsByTypeDistrict()
+      console.log(response)
+      if (response?.success && Array.isArray(response.data)) {
+        setRawData(response.data)
+      } else {
+        setRawData([])
+      }
+      setLoading(false)
+    }
+    fetchNews()
+  }, [language])
+  
+    useEffect(() => {
+      if (rawData.length > 0) {
+        const normalized = rawData.map((item) => {
+          const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
+          return {
+            title: item[langKey]?.title.slice(0, 50) + "..." ?? "",
+            excerpt: item[langKey]?.description.slice(0, 150) + "..." ?? "",
+            date: item.date,
+            author: item.author,
+            imageSrc: item.newsImage ?? "/placeholder.svg", // Fixed the double ?? operator issue
+          }
+        })
+  
+        const shuffled = [...normalized].sort(() => Math.random() - 0.5)
+        const randomTwo = shuffled.slice(0, 2)
+        setDistrictNews(randomTwo)
+      }
+    }, [language, rawData])
+
   return (
     <Aside role="complementary" aria-labelledby="sidebar-heading">
       <h3 
@@ -27,7 +69,7 @@ export default function NewsSidebar({
       >
         Recent District News
       </h3>
-      {items.map((item, index) => (
+      {districtNews.map((item, index) => (
         <SidebarCard key={index} index={index + 1} {...item} />
       ))}
     </Aside>

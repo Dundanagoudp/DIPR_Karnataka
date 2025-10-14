@@ -92,18 +92,23 @@ export const Content = styled.div`
 
 export const DateText = styled.span`
   display: inline-block;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   font-family: ${theme.fonts.body};
   font-size: ${theme.fontSizes.small};
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   margin-bottom: ${theme.spacing(0.5)};
+  text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   
   @media (min-width: ${theme.breakpoints.tablet}) {
     font-size: ${theme.fontSizes.medium};
+    letter-spacing: 0.5px;
   }
   
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 11px;
+    letter-spacing: 0.2px;
   }
 `
 

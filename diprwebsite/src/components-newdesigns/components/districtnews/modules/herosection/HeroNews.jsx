@@ -1,5 +1,4 @@
-
-import React from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { IoChevronBack, IoChevronForward } from "react-icons/io5"
 import {
   HeroWrap,
@@ -14,6 +13,8 @@ import {
   ArrowBtn,
   RightDivider,
 } from "./Heronews.styles"
+import { LanguageContext } from "../../../../../context/LanguageContext"
+import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
 
 const FALLBACK_ITEMS = [
   {
@@ -35,15 +36,77 @@ const FALLBACK_ITEMS = [
   },
 ]
 
-export default function NewsHero({ items = FALLBACK_ITEMS }) {
+export default function NewsHero() {
   const [index, setIndex] = React.useState(0)
-  const len = items.length
+  const { language } = useContext(LanguageContext)
+
+  const [districtNews, setDistrictNews] = useState([])
+  const [rawData, setRawData] = useState([])
+const [loading, setLoading] = useState(true)
+
+
+useEffect(() => {
+  let mounted = true;
+  const fetchDistrictNews = async () => {
+    try {
+      setLoading(true);
+      const response = await getNewsByTypeDistrict();
+      console.log("District news:", response.data);
+      if (response?.success && Array.isArray(response.data)) {
+        if (mounted) {
+          setRawData(response.data);
+          setIndex(0); // reset carousel to start of API data
+        }
+      } else {
+        if (mounted) setRawData([]);
+      }
+    } catch (err) {
+      console.error("Error fetching district news:", err);
+      if (mounted) setRawData([]);
+    } finally {
+      if (mounted) setLoading(false);
+    }
+  };
+  fetchDistrictNews();
+  return () => {
+    mounted = false;
+  };
+}, [language]);
+
+useEffect(() => {
+  if (rawData.length > 0) {
+    const langKey =
+      language === "English"
+        ? "English"
+        : language === "Hindi"
+        ? "hindi"
+        : "kannada";
+    const normalized = rawData.map((it, i) => ({
+      id: it._id ?? it.id ?? `api-${i}`,
+      title: it[langKey]?.title.slice(0, 50) + "..." ?? "",
+      excerpt: it[langKey]?.description.slice(0, 150) + "..." ?? "",
+      image: it.newsImage ?? "/placeholder.svg",
+    }));
+    setDistrictNews(normalized);
+  }
+}, [language, rawData]);
+
+  const len = districtNews.length
+
+  useEffect(() => {
+    if (len === 0) {
+      setIndex(0);
+      return;
+    }
+    setIndex((i) => (i >= len ? 0 : i));
+  }, [len]);
 
   const go = (next) => {
-    setIndex((i) => (i + (next ? 1 : -1) + len) % len)
-  }
+    if (len === 0) return;
+    setIndex((i) => (i + (next ? 1 : -1) + len) % len);
+  };
 
-  const current = items[index]
+  const current = districtNews[index] || districtNews[0] || {};
 
   // Handle keyboard navigation for dots
   const handleDotKeyDown = (e, i) => {
@@ -83,7 +146,7 @@ export default function NewsHero({ items = FALLBACK_ITEMS }) {
 
           <BottomBar>
             <Dots role="tablist" aria-label="Carousel navigation">
-              {items.map((_, i) => (
+              {districtNews.slice(0, 3).map((_, i) => (
                 <Dot
                   key={i}
                   role="tab"
