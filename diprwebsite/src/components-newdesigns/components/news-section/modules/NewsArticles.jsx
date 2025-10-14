@@ -1,3 +1,4 @@
+import { useEffect, useContext, useState } from "react";
 import {
   Container,
   GridLayout,
@@ -20,18 +21,71 @@ import {
   PopularContent,
   PopularTitle,
   PopularDate,
+  SeeMoreWrap,
+  SeeMoreBtn,
 } from "./NewsArticles.styles"
+import { getLatestNews } from "../../../../services/newsApi/NewsApi";
+import { LanguageContext } from "../../../../context/LanguageContext";
+import { formatDate } from "../../../../utils/formatters";
 
 const NewsArticles = () => {
+  const [newsData, setNewsData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [rawData, setRawData] = useState([])
+  const [latestNews, setLatestNews] = useState([])
+  const { language } = useContext(LanguageContext)
+  const [visibleCount, setVisibleCount] = useState(4)
+  const [popularNews, setPopularNews] = useState([])
   // Parse date for datetime attribute
-  const parseDateTimeAttr = (dateStr) => {
+ useEffect(() => {
+  const fetchNews = async () => {
+    setLoading(true)
+    const response = await getLatestNews()
+    if (response?.success && Array.isArray(response.data)) {
+      setRawData(response.data)
+    }
+    setLoading(false)
+  }
+  fetchNews()
+ }, [language])
+ // get popular news
+ useEffect(() => {
+  if (rawData.length > 0) {
+    const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
+      // Sort by most recent date
+  const sortedData = [...rawData].sort(
+    (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
+  )
+    const mappedData = sortedData.map((item) => ({
+      id: item._id,
+      title: item[langKey]?.title ? item[langKey].title.slice(0, 100) + "..." : "No title",
+      excerpt: item[langKey]?.description ? item[langKey].description.slice(0, 150) + "..." : "No description",
+      image: item.newsImage,
+      date: item.publishedAt,
+      author: item.author || "Unknown",
+    }))
+    const now = new Date()
+    const popular = mappedData.filter(item => {
+      const diffHrs = (now - new Date(item.date)) / (1000 * 60 * 60)
+      return diffHrs >= 24 && diffHrs <= 72
+    })
+    setNewsData(mappedData.slice(1))       // all except top one
+  setLatestNews(mappedData.slice(0, 1))  
+  setPopularNews(popular)
+  }
+ }, [rawData, language])
+
+ 
+ // parse date for datetime attribute
+  
+  function parseDateTimeAttr(dateStr) {
     try {
       const parsed = new Date(dateStr);
       return parsed.toISOString().split('T')[0];
     } catch {
       return '';
     }
-  };
+  }
 
   return (
     <Container as="section" aria-labelledby="news-articles-heading" role="region">
@@ -44,100 +98,94 @@ const NewsArticles = () => {
       
       <GridLayout>
         {/* Featured Article - Left Column */}
-        <FeaturedCard 
-          as="article" 
-          role="article" 
-          aria-labelledby="featured-article-title"
-          tabIndex="0"
-        >
-          <FeaturedImage>
-            <img
-              src="/state/state.jpg"
-              alt="Featured story: Fighter jet on display at aviation meet"
-              loading="lazy"
-              style={{ 
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover"
-              }}
-            />
-          </FeaturedImage>
-          <FeaturedContent>
-            <FeaturedMeta>
-              <NewsDate as="time" dateTime="2023-03-20">March 20, 2023</NewsDate>
-              <NewsAuthor aria-label="Author: Dan Davis">Dan Davis</NewsAuthor>
-            </FeaturedMeta>
-            <FeaturedTitle id="featured-article-title" as="h3">
-              Garret Scores Hat-Trick in Champions League Win
-            </FeaturedTitle>
-            <FeaturedExcerpt>
-              In a stunning display of skill and precision, Christian Garret led his team to victory in the Champions
-              League with an unforgettable hat-trick. The young striker's exceptional performance has catapulted him to
-              the forefront of the football world, with many predicting a bright future ahead.
-            </FeaturedExcerpt>
-          </FeaturedContent>
-        </FeaturedCard>
+        {latestNews.length > 0 && latestNews[0] ? (
+          <FeaturedCard 
+            as="article" 
+            role="article" 
+            aria-labelledby="featured-article-title"
+            tabIndex="0"
+          >
+            <FeaturedImage>
+              <img
+                src={latestNews[0].image || "/state/state.jpg"}
+                alt={`Featured story: ${latestNews[0].title || 'Latest news'}`}
+                loading="lazy"
+                style={{ 
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover"
+                }}
+              />
+            </FeaturedImage>
+            <FeaturedContent>
+              <FeaturedMeta>
+                <NewsDate as="time" dateTime={parseDateTimeAttr(latestNews[0].date)}>
+                  {new Date(latestNews[0].date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </NewsDate>
+                <NewsAuthor aria-label={`Author: ${latestNews[0].author || 'Unknown'}`}>
+                  {latestNews[0].author || 'Unknown'}
+                </NewsAuthor>
+              </FeaturedMeta>
+              <FeaturedTitle id="featured-article-title" as="h3">
+                {latestNews[0].title || 'No title available'}
+              </FeaturedTitle>
+              <FeaturedExcerpt>
+                {latestNews[0].excerpt || 'No description available'}
+              </FeaturedExcerpt>
+            </FeaturedContent>
+          </FeaturedCard>
+        ) : (
+          <FeaturedCard>
+            <p>No news available</p>
+          </FeaturedCard>
+        )}
 
         {/* Latest News - Center Column */}
         <NewsColumn as="div" role="region" aria-labelledby="latest-news-heading">
           <ColumnHeader id="latest-news-heading" as="h3">LATEST NEWS</ColumnHeader>
           <NewsList role="feed" aria-label="Latest news articles" aria-busy="false">
-            <NewsItem 
-              as="article" 
-              role="article"
-              aria-labelledby="latest-news-1"
-              tabIndex="0"
-            >
-              <NewsItemContent>
-                <NewsDate as="time" dateTime="2023-03-27">March 27, 2023</NewsDate>
-                <NewsAuthor aria-label="Author: Dan Davis">Dan Davis</NewsAuthor>
-                <NewsTitle id="latest-news-1" as="h4">
-                  Record-Breaking Sprinter Breaks Her Own World Record at Athletics Meet
-                </NewsTitle>
-                <p>
-                  Sprinter Daria Zachary has broken her own world record in the 100-meter dash at an athletics meet,
-                  stunning fans and competitors alike with her blazing speed.
-                </p>
-              </NewsItemContent>
-            </NewsItem>
-
-            <NewsItem 
-              as="article" 
-              role="article"
-              aria-labelledby="latest-news-2"
-              tabIndex="0"
-            >
-              <NewsItemContent>
-                <NewsDate as="time" dateTime="2023-03-26">March 26, 2023</NewsDate>
-                <NewsAuthor aria-label="Author: Sacha Cameron">Sacha Cameron</NewsAuthor>
-                <NewsTitle id="latest-news-2" as="h4">
-                  Major League Baseball Season Kicks Off with Exciting New Rule Changes
-                </NewsTitle>
-                <p>
-                  The Major League Baseball season has officially begun, with several exciting rule changes designed to
-                  speed up the pace of play and increase scoring.
-                </p>
-              </NewsItemContent>
-            </NewsItem>
-
-            <NewsItem 
-              as="article" 
-              role="article"
-              aria-labelledby="latest-news-3"
-              tabIndex="0"
-            >
-              <NewsItemContent>
-                <NewsDate as="time" dateTime="2023-03-25">March 25, 2023</NewsDate>
-                <NewsAuthor aria-label="Author: Rupert Flemings">Rupert Flemings</NewsAuthor>
-                <NewsTitle id="latest-news-3" as="h4">Race Car Season Starts with Thrilling Race in Melbourne</NewsTitle>
-                <p>
-                  The Race Car season has kicked off with a thrilling race in Melbourne, Australia, with top drivers
-                  competing for the podium in a tight and exciting race.
-                </p>
-              </NewsItemContent>
-            </NewsItem>
+            {newsData.slice(0, visibleCount).map((item, index) => (
+              <NewsItem
+                key={item.id}
+                as="article"
+                role="article"
+                aria-labelledby={`latest-news-${index}`}
+                tabIndex="0"
+              >
+                <NewsItemContent>
+                  <NewsDate as="time" dateTime={parseDateTimeAttr(item.date)}>
+                    {formatDate(item.date)}
+                  </NewsDate>
+                  <NewsAuthor aria-label={`Author: ${item.author}`}>
+                    {item.author}
+                  </NewsAuthor>
+                  <NewsTitle id={`latest-news-${index}`} as="h4">
+                    {item.title}
+                  </NewsTitle>
+                  <p>{item.excerpt}</p>
+                </NewsItemContent>
+            
+              </NewsItem>
+            ))}
+            {newsData.length > 4 && (
+              <SeeMoreWrap>
+                <SeeMoreBtn
+                  type="button"
+                  onClick={() => {
+                    if (visibleCount >= newsData.length) {
+                      setVisibleCount(4) // Reset to initial count
+                    } else {
+                      setVisibleCount(prev => prev + 3) // Load more
+                    }
+                  }}
+                  aria-label={visibleCount >= newsData.length ? "Show less latest news articles" : "Load more latest news articles"}
+                >
+                  {visibleCount >= newsData.length ? "See Less" : "See More"}
+                </SeeMoreBtn>
+              </SeeMoreWrap>
+            )}
           </NewsList>
         </NewsColumn>
 
@@ -145,117 +193,55 @@ const NewsArticles = () => {
         <NewsColumn as="div" role="region" aria-labelledby="popular-news-heading">
           <ColumnHeader id="popular-news-heading" as="h3">POPULAR NEWS</ColumnHeader>
           <NewsList role="feed" aria-label="Popular news articles" aria-busy="false">
-            <PopularItem 
-              as="article" 
-              role="article"
-              aria-labelledby="popular-news-1"
-              tabIndex="0"
-            >
-              <PopularThumbnail>
-                <img
-                  src="/state/2ndimage.jpg"
-                  alt="Thumbnail: Local Legend Santana Reeds at press conference"
-                  loading="lazy"
-                  style={{ 
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover"
+            {popularNews.slice(0, visibleCount).map((item, index) => (
+              <PopularItem
+                key={item.id}
+                as="article"
+                role="article"
+                aria-labelledby={`popular-news-${index}`}
+                tabIndex="0"
+              >
+                <PopularThumbnail>
+                  <img
+                    src={item.image || "/state/2ndimage.jpg"}
+                    alt={`Thumbnail: ${item.title}`}
+                    loading="lazy"
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover"
+                    }}
+                  />
+                </PopularThumbnail>
+                <PopularContent>
+                  <PopularDate as="time" dateTime={parseDateTimeAttr(item.date)}>
+                    {formatDate(item.date)}
+                  </PopularDate>
+                  <PopularTitle id={`popular-news-${index}`} as="h4">
+                    {item.title}
+                  </PopularTitle>
+                </PopularContent>
+              </PopularItem>
+            ))}
+            {popularNews.length > 4 && (
+              <SeeMoreWrap>
+                <SeeMoreBtn
+                  type="button"
+                  onClick={() => {
+                    if (visibleCount >= popularNews.length) {
+                      setVisibleCount(4) // Reset to initial count
+                    } else {
+                      setVisibleCount(prev => prev + 3) // Load more
+                    }
                   }}
-                />
-              </PopularThumbnail>
-              <PopularContent>
-                <PopularDate as="time" dateTime="2023-03-19">March 19, 2023</PopularDate>
-                <PopularTitle id="popular-news-1" as="h4">
-                  Local Legend Santana Reeds Returns to Professional Competition After Long Layoff
-                </PopularTitle>
-              </PopularContent>
-            </PopularItem>
-
-            <PopularItem 
-              as="article" 
-              role="article"
-              aria-labelledby="popular-news-2"
-              tabIndex="0"
-            >
-              <PopularThumbnail>
-                <img
-                  src="/state/2ndsection.jpg"
-                  alt="Thumbnail: Aviation display event"
-                  loading="lazy"
-                  style={{ 
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover"
-                  }}
-                />
-              </PopularThumbnail>
-              <PopularContent>
-                <PopularDate as="time" dateTime="2023-03-18">March 18, 2023</PopularDate>
-                <PopularTitle id="popular-news-2" as="h4">
-                  Christian Garret Breaks Scoring Record in European Soccer League
-                </PopularTitle>
-              </PopularContent>
-            </PopularItem>
-
-            <PopularItem 
-              as="article" 
-              role="article"
-              aria-labelledby="popular-news-3"
-              tabIndex="0"
-            >
-              <PopularThumbnail>
-                <img
-                  src="/state/sidebar.jpg"
-                  alt="Thumbnail: Tennis champion Zoe Dmitriov"
-                  loading="lazy"
-                  style={{ 
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover"
-                  }}
-                />
-              </PopularThumbnail>
-              <PopularContent>
-                <PopularDate as="time" dateTime="2023-03-19">March 19, 2023</PopularDate>
-                <PopularTitle id="popular-news-3" as="h4">
-                  Tennis Star Zoe Dmitriov Wins Record Ninth Australian Open Title
-                </PopularTitle>
-              </PopularContent>
-            </PopularItem>
-
-            <PopularItem 
-              as="article" 
-              role="article"
-              aria-labelledby="popular-news-4"
-              tabIndex="0"
-            >
-              <PopularThumbnail>
-                <img
-                  src="/state/sidebar2.jpg"
-                  alt="Thumbnail: NBA All-Star announcement"
-                  loading="lazy"
-                  style={{ 
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover"
-                  }}
-                />
-              </PopularThumbnail>
-              <PopularContent>
-                <PopularDate as="time" dateTime="2023-03-18">March 18, 2023</PopularDate>
-                <PopularTitle id="popular-news-4" as="h4">
-                  NBA Announces All-Star Roster, with Top Players Set to Compete in Las Vegas
-                </PopularTitle>
-              </PopularContent>
-            </PopularItem>
+                  aria-label={visibleCount >= popularNews.length ? "Show less popular news articles" : "Load more popular news articles"}
+                >
+                  {visibleCount >= popularNews.length ? "See Less" : "See More"}
+                </SeeMoreBtn>
+              </SeeMoreWrap>
+            )}
           </NewsList>
         </NewsColumn>
       </GridLayout>
