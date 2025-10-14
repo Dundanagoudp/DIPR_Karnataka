@@ -29,7 +29,24 @@ const LongVideos = () => {
   const [error, setError] = useState(null);
   const [playingVideo, setPlayingVideo] = useState(null);
   const { language } = useContext(LanguageContext);
-  
+
+  // Helper function to extract category name based on language
+  const getCategoryName = (category) => {
+    if (!category) return 'VIDEO';
+
+    if (typeof category === "object" && category) {
+      if (language === "English") {
+        return category.name || category.title || 'VIDEO';
+      } else if (language === "Hindi") {
+        return category.hindi || category.name || category.title || 'VIDEO';
+      } else if (language === "Kannada") {
+        return category.kannada || category.name || category.title || 'VIDEO';
+      }
+    }
+
+    return 'VIDEO';
+  };
+
   // Header text translations
   const headerText = {
     English: "Latest Videos",
@@ -154,7 +171,7 @@ const LongVideos = () => {
                     src={mainArticle.thumbnail || '/public/home/home.png'} 
                     alt={mainArticle[language.toLowerCase()]?.title || mainArticle.title} 
                   />
-                  <Badge>{mainArticle.category?.name || 'VIDEO'}</Badge>
+                  <Badge>{getCategoryName(mainArticle.category)}</Badge>
                   <PlayButton 
                     onClick={() => handlePlayClick(mainArticle._id, mainArticle.video_url)} 
                     aria-label={`Play ${mainArticle[language.toLowerCase()]?.title || mainArticle.title}`} 
@@ -195,7 +212,7 @@ const LongVideos = () => {
                   )}
                 </ImageContainer>
                 <ArticleContent>
-                  <Badge>{article.category?.name || 'VIDEO'}</Badge>
+                  <Badge>{getCategoryName(article.category)}</Badge>
                   <ArticleTitle>{article[language.toLowerCase()]?.title || article.title}</ArticleTitle>
                 </ArticleContent>
               </SmallArticle>

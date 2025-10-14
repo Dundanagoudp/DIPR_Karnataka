@@ -12,6 +12,10 @@ import {
   Meta,
   DividerTitle,
 } from "./RecommedNews.styles"
+import { useContext, useState, useEffect } from "react"
+import { LanguageContext } from "../../../../context/LanguageContext"
+import { CategoryApi } from "../../../../services/categoryapi/CategoryApi"
+import { getNews } from "../../../../services/newsApi/NewsApi"
 
 const items = Array.from({ length: 6 }).map((_, i) => ({
   id: i + 1,
@@ -24,6 +28,76 @@ const items = Array.from({ length: 6 }).map((_, i) => ({
 }))
 
 export default function Recommrednews() {
+  const [news, setNews] = useState([])
+  const [rawNews, setRawNews] = useState([])
+  const [mostRead, setMostRead] = useState([])
+  const [categories, setCategories] = useState([])
+  const { language } = useContext(LanguageContext)
+
+  useEffect(() => {
+    // get categories
+    const getCategories = async () => {
+      const res = await CategoryApi()
+      if (res?.data) {
+        setCategories(res.data)
+      }
+    }
+    getCategories()
+  }, [])
+  useEffect(() => {
+    // get news by type state
+const fetchNews = async () => {
+  const res = await getNews()
+
+  if (res?.success && Array.isArray(res.data)) {
+    setRawNews(res.data)
+  }
+}
+fetchNews()
+  }, [language])
+
+
+  // get news by type state based on active category
+  useEffect(() => {
+    if (!rawNews.length) return
+
+
+
+    const langKey =
+      language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
+     
+    const localized = rawNews.map((item) => {
+      const categoryId = Array.isArray(item.category) ? item.category[0]._id : item.category._id
+      const categoryObj =
+      (categories || []).find((cat) => String(cat._id) === String(categoryId)) || null
+
+    // pick category name (try localized field first, then fallbacks)
+    const categoryName =
+      (categoryObj && (categoryObj[langKey]?.name || categoryObj.name || categoryObj.title)) ||
+      ""
+      return {
+      
+      id: item._id,
+      title: item[langKey]?.title.slice(0, 50) + "..." || item.title || "",
+      excerpt: item[langKey]?.description.slice(0, 150) + "..." || item.description || "",
+      date: item.publishedAt
+        ? new Date(item.publishedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : "",
+      image: item.newsImage || "/placeholder.svg",
+      categoryName: categoryName || "",
+      author: item.author || "",
+      timeAgo: item.timeAgo || "",
+      alt: item.title || "",
+    }})
+
+    setNews(localized)
+    const mostRead = localized.slice(3,6)
+    setMostRead(mostRead)
+  }, [language, rawNews])
   return (
     <Section as="section" aria-labelledby="recommended-heading" role="region">
       <h2 id="recommended-heading" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
@@ -35,7 +109,7 @@ export default function Recommrednews() {
       </h3>
       
       <Grid role="list" aria-labelledby="recommended-articles-heading">
-        {items.slice(0, 3).map((item) => (
+        {news.slice(0, 3).map((item) => (
           <Card 
             key={item.id} 
             as="article" 
@@ -45,7 +119,7 @@ export default function Recommrednews() {
           >
             <ThumbWrap 
               as="a"
-              href={item.href} 
+              href={`/news/${item.id}`} 
               aria-label={`View full article: ${item.title}`}
             >
               <img 
@@ -56,7 +130,7 @@ export default function Recommrednews() {
             </ThumbWrap>
             <Content>
               <BadgeRow>
-                <Badge aria-label={`Category: ${item.category}`}>
+                <Badge aria-label={`Category: ${item.categoryName}`}>
                   {/* simple red accent dot */}
                   <span
                     style={{
@@ -68,7 +142,7 @@ export default function Recommrednews() {
                     }}
                     aria-hidden="true"
                   />
-                  {item.category}
+                  {item.categoryName}
                 </Badge>
               </BadgeRow>
 
@@ -83,7 +157,7 @@ export default function Recommrednews() {
               <Meta>
                 <span aria-label={`Author: ${item.author}`}>{item.author}</span>
                 <span aria-hidden="true">•</span>
-                <time dateTime="P1D" aria-label={`Posted ${item.timeAgo}`}>{item.timeAgo}</time>
+                <time dateTime="P1D" aria-label={`Posted ${item.date}`}>{item.date}</time>
               </Meta>
             </Content>
           </Card>
@@ -93,7 +167,7 @@ export default function Recommrednews() {
       <DividerTitle as="h3" id="most-read-heading">Most Readed</DividerTitle>
 
       <Grid role="list" aria-labelledby="most-read-heading">
-        {items.slice(3).map((item) => (
+        {mostRead.map((item) => (
           <Card 
             key={item.id} 
             as="article" 
@@ -103,7 +177,7 @@ export default function Recommrednews() {
           >
             <ThumbWrap 
               as="a"
-              href={item.href} 
+              href={`/news/${item.id}`} 
               aria-label={`View full article: ${item.title}`}
             >
               <img 
@@ -114,7 +188,7 @@ export default function Recommrednews() {
             </ThumbWrap>
             <Content>
               <BadgeRow>
-                <Badge aria-label={`Category: ${item.category}`}>
+                <Badge aria-label={`Category: ${item.categoryName}`}>
                   <span
                     style={{
                       width: 8,
@@ -125,14 +199,14 @@ export default function Recommrednews() {
                     }}
                     aria-hidden="true"
                   />
-                  {item.category}
+                  {item.categoryName}
                 </Badge>
               </BadgeRow>
 
               <TitleLink 
                 id={`read-title-${item.id}`}
                 as="a"
-                href={item.href}
+                href={`/news/${item.id}`}
               >
                 <h4 style={{ all: 'inherit' }}>{item.title}</h4>
               </TitleLink>
@@ -140,7 +214,7 @@ export default function Recommrednews() {
               <Meta>
                 <span aria-label={`Author: ${item.author}`}>{item.author}</span>
                 <span aria-hidden="true">•</span>
-                <time dateTime="P1D" aria-label={`Posted ${item.timeAgo}`}>{item.timeAgo}</time>
+                <time dateTime="P1D" aria-label={`Posted ${item.date}`}>{item.date}</time>
               </Meta>
             </Content>
           </Card>
