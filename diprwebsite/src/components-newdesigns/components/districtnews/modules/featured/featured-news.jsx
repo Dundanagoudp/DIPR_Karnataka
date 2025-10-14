@@ -9,34 +9,36 @@ import {
   Sidebar,
   SideCard,
 } from "./featured-news.styles"
+import { useContext, useState, useEffect } from "react"
+import { LanguageContext } from "../../../../../context/LanguageContext"
+import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
+import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
 
-export default function FeaturedNewsSection({
-  featured = {
-    image: "/state/2ndimage.jpg",
-    category: "District News",
-    date: "March 20, 2025",
-    title: "District Administration Launches New Development Initiatives",
-    excerpt:
-      "District officials unveiled comprehensive development plans aimed at improving infrastructure and public services. The initiatives include road improvements, healthcare upgrades, and educational program enhancements.",
+const initialFeatured = {
+  image: "/placeholder.svg",
+  category: "",
+  date: "",
+  title: "",
+  excerpt: "",
+}
+
+const initialSideItems = [
+  {
+    image: "/placeholder.svg",
+    category: "",
+    date: "",
+    title: "",
+    excerpt: "",
   },
-  sideItems = [
-    {
-      image: "/state/2ndsection.jpg",
-      category: "Education",
-      date: "March 20, 2025",
-      title: "District Schools Receive Technology Upgrades",
-      excerpt:
-        "Local schools in the district are set to receive new computer equipment and digital learning tools to enhance student education.",
-    },
-    {
-      image: "/state/rightside.jpg",
-      category: "Infrastructure",
-      date: "March 20, 2025",
-      title: "New District Road Network Project Announced",
-      excerpt: "The district administration announced a major road network project to improve connectivity between rural areas.",
-    },
-  ],
-}) {
+  {
+    image: "/placeholder.svg",
+    category: "",
+    date: "",
+    title: "",
+    excerpt: "",
+  },
+]
+export default function FeaturedNewsSection() {
   // Parse date for datetime attribute
   const parseDateTimeAttr = (dateStr) => {
     try {
@@ -46,7 +48,70 @@ export default function FeaturedNewsSection({
       return '';
     }
   };
+  const [rawData, setRawData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [featured, setFeatured] = useState(initialFeatured)
+  const [sideItems, setSideItems] = useState(initialSideItems)
+  const [categories, setCategories] = useState([])
+  const { language } = useContext(LanguageContext)
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await CategoryApi()
+      if (response?.success && Array.isArray(response.data)) {
+        setCategories(response.data)
+     
+      }
+    }
+    fetchCategories()
+  }, [])
+  useEffect(() => {
+    const fetchFeaturedNews = async () => {
+      try {
+        const response = await getNewsByTypeDistrict()
+        if (response?.success && Array.isArray(response.data)) {
+          setRawData(response.data)
+   
+        } else {
+         
+        }
+      } catch (error) {
+        console.error("Error fetching news data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchFeaturedNews()
+  }, [language])
+
+  useEffect(() => {
+    if (rawData.length > 0) {
+      const normalized = rawData.map((item) => {
+        const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
+      
+               const categoryId = item.category
+   
+     // Find the category name based on the category ID
+     const category = categories.find((cat) => cat._id === categoryId)
+     const categoryName = category ? (language === "English" ? category.name : language === "Hindi" ? category.hindi : category.kannada) : "Uncategorized"
+
+
+        return {
+          image: item.newsImage || "/placeholder.svg",
+          category: categoryName || "",
+          date: item[langKey]?.date || "",
+          title: item[langKey]?.title || "",
+          excerpt: item[langKey]?.description || "",
+        }
+      })
+
+      const shuffled = [...normalized].sort(() => Math.random() - 0.5)
+      const randomOne = shuffled[0] || initialFeatured
+      const randomTwo = shuffled.slice(1, 3) || initialSideItems
+      setFeatured(randomOne)
+      setSideItems(randomTwo)
+    }
+  }, [language, rawData, categories])
   return (
     <Section as="section" aria-labelledby="featured-news-heading" role="region">
       <h2 

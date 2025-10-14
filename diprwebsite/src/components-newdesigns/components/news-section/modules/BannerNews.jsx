@@ -1,3 +1,7 @@
+import { useContext, useState, useEffect } from "react";
+import { LanguageContext } from "../../../../context/LanguageContext";
+import { getNews } from "../../../../services/newsApi/NewsApi";
+import { formatDate } from "../../../../utils/formatters";
 import {
   BannerWrap,
   BannerInner,
@@ -10,23 +14,52 @@ import {
   LinkArea,
 } from "./BannerNews.styles"
 
-export default function Banner({
-  date = "March 18, 2025",
-  title = "Get Your Daily Dose of Sports News and Analysis with Trendzi's Comprehensive Coverage",
-  imageSrc = "/state/newsbaner.png",
-  alt = "press briefing with microphones and officials outdoors",
-  href = "#",
-  badge = "Top Story",
-}) {
-  // Parse date for datetime attribute
-  const parseDateTimeAttr = (dateStr) => {
-    try {
-      const parsed = new Date(dateStr);
-      return parsed.toISOString().split('T')[0];
-    } catch {
-      return '';
+export default function Banner() {
+  const { language } = useContext(LanguageContext)
+  const [item, setItem] = useState(null)
+  const langKey = language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
+
+  useEffect(() => {
+    let mounted = true
+    ;(async () => {
+      try {
+        const res = await getNews()
+        if (!mounted || !res?.success || !Array.isArray(res.data)) return
+
+        // pick most-recent by publishedAt (fallback to createdAt)
+        const latest = res.data.reduce((best, cur) => {
+          const b = new Date(best?.publishedAt ?? best?.createdAt ?? 0)
+          const c = new Date(cur?.publishedAt ?? cur?.createdAt ?? 0)
+          return c > b ? cur : best
+        }, res.data[0])
+
+        if (!latest) return
+
+        const title = latest[langKey]?.title ?? latest.title ?? ""
+        const excerpt = latest[langKey]?.description ?? latest.description ?? ""
+        const imageSrc = latest.newsImage ?? "/placeholder.svg"
+        const date = latest.publishedAt ?? latest.createdAt ?? ""
+        const badge = typeof latest.category === "object" ? latest.category?.name ?? "" : latest.category ?? ""
+        const href = `/news/${latest._id ?? latest.id ?? ""}`
+
+        if (mounted) setItem({ title, excerpt, imageSrc, date, badge, href })
+      } catch (e) {
+        console.error(e)
+        if (mounted) setItem(null)
+      }
+    })()
+    return () => {
+      mounted = false
     }
-  };
+  }, [language])
+
+  const parseDateTimeAttr = (d) => {
+    if (!d) return ""
+    const parsed = new Date(d)
+    return isNaN(parsed) ? "" : parsed.toISOString().split("T")[0]
+  }
+
+  if (!item) return null
 
   return (
     <BannerWrap 
@@ -40,19 +73,21 @@ export default function Banner({
         Top Story Banner
       </h2>
       <BannerInner as="article" role="article" aria-labelledby="banner-title">
-        <BannerImage src={imageSrc} alt={alt} loading="lazy" />
+          <BannerImage src={item.imageSrc} alt={item.title} loading="lazy" />
         <Overlay aria-hidden="true" />
         <Content>
-          <DateText as="time" dateTime={parseDateTimeAttr(date)}>{date}</DateText>
-          <div>{badge ? <Badge aria-label={`Story category: ${badge}`}>{badge}</Badge> : null}</div>
-          <Title id="banner-title" as="h3">{title}</Title>
+          <DateText as="time" dateTime={parseDateTimeAttr(item.date)}>
+            {formatDate(item.date)}
+          </DateText>
+          <div>{item.badge ? <Badge aria-label={`Story category: ${item.badge}`}>{item.badge}</Badge> : null}</div>
+          <Title id="banner-title" as="h3">{item.title.slice(0, 50)}...</Title>
         </Content>
         {/* Full-area link for accessibility */}
-        <LinkArea 
+        {/* <LinkArea 
           href={href} 
           aria-label={`Read full story: ${title}`}
           tabIndex="0"
-        />
+        /> */}
       </BannerInner>
     </BannerWrap>
   )
