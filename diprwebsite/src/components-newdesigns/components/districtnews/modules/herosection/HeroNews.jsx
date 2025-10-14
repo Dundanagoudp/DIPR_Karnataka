@@ -12,6 +12,16 @@ import {
   Arrows,
   ArrowBtn,
   RightDivider,
+  SkeletonHeroWrap,
+  SkeletonImage,
+  SkeletonOverlay,
+  SkeletonTitle,
+  SkeletonExcerpt,
+  SkeletonButtons,
+  SkeletonDots,
+  SkeletonDot,
+  SkeletonArrows,
+  SkeletonArrow,
 } from "./Heronews.styles"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
@@ -122,6 +132,34 @@ useEffect(() => {
       e.preventDefault()
       go(isNext)
     }
+  }
+
+  // Shimmer loading component
+  if (loading || districtNews.length === 0) {
+    return (
+      <SkeletonHeroWrap>
+        <SkeletonImage />
+        <SkeletonOverlay>
+          <SkeletonTitle />
+          <SkeletonTitle style={{ width: "60%" }} />
+          <SkeletonExcerpt />
+          <SkeletonExcerpt style={{ width: "70%" }} />
+          <SkeletonExcerpt style={{ width: "50%" }} />
+          <SkeletonButtons>
+            <SkeletonDots>
+              <SkeletonDot />
+              <SkeletonDot />
+              <SkeletonDot />
+            </SkeletonDots>
+            <SkeletonArrows>
+              <SkeletonArrow />
+              <SkeletonArrow />
+            </SkeletonArrows>
+          </SkeletonButtons>
+        </SkeletonOverlay>
+        <RightDivider aria-hidden="true" />
+      </SkeletonHeroWrap>
+    )
   }
 
   return (

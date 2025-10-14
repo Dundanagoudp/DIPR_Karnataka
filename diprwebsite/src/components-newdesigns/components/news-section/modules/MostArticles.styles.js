@@ -482,3 +482,101 @@ export const SeeMoreBtn = styled.button`
     filter: brightness(0.95);
   }
 `
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonCard = styled.div`
+  background: ${theme.colors.background};
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  ${shimmer}
+`
+
+export const SkeletonImageWrap = styled.div`
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    aspect-ratio: 16 / 10;
+  }
+
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    aspect-ratio: 16 / 9;
+  }
+`
+
+export const SkeletonContent = styled.div`
+  padding: ${theme.spacing(2.5)} ${theme.spacing(2.5)} ${theme.spacing(3)};
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(1)};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: ${theme.spacing(1.75)} ${theme.spacing(1.75)} ${theme.spacing(2.25)};
+  }
+
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(2.5)};
+  }
+`
+
+export const SkeletonLine = styled.div`
+  height: ${props => props.height || '16px'};
+  width: ${props => props.width || '100%'};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+`
+
+export const SkeletonTabButton = styled.div`
+  width: 120px;
+  height: 36px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 6px;
+  flex-shrink: 0;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 80px;
+    height: 32px;
+  }
+
+  @media (min-width: 481px) and (max-width: ${theme.breakpoints.tablet}) {
+    width: 100px;
+    height: 34px;
+  }
+`

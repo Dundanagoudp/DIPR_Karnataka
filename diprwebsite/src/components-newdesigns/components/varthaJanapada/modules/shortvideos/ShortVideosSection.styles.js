@@ -284,13 +284,13 @@ export const VideoOverlay = styled.div`
 `
 
 export const PlayButton = styled.button`
-  background: rgba(255, 0, 0, 0.9);
+  position: relative;
+  background: ${theme.colors.primaryVideo};
   border: none;
   border-radius: 8px;
-  width: ${theme.spacing(8)};
-  height: ${theme.spacing(6)};
+  width: 70px;
+  height: 50px;
   cursor: pointer;
-  color: ${theme.colors.white};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -298,7 +298,6 @@ export const PlayButton = styled.button`
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
-  position: relative;
   z-index: 10;
   user-select: none;
   -webkit-user-select: none;
@@ -306,48 +305,53 @@ export const PlayButton = styled.button`
   -ms-user-select: none;
   pointer-events: auto;
 
+  &::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 20px solid ${theme.colors.white};
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    margin-left: 4px;
+  }
+
   &:focus-visible {
     outline-color: ${theme.colors.primary || "#0070f3"};
-    background: rgba(255, 0, 0, 1);
-    transform: scale(1.05);
-  }
-  
-  svg {
-    filter: drop-shadow(0 0 ${theme.spacing(0.5)} rgba(0, 0, 0, 0.5));
-    transition: transform 0.3s ease;
-    margin-left: 2px;
-    pointer-events: none; /* Prevent SVG from interfering with button clicks */
+    transform: scale(1.1);
   }
   
   &:hover {
-    background: rgba(255, 0, 0, 1);
-    transform: scale(1.05);
+    transform: scale(1.1);
     box-shadow: 0 6px 16px rgba(255, 0, 0, 0.4);
-    svg {
-      transform: scale(1.1);
-    }
   }
   
   &:active {
     transform: scale(0.98);
-    background: rgba(255, 0, 0, 0.8);
   }
   
   @media (max-width: ${theme.breakpoints.tablet}) {
-    width: ${theme.spacing(7)};
-    height: ${theme.spacing(5)};
-    svg {
-      width: ${theme.spacing(4)};
-      height: ${theme.spacing(4)};
+    width: 60px;
+    height: 42px;
+    border-radius: 7px;
+    
+    &::after {
+      border-left: 16px solid ${theme.colors.white};
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      margin-left: 3px;
     }
   }
   
   @media (max-width: 640px) {
-    width: ${theme.spacing(6)};
-    height: ${theme.spacing(4.5)};
-    svg {
-      width: ${theme.spacing(3.5)};
-      height: ${theme.spacing(3.5)};
+    width: 50px;
+    height: 35px;
+    border-radius: 6px;
+    
+    &::after {
+      border-left: 14px solid ${theme.colors.white};
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      margin-left: 3px;
     }
   }
 `

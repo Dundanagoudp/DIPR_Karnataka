@@ -237,3 +237,147 @@ export const SideCard = styled.article`
   }
 `
 
+export const Excerpt = styled.p`
+  color: ${theme.colors.gray[700]};
+  font-size: ${theme.fontSizes.medium};
+  line-height: 1.6;
+  margin-bottom: 0;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.fontSizes.small};
+    line-height: 1.5;
+  }
+`
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonImageWrap = styled.div`
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    aspect-ratio: 16 / 9;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    aspect-ratio: 4 / 3;
+  }
+`
+
+export const SkeletonContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(2)};
+`
+
+export const SkeletonTag = styled.div`
+  width: 80px;
+  height: 16px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+`
+
+export const SkeletonTitle = styled.div`
+  width: 90%;
+  height: 22px;
+  margin-bottom: ${theme.spacing(1)};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 18px;
+  }
+`
+
+export const SkeletonText = styled.div`
+  width: ${props => props.width || "100%"};
+  height: ${props => props.height || "16px"};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  margin-bottom: ${theme.spacing(1)};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: ${props => props.height ? `calc(${props.height} - 2px)` : "14px"};
+  }
+`
+
+export const SkeletonSideCard = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${theme.spacing(2)};
+  padding: ${theme.spacing(2)};
+  background: ${theme.colors.background};
+  border-bottom: 1px solid ${theme.colors.gray[400]};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(1.5)};
+  }
+`
+
+export const SkeletonThumb = styled.div`
+  width: 200px;
+  aspect-ratio: 16 / 9;
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    width: 160px;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 120px;
+  }
+`
+

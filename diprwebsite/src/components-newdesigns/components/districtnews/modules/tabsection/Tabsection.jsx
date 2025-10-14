@@ -20,6 +20,15 @@ import {
   SideExcerpt,
   SeeMoreWrap,
   SeeMoreBtn,
+  SkeletonTabs,
+  SkeletonTab,
+  SkeletonCard,
+  SkeletonImage,
+  SkeletonContent,
+  SkeletonDate,
+  SkeletonTitle,
+  SkeletonExcerpt,
+  SkeletonSideItem,
 } from "./Tabsection.styles"
 import { CategoryApi } from "../../../../../services/categoryapi/CategoryApi"
 import { LanguageContext } from "../../../../../context/LanguageContext"
@@ -36,6 +45,7 @@ import { getNewsByTypeDistrict } from "../../../../../services/newsApi/NewsApi"
   const [news, setNews] = useState([])
   const [rawNews, setRawNews] = useState([])
   const [sideList, setSideList] = useState([])
+  const [loading, setLoading] = useState(true)
   const { language } = useContext(LanguageContext)
   useEffect(() => {
     // get categories
@@ -93,6 +103,13 @@ fetchNews()
     setNews(localized)
  
   }, [active, language, rawNews])
+
+  // Set loading to false once we have categories and news
+  useEffect(() => {
+    if (categories.length > 0 && rawNews.length > 0) {
+      setLoading(false)
+    }
+  }, [categories, rawNews])
 
   // get news by type district based on active category
   useEffect(() => {
@@ -194,6 +211,53 @@ fetchNews()
   //     excerpt: "Three-day festival showcases district's rich cultural heritage and traditional arts."
   //   },
   // ]
+
+  // Shimmer loading component
+  if (loading) {
+    return (
+      <Section aria-labelledby="news-tabs-heading">
+        <Container>
+          <h2 id="news-tabs-heading" style={{ position: "absolute", left: "-9999px" }}>
+            News tabs
+          </h2>
+          <SkeletonTabs>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <SkeletonTab key={i} />
+            ))}
+          </SkeletonTabs>
+          <Layout>
+            <div>
+              <Grid>
+                {[1, 2, 3, 4].map((i) => (
+                  <SkeletonCard key={i}>
+                    <SkeletonImage />
+                    <SkeletonContent>
+                      <SkeletonDate />
+                      <SkeletonTitle />
+                      <SkeletonTitle width="70%" />
+                      <SkeletonExcerpt />
+                      <SkeletonExcerpt width="85%" />
+                    </SkeletonContent>
+                  </SkeletonCard>
+                ))}
+              </Grid>
+            </div>
+            <Sidebar aria-label="Latest headlines">
+              <SideList>
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <SkeletonSideItem key={i}>
+                    <SkeletonDate />
+                    <SkeletonTitle />
+                    <SkeletonTitle width="60%" />
+                  </SkeletonSideItem>
+                ))}
+              </SideList>
+            </Sidebar>
+          </Layout>
+        </Container>
+      </Section>
+    )
+  }
 
   // Handle keyboard navigation for tabs
   const handleTabKeyDown = (e, tab) => {

@@ -348,6 +348,128 @@ export const SeeMoreBtn = styled.button`
   }
 `
 
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonFeaturedCard = styled.div`
+  background: ${theme.colors.background};
+  overflow: hidden;
+  grid-column: 1 / -1;
+  ${shimmer}
+
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    grid-column: 1 / 2;
+  }
+`
+
+export const SkeletonFeaturedImage = styled.div`
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    width: 95%;
+    aspect-ratio: 4 / 3;
+  }
+
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    width: 90%;
+    aspect-ratio: 4 / 5;
+  }
+`
+
+export const SkeletonFeaturedContent = styled.div`
+  padding: ${theme.spacing(1.5)} 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(1)};
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(2.5)} 0;
+  }
+  
+  @media (min-width: ${theme.breakpoints.desktop}) {
+    padding: ${theme.spacing(3)} 0;
+  }
+`
+
+export const SkeletonLine = styled.div`
+  height: ${props => props.height || '16px'};
+  width: ${props => props.width || '100%'};
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+`
+
+export const SkeletonNewsItem = styled.div`
+  background: ${theme.colors.background};
+  padding: ${theme.spacing(1.5)} 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(0.75)};
+  ${shimmer}
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    padding: ${theme.spacing(2)} 0;
+  }
+`
+
+export const SkeletonPopularItem = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1)};
+  background: ${theme.colors.background};
+  padding: ${theme.spacing(1)} 0;
+  ${shimmer}
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(1.25)} 0;
+  }
+`
+
+export const SkeletonThumbnail = styled.div`
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+
+  @media (min-width: ${theme.breakpoints.tablet}) {
+    width: 90px;
+    height: 90px;
+  }
+`
+
 const styles = {
   Container,
   GridLayout,

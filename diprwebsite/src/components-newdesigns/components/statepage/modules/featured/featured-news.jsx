@@ -8,6 +8,13 @@ import {
   DateText,
   Sidebar,
   SideCard,
+  SkeletonImageWrap,
+  SkeletonContent,
+  SkeletonTag,
+  SkeletonTitle,
+  SkeletonText,
+  SkeletonSideCard,
+  SkeletonThumb,
 } from "./featured-news.styles"
 import { LanguageContext } from "../../../../../context/LanguageContext"
 import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi"
@@ -106,6 +113,44 @@ export default function FeaturedNewsSection() {
       setSideItems(randomTwo)
     }
   }, [language, rawData, categories])
+
+  // Shimmer loading component
+  if (loading || rawData.length === 0) {
+    return (
+      <Section aria-label="Featured news">
+        <Container>
+          <SkeletonImageWrap />
+          <SkeletonContent>
+            <MetaRow>
+              <SkeletonTag />
+              <SkeletonText width="120px" height="14px" />
+            </MetaRow>
+            <SkeletonTitle />
+            <SkeletonTitle style={{ width: "70%" }} />
+            <SkeletonText width="95%" />
+            <SkeletonText width="80%" />
+          </SkeletonContent>
+          <Sidebar aria-label="More top stories" role="complementary">
+            {[1, 2].map((idx) => (
+              <SkeletonSideCard key={idx}>
+                <SkeletonThumb />
+                <div style={{ width: "100%" }}>
+                  <MetaRow style={{ marginBottom: "12px" }}>
+                    <SkeletonTag />
+                    <SkeletonText width="100px" height="14px" />
+                  </MetaRow>
+                  <SkeletonText width="95%" height="18px" />
+                  <SkeletonText width="85%" height="18px" />
+                  <SkeletonText width="90%" height="14px" />
+                  <SkeletonText width="70%" height="14px" />
+                </div>
+              </SkeletonSideCard>
+            ))}
+          </Sidebar>
+        </Container>
+      </Section>
+    )
+  }
 
   return (
     <Section aria-label="Featured news">

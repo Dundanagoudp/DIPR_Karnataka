@@ -12,6 +12,16 @@ import {
   Arrows,
   ArrowBtn,
   RightDivider,
+  SkeletonHeroWrap,
+  SkeletonImage,
+  SkeletonOverlay,
+  SkeletonTitle,
+  SkeletonExcerpt,
+  SkeletonButtons,
+  SkeletonDots,
+  SkeletonDot,
+  SkeletonArrows,
+  SkeletonArrow,
 } from "./Heronews.styles";
 import { getNewsByTypeState } from "../../../../../services/newsApi/NewsApi";
 import { LanguageContext } from "../../../../../context/LanguageContext";
@@ -114,6 +124,34 @@ export default function NewsHero() {
   };
 
   const current = stateNews[index] || stateNews[0] || {};
+
+  // Shimmer loading component
+  if (loading || stateNews.length === 0) {
+    return (
+      <SkeletonHeroWrap>
+        <SkeletonImage />
+        <SkeletonOverlay>
+          <SkeletonTitle />
+          <SkeletonTitle style={{ width: "60%" }} />
+          <SkeletonExcerpt />
+          <SkeletonExcerpt style={{ width: "70%" }} />
+          <SkeletonExcerpt style={{ width: "50%" }} />
+          <SkeletonButtons>
+            <SkeletonDots>
+              <SkeletonDot />
+              <SkeletonDot />
+              <SkeletonDot />
+            </SkeletonDots>
+            <SkeletonArrows>
+              <SkeletonArrow />
+              <SkeletonArrow />
+            </SkeletonArrows>
+          </SkeletonButtons>
+        </SkeletonOverlay>
+        <RightDivider />
+      </SkeletonHeroWrap>
+    );
+  }
 
   return (
     <HeroWrap aria-roledescription="carousel" aria-label="Top stories">

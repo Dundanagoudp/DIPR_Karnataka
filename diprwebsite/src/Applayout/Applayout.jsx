@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 // // import CategoryTab from "../components/categorytab/CategoryTab";
 import Footer from "../components/Footer/Footer";
 // // import ToolBar from "../components/ToolBar/ToolBar";
-import LoadingProgressBar from "../components/Progressloader/ProgressLoading";
+// import LoadingProgressBar from "../components/Progressloader/ProgressLoading";
 import Header from "../components-newdesigns/layout/Header/Header";
 import HeaderTab from "../components-newdesigns/layout/headertabs/HeaderTab";
 import LanguageNavbar from "../components-newdesigns/layout/languagetranslation/LanguageNavbar";
@@ -13,7 +13,7 @@ import TrendingBar from "../components-newdesigns/layout/trendingbar/TrendingBar
 
 const Applayout = () => {
   return (
-    <LoadingProgressBar> 
+    // <LoadingProgressBar> 
       <div role="application" aria-label="DIPR Website">
         <Header />
         <LanguageNavbar />
@@ -28,7 +28,7 @@ const Applayout = () => {
         {/* <Footer/> */}
         <SiteFooter />
       </div>
-    </LoadingProgressBar>
+    // </LoadingProgressBar>
   );
 };
 

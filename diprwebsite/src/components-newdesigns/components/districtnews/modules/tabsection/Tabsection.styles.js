@@ -413,3 +413,170 @@ export const SeeMoreBtn = styled.button`
   }
 `
 
+export const Rank = styled.span`
+  color: ${theme.colors.primary};
+  font-weight: 700;
+  font-size: ${theme.fontSizes.large};
+  margin-right: ${theme.spacing(1.25)};
+  flex-shrink: 0;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    font-size: ${theme.fontSizes.medium};
+    margin-right: ${theme.spacing(1)};
+  }
+`
+
+// ========================================
+// SHIMMER/SKELETON LOADING STYLES
+// ========================================
+const shimmer = `
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+`
+
+export const SkeletonTabs = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1.5)};
+  border-bottom: 1px solid ${theme.colors.gray[400]};
+  padding-bottom: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(3)};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(1)};
+    overflow-x: auto;
+    padding-bottom: ${theme.spacing(1.5)};
+    margin-bottom: ${theme.spacing(2)};
+  }
+`
+
+export const SkeletonTab = styled.div`
+  height: 36px;
+  width: 100px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 32px;
+    width: 90px;
+  }
+`
+
+export const SkeletonCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(1.5)};
+  background: ${theme.colors.background};
+  padding: ${theme.spacing(2)};
+  border-bottom: 1px solid ${theme.colors.gray[400]};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(1.25)};
+    padding: ${theme.spacing(1.5)};
+  }
+`
+
+export const SkeletonImage = styled.div`
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+`
+
+export const SkeletonContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing(1)};
+`
+
+export const SkeletonDate = styled.div`
+  width: 120px;
+  height: 14px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    width: 100px;
+    height: 12px;
+  }
+`
+
+export const SkeletonTitle = styled.div`
+  width: ${props => props.width || "100%"};
+  height: 18px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  margin-bottom: ${theme.spacing(0.5)};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 16px;
+  }
+`
+
+export const SkeletonExcerpt = styled.div`
+  width: ${props => props.width || "100%"};
+  height: 14px;
+  background: linear-gradient(
+    90deg,
+    ${theme.colors.gray[200]} 25%,
+    ${theme.colors.gray[100]} 50%,
+    ${theme.colors.gray[200]} 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  margin-bottom: ${theme.spacing(0.5)};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    height: 13px;
+  }
+`
+
+export const SkeletonSideItem = styled.div`
+  display: flex;
+  gap: ${theme.spacing(1.25)};
+  padding: ${theme.spacing(1.5)} 0;
+  border-bottom: 1px solid ${theme.colors.gray[200]};
+  ${shimmer}
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: ${theme.spacing(1)};
+    padding: ${theme.spacing(1.25)} 0;
+  }
+`
+

@@ -23,6 +23,13 @@ import {
   PopularDate,
   SeeMoreWrap,
   SeeMoreBtn,
+  SkeletonFeaturedCard,
+  SkeletonFeaturedImage,
+  SkeletonFeaturedContent,
+  SkeletonLine,
+  SkeletonNewsItem,
+  SkeletonPopularItem,
+  SkeletonThumbnail,
 } from "./NewsArticles.styles"
 import { getLatestNews } from "../../../../services/newsApi/NewsApi";
 import { LanguageContext } from "../../../../context/LanguageContext";
@@ -85,6 +92,69 @@ const NewsArticles = () => {
     } catch {
       return '';
     }
+  }
+
+  // Show shimmer while loading
+  if (loading) {
+    return (
+      <Container as="section" aria-labelledby="news-articles-heading" role="region">
+        <h2 
+          id="news-articles-heading" 
+          style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+        >
+          Featured, Latest and Popular News
+        </h2>
+        
+        <GridLayout>
+          {/* Featured Card Skeleton */}
+          <SkeletonFeaturedCard>
+            <SkeletonFeaturedImage />
+            <SkeletonFeaturedContent>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                <SkeletonLine width="120px" height="14px" />
+                <SkeletonLine width="80px" height="14px" />
+              </div>
+              <SkeletonLine width="90%" height="32px" />
+              <SkeletonLine width="100%" height="16px" />
+              <SkeletonLine width="100%" height="16px" />
+              <SkeletonLine width="60%" height="16px" />
+            </SkeletonFeaturedContent>
+          </SkeletonFeaturedCard>
+
+          {/* Latest News Skeleton */}
+          <NewsColumn>
+            <ColumnHeader as="h3">LATEST NEWS</ColumnHeader>
+            <NewsList>
+              {[1, 2, 3, 4].map((i) => (
+                <SkeletonNewsItem key={i}>
+                  <SkeletonLine width="100px" height="14px" />
+                  <SkeletonLine width="90%" height="20px" />
+                  <SkeletonLine width="100%" height="14px" />
+                  <SkeletonLine width="80%" height="14px" />
+                </SkeletonNewsItem>
+              ))}
+            </NewsList>
+          </NewsColumn>
+
+          {/* Popular News Skeleton */}
+          <NewsColumn>
+            <ColumnHeader as="h3">POPULAR NEWS</ColumnHeader>
+            <NewsList>
+              {[1, 2, 3, 4].map((i) => (
+                <SkeletonPopularItem key={i}>
+                  <SkeletonThumbnail />
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <SkeletonLine width="80px" height="14px" />
+                    <SkeletonLine width="100%" height="16px" />
+                    <SkeletonLine width="90%" height="16px" />
+                  </div>
+                </SkeletonPopularItem>
+              ))}
+            </NewsList>
+          </NewsColumn>
+        </GridLayout>
+      </Container>
+    )
   }
 
   return (
