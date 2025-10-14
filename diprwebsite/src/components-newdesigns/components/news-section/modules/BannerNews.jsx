@@ -39,7 +39,20 @@ export default function Banner() {
         const excerpt = latest[langKey]?.description ?? latest.description ?? ""
         const imageSrc = latest.newsImage ?? "/placeholder.svg"
         const date = latest.publishedAt ?? latest.createdAt ?? ""
-        const badge = typeof latest.category === "object" ? latest.category?.name ?? "" : latest.category ?? ""
+
+        // Extract category name based on language context
+        let categoryName = "News"
+        if (typeof latest.category === "object" && latest.category) {
+          if (langKey === "English") {
+            categoryName = latest.category.name || latest.category.title || "News"
+          } else if (langKey === "hindi") {
+            categoryName = latest.category.hindi || latest.category.name || latest.category.title || "News"
+          } else if (langKey === "kannada") {
+            categoryName = latest.category.kannada || latest.category.name || latest.category.title || "News"
+          }
+        }
+
+        const badge = categoryName
         const href = `/news/${latest._id ?? latest.id ?? ""}`
 
         if (mounted) setItem({ title, excerpt, imageSrc, date, badge, href })

@@ -82,6 +82,14 @@ export const getNewsByTypeDistrict = async () => {
     throw error;
   }
 }
+export const getNewsByTypeSpecialnews = async () => {
+  try{
+    const response = await apiClient.get("api/news/getNewsByNewsType/specialnews");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 // export const getLatestNews = async()=>{
 //   try{

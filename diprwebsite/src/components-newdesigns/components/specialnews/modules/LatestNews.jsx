@@ -1,3 +1,4 @@
+import { getLatestNews } from "../../../../services/newsApi/NewsApi"
 import {
   GlobalScrollbars,
   Wrapper,
@@ -21,6 +22,9 @@ import {
   FeatureExcerpt,
   SeeMoreBtn,
 } from "./LatestNews.styles"
+import { useContext, useState, useEffect } from "react"
+import { LanguageContext } from "../../../../context/LanguageContext"
+import { formatDate } from "../../../../utils/formatters"
 
 // Data (sample)
 const leftNews = [
@@ -173,7 +177,68 @@ const rightNews = [
 ]
 
 export default function LatestNews() {
+  const [newsData, setNewsData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [rawData, setRawData] = useState([])
+  const [latestNews, setLatestNews] = useState([])
+  const [popularNews, setPopularNews] = useState([])
+  const { language } = useContext(LanguageContext)
+  const [centerNews, setCenterNews] = useState([])
   // Parse date for datetime attribute
+  useEffect(() => {
+    const fetchNews = async () => {
+      setLoading(true)
+      const response = await getLatestNews()
+      if (response?.success && Array.isArray(response.data)) {
+        setRawData(response.data)
+      }
+      setLoading(false)
+    }
+    fetchNews()
+   }, [language])
+   useEffect(() => {
+    if (rawData.length > 0) {
+      const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
+        // Sort by most recent date
+    const sortedData = [...rawData].sort(
+      (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
+    )
+      const mappedData = sortedData.map((item) => {
+        // Extract category name based on language context
+        let categoryName = "News"
+
+        if (typeof item.category === "object" && item.category) {
+          // If category is an object, extract the name based on language
+          if (langKey === "English") {
+            categoryName = item.category.name || item.category.title || "News"
+          } else if (langKey === "hindi") {
+            categoryName = item.category.hindi || item.category.name || item.category.title || "News"
+          } else if (langKey === "kannada") {
+            categoryName = item.category.kannada || item.category.name || item.category.title || "News"
+          }
+        }
+
+        return {
+          id: item._id,
+          title: item[langKey]?.title ? item[langKey].title.slice(0, 100) + "..." : "No title",
+          excerpt: item[langKey]?.description ? item[langKey].description.slice(0, 150) + "..." : "No description",
+          image: item.newsImage,
+          date: item.publishedAt,
+          author: item.author || "Unknown",
+          category: categoryName,
+        }
+      })
+      const now = new Date()
+      const popular = mappedData.filter(item => {
+        const diffHrs = (now - new Date(item.date)) / (1000 * 60 * 60)
+        return diffHrs >= 24 && diffHrs <= 72
+      })
+      setNewsData(mappedData)       // all except top one
+    setLatestNews(mappedData.slice(0, 1))  
+    setCenterNews(mappedData[0])
+    setPopularNews(popular)
+    }
+   }, [rawData, language])
   const parseDateTimeAttr = (dateStr) => {
     try {
       const parsed = new Date(dateStr);
@@ -202,7 +267,7 @@ export default function LatestNews() {
         {/* Left column */}
         <Column as="div" role="region" aria-labelledby="latest-news-title">
           <List className="custom-scrollbar" role="feed" aria-label="Latest news articles" aria-busy="false">
-            {leftNews.map((n, idx) => (
+            {newsData.map((n, idx) => (
               <Item 
                 key={idx} 
                 as="article" 
@@ -211,11 +276,11 @@ export default function LatestNews() {
                 tabIndex="0"
               >
                 <MetaRow>
-                  <Badge aria-label={`Category: ${n.cat}`}>{n.cat}</Badge>
-                  <DateText as="time" dateTime={parseDateTimeAttr(n.date)}>{n.date}</DateText>
+                  <Badge aria-label={`Category: ${n.category}`}>{n.category}</Badge>
+                  <DateText as="time" dateTime={formatDate(n.date)}>{formatDate(n.date)}</DateText>
                 </MetaRow>
                 <Headline id={`latest-news-${idx}`} as="h4">{n.title}</Headline>
-                <Summary>{n.summary}</Summary>
+                <Summary>{n.excerpt}</Summary>
                 <Divider aria-hidden="true" />
               </Item>
             ))}
@@ -236,32 +301,33 @@ export default function LatestNews() {
             aria-labelledby="featured-health-title"
             tabIndex="0"
           >
+            
             <FeatureImage
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Placeholder-66HLqyRGGb3vKzMRu4OpqoBnKkaFJ0.png"
-              alt="Featured story: Study on social media and mental health"
+              src={centerNews.image}
+              alt={centerNews.title}
               loading="lazy"
             />
+           
             <FeatureOverlay aria-hidden="true" />
             <FeatureContent>
               <MetaRow>
-                <Badge aria-label="Category: Health">Health</Badge>
-                <DateText as="time" dateTime="2025-03-20">March 20, 2025</DateText>
+                <Badge aria-label="Category: {centerNews.category}">{centerNews.category}</Badge>
+                <DateText as="time" dateTime={formatDate(centerNews.date)}>{formatDate(centerNews.date)}</DateText>
               </MetaRow>
               <FeatureTitle id="featured-health-title" as="h4">
-                Study Finds Link Between Social Media Use and Mental Health Issues
+                {centerNews.title}
               </FeatureTitle>
               <FeatureExcerpt>
-                A new study has found a link between excessive social media use and mental health issues, raising
-                concerns about impacts on well-being.
+                {centerNews.excerpt}
               </FeatureExcerpt>
-            </FeatureContent>
+            </FeatureContent> 
           </FeatureCard>
         </Column>
 
         {/* Right column */}
         <Column as="div" role="region" aria-labelledby="popular-news-title">
           <List className="custom-scrollbar" role="feed" aria-label="Popular news articles" aria-busy="false">
-            {rightNews.map((n, idx) => (
+            {popularNews.map((n, idx) => (
               <Item 
                 key={idx} 
                 as="article" 
@@ -270,10 +336,11 @@ export default function LatestNews() {
                 tabIndex="0"
               >
                 <MetaRow>
-                  <Badge aria-label={`Category: ${n.cat}`}>{n.cat}</Badge>
-                  <DateText as="time" dateTime={parseDateTimeAttr(n.date)}>{n.date}</DateText>
+                  <Badge aria-label={`Category: ${n.category}`}>{n.category}</Badge>
+                  <DateText as="time" dateTime={formatDate(n.date)}>{formatDate(n.date)}</DateText>
                 </MetaRow>
                 <Headline id={`popular-news-${idx}`} as="h4">{n.title}</Headline>
+                <Summary>{n.excerpt}</Summary>
                 <Divider aria-hidden="true" />
               </Item>
             ))}
