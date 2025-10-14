@@ -30,7 +30,6 @@ import LatestNews1 from "./modules/pages/Recommednews/RecomMended";
 import Magazineview from "./modules/components/Magazinepagecom/magzineidpage/Magazineview";
 import { ToastProvider } from "./context/ToastContext";
 import SignUppage from "./screens/signuppage/SignUp";
-import Error404 from "./components/Error404/Error404";
 import StateNews from "./components-newdesigns/pages/state/StateNews";
 import DistrictNewspage from "./components-newdesigns/pages/districtNewspage/DistrictNewspage";
 import SpecialNews from "./components-newdesigns/pages/specialnewspage/SpecialNews";
@@ -44,6 +43,7 @@ import MarchofKarnatakMagzine from "./components-newdesigns/pages/marchofkarnata
 import MagzineIdpage from "./components-newdesigns/pages/magzineid/MagzineIdpage";
 import SignIn from "./components-newdesigns/auth/signin/Sign-In";
 import SignUp from "./components-newdesigns/auth/signup/SignUp-Page";
+import Error404 from "./components-newdesigns/layout/Error404/Error404";
 
 
 const App = () => {

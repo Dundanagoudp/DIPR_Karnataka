@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from '../../theme/Theme';
+import theme from '../../../theme/Theme';
 
 export const ErrorContainer = styled.div`
   min-height: 100vh;
