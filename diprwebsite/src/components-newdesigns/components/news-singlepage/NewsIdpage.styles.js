@@ -16,7 +16,7 @@ export const NewsPageContainer = styled.div`
 `
 
 export const CommentsWrapper = styled.div`
-  max-width: 70%;
+  max-width: 80%;
   margin: 0 auto;
   padding: 0 24px;
   
