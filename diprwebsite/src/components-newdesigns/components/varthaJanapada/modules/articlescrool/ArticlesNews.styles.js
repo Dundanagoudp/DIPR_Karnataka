@@ -3,21 +3,23 @@ import theme from '../../../../../theme/Theme'
 
 export const ArticlesSection = styled.section`
   background: ${theme.colors.background};
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing1(8)} ${theme.spacing1(3)};
+    padding: ${theme.spacing1(8)} ${theme.spacing1(2)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing1(6)} ${theme.spacing1(2)};
+    padding: ${theme.spacing1(6)} ${theme.spacing1(1.5)};
   }
 `
 
 export const Container = styled.div`
   max-width: 100%;
   margin: 0 auto;
-  
-  
+  overflow-x: hidden;
 `
 
 export const SectionHeader = styled.div`
@@ -66,18 +68,18 @@ export const Title = styled.h2`
 
 export const CarouselWrapper = styled.div`
   position: relative;
-  padding: 0 ${theme.spacing1(2)};
+  padding: 0 ${theme.spacing1(8)};
 
   @media (max-width: ${theme.breakpoints.desktop}) {
-    padding: 0 ${theme.spacing1(10)};
+    padding: 0 ${theme.spacing1(6)};
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: 0 ${theme.spacing1(8)};
+    padding: 0 ${theme.spacing1(5)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 0 ${theme.spacing1(6)};
+    padding: 0 ${theme.spacing1(4)};
   }
 `
 
@@ -85,7 +87,7 @@ export const NavButton = styled.button`
   position: absolute;
   top: 50%;
   ${props => props.position === 'left' ? 'left: 0;' : 'right: 0;'}
-  transform: translateY(-50%) ${props => props.position === 'left' ? 'translateX(-16px)' : 'translateX(16px)'};
+  transform: translateY(-50%);
   z-index: 10;
   background: ${theme.colors.white};
   border: none;
@@ -116,14 +118,12 @@ export const NavButton = styled.button`
     width: 40px;
     height: 40px;
     font-size: 18px;
-    transform: translateY(-50%) ${props => props.position === 'left' ? 'translateX(-8px)' : 'translateX(8px)'};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-    transform: translateY(-50%) ${props => props.position === 'left' ? 'translateX(-4px)' : 'translateX(4px)'};
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
   }
 `
 
@@ -137,16 +137,16 @@ export const ArticlesGrid = styled.div`
 
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: ${theme.spacing1(5)};
+    gap: ${theme.spacing1(4)};
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
-    gap: ${theme.spacing1(4)};
+    gap: ${theme.spacing1(3)};
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    gap: ${theme.spacing1(0)};
+    gap: ${theme.spacing1(2)};
   }
 `
 
