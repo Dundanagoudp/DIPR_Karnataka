@@ -76,7 +76,9 @@ fetchNews()
       language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
      
     const localized = rawNews.map((item) => {
-      const categoryId = Array.isArray(item.category) ? item.category[0]._id : item.category._id
+     const categoryId = Array.isArray(item.category)
+  ? item.category[0]?._id ?? null
+  : item.category?._id ?? null;
       const categoryObj =
       (categories || []).find((cat) => String(cat._id) === String(categoryId)) || null
 

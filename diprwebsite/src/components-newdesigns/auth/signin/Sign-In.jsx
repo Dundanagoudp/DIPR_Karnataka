@@ -23,16 +23,54 @@ import {
   ForgotPasswordContainer,
   SubmitButton,
 } from "./Sign-In.styles";
+import { LoginPageApi } from "../../../services/auth/LoginApi";
+import { useToast } from "../../../context/ToastContext";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const { showSuccess, showError, showWarning } = useToast();
+  const Navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Sign in:", formData);
+   try{
+    const payload={
+       email : formData.email.trim().toLowerCase(),
+       password : formData.password
+
+    }
+
+    const response = await LoginPageApi(payload);
+
+    if(response?.success){
+      showSuccess("Login successful");
+      Cookies.set("sessionToken", response.token, {
+        expires: 7,
+        secure: true,
+      });
+      Cookies.set("userId", response.userId, {
+        expires: 7,
+        secure: true,
+      });
+
+      Navigate("/");
+      
+    }
+    else{
+      showError("Login failed. Please try again.");
+    }
+
+   }
+   catch(err){
+    console.log(err)
+   }
+
+   
   };
 
   return (
