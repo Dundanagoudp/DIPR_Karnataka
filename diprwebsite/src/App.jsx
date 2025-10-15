@@ -47,6 +47,7 @@ import Error404 from "./components-newdesigns/layout/Error404/Error404";
 
 
 const App = () => {
+  
   useEffect(() => {
     const userId = Cookies.get("userId");
         const handleBeforeUnload = async () => {

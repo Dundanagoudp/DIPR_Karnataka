@@ -91,12 +91,3 @@ export const getNewsByTypeSpecialnews = async () => {
   }
 }
 
-// export const getLatestNews = async()=>{
-//   try{
-//     const response = await apiClient.get("/api/news/latest");
-//     return response.data;
-//   }
-//   catch(error){
-//     throw error;
-//   }
-// }

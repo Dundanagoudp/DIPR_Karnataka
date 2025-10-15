@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import React from 'react'
+import Cookies from "js-cookie";
 import {
   CommentsContainer,
   ContentWrapper,
@@ -15,11 +17,42 @@ import {
   CommentTextarea,
   SubmitButton
 } from './CommentsSection.styles'
+import { useToast } from '../../../../context/ToastContext';
+import { addComment } from '../../../../services/newsApi/NewsApi';
+import { useParams } from 'react-router-dom';
 
 const CommentsSectionComponent = () => {
-  const handleSubmit = (e) => {
+  const { showSuccess, showError, showWarning } = useToast();
+   const newsId = useParams().id
+
+
+  
+ 
+  const handleSubmit = async(e) => {
     e.preventDefault()
-    // Form submission logic here
+    
+  const text = e.target.comment.value;
+  const userId = Cookies.get("userId");
+ 
+    const payload = { userId, newsId, text };
+
+  if (!userId) return showWarning("Please login to comment");
+ 
+  const response = await addComment(payload);
+
+  if (response?.success){ 
+    e.target.comment.value = "";
+    e.target.email.value = "";
+    e.target.name.value =  "";
+    showSuccess("Comment submitted successfully");}
+   
+  
+  else showError("Failed to submit comment");
+    if (!userId) {
+      showWarning("You must be logged in to comment");
+      return;
+    }
+ 
   }
 
   return (
@@ -72,7 +105,8 @@ const CommentsSectionComponent = () => {
               name="name"
               placeholder="Your name"
               aria-required="true"
-              required
+             
+
             />
             
             <label htmlFor="comment-email" style={{ position: 'absolute', left: '-9999px' }}>Your email address (required)</label>
@@ -83,7 +117,7 @@ const CommentsSectionComponent = () => {
               placeholder="Your email address"
               aria-required="true"
               aria-describedby="email-hint"
-              required
+             
             />
             <span id="email-hint" style={{ position: 'absolute', left: '-9999px' }}>
               Your email will not be published

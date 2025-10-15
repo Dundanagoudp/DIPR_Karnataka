@@ -56,8 +56,8 @@ export default function NewsSidebar({
           const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
           return {
             _id: item._id,
-            title: item[langKey]?.title.slice(0, 50) + "..." ?? "",
-            excerpt: item[langKey]?.description.slice(0, 150) + "..." ?? "",
+            title: (item[langKey]?.title.slice(0, 50)??" ") + "..." ,
+            excerpt: (item[langKey]?.description.slice(0, 150)??" " ) + "..." ,
             date: item.date,
             author: item.author,
             imageSrc: item.newsImage ?? "/placeholder.svg", // Fixed the double ?? operator issue

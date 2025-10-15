@@ -98,8 +98,8 @@ export default function NewsHero() {
           : "kannada";
       const normalized = rawData.map((it, i) => ({
         id: it._id ?? it.id ?? `api-${i}`,
-        title: it[langKey]?.title.slice(0, 50) + "..." ?? "",
-        excerpt: it[langKey]?.description.slice(0, 150) + "..." ?? "",
+        title: (it[langKey]?.title.slice(0, 50)??'') + "..." ,
+        excerpt: (it[langKey]?.description.slice(0, 150)??'') + "..." ,
         image: it.newsImage ?? "/placeholder.svg",
       }));
       setStateNews(normalized);
