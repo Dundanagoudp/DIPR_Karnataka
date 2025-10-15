@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaFacebook, FaApple } from "react-icons/fa";
 import GoogleIcon from "../../../assets/Google.png";
+  import { Spinner } from "./Sign-In.styles";
+
 
 import {
   Container,
@@ -21,7 +23,7 @@ import {
   FormGroup,
   Label,
   Input,
-  ForgotPasswordContainer,
+    ForgotPasswordContainer,
   SubmitButton,
 } from "./Sign-In.styles";
 import { LoginPageApi } from "../../../services/auth/LoginApi";
@@ -155,7 +157,16 @@ const SignIn = () => {
 </FormGroup>
 
 
-          <SubmitButton type="submit">{loading ? "Signing in..." : "Sign in"}</SubmitButton>
+          <SubmitButton type="submit" disabled={loading}>
+          {loading ? (
+    <>
+      <Spinner />
+      Signing in...
+    </>
+  ) : (
+    "Sign in"
+  )}
+</SubmitButton>
         </Form>
       </Card>
     </Container>
