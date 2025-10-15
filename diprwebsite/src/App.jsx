@@ -41,6 +41,7 @@ import MagazinesVartha from "./components-newdesigns/pages/varthamagazines/Magaz
 import MarchofKarnataka from "./components-newdesigns/pages/marchofkarnataka/Marchofkarnataka";
 import MarchofKarnatakMagzine from "./components-newdesigns/pages/marchofkarnatakmagzine/MarchofKarnatak";
 import MagzineIdpage from "./components-newdesigns/pages/magzineid/MagzineIdpage";
+import MarchKarnatakIdpage from "./components-newdesigns/pages/marchofkarnatakview/MarchKarnatakIdpage";
 import SignIn from "./components-newdesigns/auth/signin/Sign-In";
 import SignUp from "./components-newdesigns/auth/signup/SignUp-Page";
 import Error404 from "./components-newdesigns/layout/Error404/Error404";
@@ -106,6 +107,7 @@ const App = () => {
                   <Route path="/magazinesvartha" element={<MagazinesVartha />} />
                   <Route path="/marchofkarnatakmagzine" element={<MarchofKarnatakMagzine />} />
                   <Route path="/magazinesview/:id" element={<MagzineIdpage />} />
+                  <Route path="/marchofkarnatakview/:id" element={<MarchKarnatakIdpage />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 {/* <Route path="/otp" element={<Otp />} />

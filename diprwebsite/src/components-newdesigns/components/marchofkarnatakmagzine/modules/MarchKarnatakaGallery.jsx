@@ -147,7 +147,7 @@ export default function MarchKarnatakaGallery() {
   };
 
   const handleMagazineClick = (magazineId) => {
-    navigate(`/magazinesview/${magazineId}`);
+    navigate(`/marchofkarnatakview/${magazineId}`);
   };
 
   const handleYearChange = (e) => {
