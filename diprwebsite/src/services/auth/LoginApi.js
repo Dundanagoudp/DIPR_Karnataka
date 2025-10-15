@@ -28,3 +28,11 @@ export const endSession = async (userId, platform = "web") => {
     throw err;
   }
 };
+export const LoginPageApi = async (userData) => {
+  try {
+    const response = await apiClient.post("/api/auth/login", userData);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

@@ -186,7 +186,7 @@ const HeaderTab = () => {
           </LoginButton>
         ) : (
           <LoginButton 
-            to="/login"
+            to="/signin"
             className={language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}
           >
             {getLoginText()}

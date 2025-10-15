@@ -92,11 +92,14 @@ fetchNews()
   useEffect(() => {
     if (!rawNews.length || !active) return
 
-    const filtered = rawNews.filter((item) => {
-      const categoryId = typeof item.category === "object" ? item.category._id : item.category
-      return categoryId === active
-      
-    })
+const filtered = rawNews.filter((item) => {
+  const categoryId =
+    item?.category && typeof item.category === "object"
+      ? item.category._id
+      : item?.category ?? null;
+
+  return categoryId === active;
+});
 
 
     const langKey =
