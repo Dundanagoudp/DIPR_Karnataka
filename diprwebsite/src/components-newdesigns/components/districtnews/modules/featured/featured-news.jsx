@@ -97,11 +97,15 @@ export default function FeaturedNewsSection() {
       const normalized = rawData.map((item) => {
         const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada"
       
-               const categoryId = item.category
+        // Handle category being either an object, a string ID, or null
+        let categoryId = null
+        if (item.category) {
+          categoryId = typeof item.category === "object" ? item.category._id : item.category
+        }
    
-     // Find the category name based on the category ID
-     const category = categories.find((cat) => cat._id === categoryId)
-     const categoryName = category ? (language === "English" ? category.name : language === "Hindi" ? category.hindi : category.kannada) : "Uncategorized"
+        // Find the category name based on the category ID
+        const category = categoryId ? categories.find((cat) => cat._id === categoryId) : null
+        const categoryName = category ? (language === "English" ? category.name : language === "Hindi" ? category.hindi : category.kannada) : "Uncategorized"
 
 
         return {

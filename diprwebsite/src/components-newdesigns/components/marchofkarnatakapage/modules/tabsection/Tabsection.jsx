@@ -79,6 +79,9 @@ export default function TabSection() {
     if (!rawNews.length || !active || !categories.length) return
 
     const filtered = rawNews.filter((item) => {
+      // Skip items without a category
+      if (!item.category) return false
+      
       const categoryId = typeof item.category === "object" ? item.category._id : item.category
       console.log("March Tab - Comparing:", categoryId, "with active:", active)
       return categoryId === active

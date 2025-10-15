@@ -469,3 +469,78 @@ export const SkeletonAvatar = styled.div`
   }
 `
 
+// ========================================
+// AUDIO BOOK BUTTON STYLES
+// ========================================
+export const AudioBookContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+`
+
+export const AudioBookButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: ${theme.colors.white};
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.3s ease;
+  position: relative;
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: #1976d2;
+  }
+  
+  &:focus {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 6px 12px;
+    font-size: 13px;
+    gap: 6px;
+  }
+`
+
+export const AudioBookIcon = styled.div`
+  width: 32px;
+  height: 32px;
+  background-color: #5a5a5a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 28px;
+    height: 28px;
+  }
+`
+
+export const AudioBookText = styled.span`
+  color: #1976d2;
+  font-weight: 600;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 13px;
+  }
+`

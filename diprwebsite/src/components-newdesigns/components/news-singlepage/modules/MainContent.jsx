@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import SocialShare from './SocialShare'
-import { FaUser } from 'react-icons/fa'
+import { FaUser, FaPlay, FaPause } from 'react-icons/fa'
 import {
   MainContentContainer,
   DateTag,
@@ -18,6 +18,10 @@ import {
   SkeletonImage,
   SkeletonAuthorCard,
   SkeletonAvatar,
+  AudioBookContainer,
+  AudioBookButton,
+  AudioBookIcon,
+  AudioBookText,
 } from './MainContent.styles'
 import { LanguageContext } from '../../../../context/LanguageContext'
 import { getNewsByid } from '../../../../services/newsApi/NewsApi'
@@ -29,6 +33,9 @@ const MainContent = () => {
 
   const [rawNews, setRawNews] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [audioUrl, setAudioUrl] = useState(null)
+  const audioRef = useRef(null)
   const [news, setNews] = useState({
     id: '',
     title: '',
@@ -101,12 +108,24 @@ const MainContent = () => {
     if (!rawNews || rawNews.length === 0) {
       console.log('rawNews empty', rawNews);
       setNews(null);
+      setAudioUrl(null);
       return;
     }
   
     const langKey = language === "English" ? "English" : language === "Hindi" ? "hindi" : "kannada";
   
     try {
+      // Extract audio URL based on language
+      const audioDescUrl = rawNews[0]?.[langKey]?.audio_description || null;
+      console.log('Audio URL for language', langKey, ':', audioDescUrl);
+      setAudioUrl(audioDescUrl);
+      
+      // Stop playing audio when language changes
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
+      
       const localized = rawNews.map((item) => {
         // safe category extraction
         const cat = item.category;
@@ -184,6 +203,57 @@ const MainContent = () => {
       setNews(null);
     }
   }, [rawNews, language]);
+
+  // Handle audio play/pause
+  const handleAudioToggle = () => {
+    if (!audioUrl) {
+      console.log('No audio URL available for this article');
+      return;
+    }
+
+    // Create audio element if it doesn't exist
+    if (!audioRef.current) {
+      audioRef.current = new Audio(audioUrl);
+      audioRef.current.addEventListener('ended', () => {
+        setIsPlaying(false);
+      });
+      audioRef.current.addEventListener('error', (e) => {
+        console.error('Audio playback error:', e);
+        setIsPlaying(false);
+      });
+    }
+
+    // Update audio source if it changed
+    if (audioRef.current.src !== audioUrl) {
+      audioRef.current.src = audioUrl;
+      audioRef.current.load();
+    }
+
+    // Toggle play/pause
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.error('Error playing audio:', error);
+          setIsPlaying(false);
+        });
+    }
+  };
+
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   // Show loading state while data is being fetched
   if (loading) {
@@ -311,6 +381,32 @@ const MainContent = () => {
           {news.alt}
         </ImageCaption>
       </HeroImage>
+      
+      {/* Audio Book Button - Only show if audio URL is available */}
+      {audioUrl && (
+        <AudioBookContainer>
+          <AudioBookButton
+            onClick={handleAudioToggle}
+            aria-label={isPlaying ? "Pause audio book" : "Play audio book version of this article"}
+          >
+            <AudioBookIcon>
+              {isPlaying ? (
+                <FaPause 
+                  size={12} 
+                  color="#fff"
+                />
+              ) : (
+                <FaPlay 
+                  size={12} 
+                  color="#fff"
+                  style={{ marginLeft: '2px' }}
+                />
+              )}
+            </AudioBookIcon>
+            <AudioBookText>{isPlaying ? 'Pause' : 'Audio Book'}</AudioBookText>
+          </AudioBookButton>
+        </AudioBookContainer>
+      )}
       
       {/* Article Content */}
       <ArticleContent>
