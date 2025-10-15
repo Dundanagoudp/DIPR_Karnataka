@@ -110,7 +110,7 @@ export const ActiveIndicator = styled.span`
   border-top: 8px solid ${theme.colors.primary};
 `;
 
-export const LoginButton = styled.button`
+export const LoginButton = styled(NavLink)`
   border: 1px solid ${theme.colors.primary};
   color: ${theme.colors.primary};
   background-color: #E9F1FF;
@@ -121,6 +121,8 @@ export const LoginButton = styled.button`
   cursor: pointer;
   font-family: ${theme.fonts.body};
   font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
 
   &:hover {
     background-color: ${theme.colors.primary};
