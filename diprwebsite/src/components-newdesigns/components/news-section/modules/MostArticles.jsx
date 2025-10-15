@@ -92,6 +92,7 @@ fetchNews()
   useEffect(() => {
     if (!rawNews.length || !active) return
 
+ newchanges
     const filtered = rawNews.filter((item) => {
       // Skip items without a category
       if (!item.category) return false
@@ -100,6 +101,16 @@ fetchNews()
       return categoryId === active
       
     })
+
+const filtered = rawNews.filter((item) => {
+  const categoryId =
+    item?.category && typeof item.category === "object"
+      ? item.category._id
+      : item?.category ?? null;
+
+  return categoryId === active;
+});
+ develop
 
 
     const langKey =

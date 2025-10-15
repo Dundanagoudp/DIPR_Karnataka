@@ -359,7 +359,7 @@ const MainContent = () => {
         </AuthorImage>
         <AuthorInfo>
           <AuthorName aria-label={`Written by ${news.author}`}>
-            By {news.author}
+             {news.author}
           </AuthorName>
         </AuthorInfo>
       </AuthorCard>
@@ -378,7 +378,7 @@ const MainContent = () => {
           }}
         />
         <ImageCaption id="hero-image-caption" as="figcaption">
-          {news.alt}
+          {news.title}
         </ImageCaption>
       </HeroImage>
       

@@ -81,8 +81,8 @@ export default function MarchNewsHero() {
           : "kannada"
       const normalized = rawData.map((it, i) => ({
         id: it._id ?? it.id ?? `api-${i}`,
-        title: it[langKey]?.title?.slice(0, 80) + "..." ?? "",
-        excerpt: it[langKey]?.description?.slice(0, 150) + "..." ?? "",
+        title: (it[langKey]?.title?.slice(0, 80) ?? " " )+ "..." ,
+        excerpt: (it[langKey]?.description?.slice(0, 150) ?? " ") + "..." ,
         image: it.newsImage ?? "/placeholder.svg",
       }))
       setMarchNews(normalized)

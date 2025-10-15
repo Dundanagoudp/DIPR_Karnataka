@@ -17,18 +17,48 @@ import {
   GridContainer,
   SubmitButton,
 } from "./SignUp-Page.styles";
-
+import { useToast } from "../../../context/ToastContext";
+import { SignupPageApi } from "../../../services/auth/SignupApi";
+import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+  const { showSuccess, showError, showWarning } = useToast();
+  const Navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
-    username: "",
-    contact: "",
+    displayName: "",
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sign up:", formData);
+    try {
+      const payload = {
+        displayName: formData.username.trim(),
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      };
+      if (!payload.displayName || !payload.email || !payload.password) {
+        showWarning("All fields are required");
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+        showWarning("Invalid email format");
+        return;
+      }
+      const  res = await SignupPageApi( payload);
+
+      if (res.success ){
+        showSuccess("Signup successful. Please check your email for verification.");
+      setFormData({ email: "", username: "", password: "" });
+      Navigate("/login");
+      } else {
+        showError("Signup failed. Please try again.", res.message);
+       
+      }
+    } catch (err) {
+      console.log(err);
+      showError("Signup failed. Please try again.", err.message);
+      } 
   };
 
   return (
@@ -51,35 +81,27 @@ const SignUp = () => {
 
         <Form onSubmit={handleSubmit}>
           <FormGroup>
-            <Label>Enter your username or email address</Label>
+            <Label>User name</Label>
             <Input
               type="text"
-              placeholder="Username or email address"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              placeholder="User name"
+              value={formData.username}
+              onChange={(e) =>
+                setFormData({ ...formData, username: e.target.value })
+              }
             />
           </FormGroup>
-
-          <GridContainer>
-            <FormGroup>
-              <Label>User name</Label>
-              <Input
-                type="text"
-                placeholder="User name"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Contact Number</Label>
-              <Input
-                type="tel"
-                placeholder="Contact Number"
-                value={formData.contact}
-                onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-              />
-            </FormGroup>
-          </GridContainer>
+          <FormGroup>
+            <Label>Enter your email address</Label>
+            <Input
+              type="email"
+              placeholder="Enter your email address"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+          </FormGroup>
 
           <FormGroup>
             <Label>Enter your Password</Label>
@@ -87,7 +109,9 @@ const SignUp = () => {
               type="password"
               placeholder="Password"
               value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
           </FormGroup>
 

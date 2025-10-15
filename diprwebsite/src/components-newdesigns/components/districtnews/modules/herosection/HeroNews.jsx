@@ -95,8 +95,8 @@ useEffect(() => {
     const normalized = rawData.map((it, i) => ({
       _id: it._id,
       id: it._id ?? it.id ?? `api-${i}`,
-      title: it[langKey]?.title.slice(0, 50) + "..." ?? "",
-      excerpt: it[langKey]?.description.slice(0, 150) + "..." ?? "",
+      title: (it[langKey]?.title.slice(0, 50) ?? " ") + "..." ,
+      excerpt: (it[langKey]?.description.slice(0, 150)?? " ") + "..." ,
       image: it.newsImage ?? "/placeholder.svg",
     }));
     setDistrictNews(normalized);
