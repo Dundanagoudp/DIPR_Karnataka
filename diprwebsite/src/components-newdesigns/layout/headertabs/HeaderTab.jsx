@@ -20,11 +20,13 @@ import {
   SidebarHeader,
   CloseButton,
 } from "./Header.styles";
+import Cookies from "js-cookie";
 
 const HeaderTab = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { language } = useContext(LanguageContext);
+  const userId = Cookies.get("userId");
 
   // Navigation items with translations
   const navItems = [
@@ -108,6 +110,10 @@ const HeaderTab = () => {
     };
     return loginTranslations[language] || "Login";
   };
+  const handleLogout = () => {
+    Cookies.remove("userId");
+    window.location.href = "/";
+  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -174,12 +180,19 @@ const HeaderTab = () => {
           </DesktopNav>
 
           {/* Login Button */}
+            {userId ? (
+          <LoginButton as="button" onClick={handleLogout}>
+            Logout
+          </LoginButton>
+        ) : (
           <LoginButton 
             to="/login"
             className={language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}
           >
             {getLoginText()}
           </LoginButton>
+        )}
+          
         </HeaderContent>
 
           {/* Mobile Navigation Sidebar */}
