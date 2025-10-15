@@ -37,6 +37,14 @@ import { getNewsByTypeState , getNewsByTypeDistrict, getNewsByTypeSpecialnews ,g
 
 import { useParams, useNavigate } from 'react-router-dom'
 const Sidebar = () => {
+  const { resetToGlobalLanguage } = useContext(LanguageContext)
+  
+  // Reset language when component unmounts
+  useEffect(() => {
+    return () => {
+      resetToGlobalLanguage()
+    }
+  }, [resetToGlobalLanguage])
   const [news, setNews] = useState([])
   const [rawNews, setRawNews] = useState([])
   const [allNews, setAllNews] = useState([])
