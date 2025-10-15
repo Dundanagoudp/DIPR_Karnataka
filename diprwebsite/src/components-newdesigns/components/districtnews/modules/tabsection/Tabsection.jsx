@@ -78,6 +78,9 @@ fetchNews()
     if (!rawNews.length || !active) return
 
     const filtered = rawNews.filter((item) => {
+      // Skip items without a category
+      if (!item.category) return false
+      
       const categoryId = typeof item.category === "object" ? item.category._id : item.category
       return categoryId === active
       

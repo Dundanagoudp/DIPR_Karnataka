@@ -92,6 +92,16 @@ fetchNews()
   useEffect(() => {
     if (!rawNews.length || !active) return
 
+ newchanges
+    const filtered = rawNews.filter((item) => {
+      // Skip items without a category
+      if (!item.category) return false
+      
+      const categoryId = typeof item.category === "object" ? item.category._id : item.category
+      return categoryId === active
+      
+    })
+
 const filtered = rawNews.filter((item) => {
   const categoryId =
     item?.category && typeof item.category === "object"
@@ -100,25 +110,31 @@ const filtered = rawNews.filter((item) => {
 
   return categoryId === active;
 });
+ develop
 
 
     const langKey =
       language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
     
-    const localized = filtered.map((item) => ({
-      id: item._id,
-      title: item[langKey]?.title.slice(0, 50) + "..." || item.title || "",
-      excerpt: item[langKey]?.description.slice(0, 150) + "..." || item.description || "",
-      date: item.publishedAt
-        ? new Date(item.publishedAt).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })
-        : "",
-      image: item.newsImage || "/placeholder.svg",
-      alt: item.title || "",
-    }))
+    const localized = filtered.map((item) => {
+      const localizedTitle = item[langKey]?.title || item.title || ""
+      const localizedDesc = item[langKey]?.description || item.description || ""
+      
+      return {
+        id: item._id,
+        title: localizedTitle ? (localizedTitle.length > 50 ? localizedTitle.slice(0, 50) + "..." : localizedTitle) : "",
+        excerpt: localizedDesc ? (localizedDesc.length > 150 ? localizedDesc.slice(0, 150) + "..." : localizedDesc) : "",
+        date: item.publishedAt
+          ? new Date(item.publishedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : "",
+        image: item.newsImage || "/placeholder.svg",
+        alt: item.title || "",
+      }
+    })
 
     setNews(localized)
  

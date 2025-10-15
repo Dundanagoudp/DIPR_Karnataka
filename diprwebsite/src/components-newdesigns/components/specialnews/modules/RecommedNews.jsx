@@ -76,11 +76,29 @@ fetchNews()
       language === "Hindi" ? "hindi" : language === "Kannada" ? "kannada" : "English"
      
     const localized = rawNews.map((item) => {
+ newchanges
+      // Handle category being null, array, object, or string
+      let categoryId = null
+      if (item.category) {
+        if (Array.isArray(item.category) && item.category.length > 0) {
+          categoryId = typeof item.category[0] === "object" ? item.category[0]._id : item.category[0]
+        } else if (typeof item.category === "object") {
+          categoryId = item.category._id
+        } else {
+          categoryId = item.category
+        }
+      }
+      
+      const categoryObj = categoryId
+        ? (categories || []).find((cat) => String(cat._id) === String(categoryId)) || null
+        : null
+=======
      const categoryId = Array.isArray(item.category)
   ? item.category[0]?._id ?? null
   : item.category?._id ?? null;
       const categoryObj =
       (categories || []).find((cat) => String(cat._id) === String(categoryId)) || null
+ develop
 
     // pick category name (try localized field first, then fallbacks)
     const categoryName =
