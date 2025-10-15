@@ -15,12 +15,15 @@ import {
   Label,
   Input,
   SubmitButton,
-} from "./SignUp-Page.styles";
+  Spinner,
+  } from "./SignUp-Page.styles";
 import { useToast } from "../../../context/ToastContext";
 import { SignupPageApi } from "../../../services/auth/SignupApi";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-const SignUp = () => {
+
+
+  const SignUp = () => {
   const { showSuccess, showError, showWarning } = useToast();
   const Navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -55,7 +58,7 @@ const SignUp = () => {
           "Signup successful. Please check your email for verification."
         );
         setFormData({ email: "", username: "", password: "" });
-        Navigate("/login");
+        Navigate("/signin");
       } else {
         showError("Signup failed. Please try again.", res.message);
       }
@@ -141,9 +144,15 @@ const SignUp = () => {
             </div>
           </FormGroup>
 
-          <SubmitButton type="submit">
-            {loading ? "Signing up..." : "Sign up"}
-          </SubmitButton>
+          <SubmitButton type="submit" disabled={loading}>
+  {loading ? (
+    <>
+      <Spinner /> Signing up...
+    </>
+  ) : (
+    "Sign up"
+  )}
+</SubmitButton>
         </Form>
       </Card>
     </Container>

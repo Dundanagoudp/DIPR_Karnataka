@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled,{keyframes} from "styled-components";
 import theme from "../../../theme/Theme";
 
 export const Container = styled.div`
@@ -336,4 +336,19 @@ export const SubmitButton = styled.button`
     border-radius: 12px;
     margin-top: ${theme.spacing(1)};
   }
+`;
+export const spin = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+`;
+export const Spinner = styled.span`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: ${spin} 0.8s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
 `;
