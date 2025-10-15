@@ -174,7 +174,10 @@ const HeaderTab = () => {
           </DesktopNav>
 
           {/* Login Button */}
-          <LoginButton className={language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}>
+          <LoginButton 
+            to="/login"
+            className={language === "Kannada" || language === "Hindi" ? "kannada-text" : ""}
+          >
             {getLoginText()}
           </LoginButton>
         </HeaderContent>

@@ -90,11 +90,17 @@ export const ArrowButton = styled.button`
   justify-content: center;
   cursor: pointer;
   opacity: 0.7;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, background-color 0.2s;
   font-size: 16px;
   
   &:hover {
     opacity: 1;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+    background-color: rgba(133, 133, 133, 0.3);
   }
 
   &:focus-visible {
