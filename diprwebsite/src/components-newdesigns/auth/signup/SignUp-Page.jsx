@@ -14,12 +14,12 @@ import {
   FormGroup,
   Label,
   Input,
-  GridContainer,
   SubmitButton,
 } from "./SignUp-Page.styles";
 import { useToast } from "../../../context/ToastContext";
 import { SignupPageApi } from "../../../services/auth/SignupApi";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 const SignUp = () => {
   const { showSuccess, showError, showWarning } = useToast();
   const Navigate = useNavigate();
@@ -28,9 +28,12 @@ const SignUp = () => {
     displayName: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const payload = {
         displayName: formData.username.trim(),
@@ -45,20 +48,23 @@ const SignUp = () => {
         showWarning("Invalid email format");
         return;
       }
-      const  res = await SignupPageApi( payload);
+      const res = await SignupPageApi(payload);
 
-      if (res.success ){
-        showSuccess("Signup successful. Please check your email for verification.");
-      setFormData({ email: "", username: "", password: "" });
-      Navigate("/login");
+      if (res.success) {
+        showSuccess(
+          "Signup successful. Please check your email for verification."
+        );
+        setFormData({ email: "", username: "", password: "" });
+        Navigate("/login");
       } else {
         showError("Signup failed. Please try again.", res.message);
-       
       }
     } catch (err) {
       console.log(err);
-      showError("Signup failed. Please try again.", err.message);
-      } 
+      showError("Signup failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -105,17 +111,39 @@ const SignUp = () => {
 
           <FormGroup>
             <Label>Enter your Password</Label>
-            <Input
-              type="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-            />
+            <div style={{ position: "relative" }}>
+              <Input
+                type={show ? "text" : "password"}
+                placeholder="Password"
+                value={formData.password}
+                style={{ paddingRight: "40px" }}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+              />
+              <button
+                type="button"
+                onClick={() => setShow((s) => !s)}
+                aria-label={show ? "Hide password" : "Show password"}
+                style={{
+                  position: "absolute",
+                  right: "12px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                {show ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </FormGroup>
 
-          <SubmitButton type="submit">Sign up</SubmitButton>
+          <SubmitButton type="submit">
+            {loading ? "Signing up..." : "Sign up"}
+          </SubmitButton>
         </Form>
       </Card>
     </Container>
