@@ -56,23 +56,15 @@ export const Button = styled.a`
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
 
   &:hover {
-    opacity: 0.9;
+    background-color: #0056b3;
+    border-color: #0056b3;
   }
-
-  ${(props) =>
-    props.variant === "download"
-      ? `
-        background-color: #007bff;
-        color: #fff;
-      `
-      : `
-        background-color: #fff8e1;
-        border: 1px solid #ccc;
-        color: #222;
-      `}
 `;
 
 
