@@ -1,40 +1,157 @@
 import React from "react";
+import styled, { keyframes } from "styled-components";
 import { Title, Content, Wrapper } from "./Help.styles";
+
+// Animation keyframes
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const scaleIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: ${fadeIn} 0.3s ease-out;
+  cursor: pointer;
+`;
+
+const ModalContainer = styled.div`
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: ${scaleIn} 0.3s ease-out;
+  cursor: default;
+  pointer-events: auto;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  @media (min-width: 768px) {
+    padding: 32px;
+  }
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+`;
+
+const ModalTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+  text-align: left;
+
+  @media (min-width: 768px) {
+    font-size: 22px;
+  }
+`;
+
+const ModalText = styled.div`
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+  text-align: left;
+  margin-bottom: 20px;
+  max-height: 700px;
+  overflow-y: auto;
+  padding-right: 10px;
+`;
+
+const HelpTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  text-align: left;
+  margin-top: 16px;
+`;
+
+const TableCaption = styled.caption`
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+`;
+
+const TableHeader = styled.thead``;
+
+const TableRow = styled.tr``;
+
+const TableHeaderCell = styled.th`
+  border: 1px solid #ccc;
+  padding: 8px;
+  background-color: #f2f2f2;
+`;
+
+const TableCell = styled.td`
+  border: 1px solid #ccc;
+  padding: 8px;
+`;
+
+const CloseButton = styled.button`
+  align-self: flex-end;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #555;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+`;
 
 const Help = ({ onClose }) => {
   return (
-    <div style={overlayStyle}>
-      <div style={modalStyle}>
-        <Wrapper
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "20px",
-          }}
-        >
-          <Title
-            style={{
-              fontSize: "28px",
-              fontWeight: "600",
-              marginBottom: "20px",
-            }}
-          >
-            Help
-          </Title>
-          <Content
-            style={{
-              fontSize: "16px",
-              lineHeight: "1.6",
-              color: "#444",
-              textAlign: "left",
-              maxHeight: "700px",
-              overflowY: "auto",
-              paddingRight: "10px",
-              marginBottom: "10px"
-            }}
-          >
+    <ModalOverlay onClick={onClose}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        <ModalContent>
+          <ModalTitle>Help</ModalTitle>
+          <ModalText>
             <p>
               The information available as an attachment is in Portable Document
               Format (PDF). Though the website is tested in various environments
@@ -46,40 +163,38 @@ const Help = ({ onClose }) => {
               needed to view the information in various file formats. Required
               Plug-ins / Browsers
             </p>
-            <table style={{width: "100%", borderCollapse: "collapse", fontSize: "15px", textAlign: "left"}}>
-              <caption style={{fontWeight: "bold", marginBottom: "10px", textAlign: "left"}}>
+            <HelpTable>
+              <TableCaption>
                 Help of Various File Formats :
-              </caption>
-              <thead>
-                <tr style={{backgroundColor: "#f2f2f2"}}>
-                  <th style={{border: "1px solid #ccc", padding: "8px"}}>
+              </TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHeaderCell>
                     Document Type
-                  </th>
-                  <th style={{border: "1px solid #ccc", padding: "8px"}}>
+                  </TableHeaderCell>
+                  <TableHeaderCell>
                     Download
-                  </th>
-                </tr>
-              </thead>
+                  </TableHeaderCell>
+                </TableRow>
+              </TableHeader>
               <tbody>
                 <tr>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
+                  <TableCell>
                     PDF content
-                  </td>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
-                
+                  </TableCell>
+                  <TableCell>
                     <a href="#" target="_blank">
                       Adobe Acrobat Reader
                     </a>{" "}
                     (External website that opens in a new window)
-                  </td>
+                  </TableCell>
                 </tr>
 
                 <tr>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
+                  <TableCell>
                     Word files
-                  </td>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
-                
+                  </TableCell>
+                  <TableCell>
                     <a href="#" target="_blank">
                       Word Viewer (in any version till 2003)
                     </a>{" "}
@@ -90,15 +205,14 @@ const Help = ({ onClose }) => {
                       version)
                     </a>{" "}
                     - External website that opens in a new window
-                  </td>
+                  </TableCell>
                 </tr>
 
                 <tr>
-                    <td style={{border: "1px solid #ccc", padding: "8px"}}>
+                  <TableCell>
                     Excel files
-                  </td>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
-              
+                  </TableCell>
+                  <TableCell>
                     <a href="#" target="_blank">
                       Excel Viewer 2003 (in any version till 2003)
                     </a>{" "}
@@ -109,15 +223,14 @@ const Help = ({ onClose }) => {
                       version)
                     </a>{" "}
                     - External website that opens in a new window
-                  </td>
+                  </TableCell>
                 </tr>
 
                 <tr>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
+                  <TableCell>
                     PowerPoint presentations
-                  </td>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
-                
+                  </TableCell>
+                  <TableCell>
                     <a href="#" target="_blank">
                       PowerPoint Viewer 2003 (in any version till 2003)
                     </a>{" "}
@@ -128,78 +241,39 @@ const Help = ({ onClose }) => {
                       2007 version)
                     </a>{" "}
                     - External website that opens in a new window
-                  </td>
+                  </TableCell>
                 </tr>
 
                 <tr>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
+                  <TableCell>
                     Flash content
-                  </td>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
-             
+                  </TableCell>
+                  <TableCell>
                     <a href="#" target="_blank">
                       Adobe Flash Player
                     </a>{" "}
                     (External website that opens in a new window)
-                  </td>
+                  </TableCell>
                 </tr>
 
                 <tr>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
+                  <TableCell>
                     Audio Files
-                  </td>
-                  <td style={{border: "1px solid #ccc", padding: "8px"}}>
-         
+                  </TableCell>
+                  <TableCell>
                     <a href="#" target="_blank">
                       Windows Media Player
                     </a>{" "}
                     (External website that opens in a new window)
-                  </td>
+                  </TableCell>
                 </tr>
               </tbody>
-            </table>
-          </Content>
-        </Wrapper>
-        <button style={closeButtonStyle} onClick={onClose}>
-          Close
-        </button>
-      </div>
-    </div>
+            </HelpTable>
+          </ModalText>
+          <CloseButton onClick={onClose}>Close</CloseButton>
+        </ModalContent>
+      </ModalContainer>
+    </ModalOverlay>
   );
 };
-// Inline Styles (no CSS file or Tailwind)
-const overlayStyle = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100vw",
-  height: "100vh",
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: 1000,
-};
-
-const modalStyle = {
-  background: "#fff",
-  borderRadius: "10px",
-  padding: "20px",
-  width: "90%",
-  maxWidth: "700px",
-  boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
-  position: "relative",
-};
-
-const closeButtonStyle = {
-  marginTop: "20px",
-  padding: "12px 24px",
-  backgroundColor: "#333",
-  color: "#fff",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer",
-  fontSize: "16px",
-};
-
 export default Help;
