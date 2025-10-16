@@ -1,145 +1,53 @@
 //
-import React from "react";
-import styled, { keyframes } from "styled-components";
-import { Title, Content, Wrapper } from "./CopyrightPolicy.styles";
-
-// Animation keyframes
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
-const scaleIn = keyframes`
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-`;
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  animation: ${fadeIn} 0.3s ease-out;
-  cursor: pointer;
-
-  // Prevent body scroll when modal is open
-  body {
-    overflow: hidden;
-  }
-`;
-
-const ModalContainer = styled.div`
-  background: #fff;
-  border-radius: 12px;
-  padding: 24px;
-  width: 90%;
-  max-width: 700px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  position: relative;
-  animation: ${scaleIn} 0.3s ease-out;
-  cursor: default;
-
-  // Prevent click events from bubbling to overlay
-  pointer-events: auto;
-
-  @media (min-width: 768px) {
-    padding: 32px;
-  }
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-`;
-
-const ModalTitle = styled.h2`
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #333;
-  text-align: left;
-
-  @media (min-width: 768px) {
-    font-size: 22px;
-  }
-`;
-
-const ModalText = styled.div`
-  font-size: 14px;
-  line-height: 1.6;
-  color: #444;
-  text-align: left;
-  margin-bottom: 20px;
-`;
-
-const CloseButton = styled.button`
-  align-self: flex-end;
-  margin-top: 20px;
-  padding: 12px 24px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #555;
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:focus-visible {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
-  }
-`;
+import React, { useContext ,useEffect} from "react";
+import {
+  ModalOverlay,
+  ModalContainer,
+  ModalContent,
+  ModalTitle,
+  ModalText,
+  CloseButton,
+} from "./CopyrightPolicy.styles.js";
+import { LanguageContext } from "../../../context/LanguageContext";
 
 const CopyrightPolicy = ({ onClose }) => {
+  const { language } = useContext(LanguageContext);
+  console.log("language", language);
+  let copyrightText = "";
+  let modalTitle = "";
+  let closeButtonText = "";
+
+  if (language === "English") {
+    copyrightText = `
+      Material featured on this site may be reproduced free of charge in any format or media
+      without requiring specific permission, provided it is accurate and not misleading.
+      The source must be acknowledged. Third-party material requires separate permission.
+    `;
+    modalTitle = "Copyright Policy";
+    closeButtonText = "Close";
+  } else if (language === "Hindi") {
+    copyrightText = `
+    इस साइट पर प्रदर्शित सामग्री को विशिष्ट अनुमति की आवश्यकता के बिना किसी भी प्रारूप या मीडिया में निः शुल्क पुनः प्रस्तुत किया जा सकता है, बशर्ते कि यह सटीक हो और भ्रामक न हो। स्रोत को स्वीकार किया जाना चाहिए। तीसरे पक्ष की सामग्री के लिए अलग से अनुमति की आवश्यकता होती है।
+    `;
+    modalTitle = "कॉपीराइट नीति";
+    closeButtonText = "बंद करें";
+  } else if (language === "Kannada") {
+    copyrightText = `
+     ಈ ಸೈಟ್ನಲ್ಲಿ ಕಾಣಿಸಿಕೊಂಡಿರುವ ವಿಷಯವನ್ನು ಯಾವುದೇ ರೂಪದಲ್ಲಿ ಅಥವಾ ಮಾಧ್ಯಮದಲ್ಲಿ ನಿರ್ದಿಷ್ಟ ಅನುಮತಿಯ ಅಗತ್ಯವಿಲ್ಲದೇ ಉಚಿತವಾಗಿ ಪುನರುತ್ಪಾದಿಸಬಹುದು, ಅದು ನಿಖರವಾಗಿದೆ ಮತ್ತು ದಾರಿತಪ್ಪಿಸುವುದಿಲ್ಲ. ಮೂಲವನ್ನು ಒಪ್ಪಿಕೊಳ್ಳಬೇಕು. ಮೂರನೇ ವ್ಯಕ್ತಿಯ ವಸ್ತುಗಳಿಗೆ ಪ್ರತ್ಯೇಕ ಅನುಮತಿಯ ಅಗತ್ಯವಿದೆ.
+    `;
+    modalTitle = "ಕಾಪಿರೈಟ್ ನೀತಿ";
+    closeButtonText = "ಮುಚ್ಚಿ";
+  }
+
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <ModalContent>
-          <ModalTitle>Copyright Policy</ModalTitle>
+          <ModalTitle>{modalTitle}</ModalTitle>
           <ModalText>
-            <p>
-              Material featured on this site may be reproduced free of charge in
-              any format or media without requiring specific permission. This is
-              subject to the material being reproduced accurately and not being
-              used in a derogatory manner or in a misleading context. Where the
-              material is being published or issued to others, the source must be
-              prominently acknowledged. However, the permission to reproduce this
-              material does not extend to any material on this site, which is
-              explicitly identified as being the copyright of a third party.
-              Authorisation to reproduce such material must be obtained from the
-              copyright holders concerned.
-            </p>
+            <p>{copyrightText}</p>
           </ModalText>
-          <CloseButton onClick={onClose}>Close</CloseButton>
+          <CloseButton onClick={onClose}>{closeButtonText}</CloseButton>
         </ModalContent>
       </ModalContainer>
     </ModalOverlay>
