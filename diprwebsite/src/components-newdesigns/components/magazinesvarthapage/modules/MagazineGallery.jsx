@@ -82,6 +82,16 @@ export default function MagazineGallery() {
   // Get translations based on current language
   const t = translations[language] || translations.English;
 
+  // Helper function to get localized magazine data
+  const getLocalizedMagazineData = (magazine, field) => {
+    const langKey = language.toLowerCase(); // Convert "Kannada" to "kannada"
+    if (magazine[langKey] && magazine[langKey][field]) {
+      return magazine[langKey][field];
+    }
+    // Fallback to default field
+    return magazine[field] || '';
+  };
+
   useEffect(() => {
     // Set page language to magazine type on mount
     setPageLanguage('magazine');
@@ -232,13 +242,13 @@ export default function MagazineGallery() {
               <MagazineImageWrapper>
                 <MagazineImage 
                   src={magazine.magazineThumbnail} 
-                  alt={magazine.title || `${magazine.publishedMonth} ${magazine.publishedYear} ${t.edition}`} 
+                  alt={getLocalizedMagazineData(magazine, 'title') || `${magazine.publishedMonth} ${magazine.publishedYear} ${t.edition}`} 
                   loading="lazy" 
                 />
               </MagazineImageWrapper>
               
               <DownloadButton 
-                onClick={(e) => handleDownload(e, magazine.magazinePdf, magazine.title)} 
+                onClick={(e) => handleDownload(e, magazine.magazinePdf, getLocalizedMagazineData(magazine, 'title'))} 
                 aria-label={`${t.download} ${magazine.publishedMonth} ${magazine.publishedYear}`}
               >
                 <ImFolderDownload aria-hidden="true" />
