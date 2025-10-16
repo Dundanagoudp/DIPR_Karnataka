@@ -18,6 +18,11 @@ import {
   SrOnly,
 } from "./sitefooter.styles"
 import { GetTotalVisitorApi, RegisterVisitorApi } from "../../../services/viewsapi/ViewsApi"
+import CopyrightPolicy from "../../../components/WebsitePolicies/CopyrightPolicy/CopyrightPolicy";
+import HyperlinkingPolicy from "../../../components/WebsitePolicies/HyperlinkingPolicy/HyperlinkingPolicy";
+import SecurityPolicy from "../../../components/WebsitePolicies/SecurityPolicy/SecurityPolicy";
+import TermsAndConditions from "../../../components/WebsitePolicies/TermsAndConditions/TermsAndConditions";
+import Help from "../../../components/WebsitePolicies/Help/Help";
 
 // Footer translations for different languages
 const footerTranslations = {
@@ -35,9 +40,9 @@ const footerTranslations = {
       { label: "Copyright Policy", href: "#" },
       { label: "Hyperlinking Policy", href: "#" },
       { label: "Security Policy", href: "#" },
-      { label: "Guidelines", href: "#" },
+      { label: "Guidelines", href: "/guidelines" },
       { label: "Terms & Conditions", href: "#" },
-      { label: "Privacy Policy", href: "#" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
       { label: "Help", href: "#" },
     ]
   },
@@ -52,8 +57,8 @@ const footerTranslations = {
     copyright: "ವಿನ್ಯಾಸ, ಅಭಿವೃದ್ಧಿ ಮತ್ತು ಹೋಸ್ಟ್ ಮಾಡಿದವರು: ಡಿಜಿ9 - ವೆಬ್ ಪೋರ್ಟಲ್, ಕರ್ನಾಟಕ ಸರ್ಕಾರ",
     allRightsReserved: "ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
     policies: [
-      { label: "ಕಾಪಿರೈಟ್ ನೀತಿ", href: "#" },
-      { label: "ಹೈಪರ್‌ಲಿಂಕಿಂಗ್ ನೀತಿ", href: "#" },
+      { label: "ಕಾಪಿರೈಟ್ ನೀತಿ", href: "copyright-policy" },
+      { label: "ಹೈಪರ್‌ಲಿಂಕಿಂಗ್ ನೀತಿ", href: "hyperlinking-policy" },
       { label: "ಭದ್ರತಾ ನೀತಿ", href: "#" },
       { label: "ಮಾರ್ಗಸೂಚಿಗಳು", href: "#" },
       { label: "ನಿಯಮಗಳು & ಷರತ್ತುಗಳು", href: "#" },
@@ -73,7 +78,7 @@ const footerTranslations = {
     allRightsReserved: "सर्वाधिकार सुरक्षित।",
     policies: [
       { label: "कॉपीराइट नीति", href: "#" },
-      { label: "हाइपरलिंकिंग नीति", href: "#" },
+      { label: "हाइपरलिंकिंग नीति", href: "hyperlinking-policy" },
       { label: "सुरक्षा नीति", href: "#" },
       { label: "दिशानिर्देश", href: "#" },
       { label: "नियम और शर्तें", href: "#" },
@@ -88,11 +93,23 @@ export default function SiteFooter({
   emblemSrc = "/header/karntaka.png",
 }) {
   const { language, currentMagazineType } = useContext(LanguageContext)
+
   const [visitorData, setVisitorData] = useState({
     totalVisitors: 0,
   })
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString())
+  const [activePolicy, setActivePolicy] = useState(null);
 
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") setActivePolicy(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+  
+  const handlePolicyClick = (e, p) => {
+    if (e && typeof e.preventDefault === "function") e.preventDefault();
+    setActivePolicy(p.label);
+  };
   const fetchVisitorData = useCallback(async () => {
     try {
       const isVisited = sessionStorage.getItem("isVisited")
@@ -136,13 +153,33 @@ export default function SiteFooter({
             <div>
               <ColTitle>{translations.websitePolicies}</ColTitle>
               <nav aria-label="Website policies">
-                <LinkList>
-                  {policies.map((p, idx) => (
-                    <LinkItem key={idx}>
-                      <LinkA href={p.href}>{p.label}</LinkA>
-                    </LinkItem>
-                  ))}
-                </LinkList>
+              <LinkList>
+  {policies.map((p, idx) => (
+    <LinkItem key={idx}>
+ <LinkA
+  href={p.href || "#"}
+  onClick={(e) => {
+    if (p.href === "#" || !p.href) {
+      e.preventDefault();           // stop normal link behavior
+      handlePolicyClick(e, p);      // open modal
+    }
+    // else do nothing → it will redirect normally
+  }}
+  role="button"
+  aria-haspopup="dialog"
+  aria-controls={p.label.replace(/\s+/g, "-").toLowerCase()}
+  onKeyDown={(e) => {
+    if ((p.href === "#" || !p.href) && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      handlePolicyClick(e, p);
+    }
+  }}
+>
+  {p.label}
+</LinkA>
+    </LinkItem>
+  ))}
+</LinkList>
               </nav>
             </div>
 
@@ -174,6 +211,36 @@ export default function SiteFooter({
           {translations.allRightsReserved}
         </BottomBar>
       </FooterContainer>
+      {activePolicy === "Copyright Policy" && (
+  <CopyrightPolicy
+    id="copyright-policy"
+    onClose={() => setActivePolicy(null)}
+  />
+)}
+{activePolicy === "Hyperlinking Policy" && (
+  <HyperlinkingPolicy
+    id="hyperlinking-policy"
+    onClose={() => setActivePolicy(null)}
+  />
+)}
+{activePolicy === "Security Policy" && (
+  <SecurityPolicy
+    id="security-policy"
+    onClose={() => setActivePolicy(null)}
+  />
+)}
+{activePolicy === "Terms & Conditions" && (
+  <TermsAndConditions
+    id="terms-and-conditions"
+    onClose={() => setActivePolicy(null)}
+  />
+)}
+{activePolicy === "Help" && (
+  <Help
+    id="help"
+    onClose={() => setActivePolicy(null)}
+  />
+)}
     </FooterWrapper>
   )
 }
