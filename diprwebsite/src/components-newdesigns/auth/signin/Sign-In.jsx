@@ -69,7 +69,16 @@ const SignIn = () => {
         showError("Login failed. Please try again.");
       }
     } catch (err) {
-      console.log(err);
+        console.log(err);
+        const errorMessage =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        err?.message ||
+        "Something went wrong. Please try again.";
+    
+      showError(errorMessage);
+      console.error("Login Error:", err);
+    
     } finally {
       setLoading(false);
     }

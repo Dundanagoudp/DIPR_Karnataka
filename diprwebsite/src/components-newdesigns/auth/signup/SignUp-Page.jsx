@@ -60,11 +60,22 @@ import { Eye, EyeOff } from "lucide-react";
         setFormData({ email: "", username: "", password: "" });
         Navigate("/signin");
       } else {
-        showError("Signup failed. Please try again.", res.message);
+        showError("Signup failed. Please try again.");
+        if(res.message){
+          showError(res.message);
+        }
       }
     } catch (err) {
       console.log(err);
-      showError("Signup failed. Please try again.");
+      const errorMessage =
+      err?.response?.data?.message ||
+      err?.response?.data?.error ||
+      err?.message ||
+      "Something went wrong. Please try again.";
+  
+    showError(errorMessage);
+    console.error("Signup Error:", err);
+   
     } finally {
       setLoading(false);
     }
