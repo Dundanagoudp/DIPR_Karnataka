@@ -82,9 +82,20 @@ export default function MagzineIdview() {
   const [loading, setLoading] = useState(true)
   const [availableYears, setAvailableYears] = useState([])
   const [selectedYear, setSelectedYear] = useState('')
+  const [isMobile, setIsMobile] = useState(false)
   
   // Get translations
   const t = translations[language] || translations.English
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Helper function to get localized magazine data
   const getLocalizedMagazineData = (magazine, field) => {
@@ -262,7 +273,10 @@ export default function MagzineIdview() {
         <MainPdfViewer>
           {magazine?.magazinePdf ? (
             <iframe
-              src={magazine.magazinePdf}
+              src={isMobile 
+                ? `https://docs.google.com/viewer?url=${encodeURIComponent(magazine.magazinePdf)}&embedded=true`
+                : magazine.magazinePdf
+              }
               width="100%"
               height="100%"
               style={{ border: "none" }}
