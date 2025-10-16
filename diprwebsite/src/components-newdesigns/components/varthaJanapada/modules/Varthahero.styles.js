@@ -67,7 +67,7 @@ export const HeroRoot = styled.section`
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    height: 350px;
+    height: 280px;
   }
 `
 
