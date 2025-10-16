@@ -1,5 +1,4 @@
-//
-import React, { useContext ,useEffect} from "react";
+import React, { useContext } from "react";
 import {
   ModalOverlay,
   ModalContainer,
@@ -12,7 +11,6 @@ import { LanguageContext } from "../../../context/LanguageContext";
 
 const CopyrightPolicy = ({ onClose }) => {
   const { language } = useContext(LanguageContext);
-  console.log("language", language);
   let copyrightText = "";
   let modalTitle = "";
   let closeButtonText = "";
