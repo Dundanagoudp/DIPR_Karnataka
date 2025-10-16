@@ -64,6 +64,8 @@ export const SidebarItem = styled.li`
   cursor: pointer;
   transition: ${theme.transitions.fast};
   border-bottom: 1px solid ${theme.colors.gray[300]};
+  text-decoration: none;
+  color: inherit;
 
   &:last-child {
     border-bottom: none;
@@ -72,6 +74,11 @@ export const SidebarItem = styled.li`
   &:hover {
     background: ${theme.colors.gray[100]};
     transform: translateX(4px);
+  }
+
+  &:focus {
+    outline: 2px solid ${theme.colors.primary || '#007bff'};
+    outline-offset: -2px;
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
