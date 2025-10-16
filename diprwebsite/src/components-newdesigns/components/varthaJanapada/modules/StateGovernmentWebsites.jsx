@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { getStateLinks } from "../../../../services/statepagelinks/StateLinks.js"
 import {
   SidebarCard,
   SidebarHeader,
@@ -12,24 +13,56 @@ import {
 } from "./StateGovernmentWebsites.styles"
 
 const defaultSites = [
-  { label: "Departments", image: "/state/sidebar.jpg" },
-  { label: "Directorates", image: "/state/sidebar2.jpg" },
-  { label: "Organizations & Boards List", image: "/state/sidebar.jpg" },
-  { label: "Universities", image: "/state/sidebar2.jpg" },
-  { label: "Tenders", image: "/state/sidebar.jpg" },
-  { label: "Covid 19 Home Isolation App", image: "/state/sidebar2.jpg" },
+  { label: "Departments", image: "/state/sidebar.jpg", url: "#" },
+  { label: "Directorates", image: "/state/sidebar2.jpg", url: "#" },
+  { label: "Organizations & Boards List", image: "/state/sidebar.jpg", url: "#" },
+  { label: "Universities", image: "/state/sidebar2.jpg", url: "#" },
+  { label: "Tenders", image: "/state/sidebar.jpg", url: "#" },
+  { label: "Covid 19 Home Isolation App", image: "/state/sidebar2.jpg", url: "#" },
 ]
 
-export default function StateGovernmentWebsites({ sites = defaultSites, loading = false }) {
+export default function StateGovernmentWebsites({ sites = [], loading = false }) {
   const [isLoading, setIsLoading] = useState(true)
+  const [apiSites, setApiSites] = useState([])
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    // Simulate initial loading
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-    return () => clearTimeout(timer)
+    const fetchStateLinks = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
+        const response = await getStateLinks()
+        setApiSites(response.data || response || [])
+      } catch (err) {
+        console.error('Error fetching state links:', err)
+        setError('Failed to load state links')
+        setApiSites([])
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchStateLinks()
   }, [])
+
+  // Helper function to format API data to match UI structure
+  const formatApiData = (apiData) => {
+    if (!Array.isArray(apiData)) return []
+    
+    return apiData.map((item, index) => ({
+      label: item.staticpageName || item.English || item.title || item.name || item.label || `Link ${index + 1}`,
+      image: item.staticpageImage || item.image || item.icon || (index % 2 === 0 ? "/state/sidebar.jpg" : "/state/sidebar2.jpg"),
+      url: item.staticpageLink || item.url || item.link || item.href || "#"
+    }))
+  }
+
+  // Priority: props sites > API sites > default sites
+  const displaySites = sites.length > 0 ? sites : (apiSites.length > 0 ? formatApiData(apiSites) : defaultSites)
+  
+  // Debug logging to see what data we're getting
+  console.log('API Sites:', apiSites)
+  console.log('Formatted API Sites:', formatApiData(apiSites))
+  console.log('Display Sites:', displaySites)
 
   // Skeleton loading component
   const SkeletonLoader = () => (
@@ -50,8 +83,15 @@ export default function StateGovernmentWebsites({ sites = defaultSites, loading 
         <SkeletonLoader />
       ) : (
         <SidebarList aria-label="Government websites list">
-          {sites.map((s, i) => (
-            <SidebarItem key={i} aria-label={`Visit ${s.label}`}>
+          {displaySites.map((s, i) => (
+            <SidebarItem 
+              key={i} 
+              as="a"
+              href={s.url || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit ${s.label}`}
+            >
               <Avatar $src={s.image} aria-hidden="true" />
               <ItemLabel>{s.label}</ItemLabel>
             </SidebarItem>

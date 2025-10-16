@@ -49,18 +49,25 @@ export const HeroLayout = styled.section`
 
 export const HeroRoot = styled.section`
   position: relative;
-  min-height: 500px;
+  height: 500px;
   border-radius: ${theme.borderRadius.medium};
   overflow: hidden;
   color: ${theme.colors.white};
   background-color: ${theme.colors.gray[800]};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    height: 500px;
+  }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    min-height: 400px;
+    height: 400px;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    min-height: 350px;
+    height: 280px;
   }
 `
 
@@ -208,112 +215,5 @@ export const HeroCta = styled.a`
   @media (max-width: ${theme.breakpoints.mobile}) {
     padding: ${theme.spacing1(2)} ${theme.spacing1(4)};
     font-size: 11px;
-  }
-`
-
-export const NotificationPanel = styled.aside`
-  background-color: ${theme.colors.white};
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  margin-top: ${theme.spacing1(1)};
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    margin-top: 0;
-  }
-`
-
-export const PanelHeader = styled.div`
-  text-align: center;
-  font-family: ${theme.fonts.heading};
-  font-weight: 600;
-  font-size: 16px;
-  padding: ${theme.spacing1(3)} ${theme.spacing1(4)};
-  margin-bottom: ${theme.spacing1(2)};
-  background-color: ${theme.colors.white};
-  color: ${theme.colors.gray[800]};
-  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.06);
-  position: relative;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing1(2)} ${theme.spacing1(3)};
-    font-size: 15px;
-  }
-`
-
-export const NotificationList = styled.ol`
-  list-style: none;
-  margin: 0;
-  padding: ${theme.spacing1(3)};
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing1(2)};
-  background-color: ${theme.colors.white};
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing1(2)};
-    gap: ${theme.spacing1(1.5)};
-  }
-`
-
-export const ListItem = styled.li`
-  display: flex;
-  gap: ${theme.spacing1(2)};
-  align-items: flex-start;
-  padding-bottom: ${theme.spacing1(4)};
-  border-bottom: 1px solid ${theme.colors.gray[300]};
-
-  &:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    gap: ${theme.spacing1(1.5)};
-    padding-bottom: ${theme.spacing1(3)};
-  }
-`
-
-export const ListIndex = styled.span`
-  min-width: 20px;
-  font-family: ${theme.fonts.monospace};
-  color: ${theme.colors.gray[500]};
-`
-
-export const ListBody = styled.div`
-  color: #000000;
-  font-family: ${theme.fonts.body};
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 13px;
-    line-height: 1.4;
-  }
-`
-
-export const ListLink = styled.a`
-  color: ${theme.colors.primary};
-  font-weight: 600;
-  text-decoration: none;
-  margin-left: auto;
-  white-space: nowrap;
-  font-size: 14px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${theme.colors.primary};
-    outline-offset: 2px;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 12px;
   }
 `
