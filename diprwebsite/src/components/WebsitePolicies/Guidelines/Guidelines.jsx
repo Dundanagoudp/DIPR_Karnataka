@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
-import { Title, Wrapper,
+import {
+  Wrapper,
+  Title,
+  CardsContainer,
   GuidelineCard,
   GuidelineTitle,
   GuidelineImage,
   GuidelineActions,
-  Button,  } from "./Guidelines.styles";
+  Button
+} from "./Guidelines.styles";
 import { LanguageContext } from "../../../context/LanguageContext";
 
 const Guidelines = () => {
@@ -69,20 +73,9 @@ const Guidelines = () => {
     },
   ];
   return (
-    <Wrapper style={{display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      textAlign: "center",
-      padding: "40px 20px"}}>
-      <Title style={{ fontSize: "28px", fontWeight: "600", marginBottom: "20px" }}>{pageTitle}</Title>
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        gap: "20px",
-        flexWrap: "wrap",
-        maxWidth: "1200px",
-        margin: "0 auto"
-      }}>
+    <Wrapper>
+      <Title>{pageTitle}</Title>
+      <CardsContainer>
         {cards.map((card, idx) => (
           <GuidelineCard key={idx}>
             <GuidelineTitle>{card.title}</GuidelineTitle>
@@ -104,7 +97,7 @@ const Guidelines = () => {
             </GuidelineActions>
           </GuidelineCard>
         ))}
-      </div>
+      </CardsContainer>
     </Wrapper>
   );
 };
