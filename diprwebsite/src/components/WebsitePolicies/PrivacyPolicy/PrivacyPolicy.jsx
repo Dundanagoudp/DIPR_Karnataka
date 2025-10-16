@@ -91,24 +91,20 @@ const PrivacyPolicy = () => {
   }
 
   return (
-    <Wrapper style={{display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      textAlign: "center",
-      padding: "20px"}}>
-      <Title style={{ fontSize: "28px", fontWeight: "600", marginBottom: "20px" }}>{title}</Title>
-      <Content style={{ fontSize: "16px", lineHeight: "1.6", color: "#444", textAlign: "left" }}>
+    <Wrapper>
+      <Title>{title}</Title>
+      <Content>
         {mainContent.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ))}
 
-        <h3 style={{marginTop: "30px", fontSize: "22px"}}>{cookiesTitle}</h3>
+        <h3>{cookiesTitle}</h3>
 
         {cookiesContent.map((paragraph, index) => (
           <p key={`cookies-${index}`}>{paragraph}</p>
         ))}
 
-        <h3 style={{marginTop: "30px", fontSize: "22px"}}>{personalInfoTitle}</h3>
+        <h3>{personalInfoTitle}</h3>
 
         {personalInfoContent.map((paragraph, index) => (
           <p key={`personal-${index}`}>{paragraph}</p>
