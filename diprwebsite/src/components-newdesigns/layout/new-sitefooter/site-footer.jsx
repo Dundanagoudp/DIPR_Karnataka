@@ -37,13 +37,13 @@ const footerTranslations = {
     copyright: "Designed, Developed and Hosted by: Digi9 - Web Portal, Government of Karnataka",
     allRightsReserved: "All Rights Reserved.",
     policies: [
-      { label: "Copyright Policy", href: "#" },
-      { label: "Hyperlinking Policy", href: "#" },
-      { label: "Security Policy", href: "#" },
-      { label: "Guidelines", href: "/guidelines" },
-      { label: "Terms & Conditions", href: "#" },
-      { label: "Privacy Policy", href: "/privacy-policy" },
-      { label: "Help", href: "#" },
+      { id: "copyright", label: "Copyright Policy", href: "#" },
+      { id: "hyperlinking", label: "Hyperlinking Policy", href: "#" },
+      { id: "security", label: "Security Policy", href: "#" },
+      { id: "guidelines", label: "Guidelines", href: "/guidelines" },
+      { id: "terms", label: "Terms & Conditions", href: "#" },
+      { id: "privacy", label: "Privacy Policy", href: "/privacy-policy" },
+      { id: "help", label: "Help", href: "#" },
     ]
   },
   Kannada: {
@@ -57,13 +57,13 @@ const footerTranslations = {
     copyright: "ವಿನ್ಯಾಸ, ಅಭಿವೃದ್ಧಿ ಮತ್ತು ಹೋಸ್ಟ್ ಮಾಡಿದವರು: ಡಿಜಿ9 - ವೆಬ್ ಪೋರ್ಟಲ್, ಕರ್ನಾಟಕ ಸರ್ಕಾರ",
     allRightsReserved: "ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
     policies: [
-      { label: "ಕಾಪಿರೈಟ್ ನೀತಿ", href: "copyright-policy" },
-      { label: "ಹೈಪರ್‌ಲಿಂಕಿಂಗ್ ನೀತಿ", href: "hyperlinking-policy" },
-      { label: "ಭದ್ರತಾ ನೀತಿ", href: "#" },
-      { label: "ಮಾರ್ಗಸೂಚಿಗಳು", href: "#" },
-      { label: "ನಿಯಮಗಳು & ಷರತ್ತುಗಳು", href: "#" },
-      { label: "ಗೌಪ್ಯತೆ ನೀತಿ", href: "#" },
-      { label: "ಸಹಾಯ", href: "#" },
+      { id: "copyright", label: "ಕಾಪಿರೈಟ್ ನೀತಿ", href: "#" },
+      { id: "hyperlinking", label: "ಹೈಪರ್‌ಲಿಂಕಿಂಗ್ ನೀತಿ", href: "#" },
+      { id: "security", label: "ಭದ್ರತಾ ನೀತಿ", href: "#" },
+      { id: "guidelines", label: "ಮಾರ್ಗಸೂಚಿಗಳು", href: "/guidelines" },
+      { id: "terms", label: "ನಿಯಮಗಳು & ಷರತ್ತುಗಳು", href: "#" },
+      { id: "privacy", label: "ಗೌಪ್ಯತೆ ನೀತಿ", href: "/privacy-policy" },
+      { id: "help", label: "ಸಹಾಯ", href: "#" },
     ]
   },
   Hindi: {
@@ -77,13 +77,13 @@ const footerTranslations = {
     copyright: "डिजाइन, विकसित और होस्ट: डिजी9 - वेब पोर्टल, कर्नाटक सरकार",
     allRightsReserved: "सर्वाधिकार सुरक्षित।",
     policies: [
-      { label: "कॉपीराइट नीति", href: "#" },
-      { label: "हाइपरलिंकिंग नीति", href: "hyperlinking-policy" },
-      { label: "सुरक्षा नीति", href: "#" },
-      { label: "दिशानिर्देश", href: "#" },
-      { label: "नियम और शर्तें", href: "#" },
-      { label: "गोपनीयता नीति", href: "#" },
-      { label: "सहायता", href: "#" },
+      { id: "copyright", label: "कॉपीराइट नीति", href: "#" },
+      { id: "hyperlinking", label: "हाइपरलिंकिंग नीति", href: "#" },
+      { id: "security", label: "सुरक्षा नीति", href: "#" },
+      { id: "guidelines", label: "दिशानिर्देश", href: "/guidelines" },
+      { id: "terms", label: "नियम और शर्तें", href: "#" },
+      { id: "privacy", label: "गोपनीयता नीति", href: "/privacy-policy" },
+      { id: "help", label: "सहायता", href: "#" },
     ]
   }
 };
@@ -108,7 +108,7 @@ export default function SiteFooter({
   
   const handlePolicyClick = (e, p) => {
     if (e && typeof e.preventDefault === "function") e.preventDefault();
-    setActivePolicy(p.label);
+    setActivePolicy(p.id);
   };
   const fetchVisitorData = useCallback(async () => {
     try {
@@ -211,31 +211,31 @@ export default function SiteFooter({
           {translations.allRightsReserved}
         </BottomBar>
       </FooterContainer>
-      {activePolicy === "Copyright Policy" && (
+      {activePolicy === "copyright" && (
   <CopyrightPolicy
     id="copyright-policy"
     onClose={() => setActivePolicy(null)}
   />
 )}
-{activePolicy === "Hyperlinking Policy" && (
+{activePolicy === "hyperlinking" && (
   <HyperlinkingPolicy
     id="hyperlinking-policy"
     onClose={() => setActivePolicy(null)}
   />
 )}
-{activePolicy === "Security Policy" && (
+{activePolicy === "security" && (
   <SecurityPolicy
     id="security-policy"
     onClose={() => setActivePolicy(null)}
   />
 )}
-{activePolicy === "Terms & Conditions" && (
+{activePolicy === "terms" && (
   <TermsAndConditions
     id="terms-and-conditions"
     onClose={() => setActivePolicy(null)}
   />
 )}
-{activePolicy === "Help" && (
+{activePolicy === "help" && (
   <Help
     id="help"
     onClose={() => setActivePolicy(null)}
