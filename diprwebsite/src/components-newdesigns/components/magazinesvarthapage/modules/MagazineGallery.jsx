@@ -102,17 +102,17 @@ export default function MagazineGallery() {
       const response = await getMagazines();
       
       if (response && response.data) {
-        // Get all unique edition numbers and sort them to find the latest
-        const editions = [...new Set(response.data.map(mag => mag.editionNumber))].sort((a, b) => b - a);
-        const latestEdition = editions[0];
+        // Get all unique years from publishedYear and sort them to find the latest
+        const years = [...new Set(response.data.map(mag => mag.publishedYear))].sort((a, b) => b - a);
+        const latestYear = years[0];
         
-        // Filter magazines to get only the latest edition
-        const latestEditionMagazines = response.data.filter(
-          mag => mag.editionNumber === latestEdition && mag.status === 'approved'
+        // Filter magazines to get only the latest year
+        const latestYearMagazines = response.data.filter(
+          mag => mag.publishedYear === latestYear && mag.status === 'approved'
         );
         
         // Sort by month (January to December)
-        const sortedMagazines = latestEditionMagazines.sort((a, b) => {
+        const sortedMagazines = latestYearMagazines.sort((a, b) => {
           const monthA = monthOrder[a.publishedMonth] || 0;
           const monthB = monthOrder[b.publishedMonth] || 0;
           return monthA - monthB;
@@ -124,11 +124,11 @@ export default function MagazineGallery() {
         setMagazines(response.data);
         setFilteredMagazines(twelveMonthMagazines);
         
-        // Set selected year to latest edition
-        setSelectedYear(latestEdition);
+        // Set selected year to latest year
+        setSelectedYear(latestYear);
         
         // Get all available years for filter dropdown
-        setAvailableYears(editions);
+        setAvailableYears(years);
       }
       setLoading(false);
     } catch (error) {
@@ -155,9 +155,9 @@ export default function MagazineGallery() {
     setSelectedYear(year);
     
     if (year) {
-      // Filter magazines by selected year and get only approved ones
+      // Filter magazines by selected publishedYear and get only approved ones
       const yearMagazines = magazines.filter(
-        mag => mag.editionNumber === year && mag.status === 'approved'
+        mag => mag.publishedYear === year && mag.status === 'approved'
       );
       
       // Sort by month (January to December)
