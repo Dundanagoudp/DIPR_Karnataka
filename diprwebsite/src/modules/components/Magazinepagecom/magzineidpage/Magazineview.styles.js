@@ -7,17 +7,17 @@ const spin = keyframes`
 `
 
 export const MagazineViewContainer = styled.div`
-  max-width: 92%;
+  max-width: 100%;
   margin: 0 auto;
-  padding: ${theme.spacing(3)};
+  padding: ${theme.spacing(3)} ${theme.spacing(15)};
   background: ${theme.colors.background}; /* Very light grey/white background */
   font-family: ${theme.fonts.body};
   
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing(2)};
+    padding: ${theme.spacing(2)} ${theme.spacing(6)};
   }
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing(1.5)};
+    padding: ${theme.spacing(1.5)} ${theme.spacing(3)};
   }
 `
 
