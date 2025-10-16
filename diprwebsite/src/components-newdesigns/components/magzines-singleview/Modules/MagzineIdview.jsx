@@ -86,6 +86,17 @@ export default function MagzineIdview() {
   // Get translations
   const t = translations[language] || translations.English
 
+  // Helper function to get localized magazine data
+  const getLocalizedMagazineData = (magazine, field) => {
+    if (!magazine) return '';
+    const langKey = language.toLowerCase(); // Convert "Kannada" to "kannada"
+    if (magazine[langKey] && magazine[langKey][field]) {
+      return magazine[langKey][field];
+    }
+    // Fallback to default field
+    return magazine[field] || '';
+  };
+
   useEffect(() => {
     setPageLanguage('magazine')
     return () => {
@@ -201,15 +212,15 @@ export default function MagzineIdview() {
   return (
     <MagazineViewContainer style={{ fontSize: `${fontSize}%` }} role="region" aria-label="Magazine PDF viewer">
       <Helmet>
-        <title>{magazine?.title || t.title} | Karnataka Varthe</title>
+        <title>{getLocalizedMagazineData(magazine, 'title') || t.title} | Karnataka Varthe</title>
         <meta
           name="description"
-          content={`Read the latest edition: ${magazine?.title || t.title}`}
+          content={`Read the latest edition: ${getLocalizedMagazineData(magazine, 'title') || t.title}`}
         />
-        <meta property="og:title" content={magazine?.title || t.title} />
+        <meta property="og:title" content={getLocalizedMagazineData(magazine, 'title') || t.title} />
         <meta
           property="og:description"
-          content={magazine?.description || `Digital magazine: ${magazine?.title}`}
+          content={getLocalizedMagazineData(magazine, 'description') || `Digital magazine: ${getLocalizedMagazineData(magazine, 'title')}`}
         />
         <meta property="og:type" content="article" />
         <meta
@@ -222,7 +233,7 @@ export default function MagzineIdview() {
       <SectionHeader>
         <TitleWrapper>
           <PageTitle>{t.title}</PageTitle>
-          <Breadcrumb>{selectedYear} / {magazine?.title || ''}</Breadcrumb>
+          <Breadcrumb>{selectedYear} / {getLocalizedMagazineData(magazine, 'title')}</Breadcrumb>
         </TitleWrapper>
         <YearFilterWrapper>
           <YearFilter value={selectedYear} onChange={handleYearChange} aria-label={t.selectYear}>
@@ -239,9 +250,9 @@ export default function MagzineIdview() {
 
       <HeaderSection>
         <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 600, color: '#000', fontFamily: theme.fonts.body }}>
-          {magazine?.title || ''}
+          {getLocalizedMagazineData(magazine, 'title')}
         </h1>
-        <MainDownloadButton onClick={handleDownload} aria-label={`${t.download} ${magazine?.title || ''}`}>
+        <MainDownloadButton onClick={handleDownload} aria-label={`${t.download} ${getLocalizedMagazineData(magazine, 'title')}`}>
           <MdOutlineFileDownload size={18} aria-hidden="true" />
           {t.download}
         </MainDownloadButton>
@@ -255,7 +266,7 @@ export default function MagzineIdview() {
               width="100%"
               height="100%"
               style={{ border: "none" }}
-              title={magazine.title}
+              title={getLocalizedMagazineData(magazine, 'title')}
             >
               Your browser does not support PDFs. Please download the PDF to view it.
             </iframe>
@@ -279,7 +290,7 @@ export default function MagzineIdview() {
           {recommendedMagazines.map((mag) => (
             <MagazineCard key={mag._id} role="listitem" onClick={() => handleRecommendedClick(mag._id)} style={{ cursor: 'pointer' }}>
               <MagazineImageWrapper>
-                <MagazineImage src={mag.magazineThumbnail} alt={mag.title} loading="lazy" />
+                <MagazineImage src={mag.magazineThumbnail} alt={getLocalizedMagazineData(mag, 'title')} loading="lazy" />
               </MagazineImageWrapper>
               
               <DownloadButton 
@@ -287,7 +298,7 @@ export default function MagzineIdview() {
                   e.stopPropagation()
                   handleRecommendedDownload(mag.magazinePdf)
                 }} 
-                aria-label={`${t.download} ${mag.title}`}
+                aria-label={`${t.download} ${getLocalizedMagazineData(mag, 'title')}`}
               >
                 <ImFolderDownload aria-hidden="true" />
                 {t.download}
