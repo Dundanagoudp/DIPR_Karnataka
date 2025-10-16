@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Youtube, Facebook, Instagram, Linkedin, Search, ChevronDown } from 'lucide-react';
+import { Facebook, Instagram, Search, ChevronDown } from 'lucide-react';
+import { FaXTwitter } from 'react-icons/fa6';
 import { LanguageContext } from '../../../context/LanguageContext';
 import SearchModal from '../searchsection/SearchModal';
 import {
@@ -96,17 +97,14 @@ const LanguageNavbar = () => {
   return (
     <LanguageNavContainer>
       <SocialIcons aria-label="Social media links">
-        <SocialIcon href="#" aria-label="Visit our YouTube channel" target="_blank" rel="noopener noreferrer">
-          <Youtube size={22} aria-hidden="true" />
-        </SocialIcon>
-        <SocialIcon href="#" aria-label="Visit our Facebook page" target="_blank" rel="noopener noreferrer">
-          <Facebook size={22} aria-hidden="true" />
-        </SocialIcon>
-        <SocialIcon href="#" aria-label="Visit our Instagram page" target="_blank" rel="noopener noreferrer">
+        <SocialIcon href="https://www.instagram.com/karnatakavarthe" aria-label="Follow us on Instagram" target="_blank" rel="noopener noreferrer">
           <Instagram size={22} aria-hidden="true" />
         </SocialIcon>
-        <SocialIcon href="#" aria-label="Visit our LinkedIn page" target="_blank" rel="noopener noreferrer">
-          <Linkedin size={22} aria-hidden="true" />
+        <SocialIcon href="https://www.facebook.com/KarnatakaVarthe.Official/" aria-label="Follow us on Facebook" target="_blank" rel="noopener noreferrer">
+          <Facebook size={22} aria-hidden="true" />
+        </SocialIcon>
+        <SocialIcon href="https://x.com/DIPR Karnataka" aria-label="Follow us on X (Twitter)" target="_blank" rel="noopener noreferrer">
+          <FaXTwitter size={22} aria-hidden="true" />
         </SocialIcon>
       </SocialIcons>
 

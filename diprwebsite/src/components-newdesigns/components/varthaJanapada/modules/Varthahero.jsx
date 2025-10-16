@@ -10,16 +10,10 @@ import {
   HeroTitle,
   HeroSubtitle,
   HeroCta,
-  NotificationPanel,
-  PanelHeader,
-  NotificationList,
-  ListItem,
-  ListIndex,
-  ListBody,
-  ListLink,
   ArrowButton,
   ArrowControls
 } from "./Varthahero.styles.js"
+import LatestNotification from "./LatestNotification.jsx"
 
 export default function Varthahero({
   title = "Latest Vartha Janapada Magazines",
@@ -27,10 +21,11 @@ export default function Varthahero({
   ctaLabel = "View",
   href = "#",
   imgSrc = "/public/home/home.png",
+  notifications = []
 }) {
   const carouselData = [
     {
-      image: "/public/home/home.png",
+      image: "/public/home/varthajanapada.png",
       title: "Latest Vartha Janapada Magazines",
       subtitle: "",
       link: "/magazinesvartha"
@@ -53,13 +48,6 @@ export default function Varthahero({
     setCurrentImageIndex((prev) => (prev === carouselData.length - 1 ? 0 : prev + 1));
   };
   
-  const notifications = [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum at, a mattis tellus.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum at, a mattis tellus.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum at, a mattis tellus.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum at, a mattis tellus.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum at, a mattis tellus.",
-  ]
 
   return (
     <HeroLayout aria-label="Home hero">
@@ -97,22 +85,7 @@ export default function Varthahero({
       </HeroRoot>
 
       {/* Right: Latest notifications */}
-      <NotificationPanel aria-labelledby="notifications-heading">
-        <PanelHeader id="notifications-heading">Latest notifications</PanelHeader>
-        <NotificationList aria-label="Notifications list">
-          {notifications.map((text, i) => (
-            <ListItem key={i}>
-              <ListIndex aria-hidden="true">{i + 1}.</ListIndex>
-              <ListBody>
-                {text}
-                <ListLink as={Link} to="#" aria-label={`See more about notification ${i + 1}`}>
-                  See more <span aria-hidden="true">→</span>
-                </ListLink>
-              </ListBody>
-            </ListItem>
-          ))}
-        </NotificationList>
-      </NotificationPanel>
+      <LatestNotification notifications={notifications} />
     </HeroLayout>
   )
 }
