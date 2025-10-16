@@ -106,7 +106,7 @@ export default function MagzineIdview() {
       const response = await getMagazineById(id)
       if (response && response.data) {
         setMagazine(response.data)
-        setSelectedYear(response.data.editionNumber || response.data.publishedYear)
+        setSelectedYear(response.data.publishedYear)
       }
       setLoading(false)
     } catch (error) {
@@ -117,17 +117,18 @@ export default function MagzineIdview() {
 
   const fetchRecommendedMagazines = async () => {
     try {
+      // Fetch ONLY Vartha Janapada magazines (magazine type 1)
       const response = await getMagazines()
       if (response && response.data) {
-        // Get latest 4 magazines excluding current one
+        // Get latest 4 Vartha Janapada magazines excluding current one
         const latest = response.data
           .filter(mag => mag.status === 'approved' && mag._id !== id)
           .sort((a, b) => new Date(b.last_updated) - new Date(a.last_updated))
           .slice(0, 4)
         setRecommendedMagazines(latest)
         
-        // Get unique years for filter
-        const years = [...new Set(response.data.map(mag => mag.editionNumber))].sort((a, b) => b - a)
+        // Get unique years for Vartha Janapada filter
+        const years = [...new Set(response.data.map(mag => mag.publishedYear))].sort((a, b) => b - a)
         setAvailableYears(years)
       }
     } catch (error) {
