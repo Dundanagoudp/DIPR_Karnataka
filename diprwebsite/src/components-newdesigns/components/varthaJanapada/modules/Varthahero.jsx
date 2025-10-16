@@ -20,18 +20,18 @@ export default function Varthahero({
   subtitle = "",
   ctaLabel = "View",
   href = "#",
-  imgSrc = "/public/home/home.png",
+  imgSrc = "/home/home.png",
   notifications = []
 }) {
   const carouselData = [
     {
-      image: "/public/home/varthajanapada.png",
+      image: "/home/varthajanapada.png",
       title: "Latest Vartha Janapada Magazines",
       subtitle: "",
       link: "/magazinesvartha"
     },
     {
-      image: "/public/state/state.jpg",
+      image: "/state/state.jpg",
       title: "March of Karnataka Magazines",
       subtitle: "",
       link: "/marchofkarnatakmagzine"
