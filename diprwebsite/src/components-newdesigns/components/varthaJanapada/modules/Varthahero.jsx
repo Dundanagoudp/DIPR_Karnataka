@@ -1,6 +1,7 @@
 
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { LanguageContext } from '../../../../context/LanguageContext'
 import {
   HeroLayout,
   HeroRoot,
@@ -20,19 +21,43 @@ export default function Varthahero({
   subtitle = "",
   ctaLabel = "View",
   href = "#",
-  imgSrc = "/public/home/home.png",
+  imgSrc = "/home/home.png",
   notifications = []
 }) {
+  const { language } = useContext(LanguageContext);
+  
+  const translations = {
+    magazine: {
+      Kannada: "ಇತ್ತೀಚಿನ ವಾರ್ತಾ ಜನಪದ ಮ್ಯಾಗಜೀನ್ಗಳು",
+      English: "Latest Vartha Janapada Magazines",
+      Hindi: "नवीनतम वार्ता जनपद पत्रिकाएं"
+    },
+    magazine2: {
+      Kannada: "ಮಾರ್ಚ್ ಆಫ್ ಕರ್ನಾಟಕ ಮ್ಯಾಗಜೀನ್ಗಳು",
+      English: "March of Karnataka Magazines",
+      Hindi: "मार्च ऑफ कर्नाटक पत्रिकाएं"
+    },
+    viewButton: {
+      Kannada: "ವೀಕ್ಷಿಸಿ",
+      English: "View",
+      Hindi: "देखें"
+    }
+  };
+  
+  const getTranslatedTitle = (magazineType) => {
+    return translations[magazineType][language] || translations[magazineType].English;
+  };
+  
   const carouselData = [
     {
-      image: "/public/home/varthajanapada.png",
-      title: "Latest Vartha Janapada Magazines",
+      image: "/home/varthajanapada.png",
+      magazineType: "magazine",
       subtitle: "",
       link: "/magazinesvartha"
     },
     {
-      image: "/public/state/state.jpg",
-      title: "March of Karnataka Magazines",
+      image: "/state/state.jpg",
+      magazineType: "magazine2",
       subtitle: "",
       link: "/marchofkarnatakmagzine"
     }
@@ -71,15 +96,15 @@ export default function Varthahero({
         </ArrowControls>
         <HeroContent>
           <HeroTitle className="text-balance">
-            {carouselData[currentImageIndex].title}
+            {getTranslatedTitle(carouselData[currentImageIndex].magazineType)}
           </HeroTitle>
           {carouselData[currentImageIndex].subtitle ? (
             <HeroSubtitle className="text-pretty">
               {carouselData[currentImageIndex].subtitle}
             </HeroSubtitle>
           ) : null}
-          <HeroCta as={Link} to={carouselData[currentImageIndex].link} aria-label={`View - ${carouselData[currentImageIndex].title}`}>
-            View
+          <HeroCta as={Link} to={carouselData[currentImageIndex].link} aria-label={`${translations.viewButton[language]} - ${getTranslatedTitle(carouselData[currentImageIndex].magazineType)}`}>
+            {translations.viewButton[language]}
           </HeroCta>
         </HeroContent>
       </HeroRoot>
